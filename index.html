@@ -493,6 +493,76 @@
         width: 100%;
         height: auto;
       }
+      .story {
+        padding: 82px 0;
+        background: linear-gradient(180deg, #fff 0%, #fff9ef 100%);
+      }
+      .story-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 30px;
+      }
+      .story-heading h2 {
+        margin: 8px 0 0;
+        color: var(--navy);
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 1;
+        letter-spacing: -0.05em;
+      }
+      .story-heading p {
+        max-width: 480px;
+        margin: 0;
+        color: var(--muted);
+      }
+      .story-controls {
+        display: flex;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+      .story-control {
+        width: 48px;
+        height: 48px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--white);
+        color: var(--navy);
+        font: inherit;
+        font-size: 1.45rem;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 8px 22px rgba(9, 44, 97, 0.1);
+      }
+      .story-track {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: min(480px, 82vw);
+        gap: 18px;
+        overflow-x: auto;
+        padding: 4px 4px 22px;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-color: var(--orange) #f1e8db;
+      }
+      .story-page {
+        margin: 0;
+        scroll-snap-align: center;
+        overflow: hidden;
+        border-radius: 24px;
+        background: var(--white);
+        box-shadow: 0 16px 45px rgba(12, 44, 94, 0.14);
+      }
+      .story-page img {
+        width: 100%;
+        height: auto;
+      }
+      .story-hint {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-align: center;
+      }
       .closing {
         padding-top: 40px;
       }
@@ -541,6 +611,13 @@
         }
         .hero {
           padding-top: 48px;
+        }
+        .story-heading {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .story-track {
+          grid-auto-columns: 88vw;
         }
         .hero-grid,
         .experience-grid,
@@ -712,10 +789,8 @@
         <div class="wrap">
           <a
             class="turma-link"
-            href="https://www.instagram.com/renanviana98_/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Acompanhar as histórias da Turma da Ritinha no Instagram"
+            href="#historia"
+            aria-label="Ler a primeira história da Turma da Ritinha"
           >
             <img
               class="turma-art"
@@ -723,6 +798,52 @@
               alt="Turma da Ritinha: histórias sobre movimento, amizade, inclusão e conquistas que começam pelo brincar"
             />
           </a>
+        </div>
+      </section>
+
+      <section class="story" id="historia" aria-labelledby="story-title">
+        <div class="wrap">
+          <div class="story-heading">
+            <div>
+              <span class="eyebrow">História 1</span>
+              <h2 id="story-title">A chegada da Ritinha</h2>
+            </div>
+            <p>
+              Ritinha conhece a SoulKids, explora a sala no próprio ritmo e
+              transforma uma tentativa em conquista.
+            </p>
+            <div class="story-controls" aria-label="Controles da história">
+              <button class="story-control" type="button" data-story-prev aria-label="Página anterior">←</button>
+              <button class="story-control" type="button" data-story-next aria-label="Próxima página">→</button>
+            </div>
+          </div>
+          <div class="story-track" data-story-track tabindex="0" aria-label="Páginas da história A chegada da Ritinha">
+            <figure class="story-page">
+              <img src="/historia-ritinha-capa.webp" alt="Capa da história A chegada da Ritinha" loading="lazy" />
+            </figure>
+            <figure class="story-page">
+              <img src="/historia-ritinha-pagina-1.webp" alt="Ritinha chega à SoulKids e conhece Ravi" loading="lazy" />
+            </figure>
+            <figure class="story-page">
+              <img src="/historia-ritinha-pagina-2.webp" alt="Ravi se apresenta e acolhe Ritinha" loading="lazy" />
+            </figure>
+            <figure class="story-page">
+              <img src="/historia-ritinha-pagina-3.webp" alt="Ritinha conhece a sala no próprio ritmo" loading="lazy" />
+            </figure>
+            <figure class="story-page">
+              <img src="/historia-ritinha-pagina-4.webp" alt="Ritinha escolhe uma bola para brincar" loading="lazy" />
+            </figure>
+            <figure class="story-page">
+              <img src="/historia-ritinha-pagina-5.webp" alt="Ritinha tenta passar a bola pelo arco" loading="lazy" />
+            </figure>
+            <figure class="story-page">
+              <img src="/historia-ritinha-pagina-6.webp" alt="Ritinha ajusta o movimento e consegue" loading="lazy" />
+            </figure>
+            <figure class="story-page">
+              <img src="/historia-ritinha-pagina-7.webp" alt="Ritinha conta como se sentiu e conhece o próximo passo" loading="lazy" />
+            </figure>
+          </div>
+          <p class="story-hint">Deslize para o lado para continuar a história.</p>
         </div>
       </section>
 
@@ -913,5 +1034,18 @@
         ><a href="#inicio">Voltar ao início ↑</a>
       </div>
     </footer>
+    <script>
+      const storyTrack = document.querySelector("[data-story-track]");
+      const storyStep = () => {
+        const page = storyTrack.querySelector(".story-page");
+        return page.offsetWidth + 18;
+      };
+      document.querySelector("[data-story-prev]").addEventListener("click", () => {
+        storyTrack.scrollBy({ left: -storyStep(), behavior: "smooth" });
+      });
+      document.querySelector("[data-story-next]").addEventListener("click", () => {
+        storyTrack.scrollBy({ left: storyStep(), behavior: "smooth" });
+      });
+    </script>
   </body>
 </html>
