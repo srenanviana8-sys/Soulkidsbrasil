@@ -563,6 +563,61 @@
         font-size: 0.9rem;
         text-align: center;
       }
+      .play-section {
+        padding: 34px 0 28px;
+      }
+      .play-card {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 0.78fr 1.22fr;
+        align-items: center;
+        min-height: 340px;
+        border-radius: 32px;
+        background: linear-gradient(135deg, var(--navy), #155ab5);
+        color: white;
+        box-shadow: var(--shadow);
+      }
+      .play-card:after {
+        content: "";
+        position: absolute;
+        width: 310px;
+        height: 310px;
+        border-radius: 50%;
+        right: -120px;
+        top: -130px;
+        background: var(--teal);
+        opacity: 0.2;
+      }
+      .play-ritinha {
+        align-self: stretch;
+        min-height: 340px;
+        background: url("/historia-ritinha-capa.webp") 12% 75% / 330% auto no-repeat;
+      }
+      .play-copy {
+        position: relative;
+        z-index: 1;
+        padding: 42px 48px;
+      }
+      .play-copy .eyebrow {
+        color: #83ece4;
+      }
+      .play-copy h2 {
+        margin: 8px 0 14px;
+        font-size: clamp(2.2rem, 5vw, 4.2rem);
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+      }
+      .play-copy p {
+        max-width: 580px;
+        margin: 0 0 24px;
+        color: #dbeaff;
+        font-size: 1.08rem;
+      }
+      .play-copy .btn {
+        background: var(--orange);
+        color: white;
+      }
       .closing {
         padding-top: 40px;
       }
@@ -656,6 +711,14 @@
           align-items: flex-start;
           flex-direction: column;
         }
+        .play-card {
+          grid-template-columns: 1fr;
+        }
+        .play-ritinha {
+          min-height: 270px;
+          background-position: 18% 74%;
+          background-size: 270% auto;
+        }
         .closing {
           padding-top: 30px;
         }
@@ -706,6 +769,9 @@
         .closing-box {
           padding: 32px 24px;
         }
+        .play-copy {
+          padding: 30px 24px 34px;
+        }
         .footer-row {
           flex-direction: column;
           text-align: center;
@@ -732,7 +798,8 @@
           <a href="#psicomotricidade">Psicomotricidade</a
           ><a href="#metodo">Como funciona</a
           ><a href="#turma">Turma da Ritinha</a><a href="#sobre">Sobre</a
-          ><a class="nav-cta" href="#cartilha">Cartilha gratuita</a>
+          ><a href="#cartilha">Cartilha gratuita</a
+          ><a class="nav-cta" href="jogo-ritinha.html">Jogar</a>
         </div>
       </nav>
     </header>
@@ -798,6 +865,24 @@
               alt="Turma da Ritinha: histórias sobre movimento, amizade, inclusão e conquistas que começam pelo brincar"
             />
           </a>
+        </div>
+      </section>
+
+      <section class="play-section" id="jogar" aria-labelledby="play-title">
+        <div class="wrap">
+          <div class="play-card">
+            <div class="play-ritinha" role="img" aria-label="Ritinha pronta para brincar"></div>
+            <div class="play-copy">
+              <span class="eyebrow">SoulKids Play</span>
+              <h2 id="play-title">Desafio da Ritinha</h2>
+              <p>
+                Observe as cores e repita a sequência com a Ritinha. Uma
+                brincadeira curta para estimular atenção, memória visual e
+                organização temporal.
+              </p>
+              <a class="btn" href="jogo-ritinha.html">Jogar agora →</a>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#092c61">
+  <title>Desafio da Ritinha | SoulKids</title>
+  <style>
+    :root{--navy:#092c61;--blue:#1768c9;--orange:#ff8426;--teal:#10aaa7;--cream:#fff9ef;--ink:#14233b;--white:#fff;--shadow:0 18px 50px rgba(9,44,97,.18)}
+    *{box-sizing:border-box}body{margin:0;min-height:100svh;background:radial-gradient(circle at 10% 0,#dff8f5 0,transparent 34%),radial-gradient(circle at 100% 100%,#ffe8d2 0,transparent 32%),var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,a{font:inherit}.app{width:min(760px,100%);min-height:100svh;margin:auto;padding:18px clamp(16px,4vw,32px) 30px;display:flex;flex-direction:column}
+    header{display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:10px;color:var(--navy);font-weight:900;text-decoration:none}.brand img{width:50px;height:50px;object-fit:contain}.brand span{font-size:1.25rem}.sound{border:0;border-radius:14px;background:#fff;color:var(--navy);width:48px;height:48px;box-shadow:0 8px 24px rgba(9,44,97,.12);font-size:1.25rem;cursor:pointer}
+    main{flex:1;display:grid;place-items:center}.panel{width:100%;background:rgba(255,255,255,.93);border:1px solid rgba(9,44,97,.09);border-radius:28px;box-shadow:var(--shadow);padding:clamp(22px,5vw,42px);text-align:center}.screen[hidden]{display:none}
+    .hero-img{width:150px;height:150px;border-radius:50%;object-fit:cover;object-position:18% 72%;margin:0 auto 14px;border:7px solid #fff;box-shadow:0 12px 32px rgba(9,44,97,.19)}
+    h1,h2{color:var(--navy);line-height:1.05;margin:8px 0 12px;letter-spacing:-.04em}h1{font-size:clamp(2.2rem,8vw,4rem)}h2{font-size:clamp(1.8rem,6vw,3rem)}p{font-size:clamp(1rem,3.5vw,1.2rem);line-height:1.55;margin:0 auto 22px;max-width:540px;color:#50647d}
+    .primary,.secondary{border:0;border-radius:17px;padding:15px 24px;font-weight:900;cursor:pointer;min-height:54px}.primary{background:var(--orange);color:#fff;box-shadow:0 10px 24px rgba(255,132,38,.28)}.secondary{background:#edf4fb;color:var(--navy)}button:focus-visible,a:focus-visible{outline:4px solid #ffd358;outline-offset:3px}
+    .topline{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}.level{font-weight:900;color:var(--navy)}.progress{height:11px;flex:1;background:#e9eef4;border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--blue));transition:width .35s}
+    .instruction{font-weight:850;color:var(--navy);font-size:clamp(1.2rem,4vw,1.55rem);margin-bottom:18px}.sequence{min-height:92px;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:25px}.dot,.choice{border:0;border-radius:24px;box-shadow:inset 0 -7px 0 rgba(0,0,0,.11),0 9px 20px rgba(9,44,97,.13)}.dot{width:clamp(62px,18vw,92px);height:clamp(62px,18vw,92px);transition:transform .2s,opacity .25s}.dot.flash{transform:scale(1.13);box-shadow:0 0 0 8px #fff,0 0 0 14px #ffd358,0 16px 28px rgba(9,44,97,.2)}.dot.hidden-dot{opacity:0}
+    .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.choice{aspect-ratio:1;cursor:pointer;transition:transform .12s}.choice:active{transform:scale(.93)}.choice:disabled{cursor:default;opacity:.65}.red{background:#f24d55}.yellow{background:#ffc928}.blue{background:#2878df}.green{background:#23b879}.purple{background:#8d5de7}
+    .feedback{min-height:34px;margin-top:20px;font-weight:900;font-size:1.08rem;color:var(--navy)}.feedback.ok{color:#13835c}.feedback.try{color:#b45309}.stars{font-size:2.4rem;letter-spacing:8px;margin:18px 0}.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.tiny{margin-top:18px;font-size:.83rem;color:#6c7b8d}
+    @media(max-width:480px){.app{padding-top:12px}.panel{border-radius:23px}.brand span{font-size:1.05rem}.choices{gap:10px}.choice{border-radius:19px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <a class="brand" href="index.html" aria-label="Voltar ao site SoulKids"><img src="soulkids-symbol.png" alt=""><span>SoulKids Play</span></a>
+      <button class="sound" id="sound" aria-label="Desativar som" aria-pressed="true">🔊</button>
+    </header>
+    <main>
+      <section class="panel screen" id="start">
+        <img class="hero-img" src="historia-ritinha-capa.webp" alt="Ritinha chegando à SoulKids">
+        <h1>Desafio da Ritinha</h1>
+        <p>Observe as cores e toque nelas na mesma ordem. Sem pressa: você pode tentar novamente quantas vezes quiser.</p>
+        <button class="primary" id="startBtn">Começar</button>
+        <div class="tiny">Atenção • memória visual • organização temporal</div>
+      </section>
+
+      <section class="panel screen" id="game" hidden>
+        <div class="topline"><span class="level" id="levelText">Nível 1</span><div class="progress" aria-label="Progresso"><span id="progressBar"></span></div></div>
+        <div class="instruction" id="instruction">Observe a sequência</div>
+        <div class="sequence" id="sequence" aria-live="polite"></div>
+        <div class="choices" id="choices" aria-label="Escolha as cores"></div>
+        <div class="feedback" id="feedback" aria-live="assertive"></div>
+      </section>
+
+      <section class="panel screen" id="finish" hidden>
+        <div class="stars" aria-hidden="true">⭐ ⭐ ⭐</div>
+        <h2>Você conseguiu!</h2>
+        <p>A Ritinha completou os três desafios com você. Cada tentativa ajuda o cérebro a organizar melhor a sequência.</p>
+        <div class="actions"><button class="primary" id="againBtn">Jogar novamente</button><a class="secondary" href="index.html" style="text-decoration:none">Voltar ao site</a></div>
+      </section>
+    </main>
+  </div>
+  <script>
+    const colors=[['red','vermelho'],['yellow','amarelo'],['blue','azul'],['green','verde'],['purple','roxo']];
+    const lengths=[3,4,5], roundsPerLevel=2;
+    let level=0,round=0,pattern=[],input=[],soundOn=true,locked=true,audio;
+    const $=id=>document.getElementById(id);
+    const screens=['start','game','finish'];
+    function show(id){screens.forEach(s=>$(s).hidden=s!==id)}
+    function tone(freq=520,duration=.12){if(!soundOn)return;audio??=new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.08,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+duration);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+duration)}
+    function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+    function makePattern(){const available=colors.slice(0,Math.min(3+level,5));pattern=Array.from({length:lengths[level]},()=>available[Math.floor(Math.random()*available.length)][0]);input=[]}
+    function renderChoices(){const available=shuffle(colors.slice(0,Math.min(3+level,5)));$('choices').innerHTML='';available.forEach(([cls,name])=>{const b=document.createElement('button');b.className='choice '+cls;b.setAttribute('aria-label',name);b.dataset.color=cls;b.onclick=()=>choose(cls);$('choices').appendChild(b)})}
+    function renderSequence(){ $('sequence').innerHTML='';pattern.forEach((cls,i)=>{const d=document.createElement('div');d.className='dot '+cls;d.setAttribute('aria-label','cor '+(i+1));$('sequence').appendChild(d)}) }
+    function setLocked(v){locked=v;document.querySelectorAll('.choice').forEach(b=>b.disabled=v)}
+    async function present(){setLocked(true);$('feedback').textContent='';$('instruction').textContent='Observe a sequência';renderSequence();const dots=[...document.querySelectorAll('.dot')];dots.forEach(d=>d.style.opacity=.25);for(const d of dots){d.style.opacity=1;d.classList.add('flash');tone(440+dots.indexOf(d)*55,.16);await new Promise(r=>setTimeout(r,520));d.classList.remove('flash');d.style.opacity=.25;await new Promise(r=>setTimeout(r,120))}await new Promise(r=>setTimeout(r,250));$('sequence').innerHTML='';$('instruction').textContent='Agora repita';setLocked(false)}
+    function updateHeader(){ $('levelText').textContent=`Nível ${level+1} • Rodada ${round+1}/${roundsPerLevel}`;const done=level*roundsPerLevel+round;$('progressBar').style.width=`${done/(lengths.length*roundsPerLevel)*100}%` }
+    function newRound(){makePattern();renderChoices();updateHeader();present()}
+    function choose(cls){if(locked)return;input.push(cls);tone(560+input.length*45,.1);const expected=pattern[input.length-1];if(cls!==expected){setLocked(true);$('feedback').className='feedback try';$('feedback').textContent='Quase! Vamos observar mais uma vez.';input=[];setTimeout(present,1100);return}if(input.length===pattern.length){setLocked(true);$('feedback').className='feedback ok';$('feedback').textContent='Muito bem! Você encontrou a sequência.';tone(820,.25);setTimeout(next,1100)}}
+    function next(){round++;if(round>=roundsPerLevel){round=0;level++}if(level>=lengths.length){$('progressBar').style.width='100%';show('finish');tone(900,.35)}else newRound()}
+    function begin(){level=0;round=0;show('game');newRound()}
+    $('startBtn').onclick=begin;$('againBtn').onclick=begin;$('sound').onclick=()=>{soundOn=!soundOn;$('sound').textContent=soundOn?'🔊':'🔇';$('sound').setAttribute('aria-pressed',String(soundOn));$('sound').setAttribute('aria-label',soundOn?'Desativar som':'Ativar som')};
+  </script>
+</body>
+</html>
