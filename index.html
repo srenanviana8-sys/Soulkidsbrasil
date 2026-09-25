@@ -224,18 +224,20 @@
       .portrait-shell:before {
         content: "";
         position: absolute;
-        inset: 8% -8% -7% 10%;
-        background: var(--navy);
-        border-radius: 44% 56% 46% 54% / 54% 39% 61% 46%;
-        transform: rotate(7deg);
+        width: 390px;
+        height: 390px;
+        right: -40px;
+        bottom: 12px;
+        background: var(--teal);
+        opacity: 0.1;
+        border-radius: 50%;
       }
       .portrait {
         position: relative;
         width: min(100%, 470px);
-        aspect-ratio: 1/1;
-        object-fit: cover;
-        border-radius: 42% 58% 45% 55% / 55% 43% 57% 45%;
-        box-shadow: var(--shadow);
+        max-height: 590px;
+        object-fit: contain;
+        filter: drop-shadow(0 24px 28px rgba(9, 44, 97, 0.2));
       }
       .portrait-tag {
         position: absolute;
@@ -824,13 +826,9 @@
           <div class="portrait-shell">
             <img
               class="portrait"
-              src="https://soulkids-desenvolvimento-infantil.srenanviana8.chatgpt.site/assets/renan-viana.png"
-              alt="Renan Viana, psicomotricista"
+              src="/ritinha-soulkids-s.png"
+              alt="Ritinha sentada na letra S de SoulKids"
             />
-            <div class="portrait-tag">
-              <strong>Renan Viana</strong
-              ><span>Psicomotricista · Prof. de Educação Física</span>
-            </div>
           </div>
         </div>
       </section>
