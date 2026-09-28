@@ -665,6 +665,22 @@
         color: white;
         box-shadow: var(--shadow);
       }
+      .play-card + .play-card {
+        margin-top: 24px;
+      }
+      .play-card.emotions {
+        background: linear-gradient(135deg, #6f2dbd, #d62b78);
+      }
+      .play-card.emotions:after {
+        background: #ffcf4a;
+        opacity: 0.22;
+      }
+      .play-card.emotions .play-ritinha {
+        background-position: 27% 72%;
+      }
+      .play-card.emotions .eyebrow {
+        color: #ffe68b;
+      }
       .play-card:after {
         content: "";
         position: absolute;
@@ -967,6 +983,19 @@
                 organização temporal.
               </p>
               <a class="btn" href="jogo-ritinha.html">Jogar agora →</a>
+            </div>
+          </div>
+          <div class="play-card emotions">
+            <div class="play-ritinha" role="img" aria-label="Ritinha descobrindo suas emoções"></div>
+            <div class="play-copy">
+              <span class="eyebrow">Novo jogo</span>
+              <h2>Jogo das Emoções</h2>
+              <p>
+                Observe dez situações, reconheça como a Ritinha pode estar se
+                sentindo e conheça estratégias simples de acolhimento e
+                autorregulação.
+              </p>
+              <a class="btn" href="jogo-emocoes.html">Descobrir emoções →</a>
             </div>
           </div>
         </div>
