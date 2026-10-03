@@ -605,8 +605,15 @@
       }
       .story-controls {
         display: flex;
+        align-items: center;
         gap: 10px;
         flex-shrink: 0;
+      }
+      .story-counter {
+        min-width: 92px;
+        color: var(--navy);
+        font-weight: 850;
+        text-align: center;
       }
       .story-control {
         width: 48px;
@@ -649,6 +656,13 @@
         color: var(--muted);
         font-size: 0.9rem;
         text-align: center;
+      }
+      .story-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 20px;
       }
       .play-section {
         padding: 34px 0 28px;
@@ -695,7 +709,7 @@
       .play-ritinha {
         align-self: stretch;
         min-height: 340px;
-        background: url("/historia-ritinha-capa.webp") 12% 75% / 330% auto no-repeat;
+        background: url("/historia-ritinha-pagina-1.webp") 12% 75% / 330% auto no-repeat;
       }
       .play-copy {
         position: relative;
@@ -906,7 +920,7 @@
           ><a href="#metodo">Como funciona</a
           ><a href="#turma">Turma da Ritinha</a><a href="#sobre">Sobre</a
           ><a href="#cartilhas">Materiais gratuitos</a
-          ><a class="nav-cta" href="jogo-ritinha.html">Jogar</a>
+          ><a class="nav-cta" href="#jogar">Jogos</a>
         </div>
       </nav>
     </header>
@@ -991,9 +1005,8 @@
               <span class="eyebrow">Novo jogo</span>
               <h2>Jogo das Emoções</h2>
               <p>
-                Observe dez situações, reconheça como a Ritinha pode estar se
-                sentindo e conheça estratégias simples de acolhimento e
-                autorregulação.
+                Leia pistas no corpo e no comportamento, reconheça o que a
+                Ritinha pode estar sentindo e escolha uma forma de ajudá-la.
               </p>
               <a class="btn" href="jogo-emocoes.html">Descobrir emoções →</a>
             </div>
@@ -1009,41 +1022,46 @@
               <h2 id="story-title">A chegada da Ritinha</h2>
             </div>
             <p>
-              Ritinha conhece a SoulKids, explora a sala no próprio ritmo e
-              transforma uma tentativa em conquista.
+              Ritinha chega insegura, encontra acolhimento, aceita um desafio e
+              descobre a primeira pista de uma caça ao tesouro.
             </p>
             <div class="story-controls" aria-label="Controles da história">
               <button class="story-control" type="button" data-story-prev aria-label="Página anterior">←</button>
+              <span class="story-counter" data-story-counter aria-live="polite">1 de 8</span>
               <button class="story-control" type="button" data-story-next aria-label="Próxima página">→</button>
             </div>
           </div>
           <div class="story-track" data-story-track tabindex="0" aria-label="Páginas da história A chegada da Ritinha">
             <figure class="story-page">
-              <img src="/historia-ritinha-capa.webp" alt="Capa da história A chegada da Ritinha" loading="lazy" />
+              <img src="/historia-ritinha-pagina-1.webp" alt="Página 1: Ritinha chega à SoulKids com sua família" loading="lazy" />
             </figure>
             <figure class="story-page">
-              <img src="/historia-ritinha-pagina-1.webp" alt="Ritinha chega à SoulKids e conhece Ravi" loading="lazy" />
+              <img src="/historia-ritinha-pagina-2.webp" alt="Página 2: Ravi recebe Ritinha na entrada" loading="lazy" />
             </figure>
             <figure class="story-page">
-              <img src="/historia-ritinha-pagina-2.webp" alt="Ravi se apresenta e acolhe Ritinha" loading="lazy" />
+              <img src="/historia-ritinha-pagina-3.webp" alt="Página 3: Ravi conversa com Ritinha na altura dela" loading="lazy" />
             </figure>
             <figure class="story-page">
-              <img src="/historia-ritinha-pagina-3.webp" alt="Ritinha conhece a sala no próprio ritmo" loading="lazy" />
+              <img src="/historia-ritinha-pagina-4.webp" alt="Página 4: Ritinha entra e observa a sala" loading="lazy" />
             </figure>
             <figure class="story-page">
-              <img src="/historia-ritinha-pagina-4.webp" alt="Ritinha escolhe uma bola para brincar" loading="lazy" />
+              <img src="/historia-ritinha-pagina-5.webp" alt="Página 5: Ritinha escolhe a bola amarela" loading="lazy" />
             </figure>
             <figure class="story-page">
-              <img src="/historia-ritinha-pagina-5.webp" alt="Ritinha tenta passar a bola pelo arco" loading="lazy" />
+              <img src="/historia-ritinha-pagina-6.webp" alt="Página 6: Ritinha tenta realizar o desafio" loading="lazy" />
             </figure>
             <figure class="story-page">
-              <img src="/historia-ritinha-pagina-6.webp" alt="Ritinha ajusta o movimento e consegue" loading="lazy" />
+              <img src="/historia-ritinha-pagina-7.webp" alt="Página 7: Ritinha tenta outra vez e consegue" loading="lazy" />
             </figure>
             <figure class="story-page">
-              <img src="/historia-ritinha-pagina-7.webp" alt="Ritinha conta como se sentiu e conhece o próximo passo" loading="lazy" />
+              <img src="/historia-ritinha-pagina-8.webp" alt="Página 8: Ritinha encontra a primeira pista da caça ao tesouro" loading="lazy" />
             </figure>
           </div>
           <p class="story-hint">Deslize para o lado para continuar a história.</p>
+          <div class="story-actions">
+            <a class="btn btn-primary" href="/Turma_da_Ritinha_Historia_01_A_Chegada.pdf" target="_blank" rel="noopener">Ler história em PDF →</a>
+            <a class="btn btn-secondary" href="/Turma_da_Ritinha_Historia_01_A_Chegada.pdf" download>Baixar história ↓</a>
+          </div>
         </div>
       </section>
 
@@ -1123,7 +1141,7 @@
         <div class="wrap experience-grid">
           <img
             class="experience-img"
-            src="https://soulkids-desenvolvimento-infantil.srenanviana8.chatgpt.site/assets/turma-soulkids.png"
+            src="/turma-soulkids.png"
             alt="Turma SoulKids em experiências psicomotoras inclusivas"
           />
           <div>
@@ -1185,7 +1203,7 @@
             <article class="guide-card">
               <img
                 class="guide-cover"
-                src="https://soulkids-desenvolvimento-infantil.srenanviana8.chatgpt.site/assets/capa-cartilha.png"
+                src="/capa-cartilha.png"
                 alt="Capa da Cartilha de Psicomotricidade SoulKids"
               />
               <div>
@@ -1257,7 +1275,7 @@
         <div class="wrap about-grid">
           <img
             class="about-photo"
-            src="https://soulkids-desenvolvimento-infantil.srenanviana8.chatgpt.site/assets/renan-viana.png"
+            src="/renan-viana.png"
             alt="Retrato profissional de Renan Viana"
           />
           <div>
@@ -1286,10 +1304,16 @@
             <span class="therapy-tag">Psicologia</span>
             <h3>Raynise Lopes</h3>
             <p>
-              Psicóloga, CRP 05/67001, com pós-graduação em ABA, formação em
-              Neuromodulação e curso de manejo de crises em crianças com TEA.
-              Responsável técnica pelo conteúdo de Psicologia da SoulKids.
+              Psicóloga, CRP 05/67001, responsável pelos conteúdos de Psicologia
+              da SoulKids. Seu trabalho aborda desenvolvimento emocional,
+              comportamento, vínculo e orientação de famílias com uma linguagem
+              acolhedora e acessível.
             </p>
+            <div class="credentials">
+              <span class="credential">Pós-graduação em ABA</span>
+              <span class="credential">Formação em Neuromodulação</span>
+              <span class="credential">Manejo de crises no TEA</span>
+            </div>
           </article>
         </div>
       </section>
@@ -1326,12 +1350,23 @@
         const page = storyTrack.querySelector(".story-page");
         return page.offsetWidth + 18;
       };
+      const storyPages = [...storyTrack.querySelectorAll(".story-page")];
+      const storyCounter = document.querySelector("[data-story-counter]");
+      const updateStoryCounter = () => {
+        const current = Math.min(
+          storyPages.length,
+          Math.max(1, Math.round(storyTrack.scrollLeft / storyStep()) + 1)
+        );
+        storyCounter.textContent = `${current} de ${storyPages.length}`;
+      };
       document.querySelector("[data-story-prev]").addEventListener("click", () => {
         storyTrack.scrollBy({ left: -storyStep(), behavior: "smooth" });
       });
       document.querySelector("[data-story-next]").addEventListener("click", () => {
         storyTrack.scrollBy({ left: storyStep(), behavior: "smooth" });
       });
+      storyTrack.addEventListener("scroll", updateStoryCounter, { passive: true });
+      window.addEventListener("resize", updateStoryCounter);
     </script>
   </body>
 </html>
