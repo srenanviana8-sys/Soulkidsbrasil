@@ -533,8 +533,18 @@
       }
       .about-photo {
         width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
         border-radius: 28px;
         box-shadow: var(--shadow);
+      }
+      .about-grid + .about-grid {
+        margin-top: 52px;
+        padding-top: 52px;
+        border-top: 1px solid var(--line);
+      }
+      .raynise-photo {
+        object-position: center 24%;
       }
       .about h2 {
         margin: 10px 0 18px;
@@ -1299,10 +1309,16 @@
             </div>
           </div>
         </div>
-        <div class="wrap" style="margin-top: 26px">
-          <article class="therapy-card">
+        <div class="wrap about-grid">
+          <img
+            class="about-photo raynise-photo"
+            src="/raynise-lopes.webp"
+            alt="Retrato profissional da psicóloga Raynise Lopes"
+            loading="lazy"
+          />
+          <div>
             <span class="therapy-tag">Psicologia</span>
-            <h3>Raynise Lopes</h3>
+            <h2>Raynise Lopes</h2>
             <p>
               Psicóloga, CRP 05/67001, responsável pelos conteúdos de Psicologia
               da SoulKids. Seu trabalho aborda desenvolvimento emocional,
@@ -1314,7 +1330,7 @@
               <span class="credential">Formação em Neuromodulação</span>
               <span class="credential">Manejo de crises no TEA</span>
             </div>
-          </article>
+          </div>
         </div>
       </section>
 
