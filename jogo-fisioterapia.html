@@ -117,6 +117,20 @@ const levels=[
 {title:"Trilha dos passinhos",description:"Siga os pezinhos alternados na tela. Você pode mover os pés sentado, com ajuda, ou apenas tocar."},
 {title:"A estrela brilhante",description:"Toque e segure a estrela para iluminá-la. Se preferir, use a opção de toque único. O movimento real é opcional."}
 ];
+const guides={
+ sentado:[
+ "Toque nos quatro balões. Se for confortável, acompanhe com um alcance leve de braço, sem forçar.",
+ "Siga as setas. Se for confortável, faça pequenos movimentos laterais sentado e com apoio.",
+ "Acompanhe os pés alternados. Se quiser, movimente os pés sentado, com apoio, ou apenas toque.",
+ "Segure a estrela na tela ou use toque único. Se quiser, alcance com o braço dentro de uma amplitude confortável."
+ ],
+ apoio:[
+ "Toque nos quatro balões. O profissional pode adaptar alcances com apoio, apenas se for seguro.",
+ "Siga as setas. Com acompanhamento, a atividade pode ser associada a deslocamentos laterais com apoio.",
+ "Siga os pés alternados. Se for seguro, o profissional pode orientar passos assistidos; tocar na tela também vale.",
+ "Segure a estrela ou use toque único. Se for adequado, o profissional pode associar um alcance confortável."
+ ]
+};
 const $=id=>document.getElementById(id);
 let mode="sentado",level=0,progress=0,complete=false,holdTimer=null;
 const field=$("field"),sprite=field.querySelector(".sprite");
@@ -134,7 +148,7 @@ complete=false;progress=0;clearField();
 $("count").textContent="Missão "+(level+1)+" de "+levels.length;
 $("progress").style.width=((level/levels.length)*100)+"%";
 $("task-title").textContent=levels[level].title;
-$("task-description").textContent=levels[level].description;
+$("task-description").textContent=guides[mode][level];
 $("status").textContent="Etapa 0 de "+goals[level];
 $("next").classList.add("hidden");
 if(level===0)balloons();if(level===1)sides();if(level===2)steps();if(level===3)star();
