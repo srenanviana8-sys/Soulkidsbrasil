@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#092c61">
+<meta name="description" content="Entre no Mundo da Ritinha: cinco lugares para explorar, jogos educativos SoulKids, missão do dia e passaporte de descobertas sem cadastro.">
+<title>Mundo da Ritinha | Explore a SoulKids</title>
+<link rel="icon" type="image/png" href="/soulkids-symbol.png">
+<style>
+:root{--navy:#092c61;--ink:#153351;--muted:#4f6680;--orange:#ff8426;--cream:#fffaf0;--teal:#149e97}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);background:#fffaf0;font:500 16px/1.58 system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+a{color:inherit}button{font:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:4px solid #ffba4a;outline-offset:3px}
+.skip{position:absolute;top:-100px;left:10px;background:#fff;color:#092c61;padding:10px;z-index:100}.skip:focus{top:10px}
+.wrap{width:min(1140px,calc(100% - 38px));margin:auto}
+.site-header{background:#fffdf6;position:sticky;top:0;z-index:20;border-bottom:1px solid #dce7e6;box-shadow:0 5px 25px #183b5412}
+nav{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:82px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--navy);font-size:1.45rem;font-weight:950}
+.brand img{width:59px;height:59px;object-fit:contain}.nav-items{display:flex;align-items:center;gap:22px}.nav-items a{text-decoration:none;font-weight:800;color:#2f4c66;font-size:.92rem}
+.nav-items .nav-btn{background:var(--navy);color:#fff;border-radius:13px;padding:12px 17px}
+.hero{background:radial-gradient(circle at 10% 14%,#fff4af 0,transparent 29%),radial-gradient(circle at 88% 9%,#d4f2fc 0,transparent 31%),linear-gradient(135deg,#fff9e9,#e9f8f2);padding:67px 0 49px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;width:300px;height:300px;border:3px dashed #feb85b55;border-radius:50%;top:-150px;left:40%}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:40px;align-items:center}
+.eyebrow{text-transform:uppercase;font-size:.78rem;letter-spacing:.13em;font-weight:900;color:#137f89}
+h1,h2,h3{letter-spacing:-.044em;line-height:1.07}
+h1{font-size:clamp(2.9rem,6vw,5.7rem);margin:12px 0 20px;color:var(--navy)}
+h1 span{color:#f28029}
+.hero p{color:var(--muted);font-size:clamp(1.05rem,1.7vw,1.25rem);max-width:630px;margin:0 0 25px}
+.actions{display:flex;flex-wrap:wrap;gap:11px}
+.btn{border:0;border-radius:15px;padding:15px 23px;display:inline-flex;align-items:center;justify-content:center;min-height:53px;font-size:1rem;text-decoration:none;font-weight:850;cursor:pointer}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 11px 24px #dc773634}.btn-light{background:#fff;color:var(--navy);border:2px solid #d4e6e9}
+.hero-art{position:relative;background:radial-gradient(circle at 48% 48%,#fff 0 45%,#c9eee7 46% 48%,transparent 49%);padding:12px;display:grid;place-items:center;min-height:370px}
+.hero-art img{width:min(100%,530px);object-fit:contain;max-height:410px;filter:drop-shadow(0 14px 16px #31656c2b)}
+.hero-spark{position:absolute;font-size:2.6rem;filter:drop-shadow(0 4px 0 #fff);pointer-events:none}
+.hero-spark.one{top:14%;left:4%}.hero-spark.two{top:4%;right:12%}.hero-spark.three{bottom:12%;right:4%}
+.intro-note{font-size:.9rem!important;margin-top:15px!important}
+.section{padding:70px 0}
+.section-title{text-align:center;max-width:780px;margin:0 auto 36px}.section-title h2{color:var(--navy);font-size:clamp(2.1rem,5vw,3.65rem);margin:9px 0 13px}.section-title p{color:var(--muted);margin:0;font-size:1.04rem}
+.world{background:#eaf6f4;position:relative}
+.world:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#9dd5cd83 1.5px,transparent 1.5px);background-size:32px 32px;opacity:.26;pointer-events:none}
+.world-inner{position:relative}
+.plaza{max-width:550px;margin:0 auto 25px;padding:17px 23px;display:flex;align-items:center;gap:13px;background:#fff;border:3px solid #d1ece6;border-radius:25px;box-shadow:0 10px 29px #255c6a14}
+.plaza .emoji{font-size:2.6rem}.plaza strong{display:block;color:var(--navy);font-size:1.15rem}.plaza span{color:var(--muted);font-size:.92rem}
+.zone-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px}
+.zone{grid-column:span 2;position:relative;min-height:295px;border-radius:26px;border:2px solid #f0e6d9;padding:26px 24px 24px;background:var(--bg);box-shadow:0 14px 34px #27516412;display:flex;flex-direction:column;align-items:flex-start;transition:transform .2s ease,box-shadow .2s ease}
+.zone:nth-child(4){grid-column:2/span 2}.zone:nth-child(5){grid-column:4/span 2}
+.zone:hover{transform:translateY(-4px);box-shadow:0 20px 38px #27516422}
+.zone.emocoes{--bg:linear-gradient(150deg,#fff0f5,#fff9ee);--color:#a53470}.zone.movimento{--bg:linear-gradient(150deg,#e6fbef,#f7ffec);--color:#21785a}.zone.palavras{--bg:linear-gradient(150deg,#e3f3ff,#f4efff);--color:#3159a4}.zone.descobertas{--bg:linear-gradient(150deg,#f3eaff,#fff7e8);--color:#7754a6}.zone.cozinha{--bg:linear-gradient(150deg,#fff1d7,#fff6ef);--color:#a55a16}
+.zone-icon{font-size:3.6rem;line-height:1.2;margin-bottom:16px;display:inline-flex;align-items:center;justify-content:center;border-radius:22px;background:#ffffffbc;width:92px;height:88px}
+.zone .tag{color:var(--color);font-weight:900;letter-spacing:.1em;text-transform:uppercase;font-size:.76rem;margin-bottom:7px}
+.zone h3{color:var(--navy);font-size:1.63rem;margin:0 0 12px}.zone p{margin:0 0 21px;color:#4e6477;font-size:.95rem;flex:1}
+.zone-links{display:flex;gap:8px;flex-wrap:wrap;width:100%;align-items:center}
+.zone-link{padding:11px 16px;background:var(--color);color:white;text-decoration:none;border-radius:12px;font-weight:850;font-size:.94rem;display:inline-flex;min-height:46px;align-items:center}
+.zone-link.secondary{background:#fff;color:var(--color);border:1px solid #e1dfe3}
+.zone .stamp{position:absolute;right:20px;top:19px;padding:6px 9px;background:#fff;border-radius:999px;font-size:.78rem;color:#4e6477;font-weight:900}
+.zone .stamp.visited{background:#d8f6dc;color:#1b6b41}
+.zone-footer{text-align:center;margin:26px auto 0;color:#48677a;font-size:.88rem}
+.discover{background:#fff9ed}
+.discover-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:24px;align-items:start}
+.mission,.passport{border:1px solid #f1dabb;background:#fff;border-radius:26px;padding:30px;box-shadow:0 14px 38px #4e5d5515}
+.mission{background:linear-gradient(145deg,#ffffff,#fff9ed);border:3px solid #f2d3a4}
+.subline{font-size:.77rem;text-transform:uppercase;letter-spacing:.1em;color:#a06122;font-weight:900}
+.mission h3,.passport h3{font-size:clamp(1.55rem,3vw,2.15rem);margin:9px 0;color:var(--navy)}
+.mission-description{font-size:1.1rem;color:#3d556b;margin:0 0 16px}
+.mission-visual{display:flex;align-items:center;gap:16px;background:#fff;border-radius:20px;border:1px dashed #eabf8d;padding:18px;margin:17px 0;min-height:115px}
+.mission-icon{font-size:3.5rem;flex:none}.mission-visual p{margin:0;color:#405e73}
+.mission-title{font-weight:950;font-size:1.3rem;color:var(--navy);margin:0}
+.mission-adapt{background:#eff9f6;color:#386454;border-radius:14px;padding:14px 16px;margin:12px 0 16px;font-size:.92rem}
+.mission-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.mission-actions .btn{font-size:.92rem;padding:12px 17px;min-height:48px}
+.mission-complete{background:#187758;color:#fff}.mission-complete[aria-pressed=true]{background:#e0f7e9;color:#196647}
+.passport h3{margin:6px 0 10px}.passport > p{color:var(--muted);margin:0 0 20px}
+.stamps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stamp-tile{border:2px dashed #cbdadd;background:#f9fbfb;border-radius:18px;text-align:center;min-height:110px;padding:14px 7px}
+.stamp-tile .symbol{display:block;font-size:2.3rem;filter:grayscale(1);opacity:.45}
+.stamp-tile .name{display:block;font-size:.78rem;font-weight:900;color:#52697b;margin-top:6px}
+.stamp-tile.yes{background:#e7f9ed;border-style:solid;border-color:#77c59c}.stamp-tile.yes .symbol{filter:none;opacity:1}.stamp-tile.yes .name{color:#195c42}
+.passport-count{text-align:center;border-radius:14px;background:#f3f7fc;margin-top:15px;padding:12px;font-weight:800;color:var(--navy)}
+.local-note{font-size:.8rem;color:#607487;margin:12px 0 0!important}
+.resources{background:#eff5ff}
+.resources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+.resource{border:1px solid #dce8f5;border-radius:25px;background:white;padding:25px;display:flex;flex-direction:column;min-height:230px}
+.resource .resource-icon{font-size:2.7rem}.resource h3{font-size:1.35rem;color:var(--navy);margin:12px 0 9px}.resource p{font-size:.94rem;color:var(--muted);margin:0 0 18px;flex:1}
+.resource a{color:#16569f;font-weight:900;text-decoration:none;align-self:flex-start}
+.foot{background:#092c61;color:#d7e9f8;padding:35px 0}
+.foot-links{display:flex;gap:13px;justify-content:space-between;align-items:center;flex-wrap:wrap}.foot a{color:#fff;font-weight:800}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr 1fr;gap:16px}.zone-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zone,.zone:nth-child(4),.zone:nth-child(5){grid-column:span 1}.zone:last-child{grid-column:1/-1}.discover-grid{grid-template-columns:1fr}.resources-grid{grid-template-columns:repeat(2,1fr)}.nav-items{gap:13px}.hero-art{min-height:300px}}
+@media(max-width:650px){.wrap{width:min(100% - 24px,1140px)}nav{min-height:69px}.brand{font-size:1.15rem}.brand img{width:45px;height:45px}.nav-items a:not(.nav-btn){display:none}.nav-items .nav-btn{padding:10px 12px;font-size:.83rem}.hero{padding:37px 0 30px}.hero-grid{grid-template-columns:1fr}.hero h1{font-size:clamp(2.65rem,12vw,4.2rem)}.hero-art{min-height:230px}.hero-art img{max-height:280px}.hero-spark{font-size:1.7rem}.actions .btn{flex:1 1 190px}.section{padding:52px 0}.zone-grid{grid-template-columns:1fr;gap:12px}.zone,.zone:nth-child(4),.zone:nth-child(5),.zone:last-child{grid-column:1}.zone{min-height:0;padding:22px}.zone-icon{width:72px;height:68px;font-size:2.7rem;margin-bottom:10px}.zone h3{font-size:1.55rem}.zone p{margin-bottom:16px}.resources-grid{grid-template-columns:1fr}.mission,.passport{padding:20px}.stamps{gap:7px}.stamp-tile{padding:10px 2px;min-height:93px}.stamp-tile .symbol{font-size:1.9rem}.stamp-tile .name{font-size:.68rem}.mission-actions .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.zone{transition:none}}
+@media print{@page{size:A4;margin:16mm}header,.hero,.world,.passport,.section-title,.resources,.foot,.mission-actions,.local-note{display:none!important}body,main,.discover,.wrap,.discover-grid,.mission{display:block!important;max-width:none!important;width:100%!important;background:#fff!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}.mission{border:3px solid #1b4d68!important;padding:20mm!important}.mission h3{font-size:25pt}.mission-icon{font-size:54pt}.mission-description{font-size:15pt}}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header"><nav class="wrap" aria-label="Navegação do Mundo da Ritinha">
+<a class="brand" href="/index.html"><img src="/soulkids-symbol.png" alt="">SoulKids</a>
+<div class="nav-items"><a href="#lugares">Explorar</a><a href="#missao">Missão do dia</a><a href="#passaporte">Passaporte</a><a class="nav-btn" href="/index.html">Site principal ↗</a></div>
+</nav></header>
+<main id="conteudo">
+<section class="hero">
+<div class="wrap hero-grid">
+<div><span class="eyebrow">Uma aventura da SoulKids</span><h1>Bem-vindo ao <span>Mundo da Ritinha!</span></h1>
+<p>Cinco lugares cheios de histórias, jogos e pequenas descobertas. Escolha por onde começar e explore no seu ritmo, com a turma da Ritinha.</p>
+<div class="actions"><a class="btn btn-primary" href="#lugares">Explorar o mundo →</a><a class="btn btn-light" href="#missao">Missão de hoje ✨</a></div>
+<p class="intro-note">Gratuito, sem cadastro e com atividades para brincar junto.</p></div>
+<div class="hero-art"><span class="hero-spark one" aria-hidden="true">⭐</span><span class="hero-spark two" aria-hidden="true">🌈</span><span class="hero-spark three" aria-hidden="true">🌼</span>
+<img src="/turma-da-ritinha.webp" alt="Ilustração da turma da Ritinha, com os personagens da SoulKids" loading="eager"></div>
+</div></section>
+<section class="world section" id="lugares" aria-labelledby="world-heading">
+<div class="wrap world-inner">
+<div class="section-title"><span class="eyebrow">Seu mapa de descobertas</span><h2 id="world-heading">Para onde vamos hoje?</h2><p>Cada lugar tem uma experiência diferente. Visite as áreas para descobrir jogos e atividades, sem competição e sem pressa.</p></div>
+<div class="plaza"><span class="emoji" aria-hidden="true">🏡</span><div><strong>Praça da Amizade</strong><span>O ponto de partida de todas as aventuras da turma.</span></div></div>
+<div class="zone-grid">
+<article class="zone emocoes" data-zone-card="emocoes"><span class="stamp" data-stamp-label="emocoes">Para explorar</span><span class="zone-icon" aria-hidden="true">💗</span><span class="tag">Psicologia</span><h3>Casa das Emoções</h3><p>Como reconhecer sentimentos? Explore histórias da turma e descubra maneiras de conversar sobre emoções.</p><div class="zone-links"><a class="zone-link" href="/jogo-emocoes.html" data-explore="emocoes">Jogar e explorar →</a><a class="zone-link secondary" href="/Cartilha_Psicologia_Infantil_SoulKids_16p.pdf" target="_blank" rel="noopener" data-explore="emocoes">Cartilha</a></div></article>
+<article class="zone movimento" data-zone-card="movimento"><span class="stamp" data-stamp-label="movimento">Para explorar</span><span class="zone-icon" aria-hidden="true">🌳</span><span class="tag">Psicomotricidade</span><h3>Jardim do Movimento</h3><p>Memória, ritmo e sequência de cores em brincadeiras da Ritinha. A próxima missão pode acontecer fora da tela!</p><div class="zone-links"><a class="zone-link" href="/jogo-ritinha.html" data-explore="movimento">Jogar e explorar →</a><a class="zone-link secondary" href="#missao" data-explore="movimento">Missão</a></div></article>
+<article class="zone palavras" data-zone-card="palavras"><span class="stamp" data-stamp-label="palavras">Para explorar</span><span class="zone-icon" aria-hidden="true">🎶</span><span class="tag">Fonoaudiologia</span><h3>Oficina das Palavras</h3><p>Sons iniciais, rimas e descobertas com palavras. Escolha um nível e explore os desafios no seu ritmo.</p><div class="zone-links"><a class="zone-link" href="/jogo-fonoaudiologia.html" data-explore="palavras">Jogar e explorar →</a></div></article>
+<article class="zone descobertas" data-zone-card="descobertas"><span class="stamp" data-stamp-label="descobertas">Para explorar</span><span class="zone-icon" aria-hidden="true">🧩</span><span class="tag">TO e Psicopedagogia</span><h3>Estação das Descobertas</h3><p>Rotinas, planejamento de tarefas, padrões e raciocínio. Duas formas de explorar a mesma estação!</p><div class="zone-links"><a class="zone-link" href="/jogo-terapia-ocupacional.html" data-explore="descobertas">Organizar rotinas →</a><a class="zone-link secondary" href="/jogo-psicopedagogia.html" data-explore="descobertas">Sequências</a></div></article>
+<article class="zone cozinha" data-zone-card="cozinha"><span class="stamp" data-stamp-label="cozinha">Para explorar</span><span class="zone-icon" aria-hidden="true">🍓</span><span class="tag">Nutrição</span><h3>Cozinha da Ritinha</h3><p>Uma feira cheia de sabores, cores e possibilidades de preparo. Descubra ingredientes para o piquenique da turma.</p><div class="zone-links"><a class="zone-link" href="/jogo-nutricao.html" data-explore="cozinha">Visitar a feira →</a></div></article>
+</div>
+<p class="zone-footer">O mapa reúne os jogos atuais da SoulKids. Novos lugares, histórias e personagens poderão chegar em futuras aventuras.</p>
+</div></section>
+<section class="discover section" id="missao" aria-labelledby="discover-heading">
+<div class="wrap"><div class="section-title"><span class="eyebrow">O brincar continua fora da tela</span><h2 id="discover-heading">Missão de hoje e passaporte</h2><p>Pequenos convites para brincar em família e guardar lembranças das descobertas.</p></div>
+<div class="discover-grid">
+<article class="mission" id="mission-card">
+<span class="subline" id="mission-date">Missão de hoje</span><h3 id="mission-heading">Missão de hoje</h3>
+<p class="mission-description">Uma proposta curtinha para fazer com quem cuida de você.</p>
+<div class="mission-visual"><span class="mission-icon" id="mission-icon" aria-hidden="true">⭐</span><div><p class="mission-title" id="mission-title">Preparando uma surpresa...</p><p id="mission-text">Carregando a missão de hoje.</p></div></div>
+<div class="mission-adapt"><strong>Adaptação inclusiva:</strong> <span id="mission-adapt">Ajuste a proposta ao interesse e às possibilidades da criança.</span></div>
+<div class="mission-actions"><button type="button" class="btn btn-primary" id="another-mission">Outra missão 🎲</button><button type="button" class="btn btn-light mission-complete" id="mark-mission" aria-pressed="false">Concluímos juntos ✓</button><button type="button" class="btn btn-light" id="print-mission">Imprimir missão ↓</button></div>
+<p class="local-note">Escolha participar do seu jeito. Atividades físicas ou com materiais exigem supervisão de um responsável; nunca force movimentos nem ingestão de alimentos.</p>
+</article>
+<aside class="passport" id="passaporte" aria-labelledby="passport-heading">
+<span class="subline">Uma lembrança de cada visita</span><h3 id="passport-heading">Passaporte da Ritinha</h3>
+<p>Toque em “Jogar e explorar” ou em outra atividade de um lugar para ganhar um carimbo simbólico. Sem pontos, ranking ou cobrança para concluir tudo.</p>
+<div class="stamps" id="passport-stamps" aria-live="polite">
+<div class="stamp-tile" data-passport="emocoes"><span class="symbol" aria-hidden="true">💗</span><span class="name">Emoções</span></div>
+<div class="stamp-tile" data-passport="movimento"><span class="symbol" aria-hidden="true">🌳</span><span class="name">Movimento</span></div>
+<div class="stamp-tile" data-passport="palavras"><span class="symbol" aria-hidden="true">🎶</span><span class="name">Palavras</span></div>
+<div class="stamp-tile" data-passport="descobertas"><span class="symbol" aria-hidden="true">🧩</span><span class="name">Descobertas</span></div>
+<div class="stamp-tile" data-passport="cozinha"><span class="symbol" aria-hidden="true">🍓</span><span class="name">Cozinha</span></div>
+<div class="stamp-tile" data-passport="missao"><span class="symbol" aria-hidden="true">⭐</span><span class="name">Missão</span></div>
+</div>
+<div class="passport-count" id="passport-count">0 de 6 descobertas</div>
+<p class="local-note">O passaporte fica somente neste navegador, se o armazenamento estiver disponível. Não pedimos nome, fotos ou outras informações pessoais.</p>
+</aside>
+</div></div>
+</section>
+<section class="resources section" id="biblioteca" aria-labelledby="library-heading"><div class="wrap">
+<div class="section-title"><span class="eyebrow">Continue explorando</span><h2 id="library-heading">Biblioteca e espaço das famílias</h2><p>Histórias para ler, desenhos para criar e orientações para os adultos acompanharem as brincadeiras.</p></div>
+<div class="resources-grid">
+<article class="resource"><span class="resource-icon" aria-hidden="true">📖</span><h3>A chegada da Ritinha</h3><p>Conheça a primeira história da turma e acompanhe suas descobertas.</p><a href="/index.html#historia">Ler a história →</a></article>
+<article class="resource"><span class="resource-icon" aria-hidden="true">🎨</span><h3>Estúdio de colorir</h3><p>Escolha um personagem e pinte no celular ou imprima em formato A4.</p><a href="/colorir-ritinha.html">Começar a colorir →</a></article>
+<article class="resource"><span class="resource-icon" aria-hidden="true">👨‍👩‍👧</span><h3>Para as famílias</h3><p>Entenda como brincar junto e adaptar atividades em casa, respeitando cada criança.</p><a href="/familias-soulkids.html">Entrar no espaço das famílias →</a></article>
+</div></div></section>
+</main>
+<footer class="foot"><div class="wrap foot-links"><span>© 2026 SoulKids · Brincar, pertencer e descobrir.</span><div><a href="/index.html">Site principal</a> · <a href="https://www.instagram.com/soulkids.br/" target="_blank" rel="noopener">Instagram</a></div></div></footer>
+<script src="/mundo-da-ritinha.js" defer></script>
+</body>
+</html>

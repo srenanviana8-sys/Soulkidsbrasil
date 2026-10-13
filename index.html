@@ -930,6 +930,24 @@
       @media(max-width:880px){.therapy-games{grid-template-columns:repeat(2,minmax(0,1fr))}}
       @media(max-width:540px){.therapy-games{grid-template-columns:1fr;gap:13px}.therapy-game{min-height:0;padding:24px}.therapy-game p{margin-bottom:17px}.therapy-game a{width:100%}}
 
+
+      /* Destaque do universo infantil SoulKids */
+      .world-preview{padding:58px 0 78px;background:linear-gradient(180deg,#fff 0%,#f1faf7 100%)}
+      .world-panel{display:grid;grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);gap:18px;overflow:hidden;border-radius:33px;background:linear-gradient(135deg,#0c3a76,#146381);color:white;box-shadow:0 24px 62px rgba(11,62,106,.2)}
+      .world-panel-copy{padding:clamp(30px,5vw,57px);align-self:center;position:relative;z-index:1}
+      .world-panel .eyebrow{color:#a4f4dc}
+      .world-panel h2{margin:10px 0 18px;letter-spacing:-.052em;font-size:clamp(2.35rem,4.7vw,4.2rem);line-height:1.04}
+      .world-panel p{font-size:1.09rem;max-width:560px;color:#dfedf7;margin:0 0 23px}
+      .world-panel .btn{background:#ff963f;color:#1a3756;box-shadow:none}
+      .world-panel-art{position:relative;min-height:335px;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,#ffffff22 0 33%,transparent 34%),radial-gradient(circle at 90% 80%,#6fd2b744 0,transparent 55%)}
+      .world-panel-art img{position:relative;z-index:1;max-width:410px;width:95%;max-height:340px;object-fit:contain;filter:drop-shadow(0 15px 18px #06244e5c)}
+      .world-panel-art:after{content:"🌈  ⭐  🌳";position:absolute;top:9%;right:10%;letter-spacing:12px;font-size:2rem;color:white}
+      .world-preview-features{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:17px}
+      .world-preview-features div{background:#fff;border:1px solid #dcefe8;border-radius:19px;padding:18px 20px;color:var(--navy);font-weight:800;box-shadow:0 7px 23px #1e627510}
+      .world-preview-features span{font-size:1.55rem;margin-right:10px}
+      @media(max-width:880px){.world-panel{grid-template-columns:1fr}.world-panel-art{min-height:250px}.world-panel-art img{max-height:270px}}
+      @media(max-width:640px){.world-preview{padding:31px 0 47px}.world-panel{border-radius:24px}.world-panel-copy{padding:29px 23px}.world-panel h2{font-size:2.45rem}.world-panel p{font-size:1rem}.world-panel .btn{width:100%}.world-preview-features{grid-template-columns:1fr}.world-preview-features div{padding:13px 17px}}
+
     </style>
   </head>
   <body>
@@ -952,7 +970,7 @@
           ><a href="#metodo">Como funciona</a
           ><a href="#turma">Turma da Ritinha</a><a href="#sobre">Sobre</a
           ><a href="#cartilhas">Materiais gratuitos</a
-          ><a class="nav-cta" href="#jogar">Jogos</a>
+          ><a href="#jogar">Jogos</a><a class="nav-cta" href="/mundo-da-ritinha.html">Mundo da Ritinha</a>
         </div>
       </nav>
     </header>
@@ -967,11 +985,8 @@
               apoiam o desenvolvimento, a autonomia e a participação da criança.
             </p>
             <div class="actions">
-              <a class="btn btn-primary" href="#cartilhas"
-                >Acessar materiais gratuitos →</a
-              ><a class="btn btn-secondary" href="#terapias"
-                >Conhecer as terapias</a
-              >
+              <a class="btn btn-primary" href="/mundo-da-ritinha.html">Entrar no Mundo da Ritinha →</a>
+              <a class="btn btn-secondary" href="#cartilhas">Materiais gratuitos</a>
             </div>
           </div>
           <div class="portrait-shell">
@@ -1013,6 +1028,28 @@
               alt="Turma da Ritinha: histórias sobre movimento, amizade, inclusão e conquistas que começam pelo brincar"
             />
           </a>
+        </div>
+      </section>
+
+
+      <section class="world-preview" aria-labelledby="world-preview-title">
+        <div class="wrap">
+          <div class="world-panel">
+            <div class="world-panel-copy">
+              <span class="eyebrow">Novidade na SoulKids</span>
+              <h2 id="world-preview-title">A próxima aventura começa no Mundo da Ritinha.</h2>
+              <p>Um mapa com cinco lugares para explorar, jogos da turma, missões fora da tela e um passaporte de descobertas. Tudo gratuito e sem cadastro.</p>
+              <a class="btn" href="/mundo-da-ritinha.html">Quero explorar o mundo →</a>
+            </div>
+            <div class="world-panel-art">
+              <img src="/ritinha-soulkids-s.png" alt="Ritinha convidando para uma nova aventura na SoulKids" loading="lazy" />
+            </div>
+          </div>
+          <div class="world-preview-features" aria-label="O que existe no Mundo da Ritinha">
+            <div><span aria-hidden="true">🏡</span> Cinco lugares para descobrir</div>
+            <div><span aria-hidden="true">🎲</span> Missões para brincar em família</div>
+            <div><span aria-hidden="true">⭐</span> Passaporte sem competição</div>
+          </div>
         </div>
       </section>
 
