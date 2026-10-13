@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#15765d">
+<meta name="description" content="Feira da Ritinha: jogo interativo de Nutrição da SoulKids com frutas, hortaliças, refeições e um piquenique. Gratuito, sem cadastro.">
+<link rel="icon" type="image/png" href="/soulkids-symbol.png">
+<title>Feira da Ritinha | Nutrição • SoulKids</title>
+<style>
+:root{--dark:#193652;--green:#087958;--pale:#e8f8ef;--orange:#f49a30;--muted:#52687c;--outline:#ceded6}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 12% 8%,#e2f8f2,transparent 37%),linear-gradient(145deg,#f5fff9 0%,#fff9ea 73%,#fef0ed 100%);color:var(--dark);font:500 16px/1.48 system-ui,-apple-system,"Segoe UI",sans-serif}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:4px solid #d78619;outline-offset:3px}
+a{color:inherit}
+nav{background:white;border-bottom:1px solid #dfe9e5;box-shadow:0 3px 15px #19365209}
+nav .wrap{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 22px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-size:1.35rem;font-weight:900}
+.brand img{width:46px;height:46px;object-fit:contain}
+.back{font-weight:800;text-decoration:none;color:var(--green)}
+main{max-width:980px;margin:31px auto 66px;padding:0 17px}
+.kicker{display:inline-block;background:#dff6e9;border-radius:99px;padding:8px 15px;font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--green)}
+.intro{text-align:center;margin-bottom:22px}
+.intro h1{font-size:clamp(2.3rem,5.2vw,4rem);letter-spacing:-.06em;line-height:1.05;margin:14px 0 12px}
+.intro p{max-width:730px;margin:0 auto;color:var(--muted);font-size:1.08rem}
+.board{border:1px solid #d5e6dd;border-radius:27px;background:#fff;box-shadow:0 25px 64px #154a3731;overflow:hidden}
+.hidden{display:none!important}
+.start-panel{padding:27px}
+.start-hero{border-radius:23px;background:linear-gradient(115deg,#e8fff0,#fff4d9);display:grid;grid-template-columns:1fr 220px;align-items:end;gap:10px;min-height:255px;overflow:hidden;padding:22px 24px 0}
+.start-copy{align-self:center;padding-bottom:24px}
+.start-hero h2{font-size:clamp(1.85rem,4vw,2.7rem);letter-spacing:-.045em;line-height:1.08;margin:4px 0 12px}
+.start-hero p{color:#4a6458;margin:0;font-size:1.05rem}
+.mascot{width:210px;height:242px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 8px 15px #245e4135)}
+.start-features{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:18px 0}
+.feature{border:1px solid #e0e9e1;border-radius:15px;padding:13px 15px;background:#fcfffc;text-align:center;font-size:.87rem;font-weight:750}
+.feature .em{font-size:1.75rem;display:block;margin-bottom:5px}
+.primary{background:var(--green);color:#fff;border:0;border-radius:15px;padding:15px 22px;font-weight:900;font-size:1.03rem;min-height:54px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.primary:hover{background:#086a4e}.primary:disabled{background:#9dbcb2;cursor:default}
+.start-panel .primary{width:100%}
+.progress-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:21px 25px 11px}
+.stage-name{color:var(--green);font-weight:900;letter-spacing:.07em;font-size:.85rem;text-transform:uppercase}
+.badges{font-size:1.4rem;letter-spacing:.13em}
+.track{height:9px;background:#eaf5ed;border-radius:99px;margin:0 25px;overflow:hidden}
+.track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#55c98a,#0d8762);transition:width .3s ease}
+.quest{padding:11px 25px 0}
+.quest h2{margin:2px 0 7px;font-size:clamp(1.7rem,4vw,2.5rem);letter-spacing:-.04em;line-height:1.13}
+.quest p{color:var(--muted);margin:0}
+.market{background:linear-gradient(#e3f5ff 0 54%,#e5f5df 54% 100%);border:2px solid #cfe9e2;border-radius:21px;margin:17px 20px 14px;padding:18px;position:relative;overflow:hidden}
+.market:before{content:"";position:absolute;width:170px;height:170px;border-radius:50%;background:#ffdd7d80;top:-80px;right:-20px}
+.shelf-title{text-align:center;font-weight:900;color:#234c49;margin:0 0 13px;font-size:1rem}
+.shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;position:relative;z-index:1}
+.food{border:2px solid #d7e6de;border-bottom-width:5px;background:#fff;border-radius:17px;min-height:119px;padding:12px 7px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;line-height:1.2;color:var(--dark);font-weight:800;transition:transform .18s ease,border-color .18s ease}
+.food:not(:disabled):hover{border-color:#269d78;transform:translateY(-3px)}
+.food .emoji{font-size:2.7rem;line-height:1.22}
+.food .food-name{font-size:.94rem}
+.food.picked{background:#e4f8e9;border-color:#139368;box-shadow:inset 0 0 0 2px #a9ead2}
+.food.picked:after{content:"✓";font-size:.8rem;position:absolute;margin-top:-73px;margin-left:70px;background:#16865f;color:white;border-radius:50%;width:22px;height:22px;display:grid;place-items:center}
+.food:disabled{cursor:default}
+.basket{background:#fff6e6;border:2px dashed #e2b979;border-radius:19px;padding:14px 18px;margin:0 20px 10px;display:flex;align-items:center;gap:15px;min-height:79px}
+.basket-title{font-weight:900;font-size:.85rem;min-width:132px;color:#735122}
+.basket-items{display:flex;flex:1;flex-wrap:wrap;gap:9px;align-items:center}
+.basket-items .item{font-size:1.3rem;background:#fff;padding:6px 9px;border-radius:12px;border:1px solid #f0ddbe}
+.basket-items .placeholder{color:#977b56;font-size:.89rem}
+.feedback{margin:9px 20px;background:#e9f8ef;border-radius:15px;padding:12px 15px;font-weight:750;color:#0b6144;min-height:49px}
+.feedback[hidden]{display:none}
+.game-footer{padding:17px 20px 23px;display:flex;justify-content:space-between;align-items:center;gap:13px}
+.hint{font-size:.9rem;color:var(--muted);font-weight:750}
+.complete{padding:36px 25px 40px;text-align:center}
+.complete .icon{font-size:4rem;line-height:1}
+.complete h2{font-size:2.5rem;letter-spacing:-.05em;margin:13px 0}
+.complete p{color:var(--muted);font-size:1.08rem;max-width:560px;margin:8px auto 18px}
+.complete .trophies{font-size:2rem;background:#edfaef;border-radius:19px;display:inline-block;padding:12px 22px;margin:10px auto 22px}
+.complete-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.secondary{color:var(--dark);background:#edf2f9}
+.disclaimer{text-align:center;margin:19px auto 0;max-width:840px;font-size:.86rem;color:var(--muted)}
+@media(max-width:610px){
+nav .wrap{padding:9px 13px}.brand{font-size:1.08rem}.brand img{width:38px;height:38px}
+main{padding:0 11px;margin:23px auto}.start-panel{padding:12px}
+.start-hero{grid-template-columns:1fr 105px;min-height:188px;gap:6px;padding:15px 10px 0}
+.start-copy{padding-bottom:15px}.start-hero h2{font-size:1.63rem}.start-hero p{font-size:.89rem}.mascot{width:112px;height:182px}
+.start-features{grid-template-columns:1fr 1fr}.feature:last-child{grid-column:span 2}
+.progress-header{padding:16px 13px 10px}.track{margin:0 13px}.quest{padding:12px 14px 0}.quest h2{font-size:1.85rem}
+.market{padding:12px 9px;margin:13px 9px}.shelf{gap:7px}.food{min-height:100px;padding:10px 5px;border-radius:13px}.food .emoji{font-size:2.2rem}.food .food-name{font-size:.79rem}.food.picked:after{margin-left:48px}
+.basket{margin:0 9px 7px;padding:10px}.basket-title{min-width:93px;font-size:.76rem}.basket-items{gap:5px}.basket-items .item{padding:5px;font-size:1.1rem}
+.feedback{margin:8px 9px}.game-footer{padding:13px 10px 18px;flex-direction:column;align-items:stretch}.primary{width:100%}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="brand" href="/index.html#jogar"><img src="/soulkids-symbol.png" alt="">SoulKids Play</a><a class="back" href="/index.html#jogar">← Todos os jogos</a></div></nav>
+<main>
+<div class="intro"><span class="kicker">Nutrição • jogo gratuito</span><h1>Feira da Ritinha</h1><p>Explore os alimentos, monte uma cesta e participe de quatro pequenas missões. Uma brincadeira para conversar sobre variedade e escolhas alimentares.</p></div>
+<div class="board">
+<section id="start-panel" class="start-panel" aria-label="Início do jogo">
+<div class="start-hero"><div class="start-copy"><h2>Vamos à feira com a Ritinha?</h2><p>Encontre ingredientes, organize uma refeição e prepare um piquenique com a turma!</p></div><img src="/ritinha-soulkids-s.png" alt="Ritinha pronta para brincar" class="mascot"></div>
+<div class="start-features"><div class="feature"><span class="em" aria-hidden="true">🍎</span>Descubra as frutas</div><div class="feature"><span class="em" aria-hidden="true">🥕</span>Explore a horta</div><div class="feature"><span class="em" aria-hidden="true">🍽️</span>Monte a refeição</div></div>
+<button class="primary" id="start" type="button">Entrar na feira →</button>
+</section>
+<section id="playing" class="hidden" aria-label="Missões">
+<div class="progress-header"><span id="round-label" class="stage-name">Missão 1 de 4</span><span class="badges" id="badges" aria-label="Missões concluídas">☆☆☆☆</span></div><div class="track" aria-hidden="true"><span id="progress"></span></div>
+<div class="quest"><h2 tabindex="-1" id="title"></h2><p id="instructions"></p></div>
+<div class="market"><p class="shelf-title">Escolha os alimentos que estão na lista da Ritinha</p><div class="shelf" id="foods"></div></div>
+<div class="basket"><span class="basket-title" id="basket-name">🧺 Cesta da Ritinha</span><div id="basket-items" class="basket-items" aria-live="polite"></div></div>
+<p class="feedback" id="feedback" role="status" aria-live="polite" hidden></p>
+<div class="game-footer"><span class="hint" id="count">Encontre 3 alimentos</span><button class="primary hidden" type="button" id="next">Próxima missão →</button></div>
+</section>
+<section id="finished" class="complete hidden" aria-label="Conclusão"><div class="icon" aria-hidden="true">🎉</div><h2 id="finish-title" tabindex="-1">Feira concluída!</h2><p>Você ajudou a Ritinha a organizar a feira e descobrir diferentes alimentos. Que tal conversar sobre o que cada pessoa gosta de comer?</p><div class="trophies" aria-label="Quatro missões concluídas">🍎 🥦 🍚 🧺</div><div class="complete-links"><button class="primary" id="again" type="button">Jogar novamente</button><a class="primary secondary" href="/index.html#jogar">Outros jogos</a></div></section>
+</div>
+<p class="disclaimer">Este é um jogo educativo sobre reconhecimento, variedade e contextos alimentares; não define alimentos proibidos, dietas ou porções. Não substitui orientação individualizada de nutricionista. Não é necessário cadastrar dados da criança.</p>
+</main>
+<script>
+"use strict";
+(() => {
+ const foods={
+  banana:{icon:"🍌",name:"Banana"},maca:{icon:"🍎",name:"Maçã"},laranja:{icon:"🍊",name:"Laranja"},
+  cenoura:{icon:"🥕",name:"Cenoura"},brocolis:{icon:"🥦",name:"Brócolis"},milho:{icon:"🌽",name:"Milho"},
+  arroz:{icon:"🍚",name:"Arroz"},feijao:{icon:"🫘",name:"Feijão"},couve:{icon:"🥬",name:"Couve"},
+  pao:{icon:"🍞",name:"Pão"},agua:{icon:"💧",name:"Água"},queijo:{icon:"🧀",name:"Queijo"}
+ };
+ const missions=[
+ {name:"As frutas da feira",prompt:"A lista da Ritinha tem três frutas.",details:"Encontre banana, maçã e laranja entre os alimentos da banca.",pool:["cenoura","maca","brocolis","banana","milho","laranja"],targets:["banana","maca","laranja"],basket:"🧺 Cesta de frutas",explanation:"Você encontrou as três frutas! Elas têm cores, aromas e sabores diferentes."},
+ {name:"Cores da horta",prompt:"Agora vamos explorar as hortaliças.",details:"Na lista estão cenoura, brócolis e couve. Você consegue encontrar as três?",pool:["banana","couve","cenoura","maca","brocolis","laranja"],targets:["cenoura","brocolis","couve"],basket:"🌱 Cesta da horta",explanation:"Três alimentos diferentes da horta! Podemos conhecê-los de várias formas."},
+ {name:"Almoço da turma",prompt:"Vamos montar o almoço que a Ritinha planejou.",details:"A receita de hoje combina arroz, feijão e couve. Encontre os três ingredientes.",pool:["feijao","queijo","arroz","pao","milho","couve"],targets:["arroz","feijao","couve"],basket:"🍽️ Almoço da turma",explanation:"Arroz, feijão e couve: um exemplo de combinação presente em muitas mesas brasileiras."},
+ {name:"Piquenique dos amigos",prompt:"O piquenique tem uma lista especial!",details:"A Ritinha escolheu água, pão e banana para levar. Encontre esses itens.",pool:["maca","agua","queijo","pao","cenoura","banana"],targets:["agua","pao","banana"],basket:"🧺 Cesta do piquenique",explanation:"Piquenique pronto! Outras combinações também podem fazer parte de um lanche."}
+ ];
+ const $=id=>document.getElementById(id);
+ let level=0,picked=new Set(),finished=false;
+ const show=name=>{for(const id of ["start-panel","playing","finished"])$(id).classList.toggle("hidden",id!==name)};
+ function updateBasket(){
+  const box=$("basket-items");box.replaceChildren();
+  if(picked.size===0){const empty=document.createElement("span");empty.className="placeholder";empty.textContent="Toque em um alimento";box.append(empty)}
+  else for(const key of picked){const badge=document.createElement("span");badge.className="item";badge.textContent=foods[key].icon+" "+foods[key].name;box.append(badge)}
+  $("count").textContent=picked.size+" de "+missions[level].targets.length+" encontrados";
+ }
+ function render(){
+  finished=false;picked=new Set();
+  const m=missions[level];
+  $("round-label").textContent="Missão "+(level+1)+" de "+missions.length;
+  $("badges").textContent="★".repeat(level)+"☆".repeat(missions.length-level);
+  $("progress").style.width=(level/missions.length*100)+"%";
+  $("title").textContent=m.name;
+  $("instructions").textContent=m.prompt+" "+m.details;
+  $("basket-name").textContent=m.basket;
+  $("feedback").hidden=true;$("next").classList.add("hidden");
+  const container=$("foods");container.replaceChildren();
+  for(const key of m.pool){
+   const f=foods[key],b=document.createElement("button");b.type="button";b.className="food";b.setAttribute("aria-label","Selecionar "+f.name);
+   const icon=document.createElement("span");icon.className="emoji";icon.textContent=f.icon;icon.setAttribute("aria-hidden","true");
+   const label=document.createElement("span");label.className="food-name";label.textContent=f.name;b.append(icon,label);
+   b.addEventListener("click",()=>{
+    if(finished||picked.has(key))return;
+    if(!m.targets.includes(key)){
+      $("feedback").hidden=false;$("feedback").textContent=f.name+" também pode fazer parte de outras receitas. Nesta missão, procure os itens da lista.";return;
+    }
+    picked.add(key);b.classList.add("picked");b.disabled=true;updateBasket();
+    $("feedback").hidden=false;
+    if(picked.size===m.targets.length){
+      finished=true;$("feedback").textContent="✨ "+m.explanation;$("next").classList.remove("hidden");
+      $("next").textContent=level===missions.length-1?"Ver minhas descobertas →":"Próxima missão →";
+    }else $("feedback").textContent="Muito bem! Continue procurando os outros itens da lista.";
+   });
+   container.append(b);
+  }
+  updateBasket();$("title").focus();
+ }
+ function start(){level=0;show("playing");render()}
+ $("start").addEventListener("click",start);
+ $("again").addEventListener("click",start);
+ $("next").addEventListener("click",()=>{if(!finished)return;level++;if(level===missions.length){$("progress").style.width="100%";show("finished");$("finish-title").focus()}else render()});
+})();
+</script>
+</body></html>
