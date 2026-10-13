@@ -28,16 +28,6 @@ psicopedagogia:{
  {q:"O que vem depois?",visual:"1 2 3 1 2 ❔",options:[["2","Dois"],["3","Três"],["1","Um"]],answer:1,why:"Os números 1, 2 e 3 se repetem."},
  {q:"Complete a repetição.",visual:"🍎 🍌 🍌 🍎 🍌 🍌 ❔",options:[["🍇","Uva"],["🍌","Banana"],["🍎","Maçã"]],answer:2,why:"A cada maçã seguem duas bananas."},
  {q:"Qual é a próxima figura?",visual:"🟨 🟨 🟢 🟨 🟨 ❔",options:[["🟢","Círculo verde"],["🟨","Quadrado amarelo"],["🔺","Triângulo"]],answer:0,why:"O padrão repete dois quadrados e um círculo."}
-]},
-fisioterapia:{
- title:"Missão Movimento",area:"Fisioterapia",icon:"🤸",lead:"Observe o desafio e escolha o gesto correspondente. Se for confortável, tente imitá-lo com ajuda.",note:"Jogo de reconhecimento de gestos e direções, não de avaliação de força, equilíbrio ou mobilidade. Movimentos são opcionais, adaptáveis e devem ser interrompidos se causarem desconforto.",
- rounds:[
- {q:"Qual gesto usa principalmente as mãos?",visual:"👐",options:[["👐","Abrir e fechar as mãos"],["🦶","Mover os pés"],["👀","Piscar os olhos"]],answer:0,why:"Abrir e fechar as mãos envolve os dedos e as mãos."},
- {q:"Qual seta aponta para cima?",visual:"☁️",options:[["⬅️","Esquerda"],["⬆️","Cima"],["⬇️","Baixo"]],answer:1,why:"A seta para cima aponta em direção ao céu."},
- {q:"Qual parte do corpo usamos ao dobrar o cotovelo?",visual:"💪",options:[["🦶","Pé"],["👂","Orelha"],["💪","Braço"]],answer:2,why:"O cotovelo é uma articulação do braço."},
- {q:"Qual gesto combina com levantar os braços?",visual:"🙆",options:[["🙆","Braços para cima"],["🦵","Dobrar os joelhos"],["🦶","Movimentar os pés"]],answer:0,why:"Elevar os braços é um gesto dos membros superiores."},
- {q:"Qual seta indica a direção à direita?",visual:"🧭",options:[["⬆️","Cima"],["➡️","Direita"],["⬅️","Esquerda"]],answer:1,why:"A seta aponta para a direita."},
- {q:"Qual opção mostra movimento de pernas?",visual:"🦵",options:[["👋","Acenar"],["👐","Abrir as mãos"],["🚶","Dar passos"]],answer:2,why:"Dar passos envolve os membros inferiores, com as adaptações necessárias."}
 ]}
 };
 const key=document.body.dataset.game;
