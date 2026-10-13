@@ -908,6 +908,28 @@
           text-align: center;
         }
       }
+    
+      /* Catálogo de jogos por área de atuação */
+      .therapy-games-heading { text-align:center;max-width:760px;margin:0 auto 29px }
+      .therapy-games-heading h2 { color:var(--navy);font-size:clamp(2.15rem,5vw,3.5rem);letter-spacing:-.055em;line-height:1.04;margin:9px 0 15px }
+      .therapy-games-heading p { color:var(--muted);font-size:1.05rem;margin:0 }
+      .therapy-games { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px;margin-top:30px }
+      .therapy-game { --game-color:#125cbd;--game-bg:#e9f5ff;background:linear-gradient(155deg,var(--game-bg),#fff 83%);border:1px solid rgba(15,51,94,.10);border-radius:25px;padding:26px;display:flex;flex-direction:column;align-items:flex-start;min-height:302px;box-shadow:0 10px 28px rgba(11,47,83,.06) }
+      .therapy-game.fono {--game-color:#a51d6a;--game-bg:#fff0f7}
+      .therapy-game.to {--game-color:#8d5b0e;--game-bg:#fff3dc}
+      .therapy-game.pedago {--game-color:#077245;--game-bg:#eafaee}
+      .therapy-game.fisio {--game-color:#5443a7;--game-bg:#f0edff}
+      .therapy-game.psi {--game-color:#9b2878;--game-bg:#fdf0ff}
+      .therapy-game .game-icon {font-size:3.1rem;line-height:1.2;display:inline-block;margin-bottom:17px}
+      .therapy-game .game-area {color:var(--game-color);font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;font-weight:900}
+      .therapy-game h3 {font-size:1.45rem;letter-spacing:-.035em;color:var(--navy);margin:6px 0 9px;line-height:1.12}
+      .therapy-game p {color:var(--muted);font-size:.94rem;margin:0 0 22px;flex:1}
+      .therapy-game a {background:var(--game-color);color:white;text-decoration:none;font-size:.94rem;font-weight:850;padding:12px 20px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;min-height:48px}
+      .therapy-game a:focus-visible {outline:3px solid #e5a927;outline-offset:3px}
+      .game-disclaimer {color:var(--muted);font-size:.84rem;text-align:center;margin:21px auto 0;max-width:670px}
+      @media(max-width:880px){.therapy-games{grid-template-columns:repeat(2,minmax(0,1fr))}}
+      @media(max-width:540px){.therapy-games{grid-template-columns:1fr;gap:13px}.therapy-game{min-height:0;padding:24px}.therapy-game p{margin-bottom:17px}.therapy-game a{width:100%}}
+
     </style>
   </head>
   <body>
@@ -996,31 +1018,38 @@
 
       <section class="play-section" id="jogar" aria-labelledby="play-title">
         <div class="wrap">
-          <div class="play-card">
-            <div class="play-ritinha" role="img" aria-label="Ritinha pronta para brincar"></div>
-            <div class="play-copy">
-              <span class="eyebrow">SoulKids Play</span>
-              <h2 id="play-title">Desafio da Ritinha</h2>
-              <p>
-                Observe as cores e repita a sequência com a Ritinha. Uma
-                brincadeira curta para estimular atenção, memória visual e
-                organização temporal.
-              </p>
-              <a class="btn" href="jogo-ritinha.html">Jogar agora →</a>
-            </div>
+          <div class="therapy-games-heading">
+            <span class="eyebrow">SoulKids Play · Gratuito</span>
+            <h2 id="play-title">Um jogo para cada terapia</h2>
+            <p>Seis maneiras de brincar, observar, descobrir e experimentar. Escolha a área e comece pelo celular ou computador.</p>
           </div>
-          <div class="play-card emotions">
-            <div class="play-ritinha" role="img" aria-label="Ritinha descobrindo suas emoções"></div>
-            <div class="play-copy">
-              <span class="eyebrow">Novo jogo</span>
-              <h2>Jogo das Emoções</h2>
-              <p>
-                Leia pistas no corpo e no comportamento, reconheça o que a
-                Ritinha pode estar sentindo e escolha uma forma de ajudá-la.
-              </p>
-              <a class="btn" href="jogo-emocoes.html">Descobrir emoções →</a>
-            </div>
+          <div class="therapy-games">
+            <article class="therapy-game">
+              <span class="game-icon" aria-hidden="true">🎯</span><span class="game-area">Psicomotricidade</span>
+              <h3>Desafio da Ritinha</h3><p>Memória visual, atenção e sequência de cores.</p><a href="jogo-ritinha.html" aria-label="Jogar Desafio da Ritinha, Psicomotricidade">Jogar agora →</a>
+            </article>
+            <article class="therapy-game psi">
+              <span class="game-icon" aria-hidden="true">💛</span><span class="game-area">Psicologia</span>
+              <h3>Jogo das Emoções</h3><p>Reconhecer emoções e conversar sobre acolhimento.</p><a href="jogo-emocoes.html" aria-label="Jogar Jogo das Emoções, Psicologia">Jogar agora →</a>
+            </article>
+            <article class="therapy-game fono">
+              <span class="game-icon" aria-hidden="true">🗣️</span><span class="game-area">Fonoaudiologia</span>
+              <h3>Sons e Sílabas</h3><p>Descobrir palavras por meio de seus sons iniciais.</p><a href="jogo-fonoaudiologia.html" aria-label="Jogar Sons e Sílabas, Fonoaudiologia">Jogar agora →</a>
+            </article>
+            <article class="therapy-game to">
+              <span class="game-icon" aria-hidden="true">🧩</span><span class="game-area">Terapia Ocupacional</span>
+              <h3>Rotina em Ordem</h3><p>Organizar ações do cotidiano em três passos.</p><a href="jogo-terapia-ocupacional.html" aria-label="Jogar Rotina em Ordem, Terapia Ocupacional">Jogar agora →</a>
+            </article>
+            <article class="therapy-game pedago">
+              <span class="game-icon" aria-hidden="true">🧠</span><span class="game-area">Psicopedagogia</span>
+              <h3>Descubra a Sequência</h3><p>Raciocínio, padrões visuais e atenção.</p><a href="jogo-psicopedagogia.html" aria-label="Jogar Descubra a Sequência, Psicopedagogia">Jogar agora →</a>
+            </article>
+            <article class="therapy-game fisio">
+              <span class="game-icon" aria-hidden="true">🤸</span><span class="game-area">Fisioterapia</span>
+              <h3>Missão Movimento</h3><p>Gestos, partes do corpo e orientação espacial.</p><a href="jogo-fisioterapia.html" aria-label="Jogar Missão Movimento, Fisioterapia">Jogar agora →</a>
+            </article>
           </div>
+          <p class="game-disclaimer">Os jogos são recursos lúdicos e educativos. Não substituem avaliação, intervenção ou acompanhamento profissional.</p>
         </div>
       </section>
 
@@ -1269,11 +1298,12 @@
                   As cenas trabalham movimento, vínculo, inclusão e criatividade.
                 </p>
                 <div class="actions">
-                  <a class="btn btn-primary" href="/Turma_da_Ritinha_para_Colorir.pdf" target="_blank" rel="noopener">Ver caderno →</a>
+                  <a class="btn btn-primary" href="/colorir-ritinha.html">Colorir e imprimir →</a>
+                   <a class="btn btn-secondary" href="/Turma_da_Ritinha_para_Colorir.pdf" target="_blank" rel="noopener">Ver caderno original →</a>
                   <a class="btn btn-secondary" href="/Turma_da_Ritinha_para_Colorir.pdf" download>Baixar para imprimir ↓</a>
                 </div>
                 <div class="guide-meta">
-                  <span><b>✓</b> 8 páginas</span><span><b>✓</b> Formato A4</span><span><b>✓</b> Acesso livre</span>
+                  <span><b>✓</b> 8 páginas no PDF original</span><span><b>✓</b> 6 desenhos interativos</span><span><b>✓</b> Formato A4</span>
                 </div>
               </div>
             </article>
