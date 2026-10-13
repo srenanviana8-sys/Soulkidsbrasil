@@ -1,81 +1,160 @@
-
 "use strict";
-const GAMES = {
-fono:{
- title:"Sons e Sílabas",area:"Fonoaudiologia",icon:"🗣️",lead:"Escute, observe e encontre as palavras que começam com a mesma sílaba.",note:"Exploração de consciência silábica e vocabulário. O áudio é opcional; não substitui avaliação ou acompanhamento fonoaudiológico.",
- rounds:[
- {q:"Qual palavra começa com PA?",visual:"PA",options:[["🦆","PATO"],["⚽","BOLA"],["🏠","CASA"]],answer:0,why:"PATO começa com PA."},
- {q:"Qual palavra começa com BO?",visual:"BO",options:[["🐸","SAPO"],["⚽","BOLA"],["🐈","GATO"]],answer:1,why:"BOLA começa com BO."},
- {q:"Qual palavra começa com MA?",visual:"MA",options:[["🧳","MALA"],["🦆","PATO"],["🏠","CASA"]],answer:0,why:"MALA começa com MA."},
- {q:"Qual palavra começa com CA?",visual:"CA",options:[["🛵","MOTO"],["🐸","SAPO"],["🏠","CASA"]],answer:2,why:"CASA começa com CA."},
- {q:"Qual palavra começa com PI?",visual:"PI",options:[["🪁","PIPA"],["🐈","GATO"],["⚽","BOLA"]],answer:0,why:"PIPA começa com PI."},
- {q:"Qual palavra começa com SA?",visual:"SA",options:[["🍎","MAÇÃ"],["🐸","SAPO"],["🦆","PATO"]],answer:1,why:"SAPO começa com SA."}
-]},
-to:{
- title:"Rotina em Ordem",area:"Terapia Ocupacional",icon:"🧩",lead:"Organize três passos de atividades do cotidiano. Toque na ação que vem primeiro, depois na próxima.",note:"Atividade lúdica sobre sequenciamento de ações e autonomia. As rotinas podem ser adaptadas por profissionais e cuidadores.",
- mode:"sequence",rounds:[
- {q:"Vamos lavar as mãos!",visual:"🧼",steps:[["🚰","Molhar as mãos"],["🧴","Passar sabonete"],["💧","Enxaguar as mãos"]]},
- {q:"Vamos escovar os dentes!",visual:"🪥",steps:[["🪥","Pegar a escova"],["🫧","Colocar pasta"],["😁","Escovar os dentes"]]},
- {q:"Vamos organizar os brinquedos!",visual:"🧸",steps:[["🧩","Reunir as peças"],["📦","Colocar na caixa"],["✅","Guardar a caixa"]]},
- {q:"Vamos preparar a mesa!",visual:"🍽️",steps:[["🧽","Limpar a mesa"],["🍽️","Colocar os pratos"],["🥄","Colocar os talheres"]]}
-]},
-psicopedagogia:{
- title:"Descubra a Sequência",area:"Psicopedagogia",icon:"🧠",lead:"Observe o padrão de figuras e escolha qual vem em seguida. Cada desafio tem uma regra.",note:"Estimula exploração de padrões, atenção visual e raciocínio lógico, sem atribuir notas de aprendizagem ou diagnósticos.",
- rounds:[
- {q:"Qual figura continua a sequência?",visual:"🔴 🔵 🔴 🔵 ❔",options:[["🔴","Vermelho"],["🔵","Azul"],["🟡","Amarelo"]],answer:0,why:"O padrão alterna vermelho e azul."},
- {q:"Qual figura vem agora?",visual:"⭐ 🌙 ⭐ 🌙 ❔",options:[["☀️","Sol"],["🌙","Lua"],["⭐","Estrela"]],answer:2,why:"Uma estrela e uma lua se alternam."},
- {q:"Continue o grupo de três.",visual:"🔺 🔵 🟩 🔺 🔵 ❔",options:[["🟩","Quadrado"],["🔺","Triângulo"],["🔵","Círculo"]],answer:0,why:"A sequência repete triângulo, círculo e quadrado."},
- {q:"O que vem depois?",visual:"1 2 3 1 2 ❔",options:[["2","Dois"],["3","Três"],["1","Um"]],answer:1,why:"Os números 1, 2 e 3 se repetem."},
- {q:"Complete a repetição.",visual:"🍎 🍌 🍌 🍎 🍌 🍌 ❔",options:[["🍇","Uva"],["🍌","Banana"],["🍎","Maçã"]],answer:2,why:"A cada maçã seguem duas bananas."},
- {q:"Qual é a próxima figura?",visual:"🟨 🟨 🟢 🟨 🟨 ❔",options:[["🟢","Círculo verde"],["🟨","Quadrado amarelo"],["🔺","Triângulo"]],answer:0,why:"O padrão repete dois quadrados e um círculo."}
-]}
-};
+const SK=window.SoulKidsVariacao;
 const key=document.body.dataset.game;
-const game=GAMES[key];
-const byId=id=>document.getElementById(id);
-const start=byId("start"),play=byId("play"),finish=byId("finish");
-let pos=0,correct=0,step=0,firstTry=true,selectionLocked=false;
-byId("title").textContent=game.title;
-byId("area").textContent=game.area;
-byId("intro-text").textContent=game.lead;
-byId("lead-text").textContent=game.lead;
-byId("hero-icon").textContent=game.icon;
-byId("disclaimer").textContent=game.note;
+const $=id=>document.getElementById(id);
+const syllables=[
+ ["PA","PATO","🦆"],["BO","BOLA","⚽"],["MA","MALA","🧳"],["CA","CASA","🏠"],
+ ["PI","PIPA","🪁"],["SA","SAPO","🐸"],["GA","GATO","🐈"],["LA","LATA","🥫"],
+ ["PE","PERA","🍐"],["MO","MOTO","🛵"],["FO","FOCA","🦭"],["LI","LIVRO","📚"],
+ ["BE","BEBÊ","👶"],["DA","DADO","🎲"],["LU","LUA","🌙"],["VI","VIOLÃO","🎸"],
+ ["NA","NAVIO","🚢"],["TA","TATU","🦔"],["CO","COCO","🥥"],["CE","CEBOLA","🧅"],
+ ["RA","RATO","🐭"],["NO","NOVE","9️⃣"],["SO","SOPA","🥣"],["JA","JANELA","🪟"],
+ ["FI","FITA","🎀"],["BA","BALA","🍬"],["FE","FEIRA","🛍️"],["LE","LEÃO","🦁"]
+];
+const rhymes=[
+ ["GATO","🐱","PATO","🦆"],["BOLA","⚽","MOLA","🌀"],["PÃO","🍞","MÃO","✋"],
+ ["MALA","🧳","SALA","🏠"],["LEÃO","🦁","BALÃO","🎈"],["JANELA","🪟","PANELA","🍲"],
+ ["COELHO","🐰","ESPELHO","🪞"],["FLOR","🌼","AMOR","❤️"],["CARRO","🚗","BARRO","🟤"],
+ ["RATO","🐭","GATO","🐈"],["SAPATO","👟","PATO","🦆"],["CADEIRA","🪑","FEIRA","🛍️"]
+];
+const routines=[
+ ["Lavar as mãos","🧼",[["🚰","Abrir a torneira"],["💧","Molhar as mãos"],["🧴","Passar sabonete"],["🫧","Enxaguar as mãos"]]],
+ ["Escovar os dentes","🪥",[["🪥","Pegar a escova"],["🫧","Colocar a pasta"],["😁","Escovar os dentes"],["💧","Enxaguar a boca"]]],
+ ["Guardar brinquedos","🧸",[["🧩","Reunir os brinquedos"],["🔎","Separar as peças"],["📦","Colocar na caixa"],["✅","Guardar a caixa"]]],
+ ["Preparar a mesa","🍽️",[["🧽","Limpar a mesa"],["🍽️","Colocar os pratos"],["🥄","Distribuir talheres"],["🥤","Colocar os copos"]]],
+ ["Arrumar a mochila","🎒",[["📋","Conferir os materiais"],["📚","Guardar os cadernos"],["✏️","Guardar o estojo"],["🎒","Fechar a mochila"]]],
+ ["Cuidar da planta","🌻",[["🚿","Pegar o regador"],["💧","Colocar água"],["🪴","Ir até a planta"],["🌻","Regar com cuidado"]]],
+ ["Fazer um desenho","🎨",[["📃","Pegar uma folha"],["🖍️","Escolher as cores"],["🎨","Fazer o desenho"],["🧺","Guardar os materiais"]]],
+ ["Calçar o tênis","👟",[["🧦","Separar as meias"],["🦶","Calçar as meias"],["👟","Pegar o tênis"],["✅","Calçar o tênis"]]],
+ ["Organizar livros","📚",[["📚","Reunir os livros"],["🔎","Separar por tamanho"],["📖","Colocar na estante"],["✅","Conferir se ficou organizado"]]],
+ ["Preparar o lanche","🍌",[["🧼","Lavar as mãos"],["🍌","Escolher uma fruta"],["🍽️","Colocar no prato"],["🪑","Sentar à mesa"]]],
+ ["Começar um jogo de tabuleiro","🎲",[["📦","Abrir a caixa"],["🎲","Separar as peças"],["🤝","Combinar as regras"],["🎉","Começar a partida"]]],
+ ["Preparar material de pintura","🖌️",[["🧥","Colocar avental"],["🗞️","Proteger a mesa"],["🖌️","Separar os pincéis"],["🎨","Começar a pintura"]]],
+ ["Arrumar a cama","🛏️",[["🧸","Retirar os brinquedos"],["🛏️","Esticar o lençol"],["🛌","Ajeitar o travesseiro"],["✅","Colocar a colcha"]]],
+ ["Organizar o material da escola","✏️",[["📚","Separar os cadernos"],["✏️","Conferir os lápis"],["📏","Guardar a régua"],["🎒","Colocar tudo na mochila"]]],
+ ["Preparar a hora da leitura","📖",[["📚","Escolher um livro"],["🛋️","Encontrar lugar confortável"],["📖","Abrir na primeira página"],["👀","Começar a ler as figuras"]]]
+];
+const patternEmojis=[
+ ["🍎","🍌","🍇","🍓"],["🐱","🐶","🐸","🦊"],["🔴","🔵","🟡","🟢"],
+ ["🌻","🌷","🌼","🍀"],["⭐","🌙","☀️","☁️"],["🚗","🚌","🚲","🚀"],
+ ["🟡","🔺","🟩","🔵"],["🍊","🍐","🥕","🍆"],["💛","💙","💚","💜"],
+ ["🎈","🎁","🎀","🎉"],["🐢","🐬","🦋","🐝"],["⚽","🏀","🎾","🏐"]
+];
+function makeFono(level){
+ const total=level===1?2:level===2?3:4;
+ const initial=syllables.map(([syllable,word,emoji],index)=>{
+  const distractors=syllables.filter(([sy])=>sy!==syllable).map(([,w,e])=>[e,w]);
+  return {id:"ini-"+syllable,q:"Qual palavra começa com "+syllable+"?",visual:syllable,
+   build(){const opts=SK.options([emoji,word],distractors,total);return {...opts}},
+   why:word+" começa com "+syllable+"."}
+ });
+ const rhyming=rhymes.map(([word,icon,answer,iconAnswer],index)=>({
+  id:"rima-"+index,q:"Qual palavra rima com "+word+"?",visual:icon+" "+word,
+  build(){const distractors=syllables.filter(([,w])=>w!==word && w!==answer && !w.endsWith(answer.slice(-3))).map(([,w,e])=>[e,w]);const options=SK.options([iconAnswer,answer],distractors,total);return options},
+  why:word+" e "+answer+" têm sons finais parecidos."
+ }));
+ let bank=level===1?initial:level===2?[...initial,...rhyming.slice(0,8)]:[...initial,...rhyming];
+ return bank;
+}
+function makeTo(level){
+ return routines.map(([title,icon,steps],i)=>({id:"rotina-"+i,q:"Vamos organizar: "+title+"!",visual:icon,steps:steps.slice(0,level===1?2:level===2?3:4)}));
+}
+function makePatterns(level){
+ const result=[];
+ for(let i=0;i<patternEmojis.length;i++){
+  const [a,b,c,d]=patternEmojis[i];
+  const patterns=[
+   {kind:1,id:"ab-"+i,visual:[a,b,a,b,"❔"],right:a,why:"O padrão alterna duas figuras."},
+   {kind:2,id:"aab-"+i,visual:[a,a,b,a,a,"❔"],right:b,why:"O padrão repete duas figuras iguais e uma diferente."},
+   {kind:2,id:"abc-"+i,visual:[a,b,c,a,b,"❔"],right:c,why:"O padrão repete um grupo de três figuras."},
+   {kind:3,id:"abb-"+i,visual:[a,b,b,a,b,"❔"],right:b,why:"O padrão repete uma figura e depois duas iguais."},
+   {kind:3,id:"abcd-"+i,visual:[a,b,c,d,a,b,c,"❔"],right:d,why:"O padrão repete quatro figuras na mesma ordem."}
+  ];
+  for(const p of patterns)if(level>=p.kind)result.push({
+   id:p.id,q:"Descubra qual figura vem em seguida",visual:p.visual.join(" "),
+   build(){return SK.options([p.right,p.right],[a,b,c,d].filter(x=>x!==p.right).map(x=>[x,x]),level===1?2:level===2?3:4)},
+   why:p.why
+  });
+ }
+ if(level===3)for(let start=1;start<=8;start++)for(const step of [2,3]){
+  const seq=[start,start+step,start+step*2,start+step*3],right=start+4*step;
+  result.push({id:"num-"+start+"-"+step,q:"Qual número continua a sequência?",visual:[...seq,"❔"].join(" "),
+   build(){return SK.options([String(right),String(right)],[right-step,right+step,right+step*2,right-1].map(x=>[String(x),String(x)]),4)},
+   why:"A sequência aumenta "+step+" a cada passo."});
+ }
+ return result;
+}
+const META={
+ fono:{title:"Sons e Sílabas",area:"Fonoaudiologia",icon:"🗣️",
+  lead:"Descubra sons iniciais e rimas. As perguntas variam de uma partida para outra.",
+  note:"Jogo de linguagem e consciência fonológica, não substitui orientação fonoaudiológica.",factory:makeFono},
+ to:{title:"Rotina em Ordem",area:"Terapia Ocupacional",icon:"🧩",
+  lead:"Organize diferentes atividades do cotidiano. As situações e posições dos cartões mudam.",
+  note:"Atividade lúdica sobre sequenciamento; rotinas reais podem ter outras etapas e adaptações.",factory:makeTo,mode:"sequence"},
+ psicopedagogia:{title:"Descubra a Sequência",area:"Psicopedagogia",icon:"🧠",
+  lead:"Encontre padrões de formas, figuras e números. Cada rodada traz novas combinações.",
+  note:"Exploração educativa de padrões e raciocínio, sem finalidade de avaliação psicopedagógica.",factory:makePatterns}
+};
+const game=META[key];
+let difficulty=2,rounds=[],pos=0,correct=0,step=0,firstTry=true,selectionLocked=false,shownOptions=[];
+const start=$("start"),play=$("play"),finish=$("finish");
+$("title").textContent=game.title;$("area").textContent=game.area;
+$("intro-text").textContent=game.lead;$("lead-text").textContent=game.lead;
+$("hero-icon").textContent=game.icon;$("disclaimer").textContent=game.note;
 document.title=game.title+" | SoulKids";
-byId("audio").hidden=key!=="fono"||!("speechSynthesis" in window);
-function say(){if(!("speechSynthesis" in window))return;window.speechSynthesis.cancel();const speech=new SpeechSynthesisUtterance(game.rounds[pos].q);speech.lang="pt-BR";speech.rate=.82;window.speechSynthesis.speak(speech);}
-byId("audio").addEventListener("click",say);
-function show(which){start.classList.toggle("hide",which!=="start");play.classList.toggle("hide",which!=="play");finish.classList.toggle("hide",which!=="finish");}
-function makeChoice(glyph,label,i){const b=document.createElement("button");b.type="button";b.className="option";b.dataset.index=String(i);const span=document.createElement("span");span.className="glyph";span.setAttribute("aria-hidden","true");span.textContent=glyph;const txt=document.createElement("span");txt.textContent=label;b.append(span,txt);b.addEventListener("click",()=>choose(i,b));return b;}
+$("audio").hidden=key!=="fono"||!("speechSynthesis" in window);
+document.querySelectorAll("[data-difficulty]").forEach(b=>b.addEventListener("click",()=>{
+ difficulty=Number(b.dataset.difficulty);
+ document.querySelectorAll("[data-difficulty]").forEach(x=>{const active=x===b;x.classList.toggle("selected",active);x.setAttribute("aria-pressed",String(active))});
+}));
+function say(){if(!("speechSynthesis" in window))return;window.speechSynthesis.cancel();const speech=new SpeechSynthesisUtterance(rounds[pos].q);speech.lang="pt-BR";speech.rate=.83;window.speechSynthesis.speak(speech)}
+$("audio").addEventListener("click",say);
+function show(which){start.classList.toggle("hide",which!=="start");play.classList.toggle("hide",which!=="play");finish.classList.toggle("hide",which!=="finish")}
+function makeChoice(glyph,label,i){const b=document.createElement("button");b.type="button";b.className="option";b.dataset.index=String(i);
+ const icon=document.createElement("span");icon.className="glyph";icon.setAttribute("aria-hidden","true");icon.textContent=glyph;
+ const txt=document.createElement("span");txt.textContent=label;b.append(icon,txt);b.addEventListener("click",()=>choose(i,b));return b}
 function render(){
- const r=game.rounds[pos];step=0;firstTry=true;selectionLocked=false;byId("counter").textContent="Desafio "+(pos+1)+" de "+game.rounds.length;byId("progress").style.width=(((pos)/game.rounds.length)*100)+"%";
- byId("question").textContent=r.q;byId("visual").textContent=r.visual;byId("choices").replaceChildren();
- byId("feedback").hidden=true;byId("next").classList.add("hide");
+ const r=rounds[pos];step=0;firstTry=true;selectionLocked=false;
+ $("counter").textContent="Desafio "+(pos+1)+" de "+rounds.length;
+ $("progress").style.width=(pos/rounds.length*100)+"%";
+ $("question").textContent=r.q;$("visual").textContent=r.visual;
+ $("choices").replaceChildren();$("feedback").hidden=true;$("next").classList.add("hide");
  if(game.mode==="sequence"){
-  const order=[1,2,0];for(const i of order)byId("choices").append(makeChoice(r.steps[i][0],r.steps[i][1],i));
-  byId("step-label").textContent="Toque no passo 1 de 3";byId("step-label").hidden=false;
- } else {r.options.forEach((o,i)=>byId("choices").append(makeChoice(o[0],o[1],i)));byId("step-label").hidden=true;}
-}
-function respond(good,message){
- const el=byId("feedback");el.hidden=false;el.textContent=message;el.style.background=good?"#e4f7eb":"#fff4e2";el.setAttribute("role","status");
-}
-function choose(i,b){
- if(selectionLocked)return;
- const r=game.rounds[pos];
- if(game.mode==="sequence"){
-  if(i!==step){respond(false,"Ainda não. Pense no que vem antes e tente novamente.");firstTry=false;return;}
-  b.disabled=true;b.classList.add("good");step++;
-  if(step===r.steps.length){selectionLocked=true;if(firstTry)correct++;respond(true,"Sequência organizada! Você completou os três passos.");byId("step-label").hidden=true;byId("next").classList.remove("hide");}
-  else{byId("step-label").textContent="Agora, passo "+(step+1)+" de 3";respond(true,"Isso! Qual é o próximo passo?");}
+  for(const i of SK.shuffle(r.steps.map((_,index)=>index)))$("choices").append(makeChoice(...r.steps[i],i));
+  $("step-label").textContent="Toque no passo 1 de "+r.steps.length;$("step-label").hidden=false;
  }else{
-  if(i!==r.answer){b.classList.add("bad");firstTry=false;respond(false,"Essa não é a resposta esperada. Observe com calma e tente outra opção.");return;}
-  selectionLocked=true;b.classList.add("good");if(firstTry)correct++;respond(true,r.why);byId("next").classList.remove("hide");
+  shownOptions=r.build();
+  shownOptions.choices.forEach((o,i)=>$("choices").append(makeChoice(o[0],o[1],i)));
+  $("step-label").hidden=true;
  }
 }
-function launch(){pos=0;correct=0;show("play");render();byId("question").focus();}
-byId("begin").addEventListener("click",launch);
-byId("again").addEventListener("click",launch);
-byId("next").addEventListener("click",()=>{
- pos++;if(pos<game.rounds.length){render();byId("question").focus();}
- else{show("finish");byId("progress").style.width="100%";byId("result").textContent=correct+" de "+game.rounds.length+" desafios concluídos sem tentativas adicionais.";byId("finish-title").focus();}
+function respond(good,message){const el=$("feedback");el.hidden=false;el.textContent=message;el.style.background=good?"#e4f7eb":"#fff4e2";el.setAttribute("role","status")}
+function choose(i,b){
+ if(selectionLocked)return;
+ const r=rounds[pos];
+ if(game.mode==="sequence"){
+  if(i!==step){respond(false,"Ainda não. Pense no que vem antes e tente outra vez.");firstTry=false;return}
+  b.disabled=true;b.classList.add("good");step++;
+  if(step===r.steps.length){selectionLocked=true;if(firstTry)correct++;respond(true,"Você organizou a sequência!");$("step-label").hidden=true;$("next").classList.remove("hide")}
+  else {$("step-label").textContent="Agora, passo "+(step+1)+" de "+r.steps.length;respond(true,"Isso! Qual é o próximo passo?")}
+ } else{
+  if(i!==shownOptions.answer){b.classList.add("bad");firstTry=false;respond(false,"Essa ainda não é a resposta esperada. Observe e tente outra opção.");return}
+  selectionLocked=true;b.classList.add("good");if(firstTry)correct++;
+  respond(true,r.why);$("next").classList.remove("hide");
+ }
+}
+function launch(){
+ const bank=game.factory(difficulty);
+ const count=difficulty===1?5:difficulty===2?6:7;
+ rounds=SK.pick(key+"-nivel-"+difficulty,bank,count);
+ pos=0;correct=0;show("play");render();$("question").focus();
+}
+$("begin").addEventListener("click",launch);$("again").addEventListener("click",launch);
+$("next").addEventListener("click",()=>{
+ pos++;
+ if(pos<rounds.length){render();$("question").focus()}else{
+  show("finish");$("progress").style.width="100%";
+  $("result").textContent=correct+" de "+rounds.length+" desafios concluídos na primeira tentativa.";
+  $("finish-title").focus();
+ }
 });
