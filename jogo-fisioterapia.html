@@ -1,16 +1,193 @@
 <!doctype html>
-<html lang="pt-BR"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Jogo gratuito SoulKids de Fisioterapia, acessível pelo celular e feito para brincar em família.">
-<meta name="theme-color" content="#102f55"><link rel="icon" href="/soulkids-symbol.png">
-<link rel="stylesheet" href="/jogos-terapias.css">
-<title>Jogo de Fisioterapia | SoulKids</title></head>
-<body data-game="fisioterapia">
-<header class="top"><div class="top-inner"><a class="logo" href="/index.html#jogar"><img src="/soulkids-symbol.png" alt="">SoulKids Play</a><a class="back" href="/index.html#jogar">← Todos os jogos</a></div></header>
-<main><div class="intro"><span class="eyebrow" id="area">Fisioterapia</span><h1 id="title">SoulKids Play</h1><p id="intro-text"></p></div>
-<div class="shell">
-<section id="start" class="center" aria-label="Começar"><span class="hero-icon" id="hero-icon" aria-hidden="true">🎲</span><span class="badge">Jogo gratuito • Sem cadastro</span><p class="lead" id="lead-text"></p><button type="button" class="btn" id="begin">Começar a brincar →</button></section>
-<section id="play" class="hide" aria-label="Jogo"><div class="progress-head"><span id="counter"></span><button type="button" class="speak" id="audio" hidden>🔊 Ouvir pergunta</button></div><div class="progress" aria-hidden="true"><span id="progress"></span></div><h2 id="question" class="prompt" tabindex="-1"></h2><div id="visual" class="visual" aria-hidden="true"></div><p class="center badge" id="step-label" hidden></p><div id="choices" class="options"></div><p class="feedback" id="feedback" role="status" aria-live="polite" hidden></p><div class="actions"><button type="button" id="next" class="btn hide">Próximo desafio →</button></div></section>
-<section id="finish" class="hide center" aria-label="Conclusão"><span class="hero-icon" aria-hidden="true">🎉</span><h2 id="finish-title" class="prompt" tabindex="-1">Missão concluída!</h2><p class="lead">O mais importante foi experimentar, observar e brincar.</p><p id="result" class="score" aria-live="polite"></p><div class="actions"><button type="button" class="btn" id="again">Jogar novamente</button><a class="btn secondary" href="/index.html#jogar">Outros jogos</a></div></section>
-</div><p class="footer-note" id="disclaimer"></p><p class="footer-note"><a class="small-link" href="/index.html">Voltar à SoulKids</a> · Experiências inclusivas, sem pontuação clínica.</p></main>
-<script src="/jogos-terapias.js" defer></script></body></html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parque do Movimento | Fisioterapia • SoulKids</title>
+<meta name="description" content="Parque do Movimento: um jogo interativo de gestos e desafios motores da SoulKids, com opções acessíveis para brincar sentado ou com apoio.">
+<meta name="theme-color" content="#5a45ab">
+<link rel="icon" type="image/png" href="/soulkids-symbol.png">
+<style>
+:root{--ink:#153055;--purple:#5747a7;--violet:#eee9ff;--mint:#c9f6da;--blue:#e8f2ff;--orange:#ff982d;--sub:#4d627e}
+*{box-sizing:border-box}
+body{margin:0;font:500 16px/1.48 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:linear-gradient(160deg,#f4f2ff,#eef9ff 50%,#fff8ed)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:4px solid #e98d1f;outline-offset:4px}
+a{color:inherit}
+.top{background:#fff;box-shadow:0 2px 15px #1a376414}
+.nav{max-width:1020px;margin:auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:1.33rem;text-decoration:none;color:var(--ink)}
+.brand img{width:45px;height:45px;object-fit:contain}
+.nav-link{font-weight:800;color:var(--purple);text-decoration:none}
+main{width:min(970px,calc(100% - 25px));margin:32px auto 65px}
+.head{text-align:center;margin:auto auto 26px;max-width:735px}
+.label{display:inline-block;background:#e8e3ff;border-radius:100px;padding:7px 16px;color:#52419b;font-size:.82rem;letter-spacing:.08em;font-weight:900;text-transform:uppercase}
+.head h1{font-size:clamp(2.3rem,5vw,3.9rem);line-height:1.04;letter-spacing:-.06em;margin:14px 0}
+.head p{font-size:1.07rem;color:var(--sub);margin:auto;max-width:700px}
+.card{border-radius:29px;overflow:hidden;background:#fff;box-shadow:0 22px 65px #1b3a6620;border:1px solid #e0e7f2}
+.hidden{display:none!important}
+.welcome{padding:29px}
+.hero{min-height:290px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:18px;align-items:center;background:linear-gradient(140deg,#e9f3ff,#f4eaff 50%,#fcefd9);border-radius:23px;padding:24px 22px 0;overflow:hidden}
+.hero h2{font-size:clamp(1.9rem,4vw,2.65rem);line-height:1.06;margin:6px 0 10px;letter-spacing:-.04em}
+.hero p{color:var(--sub);font-size:1.02rem}
+.character{height:265px;width:100%;object-fit:contain;object-position:center bottom;align-self:end;filter:drop-shadow(0 11px 15px #5a438a25)}
+.choices-area{padding:19px 4px 4px}
+.subhead{font-size:1.18rem;margin:0 0 12px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.mode{border:2px solid #d9e1ee;background:white;border-radius:17px;padding:17px 14px;text-align:left;color:var(--ink);font-weight:900;min-height:91px}
+.mode span{display:block;margin-top:3px;font-size:.84rem;color:var(--sub);font-weight:500}
+.mode.selected{background:#f2eeff;border-color:var(--purple);box-shadow:inset 0 0 0 1px var(--purple)}
+.info{background:#f6f8fb;border-radius:15px;padding:13px 15px;color:var(--sub);font-size:.9rem;margin:17px 0}
+.cta{border:0;border-radius:16px;background:var(--purple);color:white;font-weight:900;padding:15px 24px;min-height:53px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.cta.secondary{background:#eaefff;color:var(--ink)}
+.cta[disabled]{background:#c0c7d8}
+.welcome .cta{width:100%;margin-top:2px}
+.game-head{padding:24px 27px 17px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.mission-count{font-size:.84rem;letter-spacing:.065em;font-weight:900;color:#6553b8;text-transform:uppercase}
+.mini-stars{font-size:1.35rem;letter-spacing:.14em;color:#cbab30;white-space:nowrap}
+.bar{height:9px;background:#f0edfa;border-radius:999px;overflow:hidden;margin:0 27px}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#9581ef,#5c4bb1);transition:width .3s}
+.mission-text{padding:12px 27px 0}
+.mission-text h2{font-size:clamp(1.7rem,4.2vw,2.6rem);letter-spacing:-.044em;line-height:1.12;margin:7px 0}
+.mission-text p{font-size:1rem;color:var(--sub);margin:0 0 7px}
+.playground{height:360px;background:linear-gradient(#d7edff 0%,#e5f7ff 65%,#c4ebc5 65%,#a9dea9 100%);position:relative;overflow:hidden;margin:14px 22px 10px;border-radius:23px;border:2px solid #bad5e5;touch-action:manipulation}
+.playground:before{content:"";position:absolute;left:-18px;bottom:19px;width:150px;height:58px;border-radius:50%;background:#7dcd8b55}
+.playground:after{content:"";position:absolute;right:-30px;bottom:-14px;width:220px;height:88px;border-radius:50%;background:#70be8555}
+.sun{position:absolute;right:30px;top:23px;font-size:2.5rem;opacity:.8}
+.cloud{position:absolute;left:28px;top:21px;font-size:2.4rem;opacity:.8}
+.sprite{position:absolute;bottom:7px;left:50%;height:235px;width:175px;object-fit:contain;object-position:bottom;transform:translateX(-50%) translateX(var(--side,0px));transition:transform .35s ease;filter:drop-shadow(0 7px 12px #31555725);pointer-events:none;z-index:1}
+.target{border:3px solid #fff;box-shadow:0 7px 0 #6a80ab40,0 14px 28px #3a456b20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:absolute;z-index:3;background:#fff;border-radius:22px;color:var(--ink);font-weight:900;min-height:72px;min-width:78px;padding:9px}
+.target strong{font-size:.88rem}.target .emoji{font-size:2.15rem;line-height:1.1}
+.target:disabled{cursor:default;opacity:.7}
+.target.balloon{border-radius:50%;width:82px;height:88px;background:var(--tone,#fff4d5);border-color:#fff}
+.target.balloon.burst{transform:scale(.78);opacity:.15;pointer-events:none;box-shadow:none}
+.target.side,.target.step{width:118px;min-height:103px;background:#fff9e9}
+.target.active{border-color:#ffae45;box-shadow:0 0 0 6px #ffc45a66,0 8px 20px #3a456b22}
+.target.disabled-choice{opacity:.45}
+.target.hold{position:relative;width:min(88%,320px);height:122px;border-radius:24px;background:linear-gradient(130deg,#ffecb6,#fff);border-color:#ffc26e;user-select:none;-webkit-user-select:none;touch-action:none}
+.target.hold .emoji{font-size:3rem}
+.hold-progress{height:12px;background:#ebeff8;border-radius:50px;overflow:hidden;margin:12px auto 0;width:min(260px,80%)}
+.hold-progress span{display:block;background:#f19c2d;height:100%;width:0;transition:width 1.35s linear}
+.hold-progress span.filling{width:100%}
+.stage-figure{position:absolute;z-index:2;bottom:12px;left:10px;font-size:2.1rem;pointer-events:none}
+.feedback{margin:10px 22px 0;padding:13px 17px;background:#fff8e6;border-radius:15px;color:#6c5315;font-weight:750;min-height:48px}
+.feedback[hidden]{display:none}
+.game-actions{padding:16px 22px 24px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.alt{background:#f1f5fc;border:0;border-radius:13px;padding:10px 14px;font-size:.91rem;font-weight:800;color:#44577b;min-height:44px}
+.status{font-size:.87rem;color:var(--sub);font-weight:700}
+.end{padding:45px 30px;text-align:center}
+.end .medal{font-size:4.2rem}
+.end h2{font-size:2.3rem;letter-spacing:-.05em;line-height:1.1}
+.end p{color:var(--sub);max-width:600px;margin:12px auto 22px}
+.end .rewards{font-size:2.3rem;letter-spacing:.3em;background:#f4efff;padding:16px;border-radius:23px;display:inline-block}
+.end-actions{display:flex;justify-content:center;gap:11px;flex-wrap:wrap;margin-top:25px}
+.disclaimer{text-align:center;font-size:.87rem;color:var(--sub);max-width:820px;margin:18px auto}
+@media(max-width:620px){main{margin-top:23px}.nav{padding:10px 14px}.brand{font-size:1.05rem}.brand img{width:38px;height:38px}.welcome{padding:14px}.hero{grid-template-columns:1fr 105px;padding:16px 12px 0;min-height:235px;gap:3px}.hero h2{font-size:1.75rem}.hero p{font-size:.89rem}.character{height:185px}.modes{grid-template-columns:1fr}.mode{min-height:70px;padding:12px}.game-head{padding:17px 15px 12px}.bar{margin:0 15px}.mission-text{padding:10px 16px 0}.playground{height:337px;margin:12px 10px 6px}.sprite{height:211px;width:160px}.target.balloon{width:67px;height:72px;min-width:67px}.target.side,.target.step{width:100px;min-width:100px}.target{padding:6px}.target strong{font-size:.76rem}.target .emoji{font-size:1.8rem}.feedback{margin:9px 10px 0}.game-actions{padding:14px 10px 20px}.game-actions .cta{flex:1 1 140px}.head h1{font-size:2.4rem}.end-actions .cta{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style></head>
+<body>
+<header class="top"><nav class="nav"><a class="brand" href="/index.html#jogar"><img src="/soulkids-symbol.png" alt=""> SoulKids Play</a><a class="nav-link" href="/index.html#jogar">← Outros jogos</a></nav></header>
+<main>
+<div class="head"><span class="label">Fisioterapia • Nova aventura</span><h1>Parque do Movimento</h1><p>Uma aventura com a Ritinha para explorar gestos, direções e movimentos. Cada conquista abre uma nova missão.</p></div>
+<div class="card">
+<section id="welcome" class="welcome" aria-label="Início do jogo">
+<div class="hero"><div><span class="label">4 desafios</span><h2>Ajude a Ritinha a explorar o parque!</h2><p>Balões, caminhos, passos e uma estrela mágica esperam por você.</p></div><img class="character" src="/ritinha-soulkids-s.png" alt="Ritinha" loading="eager"></div>
+<div class="choices-area"><h3 class="subhead">Como você prefere brincar?</h3>
+<div class="modes" role="group" aria-label="Modo de participação">
+<button type="button" class="mode selected" data-mode="sentado" aria-pressed="true">🪑 Sentado <span>Com gestos confortáveis ou apenas tocando a tela</span></button>
+<button type="button" class="mode" data-mode="apoio" aria-pressed="false">🤝 Com apoio <span>Em pé somente quando for seguro e com acompanhamento</span></button>
+</div><p class="info">Os desafios na tela não medem seus movimentos corporais. Você pode pedir ajuda, adaptar qualquer gesto ou apenas participar tocando e observando. Sem dor, obrigação ou competição.</p><button id="start" class="cta" type="button">Começar a aventura →</button></div>
+</section>
+<section id="playing" class="hidden" aria-label="Desafio">
+<div class="game-head"><span class="mission-count" id="count">Missão 1 de 4</span><span class="mini-stars" id="stars" aria-label="Estrelas conquistadas">☆☆☆☆</span></div>
+<div class="bar" aria-hidden="true"><span id="progress"></span></div>
+<div class="mission-text"><h2 id="task-title" tabindex="-1"></h2><p id="task-description"></p></div>
+<div id="field" class="playground" aria-label="Área interativa do jogo"><span class="sun" aria-hidden="true">☀️</span><span class="cloud" aria-hidden="true">☁️</span><img class="sprite" src="/ritinha-soulkids-s.png" alt="" draggable="false"><span class="stage-figure" aria-hidden="true">🌼</span></div>
+<p id="feedback" class="feedback" aria-live="polite" hidden></p>
+<div class="game-actions"><span id="status" class="status" aria-live="polite"></span><button id="alternate" class="alt hidden" type="button">Completar com um toque</button><button id="next" class="cta hidden" type="button">Próxima missão →</button></div>
+</section>
+<section id="finished" class="end hidden" aria-label="Fim do jogo"><div class="medal" aria-hidden="true">🏅</div><h2 id="end-title" tabindex="-1">Parque explorado!</h2><p>Você ajudou a Ritinha a completar as quatro missões. O importante foi experimentar e brincar no seu ritmo.</p><div class="rewards" aria-label="Quatro missões concluídas">⭐ ⭐ ⭐ ⭐</div><div class="end-actions"><button id="restart" class="cta" type="button">Jogar novamente</button><a href="/index.html#jogar" class="cta secondary">Outros jogos</a></div></section>
+</div><p class="disclaimer">Atividade lúdica complementar; não substitui avaliação ou intervenção de Fisioterapia. Movimentos fora da tela são opcionais e devem ser individualizados por um profissional. Interrompa se houver dor, tontura ou desconforto. Nenhuma imagem da câmera ou dado de saúde é coletado.</p>
+</main>
+<script>
+"use strict";
+(() => {
+const levels=[
+{title:"Caça aos balões",description:"Toque nos quatro balões! Se quiser, acompanhe cada toque com um alcance confortável do braço."},
+{title:"Balanço para os lados",description:"Acompanhe a seta iluminada: esquerda e direita. Se for adequado, faça um pequeno deslocamento lateral confortável."},
+{title:"Trilha dos passinhos",description:"Siga os pezinhos alternados na tela. Você pode mover os pés sentado, com ajuda, ou apenas tocar."},
+{title:"A estrela brilhante",description:"Toque e segure a estrela para iluminá-la. Se preferir, use a opção de toque único. O movimento real é opcional."}
+];
+const guides={
+ sentado:[
+ "Toque nos quatro balões. Se for confortável, acompanhe com um alcance leve de braço, sem forçar.",
+ "Siga as setas. Se for confortável, faça pequenos movimentos laterais sentado e com apoio.",
+ "Acompanhe os pés alternados. Se quiser, movimente os pés sentado, com apoio, ou apenas toque.",
+ "Segure a estrela na tela ou use toque único. Se quiser, alcance com o braço dentro de uma amplitude confortável."
+ ],
+ apoio:[
+ "Toque nos quatro balões. O profissional pode adaptar alcances com apoio, apenas se for seguro.",
+ "Siga as setas. Com acompanhamento, a atividade pode ser associada a deslocamentos laterais com apoio.",
+ "Siga os pés alternados. Se for seguro, o profissional pode orientar passos assistidos; tocar na tela também vale.",
+ "Segure a estrela ou use toque único. Se for adequado, o profissional pode associar um alcance confortável."
+ ]
+};
+const $=id=>document.getElementById(id);
+let mode="sentado",level=0,progress=0,complete=false,holdTimer=null;
+const field=$("field"),sprite=field.querySelector(".sprite");
+const positions=[{x:14,y:12},{x:71,y:12},{x:11,y:55},{x:72,y:53}];
+const els=["welcome","playing","finished"];
+function show(name){for(const s of els)$(s).classList.toggle("hidden",s!==name)}
+function setFeedback(t){$("feedback").hidden=!t;if(t)$("feedback").textContent=t}
+function clearField(){for(const el of [...field.querySelectorAll("button, .hold-progress")])el.remove();sprite.style.setProperty("--side","0px");clearTimeout(holdTimer);setFeedback("");$("alternate").classList.add("hidden")}
+function button(emoji,label,cls,onClick,style){const b=document.createElement("button");b.type="button";b.className="target "+cls;b.setAttribute("aria-label",label);const span=document.createElement("span");span.className="emoji";span.setAttribute("aria-hidden","true");span.textContent=emoji;const strong=document.createElement("strong");strong.textContent=label;b.append(span,strong);if(onClick)b.addEventListener("click",()=>onClick(b));if(style)Object.assign(b.style,style);field.append(b);return b}
+function finishLevel(){if(complete)return;complete=true;$("status").textContent="Missão concluída!";$("stars").textContent="★".repeat(level+1)+"☆".repeat(3-level);$("next").classList.remove("hidden");$("next").textContent=level===3?"Ver conquistas →":"Próxima missão →";setFeedback("⭐ Muito bem! Desafio finalizado.")}
+function advance(){progress++;if(progress>=goals[level])finishLevel();else $("status").textContent="Etapa "+progress+" de "+goals[level]}
+const goals=[4,6,8,1];
+function play(){
+complete=false;progress=0;clearField();
+$("count").textContent="Missão "+(level+1)+" de "+levels.length;
+$("progress").style.width=((level/levels.length)*100)+"%";
+$("task-title").textContent=levels[level].title;
+$("task-description").textContent=guides[mode][level];
+$("status").textContent="Etapa 0 de "+goals[level];
+$("next").classList.add("hidden");
+if(level===0)balloons();if(level===1)sides();if(level===2)steps();if(level===3)star();
+$("task-title").focus()
+}
+function balloons(){
+const emoji=["🎈","🎈","🎈","🎈"];const tones=["#fff0bb","#ffe2ec","#d9f6ed","#e6e1ff"];
+positions.forEach((p,i)=>{const b=button(emoji[i],"Balão "+(i+1),"balloon",item=>{if(item.disabled)return;item.disabled=true;item.classList.add("burst");advance()}, {left:p.x+"%",top:p.y+"%"});b.style.setProperty("--tone",tones[i])});
+}
+const sequence=["esquerda","direita","esquerda","direita","esquerda","direita"];
+function sides(){
+const btns={};
+for(const side of ["esquerda","direita"]){const left=side==="esquerda"?"7%":"auto";const right=side==="direita"?"7%":"auto";btns[side]=button(side==="esquerda"?"⬅️":"➡️",side==="esquerda"?"Esquerda":"Direita","side",()=>choose(side),{left,right,top:"26%"})}
+function choose(side){if(complete)return;if(side!==sequence[progress]){setFeedback("Siga o lado que está iluminado.");return}
+setFeedback("");sprite.style.setProperty("--side",side==="esquerda"?"-30px":"30px");advance();update()}
+function update(){for(const [side,b] of Object.entries(btns))b.classList.toggle("active",!complete&&side===sequence[progress])}
+update();
+}
+function steps(){
+const feet=["esquerdo","direito"];const btns={};
+for(const side of feet){btns[side]=button(side==="esquerdo"?"🦶":"🦶",side==="esquerdo"?"Pé esquerdo":"Pé direito","step",()=>choose(side),{left:side==="esquerdo"?"7%":"auto",right:side==="direito"?"7%":"auto",top:"29%"})}
+function choose(side){if(complete)return;const expected=feet[progress%2];if(side!==expected){setFeedback("Procure o pé iluminado.");return}setFeedback("");sprite.style.setProperty("--side",side==="esquerdo"?"-19px":"19px");advance();update()}
+function update(){for(const [side,b] of Object.entries(btns))b.classList.toggle("active",!complete&&side===feet[progress%2])}
+update();
+}
+function star(){
+const wrapper=document.createElement("div");wrapper.className="hold-progress";wrapper.style.position="absolute";wrapper.style.left="10%";wrapper.style.width="80%";wrapper.style.top="75%";wrapper.style.zIndex="4";const fill=document.createElement("span");wrapper.append(fill);field.append(wrapper);
+const b=button("🌟","Segure para brilhar","hold",null,{left:"50%",top:"38%",transform:"translate(-50%,-50%)"});
+let holding=false;
+function cancel(){holding=false;clearTimeout(holdTimer);fill.classList.remove("filling");fill.style.width="0%"}
+function hold(){if(complete||holding)return;holding=true;fill.style.width="0%";requestAnimationFrame(()=>{if(holding)fill.classList.add("filling")});holdTimer=setTimeout(()=>{if(!holding)return;cancel();b.disabled=true;advance()},1400)}
+b.addEventListener("pointerdown",hold);b.addEventListener("pointerup",cancel);b.addEventListener("pointerleave",cancel);b.addEventListener("pointercancel",cancel);
+b.addEventListener("keydown",e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();hold()}});b.addEventListener("keyup",e=>{if(e.key===" "||e.key==="Enter")cancel()});
+const alt=$("alternate");alt.classList.remove("hidden");alt.onclick=()=>{if(complete)return;cancel();b.disabled=true;alt.classList.add("hidden");advance()};
+}
+document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.mode;document.querySelectorAll("[data-mode]").forEach(x=>{const on=x===b;x.classList.toggle("selected",on);x.setAttribute("aria-pressed",String(on))})}));
+$("start").addEventListener("click",()=>{level=0;$("stars").textContent="☆☆☆☆";show("playing");play()});
+$("next").addEventListener("click",()=>{if(!complete)return;level++;if(level===levels.length){show("finished");$("end-title").focus();return}play()});
+$("restart").addEventListener("click",()=>{show("welcome");level=0;progress=0;complete=false});
+})();
+</script>
+</body></html>
