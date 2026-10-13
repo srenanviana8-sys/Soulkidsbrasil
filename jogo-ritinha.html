@@ -20,6 +20,10 @@
     .feedback{min-height:34px;margin-top:20px;font-weight:900;font-size:1.08rem;color:var(--navy)}.feedback.ok{color:#13835c}.feedback.try{color:#b45309}.stars{font-size:2.4rem;letter-spacing:8px;margin:18px 0}.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.tiny{margin-top:18px;font-size:.83rem;color:#6c7b8d}
     @media(max-width:480px){.app{padding-top:12px}.panel{border-radius:23px}.brand span{font-size:1.05rem}.choices{gap:10px}.choice{border-radius:19px}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  .mode-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 auto 18px;max-width:490px}
+    .mode{padding:12px 4px;min-height:50px;border-radius:13px;background:#f2f5fb;border:2px solid #d5e2ee;color:var(--navy);font-weight:800;cursor:pointer;font-size:.91rem}
+    .mode.selected{background:#fff4df;border-color:var(--orange)}
+    @media(max-width:480px){.mode-picker{gap:5px}.mode{font-size:.75rem;padding:10px 2px}}
   </style>
 </head>
 <body>
@@ -32,7 +36,12 @@
       <section class="panel screen" id="start">
         <img class="hero-img" src="historia-ritinha-capa.webp" alt="Ritinha chegando à SoulKids">
         <h1>Desafio da Ritinha</h1>
-        <p>Observe as cores e toque nelas na mesma ordem. Sem pressa: você pode tentar novamente quantas vezes quiser.</p>
+        <p>Escolha como brincar: repetir as cores na ordem, ao contrário ou alternar os desafios. Uma nova combinação aparece a cada rodada.</p>
+        <div class="mode-picker" role="group" aria-label="Modo do desafio">
+          <button type="button" class="mode selected" data-mode="normal" aria-pressed="true">Na ordem</button>
+          <button type="button" class="mode" data-mode="reverse" aria-pressed="false">Ao contrário</button>
+          <button type="button" class="mode" data-mode="surprise" aria-pressed="false">Surpresa</button>
+        </div>
         <button class="primary" id="startBtn">Começar</button>
         <div class="tiny">Atenção • memória visual • organização temporal</div>
       </section>
@@ -48,30 +57,49 @@
       <section class="panel screen" id="finish" hidden>
         <div class="stars" aria-hidden="true">⭐ ⭐ ⭐</div>
         <h2>Você conseguiu!</h2>
-        <p>A Ritinha completou os três desafios com você. Cada tentativa ajuda o cérebro a organizar melhor a sequência.</p>
+        <p>Você completou seis rodadas de desafios. Cada tentativa é uma oportunidade de praticar atenção e memória.</p>
         <div class="actions"><button class="primary" id="againBtn">Jogar novamente</button><a class="secondary" href="index.html" style="text-decoration:none">Voltar ao site</a></div>
       </section>
     </main>
   </div>
+  <script src="/soulkids-variacao.js"></script>
   <script>
+    const SK=window.SoulKidsVariacao;
     const colors=[['red','vermelho'],['yellow','amarelo'],['blue','azul'],['green','verde'],['purple','roxo']];
     const lengths=[3,4,5], roundsPerLevel=2;
-    let level=0,round=0,pattern=[],input=[],soundOn=true,locked=true,audio;
+    let level=0,round=0,pattern=[],input=[],soundOn=true,locked=true,audio,chosenMode="normal",currentReverse=false;
     const $=id=>document.getElementById(id);
     const screens=['start','game','finish'];
     function show(id){screens.forEach(s=>$(s).hidden=s!==id)}
     function tone(freq=520,duration=.12){if(!soundOn)return;audio??=new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.08,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+duration);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+duration)}
-    function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
-    function makePattern(){const available=colors.slice(0,Math.min(3+level,5));pattern=Array.from({length:lengths[level]},()=>available[Math.floor(Math.random()*available.length)][0]);input=[]}
+    function shuffle(a){return SK.shuffle(a)}
+    function makePattern(){
+      const available=colors.slice(0,Math.min(3+level,5));
+      const length=lengths[level];
+      const candidates=new Map();
+      for(let n=0;n<180;n++){
+        const p=Array.from({length},()=>available[Math.floor(Math.random()*available.length)][0]);
+        if(new Set(p).size<2)continue;
+        candidates.set(p.join("-"),{id:p.join("-"),pattern:p});
+      }
+      const selected=SK.pick("ritinha-cores-"+level+"-"+chosenMode,[...candidates.values()],1)[0];
+      pattern=selected?selected.pattern:Array.from({length},(_,i)=>available[i%available.length][0]);
+      input=[];
+      currentReverse=chosenMode==="reverse"||(chosenMode==="surprise"&&Math.random()<.5);
+    }
     function renderChoices(){const available=shuffle(colors.slice(0,Math.min(3+level,5)));$('choices').innerHTML='';available.forEach(([cls,name])=>{const b=document.createElement('button');b.className='choice '+cls;b.setAttribute('aria-label',name);b.dataset.color=cls;b.onclick=()=>choose(cls);$('choices').appendChild(b)})}
-    function renderSequence(){ $('sequence').innerHTML='';pattern.forEach((cls,i)=>{const d=document.createElement('div');d.className='dot '+cls;d.setAttribute('aria-label','cor '+(i+1));$('sequence').appendChild(d)}) }
+    function renderSequence(){ $('sequence').innerHTML='';pattern.forEach((cls,i)=>{const d=document.createElement('div');d.className='dot '+cls;d.setAttribute('aria-label','cor '+(i+1)+': '+(colors.find(c=>c[0]===cls)?.[1]||cls));$('sequence').appendChild(d)}) }
     function setLocked(v){locked=v;document.querySelectorAll('.choice').forEach(b=>b.disabled=v)}
-    async function present(){setLocked(true);$('feedback').textContent='';$('instruction').textContent='Observe a sequência';renderSequence();const dots=[...document.querySelectorAll('.dot')];dots.forEach(d=>d.style.opacity=.25);for(const d of dots){d.style.opacity=1;d.classList.add('flash');tone(440+dots.indexOf(d)*55,.16);await new Promise(r=>setTimeout(r,520));d.classList.remove('flash');d.style.opacity=.25;await new Promise(r=>setTimeout(r,120))}await new Promise(r=>setTimeout(r,250));$('sequence').innerHTML='';$('instruction').textContent='Agora repita';setLocked(false)}
-    function updateHeader(){ $('levelText').textContent=`Nível ${level+1} • Rodada ${round+1}/${roundsPerLevel}`;const done=level*roundsPerLevel+round;$('progressBar').style.width=`${done/(lengths.length*roundsPerLevel)*100}%` }
+    async function present(){setLocked(true);$('feedback').textContent='';$('instruction').textContent=currentReverse?'Observe para repetir de trás para frente':'Observe para repetir na mesma ordem';renderSequence();const dots=[...document.querySelectorAll('.dot')];dots.forEach(d=>d.style.opacity=.25);for(const d of dots){d.style.opacity=1;d.classList.add('flash');tone(440+dots.indexOf(d)*55,.16);await new Promise(r=>setTimeout(r,520));d.classList.remove('flash');d.style.opacity=.25;await new Promise(r=>setTimeout(r,120))}await new Promise(r=>setTimeout(r,250));$('sequence').innerHTML='';$('instruction').textContent=currentReverse?'Agora toque nas cores de trás para frente':'Agora repita na mesma ordem';setLocked(false)}
+    function updateHeader(){ $('levelText').textContent=`Nível ${level+1} • Rodada ${round+1}/${roundsPerLevel} • ${currentReverse?'Inverso':'Na ordem'}`;const done=level*roundsPerLevel+round;$('progressBar').style.width=`${done/(lengths.length*roundsPerLevel)*100}%` }
     function newRound(){makePattern();renderChoices();updateHeader();present()}
-    function choose(cls){if(locked)return;input.push(cls);tone(560+input.length*45,.1);const expected=pattern[input.length-1];if(cls!==expected){setLocked(true);$('feedback').className='feedback try';$('feedback').textContent='Quase! Vamos observar mais uma vez.';input=[];setTimeout(present,1100);return}if(input.length===pattern.length){setLocked(true);$('feedback').className='feedback ok';$('feedback').textContent='Muito bem! Você encontrou a sequência.';tone(820,.25);setTimeout(next,1100)}}
+    function choose(cls){if(locked)return;input.push(cls);tone(560+input.length*45,.1);const expected=(currentReverse?[...pattern].reverse():pattern)[input.length-1];if(cls!==expected){setLocked(true);$('feedback').className='feedback try';$('feedback').textContent='Quase! Vamos observar mais uma vez.';input=[];setTimeout(present,1100);return}if(input.length===pattern.length){setLocked(true);$('feedback').className='feedback ok';$('feedback').textContent='Muito bem! Você encontrou a sequência.';tone(820,.25);setTimeout(next,1100)}}
     function next(){round++;if(round>=roundsPerLevel){round=0;level++}if(level>=lengths.length){$('progressBar').style.width='100%';show('finish');tone(900,.35)}else newRound()}
     function begin(){level=0;round=0;show('game');newRound()}
+    document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>{
+       chosenMode=b.dataset.mode;
+       document.querySelectorAll("[data-mode]").forEach(x=>{const on=x===b;x.classList.toggle("selected",on);x.setAttribute("aria-pressed",String(on))});
+    }));
     $('startBtn').onclick=begin;$('againBtn').onclick=begin;$('sound').onclick=()=>{soundOn=!soundOn;$('sound').textContent=soundOn?'🔊':'🔇';$('sound').setAttribute('aria-pressed',String(soundOn));$('sound').setAttribute('aria-label',soundOn?'Desativar som':'Ativar som')};
   </script>
 </body>

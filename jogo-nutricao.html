@@ -92,10 +92,10 @@ main{padding:0 11px;margin:23px auto}.start-panel{padding:12px}
 <body>
 <nav><div class="wrap"><a class="brand" href="/index.html#jogar"><img src="/soulkids-symbol.png" alt="">SoulKids Play</a><a class="back" href="/index.html#jogar">← Todos os jogos</a></div></nav>
 <main>
-<div class="intro"><span class="kicker">Nutrição • jogo gratuito</span><h1>Feira da Ritinha</h1><p>Explore os alimentos, monte uma cesta e participe de quatro pequenas missões. Uma brincadeira para conversar sobre variedade e escolhas alimentares.</p></div>
+<div class="intro"><span class="kicker">Nutrição • jogo gratuito</span><h1>Feira da Ritinha</h1><p>Explore os alimentos, monte uma cesta e participe de quatro pequenas missões. Uma brincadeira com missões e listas diferentes a cada partida para conhecer alimentos.</p></div>
 <div class="board">
 <section id="start-panel" class="start-panel" aria-label="Início do jogo">
-<div class="start-hero"><div class="start-copy"><h2>Vamos à feira com a Ritinha?</h2><p>Encontre ingredientes, organize uma refeição e prepare um piquenique com a turma!</p></div><img src="/ritinha-soulkids-s.png" alt="Ritinha pronta para brincar" class="mascot"></div>
+<div class="start-hero"><div class="start-copy"><h2>Vamos à feira com a Ritinha?</h2><p>Visite bancas diferentes e descubra novas listas de compras em cada partida!</p></div><img src="/ritinha-soulkids-s.png" alt="Ritinha pronta para brincar" class="mascot"></div>
 <div class="start-features"><div class="feature"><span class="em" aria-hidden="true">🍎</span>Descubra as frutas</div><div class="feature"><span class="em" aria-hidden="true">🥕</span>Explore a horta</div><div class="feature"><span class="em" aria-hidden="true">🍽️</span>Monte a refeição</div></div>
 <button class="primary" id="start" type="button">Entrar na feira →</button>
 </section>
@@ -111,22 +111,54 @@ main{padding:0 11px;margin:23px auto}.start-panel{padding:12px}
 </div>
 <p class="disclaimer">Este é um jogo educativo sobre reconhecimento, variedade e contextos alimentares; não define alimentos proibidos, dietas ou porções. Não substitui orientação individualizada de nutricionista. Não é necessário cadastrar dados da criança.</p>
 </main>
+<script src="/soulkids-variacao.js"></script>
 <script>
 "use strict";
 (() => {
+ const SK=window.SoulKidsVariacao;
  const foods={
   banana:{icon:"🍌",name:"Banana"},maca:{icon:"🍎",name:"Maçã"},laranja:{icon:"🍊",name:"Laranja"},
+  uva:{icon:"🍇",name:"Uva"},morango:{icon:"🍓",name:"Morango"},pera:{icon:"🍐",name:"Pera"},
+  melancia:{icon:"🍉",name:"Melancia"},abacaxi:{icon:"🍍",name:"Abacaxi"},
   cenoura:{icon:"🥕",name:"Cenoura"},brocolis:{icon:"🥦",name:"Brócolis"},milho:{icon:"🌽",name:"Milho"},
   arroz:{icon:"🍚",name:"Arroz"},feijao:{icon:"🫘",name:"Feijão"},couve:{icon:"🥬",name:"Couve"},
-  pao:{icon:"🍞",name:"Pão"},agua:{icon:"💧",name:"Água"},queijo:{icon:"🧀",name:"Queijo"}
+  pao:{icon:"🍞",name:"Pão"},agua:{icon:"💧",name:"Água"},queijo:{icon:"🧀",name:"Queijo"},
+  batata:{icon:"🥔",name:"Batata"},tomate:{icon:"🍅",name:"Tomate"},pepino:{icon:"🥒",name:"Pepino"},
+  abobora:{icon:"🎃",name:"Abóbora"},alface:{icon:"🥬",name:"Alface"},ovo:{icon:"🥚",name:"Ovo"},
+  leite:{icon:"🥛",name:"Leite"},aveia:{icon:"🌾",name:"Aveia"},
+  frango:{icon:"🍗",name:"Frango"},pimentao:{icon:"🫑",name:"Pimentão"}
  };
- const missions=[
- {name:"As frutas da feira",prompt:"A lista da Ritinha tem três frutas.",details:"Encontre banana, maçã e laranja entre os alimentos da banca.",pool:["cenoura","maca","brocolis","banana","milho","laranja"],targets:["banana","maca","laranja"],basket:"🧺 Cesta de frutas",explanation:"Você encontrou as três frutas! Elas têm cores, aromas e sabores diferentes."},
- {name:"Cores da horta",prompt:"Agora vamos explorar as hortaliças.",details:"Na lista estão cenoura, brócolis e couve. Você consegue encontrar as três?",pool:["banana","couve","cenoura","maca","brocolis","laranja"],targets:["cenoura","brocolis","couve"],basket:"🌱 Cesta da horta",explanation:"Três alimentos diferentes da horta! Podemos conhecê-los de várias formas."},
- {name:"Almoço da turma",prompt:"Vamos montar o almoço que a Ritinha planejou.",details:"A receita de hoje combina arroz, feijão e couve. Encontre os três ingredientes.",pool:["feijao","queijo","arroz","pao","milho","couve"],targets:["arroz","feijao","couve"],basket:"🍽️ Almoço da turma",explanation:"Arroz, feijão e couve: um exemplo de combinação presente em muitas mesas brasileiras."},
- {name:"Piquenique dos amigos",prompt:"O piquenique tem uma lista especial!",details:"A Ritinha escolheu água, pão e banana para levar. Encontre esses itens.",pool:["maca","agua","queijo","pao","cenoura","banana"],targets:["agua","pao","banana"],basket:"🧺 Cesta do piquenique",explanation:"Piquenique pronto! Outras combinações também podem fazer parte de um lanche."}
+ const themes=[
+  {id:"frutas",name:"As frutas da feira",prompt:"A lista tem três frutas.",basket:"🧺 Cesta de frutas",items:["banana","maca","laranja","uva","morango","pera","melancia","abacaxi"],explanation:"As frutas têm diferentes sabores, aromas e texturas."},
+  {id:"horta",name:"Cores da horta",prompt:"Vamos explorar a banca de hortaliças.",basket:"🌱 Cesta da horta",items:["cenoura","brocolis","couve","alface","abobora","pepino","tomate","pimentao"],explanation:"Na horta há muitas cores, formas e possibilidades de preparo."},
+  {id:"almoco",name:"Almoço da turma",prompt:"A turma planejou um almoço.",basket:"🍽️ Almoço da turma",items:["arroz","feijao","couve","cenoura","ovo","batata","frango","abobora"],explanation:"Essa é uma das muitas combinações possíveis para uma refeição."},
+  {id:"piquenique",name:"Piquenique dos amigos",prompt:"Vamos preparar a cesta do piquenique.",basket:"🧺 Cesta do piquenique",items:["agua","pao","banana","queijo","maca","uva","pera","morango"],explanation:"Cada família pode montar um piquenique com suas próprias escolhas."},
+  {id:"cores",name:"Feira cheia de cores",prompt:"Vamos encontrar alimentos de várias cores.",basket:"🎨 Cesta colorida",items:["maca","cenoura","brocolis","uva","abobora","milho","pepino","morango"],explanation:"As cores ajudam a explorar e conhecer ingredientes diferentes."},
+  {id:"manha",name:"Café da manhã",prompt:"Ajude a separar os alimentos da lista de hoje.",basket:"☀️ Café da manhã",items:["pao","leite","banana","aveia","queijo","maca","ovo","pera"],explanation:"Café da manhã pode ser diferente de uma família para outra."},
+  {id:"sopa",name:"Panela de sopa",prompt:"Vamos encontrar ingredientes para uma sopa.",basket:"🥣 Ingredientes da sopa",items:["abobora","cenoura","batata","couve","milho","brocolis","frango","pimentao"],explanation:"Uma sopa pode incluir muitos ingredientes e ser preparada com a ajuda de um adulto."},
+  {id:"lanche",name:"Lanche da tarde",prompt:"Ajude a Ritinha a organizar a lista do lanche.",basket:"🧺 Lanche da turma",items:["agua","banana","uva","maca","pao","queijo","pera","leite"],explanation:"Um lanche pode variar conforme os gostos e necessidades de cada pessoa."},
+  {id:"salada",name:"Salada de frutas",prompt:"Descubra os ingredientes da salada de frutas.",basket:"🍓 Salada de frutas",items:["banana","maca","laranja","uva","morango","pera","melancia","abacaxi"],explanation:"Misturar frutas é uma forma de experimentar sabores e texturas."},
+  {id:"jantar",name:"Jantar em família",prompt:"Vamos reunir os ingredientes da lista do jantar.",basket:"🌙 Jantar em família",items:["arroz","feijao","batata","brocolis","frango","ovo","abobora","cenoura"],explanation:"Há várias maneiras de compor uma refeição em família."},
+  {id:"sanduiche",name:"Sanduíche especial",prompt:"A turma vai escolher ingredientes para um sanduíche.",basket:"🥪 Lista do sanduíche",items:["pao","queijo","tomate","alface","ovo","frango","pepino","cenoura"],explanation:"Sanduíches podem ter diferentes ingredientes e preferências."},
+  {id:"descoberta",name:"Descobertas da feira",prompt:"Vamos conhecer ingredientes de diferentes bancas.",basket:"🛒 Cesta de descobertas",items:["pimentao","melancia","feijao","milho","aveia","morango","pepino","abacaxi"],explanation:"Explorar nomes, cores e cheiros pode ser parte da descoberta de novos alimentos."}
  ];
- const $=id=>document.getElementById(id);
+ function buildMissions(){
+  return SK.pick("nutri-temas",themes,4).map(theme=>{
+   const combos=[];
+   for(let i=0;i<theme.items.length;i++)
+    for(let j=i+1;j<theme.items.length;j++)
+     for(let k=j+1;k<theme.items.length;k++)
+      combos.push({id:[theme.items[i],theme.items[j],theme.items[k]].join("-"),targets:[theme.items[i],theme.items[j],theme.items[k]]});
+   const chosen=SK.pick("nutri-lista-"+theme.id,combos,1)[0];
+   const targets=SK.shuffle(chosen.targets);
+   const decoys=SK.shuffle(Object.keys(foods).filter(id=>!targets.includes(id))).slice(0,3);
+   const list=targets.map(id=>foods[id].name.toLowerCase());
+   return {name:theme.name,prompt:theme.prompt,details:"Encontre "+list.slice(0,-1).join(", ")+" e "+list.at(-1)+".",
+     pool:SK.shuffle([...targets,...decoys]),targets,basket:theme.basket,explanation:theme.explanation};
+  });
+ }
+ let missions=[];
+  const $=id=>document.getElementById(id);
  let level=0,picked=new Set(),finished=false;
  const show=name=>{for(const id of ["start-panel","playing","finished"])$(id).classList.toggle("hidden",id!==name)};
  function updateBasket(){
@@ -166,7 +198,7 @@ main{padding:0 11px;margin:23px auto}.start-panel{padding:12px}
   }
   updateBasket();$("title").focus();
  }
- function start(){level=0;show("playing");render()}
+ function start(){missions=buildMissions();level=0;show("playing");render()}
  $("start").addEventListener("click",start);
  $("again").addEventListener("click",start);
  $("next").addEventListener("click",()=>{if(!finished)return;level++;if(level===missions.length){$("progress").style.width="100%";show("finished");$("finish-title").focus()}else render()});
