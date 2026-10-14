@@ -73,43 +73,52 @@
     feliz: {
       icon: "😊", title: "Feliz",
       situations: [
-        ["A Ritinha descobriu uma brincadeira nova e deu um sorriso.", "O que costuma trazer alegria para você?"],
-        ["Luca terminou uma construção e quis mostrar para a turma.", "De que jeito você gosta de comemorar uma descoberta?"],
-        ["Um amigo chamou a turma para brincar junto.", "Como podemos dividir um momento alegre com alguém?"]
+        ["A Ritinha sorriu na brincadeira.", "O que costuma trazer alegria para você?"],
+        ["Luca terminou sua construção!", "De que jeito você gosta de comemorar uma descoberta?"],
+        ["Maya chamou a turma para brincar.", "Como podemos dividir um momento alegre com alguém?"]
       ]
     },
     triste: {
       icon: "😢", title: "Triste",
       situations: [
-        ["A brincadeira terminou antes de a Ritinha querer parar.", "O que pode ajudar quando algo de que gostamos termina?"],
-        ["Um desenho de Luca rasgou sem querer.", "Você prefere companhia ou um tempinho quando fica triste?"],
-        ["Um amigo sentiu saudade de alguém importante.", "O que podemos dizer ou fazer para acolher esse sentimento?"]
+        ["A Ritinha queria brincar mais.", "O que pode ajudar quando algo de que gostamos termina?"],
+        ["O desenho de Luca rasgou.", "Você prefere companhia ou um tempinho quando fica triste?"],
+        ["Lia está com saudade.", "O que podemos dizer ou fazer para acolher esse sentimento?"]
       ]
     },
     bravo: {
       icon: "😠", title: "Bravo",
       situations: [
-        ["Lia ficou irritada quando outra pessoa pegou seu brinquedo.", "Como ela pode mostrar que não gostou sem machucar ninguém?"],
-        ["Uma torre caiu e Luca precisou começar de novo.", "O que você gostaria de fazer antes de tentar novamente?"],
-        ["O jogo não aconteceu como a Ritinha imaginou.", "Como podemos pedir ajuda quando a frustração aparece?"]
+        ["Pegaram o brinquedo de Lia.", "Como ela pode mostrar que não gostou sem machucar ninguém?"],
+        ["A torre de Luca caiu.", "O que você gostaria de fazer antes de tentar novamente?"],
+        ["A Ritinha ficou frustrada.", "Como podemos pedir ajuda quando a frustração aparece?"]
       ]
     },
     medo: {
       icon: "😟", title: "Com medo",
       situations: [
-        ["Ritinha viu uma sala diferente e ficou insegura na porta.", "O que você gostaria de conhecer antes de entrar?"],
-        ["Tonico ouviu um som alto e se assustou.", "Como podemos deixar o ambiente mais confortável?"],
-        ["Uma criança ficou receosa de começar uma atividade nova.", "É possível observar primeiro e participar depois?"]
+        ["A Ritinha ficou insegura na porta.", "O que você gostaria de conhecer antes de entrar?"],
+        ["Tonico se assustou com um som.", "Como podemos deixar o ambiente mais confortável?"],
+        ["Lia não conhece esta brincadeira.", "É possível observar primeiro e participar depois?"]
       ]
     },
     calmo: {
       icon: "😌", title: "Calmo",
       situations: [
-        ["A Ritinha encontrou um cantinho aconchegante com almofadas.", "Que lugares fazem você se sentir confortável?"],
-        ["O grupo fez uma pausa entre duas brincadeiras.", "Como seu corpo mostra que precisa descansar?"],
-        ["Tonico ficou olhando calmamente para as estrelas da janela.", "O que você gosta de observar quando quer tranquilidade?"]
+        ["Ritinha encontrou seu cantinho.", "Que lugares fazem você se sentir confortável?"],
+        ["Maya fez uma pausa.", "Como seu corpo mostra que precisa descansar?"],
+        ["Tonico observou as estrelas.", "O que você gosta de observar quando quer tranquilidade?"]
       ]
     }
+  };
+  // Associações ilustrativas: nenhum personagem fica preso a uma emoção.
+  // Expressões desenhadas deverão usar imagens oficiais aprovadas.
+  const feelingActors = {
+    feliz:["Ritinha","Luca","Maya"],
+    triste:["Ritinha","Luca","Lia"],
+    bravo:["Lia","Luca","Ritinha"],
+    medo:["Ritinha","Tonico","Lia"],
+    calmo:["Ritinha","Maya","Tonico"]
   };
   const counters = Object.fromEntries(Object.keys(emotions).map(k => [k, 0]));
   let feeling = null;
@@ -122,11 +131,11 @@
     feeling = id;
     const [example, question] = entry.situations[counters[id] % entry.situations.length];
     $("mirror-face").textContent = entry.icon;
-    $("mirror-name").textContent = entry.title;
+    $("mirror-name").textContent = feelingActors[id][counters[id] % entry.situations.length] + " · " + entry.title;
     $("mirror-example").textContent = example;
     $("mirror-question").textContent = question;
     $("mirror-another").disabled = false;
-    lastMirrorMessage = entry.title + ". " + example + " " + question;
+    lastMirrorMessage = example;
     document.querySelectorAll("[data-feeling]").forEach(b => {
       b.setAttribute("aria-pressed", String(b.dataset.feeling === id));
     });
@@ -139,11 +148,11 @@
   $("mirror-listen").addEventListener("click", () => speak(lastMirrorMessage || "Escolha um rostinho para descobrir uma emoção."));
 
   const calm = [
-    ["Um instante só seu", "Você pode escolher um lugar tranquilo, uma almofada ou a companhia de alguém de confiança."],
-    ["Olhar e descobrir", "Se quiser, procure três coisas de que gosta ao seu redor. Pode apontar, olhar ou imaginar."],
-    ["Seu corpo tem um ritmo", "Se for confortável, respire devagar. Se não quiser, podemos apenas observar nossa flor brilhante."],
-    ["Uma pausa sensorial", "Você prefere menos barulho, uma luz mais suave, um objeto macio ou ficar perto de alguém?"],
-    ["Pedir o que precisa", "Você pode dizer, apontar ou mostrar: quero ajuda, quero companhia, quero descansar ou quero continuar."]
+    ["Um instante só seu", "Vamos achar um lugar gostoso para descansar?"],
+    ["Olhar e descobrir", "Encontre uma coisa de que você gosta."],
+    ["Seu corpo tem um ritmo", "Olhe a flor. Ela se mexe devagar."],
+    ["Uma pausa sensorial", "Qual cantinho faz você se sentir bem?"],
+    ["Pedir o que precisa", "Você pode pedir uma pausa ou companhia."]
   ];
   let calmIndex = 0;
   function showCalm() {
@@ -174,7 +183,7 @@
     {
       character: "Ritinha · A chegada",
       title: "Uma porta diferente",
-      text: "A Ritinha chegou a um lugar novo, mas ficou insegura para entrar. Ela apertou a mão do adulto que estava com ela.",
+      text: "Ritinha ficou insegura diante de uma porta nova.",
       choices: [
         ["Observar a sala primeiro", "Boa ideia! A Ritinha pode conhecer o lugar aos poucos, sem pressa."],
         ["Entrar acompanhada", "Ter alguém de confiança por perto também pode ajudar a Ritinha a se sentir segura."]
@@ -183,7 +192,7 @@
     {
       character: "Lia · O meu espaço",
       title: "Agora eu não quero!",
-      text: "Lia estava brincando e um amigo pediu para participar. Ela respondeu: “Não!”. O amigo ficou surpreso.",
+      text: "Um amigo quer brincar, mas Lia disse: “Não!”.",
       choices: [
         ["Perguntar se ela prefere brincar depois", "Respeitar o momento de Lia ajuda a turma a combinar outra oportunidade."],
         ["Oferecer uma brincadeira lado a lado", "Uma proposta sem obrigação pode criar espaço para brincarem juntos, se Lia quiser."]
@@ -192,7 +201,7 @@
     {
       character: "Tonico · Um jeito de participar",
       title: "O convite do Tonico",
-      text: "Tonico chegou e ficou olhando um jogo. Ele não disse muitas palavras, mas se aproximou e apontou para uma peça.",
+      text: "Tonico chegou e apontou para uma peça do jogo.",
       choices: [
         ["Mostrar duas peças para ele escolher", "Dar opções ajuda a turma a entender o que Tonico está comunicando."],
         ["Esperar e observar seu gesto", "Dar tempo também é uma forma de escutar e respeitar a comunicação do Tonico."]
@@ -201,7 +210,7 @@
     {
       character: "Luca · A torre caiu",
       title: "Um castelo de blocos",
-      text: "Luca construiu uma torre bem alta. Ela caiu de repente. Luca ficou chateado e afastou os blocos.",
+      text: "A torre de Luca caiu. Ele ficou chateado.",
       choices: [
         ["Perguntar se ele quer ajuda", "Oferecer ajuda sem obrigar Luca permite que ele escolha como continuar."],
         ["Dar um tempinho antes de voltar", "Fazer uma pausa é uma possibilidade quando a frustração aparece."]
@@ -210,7 +219,7 @@
     {
       character: "Maya · Vamos brincar juntos?",
       title: "A mesa da turma",
-      text: "Maya chegou com seu andador para uma brincadeira na mesa. Alguns materiais estavam longe do alcance dela.",
+      text: "Maya chegou ao jogo, mas as peças estão longe.",
       choices: [
         ["Perguntar onde ela prefere os materiais", "Ouvir Maya ajuda a organizar a brincadeira para que ela participe com autonomia."],
         ["Aproximar uma mesa acessível", "Pensar no espaço e nas adaptações permite que mais pessoas brinquem juntas."]
