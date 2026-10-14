@@ -71,7 +71,7 @@
 
   const emotions = {
     feliz: {
-      image: "/ritinha-feliz.webp", alt: "Ritinha sorrindo com alegria", title: "Feliz",
+      image: "/ritinha-feliz.webp?v=20261014-oficial", alt: "Ritinha sorrindo com alegria", title: "Feliz",
       situations: [
         ["A Ritinha sorriu na brincadeira.", "O que costuma trazer alegria para você?"],
         ["Luca terminou sua construção!", "De que jeito você gosta de comemorar uma descoberta?"],
@@ -79,7 +79,7 @@
       ]
     },
     triste: {
-      image: "/ritinha-triste.webp", alt: "Ritinha com expressão triste", title: "Triste",
+      image: "/ritinha-triste.webp?v=20261014-oficial", alt: "Ritinha com expressão triste", title: "Triste",
       situations: [
         ["A Ritinha queria brincar mais.", "O que pode ajudar quando algo de que gostamos termina?"],
         ["O desenho de Luca rasgou.", "Você prefere companhia ou um tempinho quando fica triste?"],
@@ -87,7 +87,7 @@
       ]
     },
     bravo: {
-      image: "/ritinha-bravo.webp", alt: "Ritinha contrariada, com os braços cruzados", title: "Bravo",
+      image: "/ritinha-bravo.webp?v=20261014-oficial", alt: "Ritinha contrariada, com os braços cruzados", title: "Bravo",
       situations: [
         ["Pegaram o brinquedo de Lia.", "Como ela pode mostrar que não gostou sem machucar ninguém?"],
         ["A torre de Luca caiu.", "O que você gostaria de fazer antes de tentar novamente?"],
@@ -95,7 +95,7 @@
       ]
     },
     medo: {
-      image: "/ritinha-medo.webp", alt: "Ritinha demonstrando receio", title: "Com medo",
+      image: "/ritinha-medo.webp?v=20261014-oficial", alt: "Ritinha demonstrando receio", title: "Com medo",
       situations: [
         ["A Ritinha ficou insegura na porta.", "O que você gostaria de conhecer antes de entrar?"],
         ["Tonico se assustou com um som.", "Como podemos deixar o ambiente mais confortável?"],
@@ -103,7 +103,7 @@
       ]
     },
     calmo: {
-      image: "/ritinha-calmo.webp", alt: "Ritinha tranquila, de olhos fechados", title: "Calmo",
+      image: "/ritinha-calmo.webp?v=20261014-oficial", alt: "Ritinha tranquila, de olhos fechados", title: "Calmo",
       situations: [
         ["Ritinha encontrou seu cantinho.", "Que lugares fazem você se sentir confortável?"],
         ["Maya fez uma pausa.", "Como seu corpo mostra que precisa descansar?"],
