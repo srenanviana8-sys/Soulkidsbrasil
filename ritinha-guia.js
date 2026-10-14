@@ -107,12 +107,20 @@
     window.addEventListener("pagehide", cancelVoice);
     document.addEventListener("visibilitychange", () => { if (document.hidden) cancelVoice(); });
   }
-  let paused = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+  const systemReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+  let paused = systemReduced;
   function syncMotion() {
     $("guia-container").classList.toggle("motion-paused", paused);
     motion.setAttribute("aria-pressed", String(paused));
     motion.textContent = paused ? "▶️ Ativar animação" : "⏸️ Pausar animação";
   }
-  motion.addEventListener("click", () => { paused = !paused; syncMotion(); });
+  if (systemReduced) {
+    motion.disabled = true;
+    motion.textContent = "Animação reduzida";
+    motion.setAttribute("aria-label", "Movimentos desativados conforme a preferência de acessibilidade");
+  } else {
+    motion.addEventListener("click", () => { paused = !paused; syncMotion(); });
+  }
   syncMotion();
+  if (systemReduced) motion.textContent = "Animação reduzida";
 })();
