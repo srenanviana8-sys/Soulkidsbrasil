@@ -9,6 +9,11 @@
   const invitation = document.querySelector("[data-visit-emotions]");
   if (![scene, traveler, start, enter, repeat, status].every(Boolean)) return;
 
+  // Evita anunciar duas vezes o mesmo texto: o guia já tem sua região acessível.
+  if (typeof window.SoulKidsRitinha?.narrate === "function") {
+    status.setAttribute("aria-live", "off");
+  }
+
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
   const tellRitinha = (text, mood) => {
     if (typeof window.SoulKidsRitinha?.narrate === "function") {
