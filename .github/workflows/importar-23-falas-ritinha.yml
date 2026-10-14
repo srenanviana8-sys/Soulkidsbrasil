@@ -1,0 +1,115 @@
+name: Importar 23 áudios pagos da Ritinha
+on:
+  push:
+    branches: [feature/ritinha-48-falas-humanas-20261014]
+permissions:
+  contents: write
+jobs:
+  import:
+    if: "!contains(github.event.head_commit.message, 'Voices staged')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Baixar gravações aprovadas
+        env:
+          SOUND_0: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/71be2499-f814-4076-941e-f051498df26e/SoulKids_Ritinha_casa_espelho_triste_2.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMTNlNjQwZmE1NjhjMjM0NiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjExNjIxOH0.eEdesYdeTw1dZLa34TzeeEL9qEMUzb86Rdyk2Ht0EpU'
+          SOUND_1: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/e89d81f1-9a94-41db-b119-562aeb01b38d/SoulKids_Ritinha_casa_espelho_triste_0.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYjY4Njc1MzNjOWEyYzQ1YiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE4NTEzOX0.FMh3GpFZLB6U4itQYCOjrKgFxwjq2sb7myzGCC5A4wY'
+          SOUND_2: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/d4b505aa-e743-4292-be02-6ba519f95556/SoulKids_Ritinha_casa_espelho_triste_1.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNzM5MGUyYzYxZjI0NzBjMyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE2Nzg3OH0.okodmBxxECQUtddA2IGfuz9h_HE-hdNXsNzqHJ-MVk8'
+          SOUND_3: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/0cf78bb2-06e6-459d-b076-f7b60afb9958/SoulKids_Ritinha_casa_espelho_feliz_2.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMjY0YWIzNjE0MDY2ZTg4YyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE1NDU5M30.GMlb3po6lDqsYT9Dldb6rzHuXL5BqTmxvOkAirYBclo'
+          SOUND_4: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/000a228d-bd66-41bd-b57c-72f962363141/SoulKids_Ritinha_casa_espelho_feliz_1.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZmRhZTA5MWIxYjY1MDJlNiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE3MjQ0M30.B1IzOAZOwN7wMGx6SZ79Szzrkmjjz4eyQY7HFo_5_9s'
+          SOUND_5: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/e52c3bb3-7d48-4ac7-b17c-53d402c13515/SoulKids_Ritinha_jardim_ritmo_5.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNzM5YmM1OTA5NGE4NDM4OSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjEwMzY5Nn0.ZRM6x39g-NvVXPbZcVzh9DYtrZltdqGYhSd_d-FNOiU'
+          SOUND_6: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/9bdcb768-4dae-483e-9fda-5539d969c574/SoulKids_Ritinha_jardim_ritmo_4.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiOTE4YjZiNDIzYTY5ZTZiMiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjEwNTI4Mn0.oICexdwAlHkdvzK1-WK8RRX6K-sFpdx8Fp4rbQGAY6o'
+          SOUND_7: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/131da82c-8afe-42cc-9c81-54ca637f30a3/SoulKids_Ritinha_jardim_ritmo_3.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMjMzNjM3YmUzZDdmN2Y5NyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE0Nzc3NH0.xUUIrG322aQtTOAv2UVH66qwAC_iITDcer6d5Ru18iE'
+          SOUND_8: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/3c1f7f32-3caf-4369-bef4-289231929d13/SoulKids_Ritinha_jardim_ritmo_2.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNmM1YmE5N2E1NmRmOWJkZCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjExMjg5MH0.d8Elxk9EVgSdfCpWtwYd61aVJnKz8KGZFDLYOusLCCQ'
+          SOUND_9: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/365f7478-b901-421f-8d13-555328105683/SoulKids_Ritinha_jardim_ritmo_1.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzA4NDBiNjQxMmI3MGUyNSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE4MDgzNn0.r3zxVLuLp3-fkyICYMc_4BegmbPVYxsimeo2xtrRen4'
+          SOUND_10: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/a3ec2a2e-0540-4384-ac5e-711cf467ef93/SoulKids_Ritinha_jardim_ritmo_0.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMTg0YmIxYWE5YWEwMjI3MSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE3Mzg2Nn0.1Hbm_ps6NfAzcxa8uAuWaY9TQtS0OAm2ODim8NQdCmM'
+          SOUND_11: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/2ce2b024-7d99-439c-92cd-eccb29e6aa61/SoulKids_Ritinha_jardim_espelho_5.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzRlZmM1ODlhMWI5NDg2YyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjEzMjEwNX0.AvyzVmDnZh1WScLr2dO1Cs0WKWRfRdwSWCb8CY-asUE'
+          SOUND_12: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/aa54228d-d230-4b85-99dc-9e613d31b726/SoulKids_Ritinha_jardim_espelho_4.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYTNjNDI3OTQ0NDUzYmMyZSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjEzMDE5Nn0.Cjx1LNImv8pesEn9xQn74SRudBvrvtzZDB8EWaXXFDk'
+          SOUND_13: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/f1ffdf91-c0b6-42bb-8bb5-bff02aa3f119/SoulKids_Ritinha_jardim_espelho_3.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZTEyYjY3N2Q3NzY5NDc5NSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE1OTc0MX0.PxBdyh5Yq8-N7WGB-0P3JOI0-EELLnXDnyRf_bThBOk'
+          SOUND_14: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/2d072e11-3dcd-4b06-8c50-25d8fcfbbccf/SoulKids_Ritinha_jardim_espelho_2.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYzEzM2NkZjg5ODk1ZWNkMCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjEyNDE1Mn0.tOjTKmTH3LtBUB45JGlynKeSyzevxh6NJv3h2SeFwuU'
+          SOUND_15: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/3839b6b2-5545-43ff-8192-79caf705588c/SoulKids_Ritinha_jardim_espelho_1.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMDA5MDU0N2YzNGZkZmYwYSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE1MDAxNX0.ymjjAmJn0vJCtWlMCnPbMOJsAXisJMiruASl1zimxPM'
+          SOUND_16: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/68f12481-e44b-4626-ad39-56f74c9ebab0/SoulKids_Ritinha_jardim_espelho_0.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYjVmYjBmNzJlYTYxZWU0NCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjEyMTU4Nn0.qF1EzbQO8JNTiOxFl_4Nnwi-5-xNpGeaxMr2L0fILsk'
+          SOUND_17: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/c7a3cb85-ba63-41d8-8b9b-5ecdc7a6c80c/SoulKids_Ritinha_jardim_trilha_5.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNTViOTYwYzMxOTU5ZTBiNyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjEwNjY5MX0.rrtO8nofiDkWyWEETOB75HqQ2AADNXnA4Nrt7UfaIyU'
+          SOUND_18: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/f9f60562-1813-42ba-953b-519ddaa06520/SoulKids_Ritinha_jardim_trilha_4.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNGQyN2VkZmQwNzg3OWFmYSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjEyNjQ2MX0.4x-VQcwrUYCC_1TZy4BjhyZnx_6wvajBEZjbLCW0-8k'
+          SOUND_19: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/6d1b4fd2-f17d-491f-a3f0-8d35738ffb34/SoulKids_Ritinha_jardim_trilha_3.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzU1YjM2MWZmMWQwMGZjZiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE3NDg3OX0.1R1TjQqbhXZ9gjs-MDE1vkuNWUgHYHN9sxlcPNYMg_Y'
+          SOUND_20: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/d59a8525-4851-4115-b053-f902adbfa988/SoulKids_Ritinha_jardim_trilha_2.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZTZiNzFjNDRlMWEyMmY0NiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE0ODgwNH0.G2KORZsBfyHCFjfOZBbIJujXIo5gUresFtPq4FyEtRc'
+          SOUND_21: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/fb2c1463-cca0-41de-b76a-239b51758786/SoulKids_Ritinha_jardim_trilha_1.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYjQxMjYwNDRlOTVjZDIxZSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE0OTU3Mn0.UUF36hDRAvgm45V29DPGRDQvut5LJqsrDGKifVbxMlk'
+          SOUND_22: 'https://dnznrvs05pmza.cloudfront.net/text_to_speech/8d71d433-0bce-4425-a02a-76b192405968/SoulKids_Ritinha_jardim_trilha_0.mp3?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNjdlNDMzYTk2ZTZhOGEyYSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE3MDI4MX0.-iQ04vwVXA5nRxC9_v463px2ksN7AWcIkkLUVaiufrE'
+        run: |
+          set -euo pipefail
+          mkdir -p audios
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_0" -o "audios/ritinha-casa-espelho-triste-2.mp3"
+          test "$(stat -c%s "audios/ritinha-casa-espelho-triste-2.mp3")" -gt 1000
+          echo "IMPORTED casa-espelho-triste-2"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_1" -o "audios/ritinha-casa-espelho-triste-0.mp3"
+          test "$(stat -c%s "audios/ritinha-casa-espelho-triste-0.mp3")" -gt 1000
+          echo "IMPORTED casa-espelho-triste-0"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_2" -o "audios/ritinha-casa-espelho-triste-1.mp3"
+          test "$(stat -c%s "audios/ritinha-casa-espelho-triste-1.mp3")" -gt 1000
+          echo "IMPORTED casa-espelho-triste-1"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_3" -o "audios/ritinha-casa-espelho-feliz-2.mp3"
+          test "$(stat -c%s "audios/ritinha-casa-espelho-feliz-2.mp3")" -gt 1000
+          echo "IMPORTED casa-espelho-feliz-2"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_4" -o "audios/ritinha-casa-espelho-feliz-1.mp3"
+          test "$(stat -c%s "audios/ritinha-casa-espelho-feliz-1.mp3")" -gt 1000
+          echo "IMPORTED casa-espelho-feliz-1"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_5" -o "audios/ritinha-jardim-ritmo-5.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-ritmo-5.mp3")" -gt 1000
+          echo "IMPORTED jardim-ritmo-5"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_6" -o "audios/ritinha-jardim-ritmo-4.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-ritmo-4.mp3")" -gt 1000
+          echo "IMPORTED jardim-ritmo-4"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_7" -o "audios/ritinha-jardim-ritmo-3.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-ritmo-3.mp3")" -gt 1000
+          echo "IMPORTED jardim-ritmo-3"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_8" -o "audios/ritinha-jardim-ritmo-2.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-ritmo-2.mp3")" -gt 1000
+          echo "IMPORTED jardim-ritmo-2"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_9" -o "audios/ritinha-jardim-ritmo-1.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-ritmo-1.mp3")" -gt 1000
+          echo "IMPORTED jardim-ritmo-1"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_10" -o "audios/ritinha-jardim-ritmo-0.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-ritmo-0.mp3")" -gt 1000
+          echo "IMPORTED jardim-ritmo-0"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_11" -o "audios/ritinha-jardim-espelho-5.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-espelho-5.mp3")" -gt 1000
+          echo "IMPORTED jardim-espelho-5"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_12" -o "audios/ritinha-jardim-espelho-4.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-espelho-4.mp3")" -gt 1000
+          echo "IMPORTED jardim-espelho-4"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_13" -o "audios/ritinha-jardim-espelho-3.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-espelho-3.mp3")" -gt 1000
+          echo "IMPORTED jardim-espelho-3"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_14" -o "audios/ritinha-jardim-espelho-2.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-espelho-2.mp3")" -gt 1000
+          echo "IMPORTED jardim-espelho-2"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_15" -o "audios/ritinha-jardim-espelho-1.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-espelho-1.mp3")" -gt 1000
+          echo "IMPORTED jardim-espelho-1"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_16" -o "audios/ritinha-jardim-espelho-0.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-espelho-0.mp3")" -gt 1000
+          echo "IMPORTED jardim-espelho-0"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_17" -o "audios/ritinha-jardim-trilha-5.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-trilha-5.mp3")" -gt 1000
+          echo "IMPORTED jardim-trilha-5"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_18" -o "audios/ritinha-jardim-trilha-4.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-trilha-4.mp3")" -gt 1000
+          echo "IMPORTED jardim-trilha-4"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_19" -o "audios/ritinha-jardim-trilha-3.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-trilha-3.mp3")" -gt 1000
+          echo "IMPORTED jardim-trilha-3"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_20" -o "audios/ritinha-jardim-trilha-2.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-trilha-2.mp3")" -gt 1000
+          echo "IMPORTED jardim-trilha-2"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_21" -o "audios/ritinha-jardim-trilha-1.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-trilha-1.mp3")" -gt 1000
+          echo "IMPORTED jardim-trilha-1"
+          curl -fLsS --retry 3 --retry-delay 2 "$SOUND_22" -o "audios/ritinha-jardim-trilha-0.mp3"
+          test "$(stat -c%s "audios/ritinha-jardim-trilha-0.mp3")" -gt 1000
+          echo "IMPORTED jardim-trilha-0"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "SoulKids voice"
+          git add audios/ritinha-*.mp3
+          git diff --staged --quiet && exit 0
+          git commit -m "Voices staged 23/48"
+          git push
