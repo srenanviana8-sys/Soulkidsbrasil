@@ -7,6 +7,8 @@
   ]);
   let player = null;
   let active = null;
+  // Impede que uma promessa antiga interrompa um novo toque no mesmo áudio.
+  let playbackVersion = 0;
   const listeners = new Set();
 
   function isPlaying(key) {
@@ -18,6 +20,7 @@
     }
   }
   function stop() {
+    playbackVersion++;
     if (player) {
       try { player.pause(); player.currentTime = 0; } catch (_) {}
     }
@@ -35,7 +38,8 @@
   }
   function toggle(key) {
     if (!approved.has(key)) return false;
-    if (isPlaying(key)) {
+    // Mesmo durante o carregamento, tocar novamente deve cancelar o áudio atual.
+    if (active === key) {
       stop();
       return false;
     }
@@ -43,11 +47,14 @@
     try {
       const audio = ensurePlayer();
       active = key;
+      const version = playbackVersion;
       audio.src = "/audios/ritinha-" + key + ".mp3";
       const promise = audio.play();
       notify();
       if (promise && typeof promise.catch === "function") {
-        promise.catch(() => { if (active === key) stop(); });
+        promise.catch(() => {
+          if (playbackVersion === version && active === key) stop();
+        });
       }
       return true;
     } catch (_) {
