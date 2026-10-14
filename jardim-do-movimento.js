@@ -55,29 +55,83 @@
   };
   // Mensagens curtas para a criança; orientações completas permanecem em "Para quem acompanha".
   const childCopy = {
-    trilha:[
-      ["Vamos pelas cores?","Escolha duas cores!"],
-      ["Eu vou pular!","Qual ilha você escolhe?"],
-      ["Tem lugar para todo mundo!","Escolha seu caminho!"],
-      ["Essa linha!","Siga com o corpo ou com o dedo."],
-      ["Vou fazer uma pausa.","Mexer, parar, brincar!"],
-      ["Sua vez de inventar!","Crie uma trilha para nós."]
+    "trilha": [
+      [
+        "Vamos pelas cores?",
+        "Escolha duas cores!"
+      ],
+      [
+        "Eu vou pular!",
+        "Qual ilha você escolhe?"
+      ],
+      [
+        "Tem lugar para todo mundo!",
+        "Escolha seu caminho!"
+      ],
+      [
+        "Essa linha!",
+        "Siga com o corpo ou com o dedo."
+      ],
+      [
+        "Vou fazer uma pausa.",
+        "Mexer, parar, brincar!"
+      ],
+      [
+        "Sua vez de inventar!",
+        "Crie uma trilha para nós."
+      ]
     ],
-    espelho:[
-      ["Faz uma pose comigo?","Braços lá em cima!"],
-      ["Olha a cabeça!","Aponte sua cabeça!"],
-      ["Você escolhe!","Um lado, depois o outro!"],
-      ["Vamos voar?","Abra e feche os braços!"],
-      ["Cadê o joelho?","Mostre onde fica o joelho!"],
-      ["Qual é sua pose?","Invente um movimento!"]
+    "espelho": [
+      [
+        "Faz uma pose comigo?",
+        "Braços lá em cima!"
+      ],
+      [
+        "Olha a cabeça!",
+        "Aponte sua cabeça!"
+      ],
+      [
+        "Você escolhe!",
+        "Um lado, depois o outro!"
+      ],
+      [
+        "Vamos voar?",
+        "Abra e feche os braços!"
+      ],
+      [
+        "Cadê o joelho?",
+        "Mostre onde fica o joelho!"
+      ],
+      [
+        "Qual é sua pose?",
+        "Invente um movimento!"
+      ]
     ],
-    ritmo:[
-      ["Quer fazer um ritmo?","Palma, passo!"],
-      ["Agora vem a pausa!","Palma, palma, pausa."],
-      ["Som e silêncio!","Som, pausa, som."],
-      ["Escolhe um lado!","Esquerda, direita, pausa."],
-      ["Todo mundo junto!","Toque, toque, pausa, toque."],
-      ["Sua sequência!","Palma, pausa, passo, palma."]
+    "ritmo": [
+      [
+        "Quer fazer um ritmo?",
+        "Palma, passo!"
+      ],
+      [
+        "Agora vem a pausa!",
+        "Palma, palma, pausa."
+      ],
+      [
+        "Som e silêncio!",
+        "Som, pausa, som."
+      ],
+      [
+        "Escolhe um lado!",
+        "Esquerda, direita, pausa."
+      ],
+      [
+        "Todo mundo junto!",
+        "Toque, toque, pausa, toque."
+      ],
+      [
+        "Sua sequência!",
+        "Palma, pausa, passo, palma."
+      ]
     ]
   };
   const positions = {trilha:0,espelho:0,ritmo:0};
