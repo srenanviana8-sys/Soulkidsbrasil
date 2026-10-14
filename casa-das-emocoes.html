@@ -120,7 +120,21 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 @media(max-width:850px){.rooms{gap:8px}.room-choice{padding:12px;gap:8px}.room-choice .tile-emoji{font-size:1.8rem}.calm-layout{grid-template-columns:1fr}.calm-glow{width:160px;margin:20px auto 30px}}
 @media(max-width:650px){.wrap{width:min(100% - 24px,1180px)}header .wrap{min-height:68px}.brand{font-size:1.05rem}.brand img{height:40px;width:40px}.top-links a{font-size:.77rem;padding:8px 10px}.top-links a:last-child{display:none}.intro{padding:17px 0 8px}.intro-text{margin-bottom:13px}h1{font-size:2.25rem}.intro-text p{font-size:.92rem}.room-visual{border-width:3px;border-radius:20px}.art-start{display:none}.rooms{grid-template-columns:1fr}.room-choice{min-height:74px;padding:11px 15px}.room-choice strong{font-size:.98rem}.room-choice small{margin-top:0}.activity-panel{border-radius:23px;padding:19px 15px}.panel-heading{gap:9px}.panel-icon{width:57px;height:57px;font-size:2rem}.panel-heading h3{font-size:1.45rem}.panel-heading p{font-size:.9rem}.feelings{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.feeling{min-width:0;padding:10px 5px;font-size:.79rem}.feeling span{font-size:1.6rem}.discovery{padding:19px 13px}.choices{grid-template-columns:1fr}.story-card{padding:20px 15px}.story-option{min-height:56px}.mini-guide{padding:12px 14px}.activity-end>*{width:100%;text-align:center}.calm-controls>*{flex:1 1 100%}.intro-bottom .primary{width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.calm-glow{animation:none!important}.primary,.secondary,.quiet{transition:none}}
-.adult-tip{border:1px solid #e8d9ed;border-radius:15px;margin:13px 0 0;padding:0 13px;background:#fffdfb}.adult-tip summary{cursor:pointer;display:flex;align-items:center;gap:8px;min-height:47px;color:#72549b;font-size:.85rem;font-weight:850;list-style:none}.adult-tip summary::-webkit-details-marker{display:none}.adult-tip summary:after{content:"⌄";margin-left:auto}.adult-tip[open] summary:after{content:"⌃"}.adult-tip p{font-size:.87rem;color:#62718a;margin:0 0 12px}.site-note{max-width:850px;margin:18px auto 0}.activity-header{margin-bottom:18px}.room-choice{min-height:75px}.room-choice small{display:none}</style>
+.adult-tip{border:1px solid #e8d9ed;border-radius:15px;margin:13px 0 0;padding:0 13px;background:#fffdfb}.adult-tip summary{cursor:pointer;display:flex;align-items:center;gap:8px;min-height:47px;color:#72549b;font-size:.85rem;font-weight:850;list-style:none}.adult-tip summary::-webkit-details-marker{display:none}.adult-tip summary:after{content:"⌄";margin-left:auto}.adult-tip[open] summary:after{content:"⌃"}.adult-tip p{font-size:.87rem;color:#62718a;margin:0 0 12px}.site-note{max-width:850px;margin:18px auto 0}.activity-header{margin-bottom:18px}.room-choice{min-height:75px}.room-choice small{display:none}
+/* Cinco retratos oficiais aprovados da Ritinha, sem emojis nas emoções. */
+.feeling{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;flex:1 0 120px;min-width:112px;padding:12px 10px;min-height:144px;text-align:center}
+.feeling img{display:block;width:min(100%,96px);height:auto;aspect-ratio:1;object-fit:cover;border-radius:18px;border:2px solid #fff;box-shadow:0 4px 13px #6d3d8522;background:#fff3e3}
+.feeling span.feeling-label{display:block;font-size:.91rem;line-height:1.22}
+.feeling[aria-pressed="true"] img{border-color:#8b4fbe}
+.emotion-portrait{display:block;width:min(100%,200px);height:auto;aspect-ratio:1;object-fit:cover;border-radius:24px;margin:5px auto 9px;box-shadow:0 10px 30px #7b539532;border:4px solid white;background:#fff0e1}
+@media(max-width:650px){
+ .feelings{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .feeling{flex:none;min-width:0;min-height:113px;padding:9px 3px;border-radius:15px}
+ .feeling img{width:min(100%,73px);border-radius:14px}
+ .feeling span.feeling-label{font-size:.78rem}
+ .emotion-portrait{width:min(100%,154px);border-radius:20px}
+}
+</style>
 </head>
 <body>
 <a href="#conteudo" class="skip">Ir para as atividades</a>
@@ -173,14 +187,14 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 <article class="activity-panel" id="painel-espelho" data-room-panel="espelho" aria-labelledby="mirror-title" hidden>
 <div class="panel-heading"><span class="panel-icon" aria-hidden="true">🪞</span><div><h3 id="mirror-title">Espelho das Emoções</h3></div></div>
 <div class="feelings" role="group" aria-label="Escolha um sentimento">
-<button type="button" class="feeling" data-feeling="feliz" aria-pressed="false"><span aria-hidden="true">😊</span>Feliz</button>
-<button type="button" class="feeling" data-feeling="triste" aria-pressed="false"><span aria-hidden="true">😢</span>Triste</button>
-<button type="button" class="feeling" data-feeling="bravo" aria-pressed="false"><span aria-hidden="true">😠</span>Bravo</button>
-<button type="button" class="feeling" data-feeling="medo" aria-pressed="false"><span aria-hidden="true">😟</span>Com medo</button>
-<button type="button" class="feeling" data-feeling="calmo" aria-pressed="false"><span aria-hidden="true">😌</span>Calmo</button>
+<button type="button" class="feeling" data-feeling="feliz" aria-pressed="false"><img src="/ritinha-feliz.webp" alt="" aria-hidden="true" width="96" height="96" decoding="async"><span class="feeling-label">Feliz</span></button>
+<button type="button" class="feeling" data-feeling="triste" aria-pressed="false"><img src="/ritinha-triste.webp" alt="" aria-hidden="true" width="96" height="96" decoding="async"><span class="feeling-label">Triste</span></button>
+<button type="button" class="feeling" data-feeling="bravo" aria-pressed="false"><img src="/ritinha-bravo.webp" alt="" aria-hidden="true" width="96" height="96" decoding="async"><span class="feeling-label">Bravo</span></button>
+<button type="button" class="feeling" data-feeling="medo" aria-pressed="false"><img src="/ritinha-medo.webp" alt="" aria-hidden="true" width="96" height="96" decoding="async"><span class="feeling-label">Com medo</span></button>
+<button type="button" class="feeling" data-feeling="calmo" aria-pressed="false"><img src="/ritinha-calmo.webp" alt="" aria-hidden="true" width="96" height="96" decoding="async"><span class="feeling-label">Calmo</span></button>
 </div>
 <div class="discovery" aria-live="polite" aria-atomic="true">
-<span class="emotion" id="mirror-face" aria-hidden="true">💗</span>
+<img class="emotion-portrait" id="mirror-face" src="/ritinha-feliz.webp" width="200" height="200" alt="Ritinha sorrindo" decoding="async">
 <h4 id="mirror-name">Escolha um rostinho!</h4>
 <p id="mirror-example">Às vezes sentimos várias coisas no mesmo dia. Tudo bem.</p>
 <details class="adult-tip"><summary>Para quem acompanha</summary><p id="mirror-question">Você pode responder com palavras, gestos, figuras ou só pensar.</p><p>Converse sobre sentimentos sem exigir uma expressão facial ou resposta correta.</p></details>
