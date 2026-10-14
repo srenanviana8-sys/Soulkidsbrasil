@@ -34,6 +34,31 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 .intro-text p{margin:0 auto;color:#5b6479;max-width:580px}
 .room-visual{position:relative;max-width:1040px;margin:0 auto;border:5px solid white;border-radius:34px;overflow:hidden;box-shadow:0 22px 64px #63396b38;background:linear-gradient(135deg,#fce5f5,#eff5ff);aspect-ratio:1448/1086}
 .room-visual img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* Áreas sensíveis diretamente sobre espelho, almofadas e estante da arte aprovada.
+   Dimensões percentuais ancoradas na imagem 1448×1086 (4:3), sem recortes variáveis. */
+.room-visual-hotspots{position:absolute;inset:0;pointer-events:none;z-index:1}
+.room-hotspot{position:absolute;display:flex;align-items:flex-end;justify-content:center;padding:10px 3px;border:2px solid transparent;border-radius:22px;background:transparent;color:#412b66;pointer-events:auto;outline-offset:-4px;isolation:isolate;transition:background .22s ease,border-color .22s ease}
+.hotspot-mirror{left:4.0%;top:4%;width:20%;height:72%}
+.hotspot-calm{left:53%;top:28%;width:22%;height:48%}
+.hotspot-stories{left:76.0%;top:10.5%;width:21%;height:66%}
+.room-hotspot:hover,.room-hotspot:focus-visible{border-color:#fffdf2;background:#fff6e322;box-shadow:inset 0 0 0 2px #ca6dcd44}
+.room-hotspot[aria-pressed="true"]{border-color:#fff8d0;background:#fff0a822}
+.room-hotspot:focus-visible{outline:3px solid #006f9c;outline-offset:-5px}
+.hotspot-tag{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:99px;border:2px solid #fff;background:#fffffff0;box-shadow:0 6px 20px #3f2e5e38;line-height:1;min-height:44px;max-width:100%;font-weight:950;font-size:.82rem;white-space:nowrap;transform:translateY(0);transition:transform .2s ease,background .2s ease}
+.hotspot-icon{font-size:1.2rem}
+.room-hotspot:hover .hotspot-tag,.room-hotspot:focus-visible .hotspot-tag{transform:translateY(-3px);background:#fffbda}
+.room-hotspot[aria-pressed="true"] .hotspot-tag{background:#fff0b7;border-color:#9b5bca}
+.hotspot-hint{max-width:1040px;margin:12px auto 0;text-align:center;font-weight:850;color:#694686;font-size:.9rem}
+@media(max-width:650px){
+.room-hotspot{border-radius:13px;padding:2px}
+.hotspot-tag{width:35px;height:35px;min-height:35px;padding:2px;display:grid;place-items:center;border-width:1px;box-shadow:0 3px 9px #3f2e5e44}
+.hotspot-icon{font-size:1.1rem}
+.hotspot-caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hotspot-hint{font-size:.83rem;margin:8px auto 0}
+}
+@media(prefers-reduced-motion:reduce){.room-hotspot,.hotspot-tag{transition:none!important}}
+
 .art-start{position:absolute;left:40%;width:26%;top:79.5%;height:12%;border:0;background:transparent;border-radius:100px;color:transparent}
 .art-start:hover{box-shadow:inset 0 0 0 4px #fff9}
 .art-start:focus-visible{outline-offset:-5px;outline-color:#fff}
@@ -109,14 +134,27 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 <div class="intro-text">
 <span class="eyebrow">Um quartinho para descobrir e sentir</span>
 <h1 id="page-title">Bem-vindos à Casa das Emoções! 💗</h1>
-<p>A Ritinha preparou brincadeiras para explorar sentimentos, escolher histórias e encontrar um cantinho de tranquilidade.</p>
+<p>A Ritinha preparou brincadeiras para explorar sentimentos, conhecer histórias e encontrar tranquilidade. Toque nos objetos da imagem para descobrir cada cantinho!</p>
 </div>
 <div class="room-visual">
 <img src="/casa-das-emocoes-interior.webp" width="1448" height="1086" fetchpriority="high" alt="Interior acolhedor da Casa das Emoções, com a Ritinha, espelho dos sentimentos, histórias da turma e cantinho da calma.">
+
+<div class="room-visual-hotspots" role="group" aria-label="Explore os objetos do quartinho">
+  <button type="button" class="room-hotspot hotspot-mirror" data-room-open="espelho" aria-label="Tocar no espelho e abrir o Espelho das Emoções" aria-controls="painel-espelho" aria-pressed="false" title="Explorar o Espelho das Emoções">
+    <span class="hotspot-tag" aria-hidden="true"><span class="hotspot-icon">🪞</span><span class="hotspot-caption">Espelho</span></span>
+  </button>
+  <button type="button" class="room-hotspot hotspot-calm" data-room-open="calma" aria-label="Tocar no cantinho de almofadas e abrir o Cantinho da Calma" aria-controls="painel-calma" aria-pressed="false" title="Explorar o Cantinho da Calma">
+    <span class="hotspot-tag" aria-hidden="true"><span class="hotspot-icon">☁️</span><span class="hotspot-caption">Calma</span></span>
+  </button>
+  <button type="button" class="room-hotspot hotspot-stories" data-room-open="historias" aria-label="Tocar na estante e abrir as Histórias da Turma" aria-controls="painel-historias" aria-pressed="false" title="Explorar as Histórias da Turma">
+    <span class="hotspot-tag" aria-hidden="true"><span class="hotspot-icon">📚</span><span class="hotspot-caption">Histórias</span></span>
+  </button>
+</div>
 <button class="art-start" type="button" data-room-start aria-label="Começar a explorar a Casa das Emoções">Começar</button>
 </div>
 <div class="intro-bottom">
 <button type="button" class="primary" data-room-start>✨ Começar a aventura</button>
+<p class="hotspot-hint">✨ Toque no espelho, nas almofadas ou nos livros da imagem para explorar!</p>
 <p class="tiny">Escolha o que quiser, sem pressa. Você pode observar, tocar, ouvir ou brincar acompanhado.</p>
 </div>
 </section>
@@ -129,9 +167,9 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 </div>
 <div class="mini-guide" role="status" aria-live="polite"><span class="face" aria-hidden="true">💖</span><p id="guide-message">Oi, jovem explorador! Aqui todo sentimento pode ser acolhido. Quer brincar comigo?</p></div>
 <div class="rooms" role="group" aria-label="Escolha uma atividade da Casa das Emoções">
-<button type="button" class="room-choice" data-room-open="espelho" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">🪞</span><span><strong>Espelho das Emoções</strong><small>Descobrir diferentes sentimentos</small></span></button>
-<button type="button" class="room-choice" data-room-open="calma" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">☁️</span><span><strong>Cantinho da Calma</strong><small>Encontrar conforto no seu ritmo</small></span></button>
-<button type="button" class="room-choice" data-room-open="historias" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">📚</span><span><strong>Histórias da Turma</strong><small>Escolher o que pode acontecer</small></span></button>
+<button type="button" class="room-choice" data-room-open="espelho" aria-controls="painel-espelho" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">🪞</span><span><strong>Espelho das Emoções</strong><small>Descobrir diferentes sentimentos</small></span></button>
+<button type="button" class="room-choice" data-room-open="calma" aria-controls="painel-calma" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">☁️</span><span><strong>Cantinho da Calma</strong><small>Encontrar conforto no seu ritmo</small></span></button>
+<button type="button" class="room-choice" data-room-open="historias" aria-controls="painel-historias" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">📚</span><span><strong>Histórias da Turma</strong><small>Escolher o que pode acontecer</small></span></button>
 </div>
 
 <article class="activity-panel" id="painel-espelho" data-room-panel="espelho" aria-labelledby="mirror-title" hidden>
