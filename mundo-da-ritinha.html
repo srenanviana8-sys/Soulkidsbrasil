@@ -91,6 +91,41 @@ h1 span{color:#f28029}
 @media(max-width:650px){.wrap{width:min(100% - 24px,1140px)}nav{min-height:69px}.brand{font-size:1.15rem}.brand img{width:45px;height:45px}.nav-items a:not(.nav-btn){display:none}.nav-items .nav-btn{padding:10px 12px;font-size:.83rem}.hero{padding:37px 0 30px}.hero-grid{grid-template-columns:1fr}.hero h1{font-size:clamp(2.65rem,12vw,4.2rem)}.hero-art{min-height:230px}.hero-art img{max-height:280px}.hero-spark{font-size:1.7rem}.actions .btn{flex:1 1 190px}.section{padding:52px 0}.zone-grid{grid-template-columns:1fr;gap:12px}.zone,.zone:nth-child(4),.zone:nth-child(5),.zone:last-child{grid-column:1}.zone{min-height:0;padding:22px}.zone-icon{width:72px;height:68px;font-size:2.7rem;margin-bottom:10px}.zone h3{font-size:1.55rem}.zone p{margin-bottom:16px}.resources-grid{grid-template-columns:1fr}.mission,.passport{padding:20px}.stamps{gap:7px}.stamp-tile{padding:10px 2px;min-height:93px}.stamp-tile .symbol{font-size:1.9rem}.stamp-tile .name{font-size:.68rem}.mission-actions .btn{width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.zone{transition:none}}
 @media print{@page{size:A4;margin:16mm}header,.hero,.world,.passport,.section-title,.resources,.foot,.mission-actions,.local-note{display:none!important}body,main,.discover,.wrap,.discover-grid,.mission{display:block!important;max-width:none!important;width:100%!important;background:#fff!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}.mission{border:3px solid #1b4d68!important;padding:20mm!important}.mission h3{font-size:25pt}.mission-icon{font-size:54pt}.mission-description{font-size:15pt}}
+
+/* Guia Ritinha: animações leves, sem serviços pagos */
+.guia-section{padding:44px 0 53px;background:#fffaf0}
+.guia-panel{display:grid;grid-template-columns:minmax(210px,.74fr) minmax(0,1.26fr);align-items:center;gap:32px;background:linear-gradient(125deg,#f0eaff,#fffcf2 47%,#e9f9f6);border:2px solid #dfe6ef;border-radius:30px;padding:29px 40px 30px 22px;box-shadow:0 20px 47px #1e446320;overflow:hidden}
+.guia-visual{position:relative;display:grid;place-items:center;isolation:isolate;min-height:290px}
+.guia-visual:before{content:"";position:absolute;inset:15px 22px 12px 22px;background:radial-gradient(circle,#fff 0 44%,#c9e9e7 45% 47%,transparent 48%);z-index:-1}
+.guia-visual:after{content:"★";position:absolute;left:12%;bottom:9%;font-size:2rem;color:#fac149;transform:rotate(-13deg)}
+.guia-avatar{display:grid;place-items:center;position:relative;border:0;background:transparent;border-radius:28px;padding:0;width:100%;max-width:310px;min-height:270px}
+.guia-avatar img{display:block;max-width:100%;height:285px;object-fit:contain;filter:drop-shadow(0 12px 13px #263b6a3b);animation:ritinha-float 3.8s ease-in-out infinite}
+.guia-hand{position:absolute;font-size:2.35rem;right:7%;top:12%;pointer-events:none;transform-origin:45% 82%;animation:ritinha-wave 2.4s ease-in-out infinite}
+.guia-star{position:absolute;font-size:1.8rem;left:13%;top:17%;pointer-events:none;animation:ritinha-glow 2.9s ease-in-out infinite}
+.guia-visual-caption{text-align:center;margin-top:-12px;color:#566780;font-weight:800;font-size:.83rem}
+.guia-label{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:#7e4ca6;font-weight:900}
+.guia-content h2{font-size:clamp(1.8rem,3.1vw,2.7rem);margin:8px 0 18px;color:var(--navy)}
+.guia-speech{position:relative;background:white;border:2px solid #dfdaef;box-shadow:0 9px 24px #6f61951c;border-radius:22px;padding:19px 22px;min-height:132px}
+.guia-speech:before{content:"";position:absolute;top:25px;left:-11px;width:18px;height:18px;background:white;border-left:2px solid #dfdaef;border-bottom:2px solid #dfdaef;transform:rotate(45deg)}
+.guia-mood{color:#8753aa;font-weight:900;font-size:.79rem;letter-spacing:.07em;text-transform:uppercase;display:block;margin-bottom:8px}
+.guia-speech p{color:#40596d;font-size:1.05rem;font-weight:650;line-height:1.5;margin:0}
+.guia-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:17px 0 13px}
+.guia-choice{background:#fff;border:2px solid #dee5f1;border-radius:15px;color:var(--navy);font-size:.88rem;font-weight:800;min-height:61px;padding:11px 8px}
+.guia-choice:hover,.guia-choice.selected{background:#e9f8f1;border-color:#33a88a}
+.guia-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.guia-actions .btn{font-size:.94rem;padding:11px 19px;min-height:49px}
+.guia-control{min-height:48px;background:#fff;border:1px solid #cfd7e3;border-radius:13px;padding:10px 13px;font-weight:800;color:#37506b;font-size:.83rem}
+.guia-control[hidden]{display:none}
+.guia-note{font-size:.79rem;color:#607489;line-height:1.55;margin:14px 0 0}
+.guia-panel.motion-paused *, .guia-panel.motion-paused *:before, .guia-panel.motion-paused *:after{animation-play-state:paused!important}
+@keyframes ritinha-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes ritinha-wave{0%,28%,65%,100%{transform:rotate(0deg)}39%,54%{transform:rotate(22deg)}46%{transform:rotate(-10deg)}}
+@keyframes ritinha-glow{0%,100%{opacity:.45;transform:scale(.84)}50%{opacity:1;transform:scale(1.08)}}
+@media(max-width:800px){.guia-panel{grid-template-columns:minmax(150px,.6fr) minmax(0,1.4fr);padding:22px;gap:13px}.guia-avatar img{height:225px}.guia-visual{min-height:240px}}
+@media(max-width:650px){.guia-section{padding:22px 0 35px}.guia-panel{grid-template-columns:1fr;gap:4px;padding:15px 16px 20px;border-radius:24px}.guia-visual{min-height:175px}.guia-avatar{min-height:170px;max-width:240px}.guia-avatar img{height:180px}.guia-visual:before{inset:0 25px}.guia-visual-caption{margin:0}.guia-hand{right:24%;top:3%}.guia-star{left:22%;top:10%}.guia-speech:before{top:-10px;left:49%;border-top:2px solid #dfdaef;border-left:2px solid #dfdaef;border-bottom:0;transform:rotate(45deg)}.guia-content h2{text-align:center;font-size:1.95rem;margin:7px 0 18px}.guia-label{display:block;text-align:center}.guia-speech{min-height:0;padding:15px 17px}.guia-speech p{font-size:.98rem}.guia-choices{gap:6px}.guia-choice{padding:10px 5px;font-size:.78rem;min-height:62px}.guia-actions .btn{flex:1 1 100%}.guia-control{flex:1 1 auto;padding:8px}.guia-note{text-align:center}}
+@media(prefers-reduced-motion:reduce){.guia-avatar img,.guia-hand,.guia-star{animation:none!important}}
+@media print{.guia-section{display:none!important}}
+
 </style>
 </head>
 <body>
@@ -109,6 +144,42 @@ h1 span{color:#f28029}
 <div class="hero-art"><span class="hero-spark one" aria-hidden="true">⭐</span><span class="hero-spark two" aria-hidden="true">🌈</span><span class="hero-spark three" aria-hidden="true">🌼</span>
 <img src="/turma-da-ritinha.webp" alt="Ilustração da turma da Ritinha, com os personagens da SoulKids" loading="eager"></div>
 </div></section>
+
+<section class="guia-section" id="ritinha-guia" aria-labelledby="guia-heading">
+<div class="wrap">
+<div class="guia-panel" id="guia-container">
+<div>
+  <div class="guia-visual">
+    <button type="button" class="guia-avatar" id="guia-avatar" aria-label="Ver outra fala da Ritinha" title="Toque na Ritinha para ver outra fala">
+      <img src="/ritinha-soulkids-s.png" loading="lazy" alt="">
+    </button>
+    <span class="guia-hand" aria-hidden="true">👋</span>
+    <span class="guia-star" aria-hidden="true">✨</span>
+  </div>
+  <div class="guia-visual-caption">Toque na Ritinha para uma nova fala</div>
+</div>
+<div class="guia-content">
+  <span class="guia-label">Sua guia de aventuras</span>
+  <h2 id="guia-heading">A Ritinha quer brincar com você!</h2>
+  <div class="guia-speech" role="status" aria-live="polite" aria-atomic="true">
+    <span class="guia-mood" id="guia-mood">Vamos nos conhecer?</span>
+    <p id="guia-message">Oi! Eu sou a Ritinha. Às vezes fico tímida com novidades, mas gosto de descobrir as coisas no meu tempo. Quer explorar comigo?</p>
+  </div>
+  <div class="guia-choices" role="group" aria-label="Escolha o próximo destino com a Ritinha">
+    <button type="button" class="guia-choice" data-guide-choice="jogos" aria-pressed="false">🎲 Quero jogar</button>
+    <button type="button" class="guia-choice" data-guide-choice="missao" aria-pressed="false">🌟 Quero uma missão</button>
+    <button type="button" class="guia-choice" data-guide-choice="familias" aria-pressed="false">🏡 Para minha família</button>
+  </div>
+  <div class="guia-actions">
+    <a id="guia-go" class="btn btn-primary" href="#lugares">Explorar meu mundo →</a>
+    <button type="button" class="guia-control" id="guia-voice" aria-pressed="false">🔊 Ativar voz</button>
+    <button type="button" class="guia-control" id="guia-motion" aria-pressed="false">⏸️ Pausar animação</button>
+  </div>
+  <p class="guia-note">A Ritinha usa falas preparadas e uma voz opcional do navegador. Não abre conversa livre, não usa câmera ou microfone e não precisa de IA paga.</p>
+</div>
+</div>
+</div>
+</section>
 <section class="world section" id="lugares" aria-labelledby="world-heading">
 <div class="wrap world-inner">
 <div class="section-title"><span class="eyebrow">Seu mapa de descobertas</span><h2 id="world-heading">Para onde vamos hoje?</h2><p>Cada lugar tem uma experiência diferente. Visite as áreas para descobrir jogos e atividades, sem competição e sem pressa.</p></div>
@@ -159,5 +230,6 @@ h1 span{color:#f28029}
 </main>
 <footer class="foot"><div class="wrap foot-links"><span>© 2026 SoulKids · Brincar, pertencer e descobrir.</span><div><a href="/index.html">Site principal</a> · <a href="https://www.instagram.com/soulkids.br/" target="_blank" rel="noopener">Instagram</a></div></div></footer>
 <script src="/mundo-da-ritinha.js" defer></script>
+<script src="/ritinha-guia.js" defer></script>
 </body>
 </html>
