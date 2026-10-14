@@ -120,7 +120,7 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 @media(max-width:850px){.rooms{gap:8px}.room-choice{padding:12px;gap:8px}.room-choice .tile-emoji{font-size:1.8rem}.calm-layout{grid-template-columns:1fr}.calm-glow{width:160px;margin:20px auto 30px}}
 @media(max-width:650px){.wrap{width:min(100% - 24px,1180px)}header .wrap{min-height:68px}.brand{font-size:1.05rem}.brand img{height:40px;width:40px}.top-links a{font-size:.77rem;padding:8px 10px}.top-links a:last-child{display:none}.intro{padding:17px 0 8px}.intro-text{margin-bottom:13px}h1{font-size:2.25rem}.intro-text p{font-size:.92rem}.room-visual{border-width:3px;border-radius:20px}.art-start{display:none}.rooms{grid-template-columns:1fr}.room-choice{min-height:74px;padding:11px 15px}.room-choice strong{font-size:.98rem}.room-choice small{margin-top:0}.activity-panel{border-radius:23px;padding:19px 15px}.panel-heading{gap:9px}.panel-icon{width:57px;height:57px;font-size:2rem}.panel-heading h3{font-size:1.45rem}.panel-heading p{font-size:.9rem}.feelings{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.feeling{min-width:0;padding:10px 5px;font-size:.79rem}.feeling span{font-size:1.6rem}.discovery{padding:19px 13px}.choices{grid-template-columns:1fr}.story-card{padding:20px 15px}.story-option{min-height:56px}.mini-guide{padding:12px 14px}.activity-end>*{width:100%;text-align:center}.calm-controls>*{flex:1 1 100%}.intro-bottom .primary{width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.calm-glow{animation:none!important}.primary,.secondary,.quiet{transition:none}}
-</style>
+.adult-tip{border:1px solid #e8d9ed;border-radius:15px;margin:13px 0 0;padding:0 13px;background:#fffdfb}.adult-tip summary{cursor:pointer;display:flex;align-items:center;gap:8px;min-height:47px;color:#72549b;font-size:.85rem;font-weight:850;list-style:none}.adult-tip summary::-webkit-details-marker{display:none}.adult-tip summary:after{content:"⌄";margin-left:auto}.adult-tip[open] summary:after{content:"⌃"}.adult-tip p{font-size:.87rem;color:#62718a;margin:0 0 12px}.site-note{max-width:850px;margin:18px auto 0}.activity-header{margin-bottom:18px}.room-choice{min-height:75px}.room-choice small{display:none}</style>
 </head>
 <body>
 <a href="#conteudo" class="skip">Ir para as atividades</a>
@@ -134,7 +134,7 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 <div class="intro-text">
 <span class="eyebrow">Um quartinho para descobrir e sentir</span>
 <h1 id="page-title">Bem-vindos à Casa das Emoções! 💗</h1>
-<p>A Ritinha preparou brincadeiras para explorar sentimentos, conhecer histórias e encontrar tranquilidade. Toque nos objetos da imagem para descobrir cada cantinho!</p>
+<p>Entre e escolha: espelho, calma ou histórias!</p>
 </div>
 <div class="room-visual">
 <img src="/casa-das-emocoes-interior.webp" width="1448" height="1086" fetchpriority="high" alt="Interior acolhedor da Casa das Emoções, com a Ritinha, espelho dos sentimentos, histórias da turma e cantinho da calma.">
@@ -154,26 +154,24 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 </div>
 <div class="intro-bottom">
 <button type="button" class="primary" data-room-start>✨ Começar a aventura</button>
-<p class="hotspot-hint">✨ Toque no espelho, nas almofadas ou nos livros da imagem para explorar!</p>
-<p class="tiny">Escolha o que quiser, sem pressa. Você pode observar, tocar, ouvir ou brincar acompanhado.</p>
+<p class="hotspot-hint">Toque em um objeto para brincar!</p>
+
 </div>
 </section>
 
 <section class="activity-area wrap" id="atividades" aria-labelledby="activity-title">
 <div class="activity-header">
-<span class="eyebrow">Você escolhe o caminho</span>
-<h2 id="activity-title">O que vamos descobrir primeiro?</h2>
-<p>Três cantinhos diferentes. Você pode mudar de ideia quando quiser.</p>
+<h2 id="activity-title">Vamos brincar?</h2>
 </div>
-<div class="mini-guide" role="status" aria-live="polite"><span class="face" aria-hidden="true">💖</span><p id="guide-message">Oi, jovem explorador! Aqui todo sentimento pode ser acolhido. Quer brincar comigo?</p></div>
+<div class="mini-guide" role="status" aria-live="polite"><span class="face" aria-hidden="true">💖</span><p id="guide-message">Ritinha: Qual cantinho vamos conhecer?</p></div>
 <div class="rooms" role="group" aria-label="Escolha uma atividade da Casa das Emoções">
-<button type="button" class="room-choice" data-room-open="espelho" aria-controls="painel-espelho" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">🪞</span><span><strong>Espelho das Emoções</strong><small>Descobrir diferentes sentimentos</small></span></button>
-<button type="button" class="room-choice" data-room-open="calma" aria-controls="painel-calma" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">☁️</span><span><strong>Cantinho da Calma</strong><small>Encontrar conforto no seu ritmo</small></span></button>
-<button type="button" class="room-choice" data-room-open="historias" aria-controls="painel-historias" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">📚</span><span><strong>Histórias da Turma</strong><small>Escolher o que pode acontecer</small></span></button>
+<button type="button" class="room-choice" data-room-open="espelho" aria-controls="painel-espelho" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">🪞</span><span><strong>Espelho das Emoções</strong></span></button>
+<button type="button" class="room-choice" data-room-open="calma" aria-controls="painel-calma" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">☁️</span><span><strong>Cantinho da Calma</strong></span></button>
+<button type="button" class="room-choice" data-room-open="historias" aria-controls="painel-historias" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">📚</span><span><strong>Histórias da Turma</strong></span></button>
 </div>
 
 <article class="activity-panel" id="painel-espelho" data-room-panel="espelho" aria-labelledby="mirror-title" hidden>
-<div class="panel-heading"><span class="panel-icon" aria-hidden="true">🪞</span><div><h3 id="mirror-title">Espelho das Emoções</h3><p>Qual rostinho você quer conhecer? Não precisa imitar ninguém.</p></div></div>
+<div class="panel-heading"><span class="panel-icon" aria-hidden="true">🪞</span><div><h3 id="mirror-title">Espelho das Emoções</h3></div></div>
 <div class="feelings" role="group" aria-label="Escolha um sentimento">
 <button type="button" class="feeling" data-feeling="feliz" aria-pressed="false"><span aria-hidden="true">😊</span>Feliz</button>
 <button type="button" class="feeling" data-feeling="triste" aria-pressed="false"><span aria-hidden="true">😢</span>Triste</button>
@@ -185,16 +183,17 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 <span class="emotion" id="mirror-face" aria-hidden="true">💗</span>
 <h4 id="mirror-name">Escolha um rostinho!</h4>
 <p id="mirror-example">Às vezes sentimos várias coisas no mesmo dia. Tudo bem.</p>
-<p id="mirror-question">Você pode responder com palavras, gestos, figuras ou só pensar.</p>
+<details class="adult-tip"><summary>Para quem acompanha</summary><p id="mirror-question">Você pode responder com palavras, gestos, figuras ou só pensar.</p><p>Converse sobre sentimentos sem exigir uma expressão facial ou resposta correta.</p></details>
 </div>
 <div class="action-line"><button type="button" class="secondary" id="mirror-another" disabled>Outra situação ↻</button><button type="button" class="quiet" id="mirror-listen">🔊 Ouvir a descoberta</button></div>
 </article>
 
 <article class="activity-panel" id="painel-calma" data-room-panel="calma" aria-labelledby="calm-title" hidden>
-<div class="panel-heading"><span class="panel-icon" aria-hidden="true">☁️</span><div><h3 id="calm-title">Cantinho da Calma</h3><p>Você decide como quer descansar. Não existe uma maneira obrigatória.</p></div></div>
+<div class="panel-heading"><span class="panel-icon" aria-hidden="true">☁️</span><div><h3 id="calm-title">Cantinho da Calma</h3></div></div>
 <div class="calm-layout">
 <div class="calm-glow" id="calm-glow" aria-hidden="true">🌼</div>
 <div class="calm-message" aria-live="polite" aria-atomic="true"><h4 id="calm-step-title">Um instante só seu</h4><p id="calm-step-text">Que tal escolher algo confortável? Pode ser um objeto macio, um lugar tranquilo ou a companhia de alguém.</p>
+<details class="adult-tip"><summary>Para quem acompanha</summary><p>Ofereça opções e respeite sensibilidades sensoriais, ritmo e preferência da criança. Respirar de um jeito específico não é obrigatório.</p></details>
 <div class="calm-controls">
 <button type="button" class="quiet" id="calm-next">✨ Outra ideia</button>
 <button type="button" class="secondary" id="calm-pause" aria-pressed="false">⏸ Pausar movimento</button>
@@ -204,7 +203,7 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 </article>
 
 <article class="activity-panel" id="painel-historias" data-room-panel="historias" aria-labelledby="stories-title" hidden>
-<div class="panel-heading"><span class="panel-icon" aria-hidden="true">📚</span><div><h3 id="stories-title">Histórias da Turma</h3><p>As escolhas podem ser diferentes. Vamos pensar com carinho?</p></div></div>
+<div class="panel-heading"><span class="panel-icon" aria-hidden="true">📚</span><div><h3 id="stories-title">Histórias da Turma</h3></div></div>
 <div class="story-card">
 <span class="story-character" id="story-character">Um encontro especial</span>
 <h4 id="story-title">Vamos começar uma história?</h4>
@@ -214,6 +213,7 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 <button type="button" class="story-option" data-story-choice="1" aria-pressed="false">Segunda ideia</button>
 </div>
 <div class="feedback" id="story-feedback" aria-live="polite" hidden></div>
+<details class="adult-tip"><summary>Para quem acompanha</summary><p>Não existe uma escolha única. Escute a criança e ajude a turma a reconhecer sentimentos, limites e diferentes formas de comunicação.</p></details>
 </div>
 <div class="action-line"><button type="button" class="secondary" id="story-next">📖 Outra história</button><button type="button" class="quiet" id="story-listen">🔊 Ouvir a história</button></div>
 </article>
@@ -222,7 +222,7 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 <a href="/jogo-emocoes.html" class="primary">🎲 Jogar mais com as emoções →</a>
 <a href="/mundo-da-ritinha.html#passaporte" class="back-link">Voltar ao Passaporte da Ritinha ↗</a>
 </div>
-<p class="tiny" style="text-align:center;margin-top:20px">As brincadeiras são educativas, não são testes ou diagnósticos. Nenhuma atividade exige contar dados pessoais ou mostrar sentimentos que você não queira mostrar.</p>
+<details class="adult-tip site-note"><summary>Para famílias e acompanhantes</summary><p>As brincadeiras são educativas, não são testes nem diagnósticos. Você pode adaptar a participação com gestos, figuras, comunicação alternativa ou observação, sem exigir que a criança mostre sentimentos.</p></details>
 </section>
 </main>
 <footer class="room-footer"><div class="wrap"><p>© 2026 SoulKids · Brincar, pertencer e descobrir. Feito para explorar junto, com respeito ao tempo de cada criança.</p></div></footer>
