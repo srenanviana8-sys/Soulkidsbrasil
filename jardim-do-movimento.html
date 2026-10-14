@@ -109,7 +109,34 @@ footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:cen
 @media(max-width:800px){.cast{flex-direction:column;text-align:center;gap:7px}.cast img{width:85%;max-width:360px;height:180px}.cast-names{justify-content:center}.tabs{gap:6px}.tab{padding:10px;gap:7px;min-height:90px}.tab .symbol{font-size:1.5rem}}
 @media(max-width:580px){.top{min-height:68px}.brand{font-size:1.03rem}.brand img{width:38px;height:38px}.top-nav a{padding:7px 9px;font-size:.73rem}.intro{padding-top:18px}.garden-scene{height:335px;border-radius:22px;border-width:3px}.garden-cloud{transform:scale(.62);transform-origin:left top}.garden-cloud.b{transform:scale(.5)}.garden-sun{width:45px;height:45px}.garden-flowers{font-size:1rem;letter-spacing:5px}.station{padding:8px 4px;border-width:2px;border-radius:15px;min-height:116px}.station-trilha{width:31%;left:2%;bottom:19%}.station-espelho{width:30%;left:35%;top:13%}.station-ritmo{width:31%;right:2%;bottom:19%}.station-icon{font-size:2.25rem}.station strong{font-size:.83rem}.station small{font-size:.6rem}.tabs{grid-template-columns:1fr}.tab{min-height:65px}.activity{padding:18px 13px;border-radius:22px}.panel-icon{width:55px;height:55px;font-size:2rem}.challenge{padding:17px 13px}.challenge-body{align-items:flex-start;gap:10px}.challenge-picture{font-size:2.9rem;min-width:72px;min-height:82px}.challenge-content h4{font-size:1.19rem}.challenge-content p{font-size:.88rem}.challenge-actions>*{flex:1 1 100%}.beats{gap:5px}.beat{min-width:53px;min-height:61px;flex:1 1 56px}.guide{padding:12px 13px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.station,.beat{transition:none!important}.beat.current{transform:none}}
-.adult-tip{background:#f2f8ef;border:1px solid #d7e8d3;border-radius:15px;margin-top:13px;padding:0 12px}.adult-tip summary{cursor:pointer;min-height:47px;display:flex;align-items:center;gap:8px;color:#44745e;font-size:.86rem;font-weight:850;list-style:none}.adult-tip summary::-webkit-details-marker{display:none}.adult-tip summary:after{content:"⌄";margin-left:auto}.adult-tip[open] summary:after{content:"⌃"}.adult-tip p{margin:0 0 13px;color:#567264;font-size:.85rem;line-height:1.6}.site-note{max-width:1030px;margin:20px auto 0}.cast{max-width:820px;gap:10px;padding:10px 15px}.cast img{width:min(24%,180px);height:110px}.cast-copy p{display:none}.challenge-body{margin-top:2px}</style>
+.adult-tip{background:#f2f8ef;border:1px solid #d7e8d3;border-radius:15px;margin-top:13px;padding:0 12px}.adult-tip summary{cursor:pointer;min-height:47px;display:flex;align-items:center;gap:8px;color:#44745e;font-size:.86rem;font-weight:850;list-style:none}.adult-tip summary::-webkit-details-marker{display:none}.adult-tip summary:after{content:"⌄";margin-left:auto}.adult-tip[open] summary:after{content:"⌃"}.adult-tip p{margin:0 0 13px;color:#567264;font-size:.85rem;line-height:1.6}.site-note{max-width:1030px;margin:20px auto 0}.cast{max-width:820px;gap:10px;padding:10px 15px}.cast img{width:min(24%,180px);height:110px}.cast-copy p{display:none}.challenge-body{margin-top:2px}
+/* Personagens ilustrados com recursos gráficos já publicados pela SoulKids.
+   Um retrato individual é exibido apenas quando a identidade foi aprovada.
+   A imagem coletiva representa a turma sem atribuir um rosto incorreto. */
+.guide .guide-ritinha{display:block;width:54px;height:54px;border-radius:50%;object-fit:cover;background:#fff5dc;border:3px solid #fff;box-shadow:0 4px 14px #3c7b4b24;flex:none}
+.challenge-body{align-items:center}
+.challenge-art{width:164px;min-width:164px;height:164px;min-height:164px;overflow:hidden;border:4px solid white;position:relative;box-shadow:0 10px 22px #2b655d24;background:#fff8dd}
+.challenge-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .24s ease,opacity .2s ease}
+.challenge-art[data-art-kind="turma"]{width:192px;min-width:192px;height:164px;border-radius:21px}
+.challenge-art[data-art-kind="turma"] img{object-fit:cover;object-position:center}
+.challenge-art[data-action="trilha"]{background:#fff1c7}
+.challenge-art[data-action="espelho"]{background:#e6f2ff}
+.challenge-art[data-action="ritmo"]{background:#f8e7ff}
+.challenge-art img.changing{opacity:.45}
+.character-name{display:inline-flex;gap:6px;align-items:center;padding:4px 10px;border-radius:99px;background:#fff;font-size:.89rem;letter-spacing:0;color:#6a418a}
+.character-name:before{content:"★";color:#e4ad42}
+.cast img{object-fit:contain}
+@media(max-width:580px){
+ .guide .guide-ritinha{width:44px;height:44px}
+ .challenge-art{width:96px;min-width:96px;height:112px;min-height:112px;border-radius:17px;border-width:2px}
+ .challenge-art[data-art-kind="turma"]{width:108px;min-width:108px;height:112px}
+ .challenge-art img{object-fit:cover}
+ .challenge-body{gap:12px}
+ .challenge-content h4{font-size:1.21rem}
+}
+@media(prefers-reduced-motion:reduce){.challenge-art img{transition:none}}
+
+</style>
 </head>
 <body>
 <a class="skip" href="#atividades">Ir para as brincadeiras</a>
@@ -148,7 +175,7 @@ footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:cen
 </section>
 <section class="activities wrap" id="atividades" aria-labelledby="activities-heading">
 <div class="section-heading"><h2 id="activities-heading">Vamos brincar?</h2></div>
-<div class="guide" role="status" aria-live="polite"><span class="icon" aria-hidden="true">🌈</span><p id="guide-message">Ritinha: Por onde vamos começar?</p></div>
+<div class="guide" role="status" aria-live="polite"><img class="icon guide-ritinha" src="/ritinha-feliz.webp?v=20261014-oficial" alt="" width="54" height="54" decoding="async"><p id="guide-message">Ritinha: Por onde vamos começar?</p></div>
 <div class="tabs" role="group" aria-label="Escolha uma atividade do jardim">
 <button type="button" class="tab" data-garden-open="trilha" aria-controls="painel-trilha" aria-pressed="false"><span class="symbol" aria-hidden="true">👣</span><span>Trilha dos Movimentos</span></button>
 <button type="button" class="tab" data-garden-open="espelho" aria-controls="painel-espelho" aria-pressed="false"><span class="symbol" aria-hidden="true">🪞</span><span>Espelho do Corpo</span></button>
@@ -158,7 +185,7 @@ footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:cen
 <div class="panel-head"><span class="panel-icon" aria-hidden="true">👣</span><div><h3 id="titulo-trilha">Trilha dos Movimentos</h3></div></div>
 <div class="challenge" aria-live="polite" aria-atomic="true">
 <div class="character-name" id="trilha-character">Ritinha</div><p class="character-says" id="trilha-says">Vamos seguir uma trilha? Você pode ir do seu jeito!</p>
-<div class="challenge-body"><div class="challenge-picture" id="trilha-emoji" aria-hidden="true">🟡</div><div class="challenge-content"><h4 id="trilha-title">Caminho de cores</h4><p id="trilha-text">Escolha duas cores no chão e imagine um caminho entre elas.</p></div></div>
+<div class="challenge-body"><div class="challenge-picture challenge-art" data-art-kind="ritinha" data-action="trilha" aria-hidden="true"><img id="trilha-art" src="/ritinha-feliz.webp?v=20261014-oficial" alt="" width="182" height="182" decoding="async"></div><div class="challenge-content"><h4 id="trilha-title">Caminho de cores</h4><p id="trilha-text">Escolha duas cores no chão e imagine um caminho entre elas.</p></div></div>
 <details class="adult-tip"><summary>Para quem acompanha</summary><p>Outro jeito de brincar: <span id="trilha-adapt">Você pode apontar, observar ou guiar um brinquedo pelo caminho.</span></p></details>
 </div><div class="challenge-actions"><button type="button" class="action" id="trilha-next">Outra proposta ↻</button><button type="button" class="action secondary" id="trilha-listen">🔊 Ouvir a brincadeira</button></div>
 </article>
@@ -166,7 +193,7 @@ footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:cen
 <div class="panel-head"><span class="panel-icon" aria-hidden="true">🪞</span><div><h3 id="titulo-espelho">Espelho do Corpo</h3></div></div>
 <div class="challenge" aria-live="polite" aria-atomic="true">
 <div class="character-name" id="espelho-character">Ritinha</div><p class="character-says" id="espelho-says">Quer tentar uma pose comigo?</p>
-<div class="challenge-body"><div class="challenge-picture" id="espelho-emoji" aria-hidden="true">🙆</div><div class="challenge-content"><h4 id="espelho-title">Braços para cima!</h4><p id="espelho-text">Se quiser, eleve os braços em direção ao céu.</p></div></div>
+<div class="challenge-body"><div class="challenge-picture challenge-art" data-art-kind="ritinha" data-action="espelho" aria-hidden="true"><img id="espelho-art" src="/ritinha-feliz.webp?v=20261014-oficial" alt="" width="182" height="182" decoding="async"></div><div class="challenge-content"><h4 id="espelho-title">Braços para cima!</h4><p id="espelho-text">Se quiser, eleve os braços em direção ao céu.</p></div></div>
 <details class="adult-tip"><summary>Para quem acompanha</summary><p>Outro jeito de brincar: <span id="espelho-adapt">Você pode mover só uma mão, apontar, imaginar ou observar.</span></p></details>
 </div><div class="challenge-actions"><button type="button" class="action" id="espelho-next">Outra pose ↻</button><button type="button" class="action secondary" id="espelho-listen">🔊 Ouvir a proposta</button></div>
 </article>
@@ -174,7 +201,7 @@ footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:cen
 <div class="panel-head"><span class="panel-icon" aria-hidden="true">🥁</span><div><h3 id="titulo-ritmo">Bosque do Ritmo</h3></div></div>
 <div class="challenge" aria-live="polite" aria-atomic="true">
 <div class="character-name" id="ritmo-character">Ritinha</div><p class="character-says" id="ritmo-says">Vamos inventar um ritmo? Você pode acompanhar como quiser.</p>
-<div class="challenge-body"><div class="challenge-picture" id="ritmo-emoji" aria-hidden="true">👏</div><div class="challenge-content"><h4 id="ritmo-title">Palma e passo</h4><p id="ritmo-text">Uma palma e um passo. Tente uma vez ou invente sua sequência.</p></div></div>
+<div class="challenge-body"><div class="challenge-picture challenge-art" data-art-kind="ritinha" data-action="ritmo" aria-hidden="true"><img id="ritmo-art" src="/ritinha-feliz.webp?v=20261014-oficial" alt="" width="182" height="182" decoding="async"></div><div class="challenge-content"><h4 id="ritmo-title">Palma e passo</h4><p id="ritmo-text">Uma palma e um passo. Tente uma vez ou invente sua sequência.</p></div></div>
 <details class="adult-tip"><summary>Para quem acompanha</summary><p>Outro jeito de brincar: <span id="ritmo-adapt">Você pode bater o dedo na mesa, usar um objeto sonoro ou acompanhar com o olhar.</span></p></details>
 <div class="rhythm-board"><p class="rhythm-label">Veja o ritmo:</p><div class="beats" id="rhythm-beats" aria-label="Sequência do ritmo atual"></div></div>
 </div><div class="challenge-actions"><button type="button" class="action" id="ritmo-next">Outro ritmo ↻</button><button type="button" class="action secondary" id="ritmo-listen">🔊 Ouvir o ritmo</button><button type="button" class="action secondary" id="ritmo-stop" hidden>Parar ritmo</button></div>
