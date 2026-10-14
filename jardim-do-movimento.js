@@ -39,7 +39,7 @@
   const childCopy = {
     trilha:[
       ["Vamos pelas cores?","Escolha duas cores!"],
-      ["Qual ilha vem agora?","Escolha uma ilha!"],
+      ["Eu vou pular!","Qual ilha você escolhe?"],
       ["Tem lugar para todo mundo!","Escolha seu caminho!"],
       ["Essa linha!","Siga a linha com o corpo ou com o dedo."],
       ["Vou fazer uma pausa.","Mexer... parar... brincar!"],
@@ -115,10 +115,20 @@
   function render(room) {
     const item=prompts[room][positions[room]];
     for(const [part,value] of Object.entries({
-      "character":item.name,"says":childCopy[room][positions[room]][0],"emoji":item.emoji,
+      "character":item.name,"says":childCopy[room][positions[room]][0],
       "title":item.title,"text":childCopy[room][positions[room]][1],"adapt":item.adapt
     })){
       $(room+"-"+part).textContent=value;
+    }
+    // Somente a Ritinha possui retratos individuais aprovados.
+    // Para Luca, Tonico, Lia e Maya, exibir a turma inteira sem inventar rostos.
+    const image=$(room+"-art");
+    if(image){
+      const isRitinha=item.name==="Ritinha";
+      const mood=(room==="espelho"&&positions.espelho===5)?"calmo":"feliz";
+      const art=isRitinha?"/ritinha-"+mood+".webp?v=20261014-oficial":"/turma-soulkids.png";
+      image.parentElement.dataset.artKind=isRitinha?"ritinha":"turma";
+      if(image.getAttribute("src")!==art) image.setAttribute("src",art);
     }
     if(room==="ritmo"){
       const beats=$("rhythm-beats");
