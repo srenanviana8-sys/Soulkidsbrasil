@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eaf8e9">
+<meta name="description" content="Explore o Jardim do Movimento da SoulKids com Ritinha, Luca, Tonico, Lia e Maya: trilha, espelho do corpo e bosque do ritmo. Brincadeiras inclusivas de psicomotricidade.">
+<title>Jardim do Movimento | Mundo da Ritinha | SoulKids</title>
+<link rel="icon" href="/soulkids-symbol.png" type="image/png">
+<link rel="canonical" href="https://soulkidsbrasil.com.br/jardim-do-movimento.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jardim do Movimento — SoulKids">
+<meta property="og:description" content="Um jardim de brincadeiras com Ritinha e sua turma.">
+<meta property="og:image" content="https://soulkidsbrasil.com.br/turma-da-ritinha.webp">
+<style>
+:root{--ink:#183c37;--forest:#25644f;--teal:#2a9981;--sky:#e5f8ff;--berry:#b75a89;--cream:#fffaf0;--soft:#eaf6ed;--line:#d6e9df}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 4% 0,#e0f5ec 0,transparent 30%),radial-gradient(circle at 95% 35%,#fff4cf 0,transparent 30%),var(--cream);color:var(--ink);font:500 16px/1.58 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,a{font:inherit;touch-action:manipulation}button{cursor:pointer}
+[hidden]{display:none!important}
+button:focus-visible,a:focus-visible{outline:3px solid #2745d4;outline-offset:4px}
+.wrap{width:min(1130px,calc(100% - 32px));margin-inline:auto}
+.skip{position:absolute;top:-200px;left:16px;background:white;padding:10px 18px;z-index:99}.skip:focus{top:16px}
+header{background:#ffffffed;border-bottom:1px solid var(--line)}
+.top{display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:74px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:950;font-size:1.24rem;color:#204d80}
+.brand img{width:45px;height:45px;object-fit:contain}
+.top-nav{display:flex;gap:8px;flex-wrap:wrap}
+.top-nav a{color:#266c56;border:1px solid #cae5d4;border-radius:99px;background:#effaf2;font-size:.84rem;font-weight:850;padding:9px 14px;text-decoration:none}
+.intro{padding-top:32px;text-align:center}
+.breadcrumb{text-align:left;color:#61756a;font-size:.8rem;font-weight:800}
+.breadcrumb a{color:#306e5d;text-underline-offset:3px}
+.eyebrow{display:block;color:#9b5e34;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:900}
+h1{font-size:clamp(2.25rem,5vw,4rem);color:#286844;letter-spacing:-.05em;line-height:1.12;margin:5px 0 10px}
+.intro p{max-width:710px;margin:0 auto 19px;color:#506e63}
+.garden-scene{position:relative;height:clamp(315px,41vw,470px);overflow:hidden;border:5px solid white;border-radius:34px;isolation:isolate;box-shadow:0 21px 54px #226e5d33;background:linear-gradient(180deg,#bbecfc 0%,#effbfe 52%,#c6eebc 53%,#8ece88 100%)}
+.garden-sun{position:absolute;right:13%;top:7%;width:78px;height:78px;background:#ffe8a2;border-radius:50%;box-shadow:0 0 0 18px #ffe8a249,0 0 0 43px #ffe8a227}
+.garden-cloud{position:absolute;left:13%;top:11%;width:116px;height:41px;border-radius:40px;background:#fff;box-shadow:-25px 2px 0 -8px #fff,36px -10px 0 5px #fff;opacity:.88}
+.garden-cloud.b{left:57%;top:18%;transform:scale(.73)}
+.garden-hill{position:absolute;left:-20%;bottom:-32%;width:85%;height:67%;background:#82c88b;border-radius:55% 60% 0 0;z-index:1}
+.garden-hill.b{left:44%;width:81%;bottom:-30%;height:71%;background:#74bd83}
+.garden-trail{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.garden-trail path{fill:none;stroke:#f7e2b8;stroke-width:60;stroke-linecap:round;stroke-dasharray:8 19}
+.garden-trail path:nth-child(2){stroke:#e4ba87;stroke-width:3;stroke-dasharray:2 14}
+.garden-bush{position:absolute;bottom:8%;left:33%;width:70px;height:57px;border-radius:50%;background:#36a66b;box-shadow:27px 7px 0 1px #55b975,-30px 15px 0 -5px #6dca79;z-index:3}
+.garden-bush.b{left:83%;bottom:15%;transform:scale(.75)}
+.garden-flowers{position:absolute;left:4%;bottom:7%;z-index:4;font-size:1.65rem;letter-spacing:12px}
+.garden-flowers.b{left:63%;bottom:8%}
+.station{position:absolute;z-index:5;border:3px solid #fffffff2;border-radius:23px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:#153b46;text-align:center;background:#fffdf1ed;box-shadow:0 11px 26px #264b3e30;padding:9px 7px;transition:transform .17s ease,box-shadow .17s ease}
+.station:hover,.station:focus-visible{transform:translateY(-5px);box-shadow:0 15px 35px #264b3e42}
+.station[aria-pressed="true"]{background:#fff0c5;border-color:#9b71d3}
+.station-icon{font-size:clamp(1.6rem,3.3vw,3rem);line-height:1.15;display:block}
+.station strong{font-size:clamp(.77rem,1.5vw,1.13rem);line-height:1.12;color:#1d594e}
+.station small{font-size:.7rem;line-height:1.2;color:#55735f}
+.station-trilha{left:5%;bottom:19%;width:24%;min-height:125px}
+.station-espelho{left:39%;top:20%;width:22%;min-height:130px}
+.station-ritmo{right:4%;bottom:19%;width:24%;min-height:125px}
+.station-trilha:before,.station-espelho:before,.station-ritmo:before{position:absolute;content:"";z-index:-1;inset:-17px;border-radius:29px;background:#ffdeab60}
+.station-espelho:before{background:#e6d3fc7d}.station-ritmo:before{background:#c7edcf9c}
+.scene-note{font-size:.88rem;margin:14px auto 0;color:#3d695b;font-weight:800}
+.scene-note .decor{color:#cc8a4d}
+.cast{margin:20px auto 28px;display:flex;align-items:center;gap:24px;padding:17px;background:#ffffffe0;border:1px solid #d5e6dc;border-radius:24px;max-width:1010px}
+.cast img{width:min(36%,300px);height:155px;object-fit:contain;flex:none}
+.cast-copy strong{display:block;color:#2d6c52;font-size:1.05rem}
+.cast-copy p{margin:4px 0 9px;color:#57695f;font-size:.92rem}
+.cast-names{display:flex;gap:7px;flex-wrap:wrap}
+.cast-names span{background:#f3eaff;border:1px solid #e4d4f5;padding:4px 9px;border-radius:99px;font-size:.78rem;font-weight:800;color:#72538f}
+.activities{padding:12px 0 65px;scroll-margin-top:16px}
+.activities .section-heading{text-align:center;max-width:690px;margin:0 auto 22px}
+.section-heading h2{color:#2d754e;font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.2;margin:3px 0 7px}
+.section-heading p{margin:0;color:#647466}
+.guide{margin:0 auto 20px;max-width:840px;border-radius:21px;border:2px solid #d3e5ce;background:#fff;box-shadow:0 6px 24px #396e5b14;padding:13px 18px;display:flex;gap:12px;align-items:center}
+.guide .icon{font-size:2rem}.guide p{margin:0;font-size:.98rem;font-weight:770;color:#436456}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:0 0 24px}
+.tab{border:2px solid #d8e8d7;background:white;padding:13px 15px;border-radius:20px;color:#365f52;text-align:left;font-weight:900;display:flex;align-items:center;gap:10px;min-height:78px}
+.tab .symbol{font-size:1.9rem}
+.tab small{display:block;font-size:.74rem;color:#697a6a;font-weight:700}
+.tab[aria-pressed="true"]{background:#f6ffe2;border-color:#70b689;box-shadow:0 6px 0 #def0cf}
+.activity{border:2px solid #d9e8d5;background:#fff;border-radius:28px;padding:28px;max-width:1030px;margin:auto;box-shadow:0 20px 35px #37674b14}
+.panel-head{display:flex;gap:13px;align-items:center;margin:0 0 20px}
+.panel-icon{border-radius:19px;width:72px;height:72px;display:grid;place-items:center;background:#f1f9e5;font-size:2.5rem;flex:none}
+.panel-head h3{font-size:clamp(1.45rem,2.6vw,2.1rem);margin:0;color:#285c48;line-height:1.18}
+.panel-head p{margin:4px 0 0;color:#627566}
+.challenge{background:linear-gradient(125deg,#effbed,#fff5dc);border-radius:24px;padding:21px 23px}
+.character-name{font-size:.83rem;color:#80549d;font-weight:950;letter-spacing:.02em}
+.character-says{font-size:.99rem;font-weight:750;color:#62537b;margin:6px 0 16px}
+.challenge-body{display:flex;align-items:center;gap:18px}
+.challenge-picture{font-size:4.2rem;background:#fff;border:2px solid #dceecf;border-radius:20px;display:grid;place-items:center;min-width:106px;min-height:106px}
+.challenge-content h4{margin:0 0 6px;color:#316448;font-size:1.43rem}
+.challenge-content p{margin:5px 0;color:#55715c}
+.adapt{border-top:1px solid #d1e4c8;margin-top:16px;padding-top:13px;font-size:.92rem;color:#536455}
+.adapt strong{color:#39735b}
+.challenge-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px}
+.action{border:2px solid transparent;border-radius:14px;padding:11px 17px;min-height:48px;font-weight:850;color:#fff;background:#38966e;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.action.secondary{background:#fff;border-color:#badfcc;color:#31765c}
+.action.purple{background:#9462b5}
+.action:disabled{opacity:.65;cursor:not-allowed}
+.rhythm-board{margin-top:17px;border:2px solid #d6e4d3;padding:14px;border-radius:20px;background:#fff}
+.rhythm-label{font-weight:800;color:#346c54;margin:0 0 12px}
+.beats{display:flex;gap:10px;flex-wrap:wrap}
+.beat{min-width:67px;min-height:68px;display:grid;place-items:center;padding:8px;border-radius:16px;background:#eef6ff;border:2px solid #c4d7e3;flex:1 1 75px;max-width:135px;font-size:.82rem;font-weight:850;color:#3d5b75;transition:background .2s ease,transform .2s ease}
+.beat strong{display:block;font-size:1.5rem;line-height:1.25}
+.beat.current{background:#ffecaa;border-color:#d49d35;transform:translateY(-2px)}
+.notice{padding:13px 16px;background:#f0f7f1;border-radius:16px;margin:20px 0;color:#536c5a;font-size:.87rem;line-height:1.55}
+.foot-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:25px}
+.foot-nav a{color:#3a715d;font-weight:850}
+footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:center;padding:25px 12px;font-size:.84rem}
+@media(max-width:800px){.cast{flex-direction:column;text-align:center;gap:7px}.cast img{width:85%;max-width:360px;height:180px}.cast-names{justify-content:center}.tabs{gap:6px}.tab{padding:10px;gap:7px;min-height:90px}.tab .symbol{font-size:1.5rem}}
+@media(max-width:580px){.top{min-height:68px}.brand{font-size:1.03rem}.brand img{width:38px;height:38px}.top-nav a{padding:7px 9px;font-size:.73rem}.intro{padding-top:18px}.garden-scene{height:335px;border-radius:22px;border-width:3px}.garden-cloud{transform:scale(.62);transform-origin:left top}.garden-cloud.b{transform:scale(.5)}.garden-sun{width:45px;height:45px}.garden-flowers{font-size:1rem;letter-spacing:5px}.station{padding:8px 4px;border-width:2px;border-radius:15px;min-height:116px}.station-trilha{width:31%;left:2%;bottom:19%}.station-espelho{width:30%;left:35%;top:13%}.station-ritmo{width:31%;right:2%;bottom:19%}.station-icon{font-size:2.25rem}.station strong{font-size:.83rem}.station small{font-size:.6rem}.tabs{grid-template-columns:1fr}.tab{min-height:65px}.activity{padding:18px 13px;border-radius:22px}.panel-icon{width:55px;height:55px;font-size:2rem}.challenge{padding:17px 13px}.challenge-body{align-items:flex-start;gap:10px}.challenge-picture{font-size:2.9rem;min-width:72px;min-height:82px}.challenge-content h4{font-size:1.19rem}.challenge-content p{font-size:.88rem}.challenge-actions>*{flex:1 1 100%}.beats{gap:5px}.beat{min-width:53px;min-height:61px;flex:1 1 56px}.guide{padding:12px 13px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.station,.beat{transition:none!important}.beat.current{transform:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#atividades">Ir para as brincadeiras</a>
+<header><nav class="top wrap" aria-label="Navegação do Jardim do Movimento">
+<a class="brand" href="/mundo-da-ritinha.html"><img src="/soulkids-symbol.png" alt="">SoulKids</a>
+<div class="top-nav"><a href="/mundo-da-ritinha.html">← Mundo da Ritinha</a><a href="/mundo-da-ritinha.html#passaporte">Meu passaporte ✨</a></div>
+</nav></header>
+<main>
+<section class="intro wrap" aria-labelledby="title">
+<p class="breadcrumb"><a href="/mundo-da-ritinha.html">Mundo da Ritinha</a> / Jardim do Movimento</p>
+<span class="eyebrow">Brincar com o corpo · Psicomotricidade</span>
+<h1 id="title">Jardim do Movimento 🌿</h1>
+<p>A Ritinha e sua turma prepararam brincadeiras para descobrir o corpo, explorar caminhos e inventar movimentos. Escolha seu cantinho e participe do seu jeito!</p>
+<div class="garden-scene" role="group" aria-label="Jardim ilustrado com três lugares que podem ser explorados">
+<span class="garden-sun" aria-hidden="true"></span>
+<span class="garden-cloud" aria-hidden="true"></span><span class="garden-cloud b" aria-hidden="true"></span>
+<span class="garden-hill" aria-hidden="true"></span><span class="garden-hill b" aria-hidden="true"></span>
+<svg class="garden-trail" viewBox="0 0 980 420" preserveAspectRatio="none" aria-hidden="true"><path d="M35 342 Q245 300 425 355 T925 320"/><path d="M35 342 Q245 300 425 355 T925 320"/></svg>
+<span class="garden-bush" aria-hidden="true"></span><span class="garden-bush b" aria-hidden="true"></span>
+<span class="garden-flowers" aria-hidden="true">🌼 🌻 🌷</span><span class="garden-flowers b" aria-hidden="true">🌸 🌼 🌺</span>
+<button class="station station-trilha" type="button" data-garden-open="trilha" aria-pressed="false" aria-controls="painel-trilha">
+<span class="station-icon" aria-hidden="true">👣</span><strong>Trilha dos Movimentos</strong><small>Explorar caminhos</small>
+</button>
+<button class="station station-espelho" type="button" data-garden-open="espelho" aria-pressed="false" aria-controls="painel-espelho">
+<span class="station-icon" aria-hidden="true">🪞</span><strong>Espelho do Corpo</strong><small>Inventar posições</small>
+</button>
+<button class="station station-ritmo" type="button" data-garden-open="ritmo" aria-pressed="false" aria-controls="painel-ritmo">
+<span class="station-icon" aria-hidden="true">🥁</span><strong>Bosque do Ritmo</strong><small>Brincar com sons</small>
+</button>
+</div>
+<p class="scene-note"><span class="decor">✨</span> Toque nos lugares do jardim para começar uma brincadeira!</p>
+<div class="cast">
+<img src="/turma-da-ritinha.webp" alt="Ilustração da turma de personagens da SoulKids" loading="lazy" decoding="async">
+<div class="cast-copy"><strong>A Ritinha trouxe a turma!</strong><p>Luca, Tonico, Lia e Maya participam com diferentes ideias. Aqui, a brincadeira pode ser adaptada para cada pessoa.</p><div class="cast-names" aria-label="Personagens que participam das propostas"><span>Ritinha</span><span>Luca</span><span>Tonico</span><span>Lia</span><span>Maya</span></div></div>
+</div>
+</section>
+<section class="activities wrap" id="atividades" aria-labelledby="activities-heading">
+<div class="section-heading"><span class="eyebrow">Você escolhe como brincar</span><h2 id="activities-heading">Qual cantinho vamos explorar?</h2><p>Podemos repetir, adaptar, inventar outro movimento ou apenas observar.</p></div>
+<div class="guide" role="status" aria-live="polite"><span class="icon" aria-hidden="true">🌈</span><p id="guide-message">Ritinha: Oi! Vamos brincar com o corpo? Você escolhe por onde começar!</p></div>
+<div class="tabs" role="group" aria-label="Escolha uma atividade do jardim">
+<button type="button" class="tab" data-garden-open="trilha" aria-controls="painel-trilha" aria-pressed="false"><span class="symbol" aria-hidden="true">👣</span><span>Trilha dos Movimentos<small>Equilíbrio e descobertas</small></span></button>
+<button type="button" class="tab" data-garden-open="espelho" aria-controls="painel-espelho" aria-pressed="false"><span class="symbol" aria-hidden="true">🪞</span><span>Espelho do Corpo<small>Imitação e corpo</small></span></button>
+<button type="button" class="tab" data-garden-open="ritmo" aria-controls="painel-ritmo" aria-pressed="false"><span class="symbol" aria-hidden="true">🥁</span><span>Bosque do Ritmo<small>Sequência e ritmo</small></span></button>
+</div>
+<article class="activity" id="painel-trilha" data-garden-panel="trilha" aria-labelledby="titulo-trilha" hidden>
+<div class="panel-head"><span class="panel-icon" aria-hidden="true">👣</span><div><h3 id="titulo-trilha">Trilha dos Movimentos</h3><p>Escolha um caminho para experimentar com seu corpo — ou com um boneco!</p></div></div>
+<div class="challenge" aria-live="polite" aria-atomic="true">
+<div class="character-name" id="trilha-character">Ritinha</div><p class="character-says" id="trilha-says">Vamos seguir uma trilha? Você pode ir do seu jeito!</p>
+<div class="challenge-body"><div class="challenge-picture" id="trilha-emoji" aria-hidden="true">🟡</div><div class="challenge-content"><h4 id="trilha-title">Caminho de cores</h4><p id="trilha-text">Escolha duas cores no chão e imagine um caminho entre elas.</p></div></div>
+<div class="adapt"><strong>Outro jeito de brincar:</strong> <span id="trilha-adapt">Você pode apontar, observar ou guiar um brinquedo pelo caminho.</span></div>
+</div><div class="challenge-actions"><button type="button" class="action" id="trilha-next">Outra proposta ↻</button><button type="button" class="action secondary" id="trilha-listen">🔊 Ouvir a brincadeira</button></div>
+</article>
+<article class="activity" id="painel-espelho" data-garden-panel="espelho" aria-labelledby="titulo-espelho" hidden>
+<div class="panel-head"><span class="panel-icon" aria-hidden="true">🪞</span><div><h3 id="titulo-espelho">Espelho do Corpo</h3><p>Observe, invente poses e experimente diferentes posições.</p></div></div>
+<div class="challenge" aria-live="polite" aria-atomic="true">
+<div class="character-name" id="espelho-character">Ritinha</div><p class="character-says" id="espelho-says">Quer tentar uma pose comigo?</p>
+<div class="challenge-body"><div class="challenge-picture" id="espelho-emoji" aria-hidden="true">🙆</div><div class="challenge-content"><h4 id="espelho-title">Braços para cima!</h4><p id="espelho-text">Se quiser, eleve os braços em direção ao céu.</p></div></div>
+<div class="adapt"><strong>Outro jeito de brincar:</strong> <span id="espelho-adapt">Você pode mover só uma mão, apontar, imaginar ou observar.</span></div>
+</div><div class="challenge-actions"><button type="button" class="action" id="espelho-next">Outra pose ↻</button><button type="button" class="action secondary" id="espelho-listen">🔊 Ouvir a proposta</button></div>
+</article>
+<article class="activity" id="painel-ritmo" data-garden-panel="ritmo" aria-labelledby="titulo-ritmo" hidden>
+<div class="panel-head"><span class="panel-icon" aria-hidden="true">🥁</span><div><h3 id="titulo-ritmo">Bosque do Ritmo</h3><p>Palmas, sons e pausas para descobrir o tempo das brincadeiras.</p></div></div>
+<div class="challenge" aria-live="polite" aria-atomic="true">
+<div class="character-name" id="ritmo-character">Ritinha</div><p class="character-says" id="ritmo-says">Vamos inventar um ritmo? Você pode acompanhar como quiser.</p>
+<div class="challenge-body"><div class="challenge-picture" id="ritmo-emoji" aria-hidden="true">👏</div><div class="challenge-content"><h4 id="ritmo-title">Palma e passo</h4><p id="ritmo-text">Uma palma e um passo. Tente uma vez ou invente sua sequência.</p></div></div>
+<div class="adapt"><strong>Outro jeito de brincar:</strong> <span id="ritmo-adapt">Você pode bater o dedo na mesa, usar um objeto sonoro ou acompanhar com o olhar.</span></div>
+<div class="rhythm-board"><p class="rhythm-label">Acompanhe a sequência visual:</p><div class="beats" id="rhythm-beats" aria-label="Sequência do ritmo atual"></div></div>
+</div><div class="challenge-actions"><button type="button" class="action" id="ritmo-next">Outro ritmo ↻</button><button type="button" class="action secondary" id="ritmo-listen">🔊 Ouvir o ritmo</button><button type="button" class="action secondary" id="ritmo-stop" hidden>Parar ritmo</button></div>
+</article>
+<p class="notice">Brincadeiras para explorar com apoio de um adulto quando necessário. Mantenha o espaço livre de obstáculos, evite movimentos que provoquem dor ou desconforto e respeite o ritmo e a escolha da criança. São propostas educativas, não avaliações ou tratamentos.</p>
+<div class="foot-nav"><a href="/jogo-ritinha.html" class="action purple">🎲 Jogar com a Ritinha →</a><a href="/mundo-da-ritinha.html#passaporte">Voltar ao passaporte da Ritinha ↗</a></div>
+</section>
+</main>
+<footer>© 2026 SoulKids · Brincar, pertencer e descobrir. Nenhuma imagem ou dado da criança é solicitado.</footer>
+<script src="/jardim-do-movimento.js" defer></script>
+</body></html>
