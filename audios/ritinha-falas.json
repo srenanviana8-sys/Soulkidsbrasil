@@ -1,0 +1,201 @@
+{
+  "version": 1,
+  "voice": "Pip",
+  "languageCode": "pt-br",
+  "model": "eleven_v3",
+  "count": 48,
+  "clips": [
+    {
+      "id": "jardim-trilha-0",
+      "text": "Vamos pelas cores? Escolha duas cores!"
+    },
+    {
+      "id": "jardim-trilha-1",
+      "text": "Eu vou pular! Qual ilha você escolhe?"
+    },
+    {
+      "id": "jardim-trilha-2",
+      "text": "Tem lugar para todo mundo! Escolha seu caminho!"
+    },
+    {
+      "id": "jardim-trilha-3",
+      "text": "Essa linha! Siga com o corpo ou com o dedo."
+    },
+    {
+      "id": "jardim-trilha-4",
+      "text": "Vou fazer uma pausa. Mexer, parar, brincar!"
+    },
+    {
+      "id": "jardim-trilha-5",
+      "text": "Sua vez de inventar! Crie uma trilha para nós."
+    },
+    {
+      "id": "jardim-espelho-0",
+      "text": "Faz uma pose comigo? Braços lá em cima!"
+    },
+    {
+      "id": "jardim-espelho-1",
+      "text": "Olha a cabeça! Aponte sua cabeça!"
+    },
+    {
+      "id": "jardim-espelho-2",
+      "text": "Você escolhe! Um lado, depois o outro!"
+    },
+    {
+      "id": "jardim-espelho-3",
+      "text": "Vamos voar? Abra e feche os braços!"
+    },
+    {
+      "id": "jardim-espelho-4",
+      "text": "Cadê o joelho? Mostre onde fica o joelho!"
+    },
+    {
+      "id": "jardim-espelho-5",
+      "text": "Qual é sua pose? Invente um movimento!"
+    },
+    {
+      "id": "jardim-ritmo-0",
+      "text": "Quer fazer um ritmo? Palma, passo!"
+    },
+    {
+      "id": "jardim-ritmo-1",
+      "text": "Agora vem a pausa! Palma, palma, pausa."
+    },
+    {
+      "id": "jardim-ritmo-2",
+      "text": "Som e silêncio! Som, pausa, som."
+    },
+    {
+      "id": "jardim-ritmo-3",
+      "text": "Escolhe um lado! Esquerda, direita, pausa."
+    },
+    {
+      "id": "jardim-ritmo-4",
+      "text": "Todo mundo junto! Toque, toque, pausa, toque."
+    },
+    {
+      "id": "jardim-ritmo-5",
+      "text": "Sua sequência! Palma, pausa, passo, palma."
+    },
+    {
+      "id": "casa-espelho-feliz-0",
+      "text": "A Ritinha sorriu na brincadeira."
+    },
+    {
+      "id": "casa-espelho-feliz-1",
+      "text": "Luca terminou sua construção!"
+    },
+    {
+      "id": "casa-espelho-feliz-2",
+      "text": "Maya chamou a turma para brincar."
+    },
+    {
+      "id": "casa-espelho-triste-0",
+      "text": "A Ritinha queria brincar mais."
+    },
+    {
+      "id": "casa-espelho-triste-1",
+      "text": "O desenho de Luca rasgou."
+    },
+    {
+      "id": "casa-espelho-triste-2",
+      "text": "Lia está com saudade."
+    },
+    {
+      "id": "casa-espelho-bravo-0",
+      "text": "Pegaram o brinquedo de Lia."
+    },
+    {
+      "id": "casa-espelho-bravo-1",
+      "text": "A torre de Luca caiu."
+    },
+    {
+      "id": "casa-espelho-bravo-2",
+      "text": "A Ritinha ficou frustrada."
+    },
+    {
+      "id": "casa-espelho-medo-0",
+      "text": "A Ritinha ficou insegura na porta."
+    },
+    {
+      "id": "casa-espelho-medo-1",
+      "text": "Tonico se assustou com um som."
+    },
+    {
+      "id": "casa-espelho-medo-2",
+      "text": "Lia não conhece esta brincadeira."
+    },
+    {
+      "id": "casa-espelho-calmo-0",
+      "text": "Ritinha encontrou seu cantinho."
+    },
+    {
+      "id": "casa-espelho-calmo-1",
+      "text": "Maya fez uma pausa."
+    },
+    {
+      "id": "casa-espelho-calmo-2",
+      "text": "Tonico observou as estrelas."
+    },
+    {
+      "id": "casa-historia-0",
+      "text": "Ritinha ficou com medo de entrar numa sala nova."
+    },
+    {
+      "id": "casa-historia-0-resposta-0",
+      "text": "Ritinha pode conhecer a sala aos poucos."
+    },
+    {
+      "id": "casa-historia-0-resposta-1",
+      "text": "Entrar acompanhada pode trazer segurança."
+    },
+    {
+      "id": "casa-historia-1",
+      "text": "Lia disse não, e a turma respeitou a escolha!"
+    },
+    {
+      "id": "casa-historia-1-resposta-0",
+      "text": "Respeitar o tempo da Lia faz bem à turma."
+    },
+    {
+      "id": "casa-historia-1-resposta-1",
+      "text": "Brincar pertinho, sem forçar, também vale."
+    },
+    {
+      "id": "casa-historia-2",
+      "text": "Tonico apontou para uma peça do jogo."
+    },
+    {
+      "id": "casa-historia-2-resposta-0",
+      "text": "Dar duas opções ajuda Tonico a escolher."
+    },
+    {
+      "id": "casa-historia-2-resposta-1",
+      "text": "Esperar o gesto do Tonico é escutar."
+    },
+    {
+      "id": "casa-historia-3",
+      "text": "A torre de Luca caiu. Ele ficou chateado."
+    },
+    {
+      "id": "casa-historia-3-resposta-0",
+      "text": "Perguntar se Luca quer ajuda é acolher."
+    },
+    {
+      "id": "casa-historia-3-resposta-1",
+      "text": "Uma pausa pode ajudar antes de tentar."
+    },
+    {
+      "id": "casa-historia-4",
+      "text": "Maya chegou, mas as peças estavam longe."
+    },
+    {
+      "id": "casa-historia-4-resposta-0",
+      "text": "Pergunte à Maya onde colocar as peças."
+    },
+    {
+      "id": "casa-historia-4-resposta-1",
+      "text": "Uma mesa acessível inclui mais amigos!"
+    }
+  ]
+}
