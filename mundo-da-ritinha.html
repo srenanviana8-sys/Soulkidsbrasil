@@ -199,6 +199,10 @@ h1 span{color:#f28029}
 @media(prefers-reduced-motion:reduce){.story-scene.is-walking .story-traveler,.story-scene.is-walking .story-traveler img,.story-traveler .story-step-sparkle{animation:none!important}.story-house-door,.story-house-hearts{transition:none!important}}
 @media print{.story-adventure{display:none!important}}
 
+/* A Ritinha percorre a trilha em pé: imagem separada da marca S. */
+.story-traveler{width:clamp(78px,9vw,110px)}
+.story-traveler img{width:100%;height:auto;max-height:165px;object-fit:contain;transform-origin:center bottom}
+@media(max-width:650px){.story-traveler{width:clamp(65px,18vw,85px)}.story-traveler img{max-height:132px}}
 </style>
 </head>
 <body>
@@ -288,7 +292,7 @@ h1 span{color:#f28029}
       <span class="story-house-hearts">💗✨</span>
     </div>
     <div class="story-traveler" id="emotions-traveler" aria-hidden="true">
-      <img src="/ritinha-soulkids-s.png" alt="" loading="lazy">
+      <img src="/ritinha-em-pe.webp" alt="" width="128" height="192" loading="eager">
       <span class="story-step-sparkle">✨</span>
     </div>
   </div>
