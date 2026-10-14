@@ -134,6 +134,15 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
  .feeling span.feeling-label{font-size:.78rem}
  .emotion-portrait{width:min(100%,154px);border-radius:20px}
 }
+
+/* Convite com voz humana gravada: toca somente quando solicitado. */
+.mini-guide{flex-wrap:wrap}
+.mini-guide #guide-message{flex:1 1 220px}
+.ritinha-voice-btn{border:2px solid #ddc6ec;border-radius:14px;background:#f8edff;color:#5b3889;font-weight:900;min-height:46px;padding:9px 13px;line-height:1.2;white-space:nowrap;flex:none}
+.ritinha-voice-btn:hover{background:#f1dffc}
+.ritinha-voice-btn[aria-pressed="true"]{border-color:#874cbd;background:#efdafb}
+.ritinha-voice-btn:focus-visible{outline:3px solid #047da5;outline-offset:3px}
+@media(max-width:650px){.ritinha-voice-btn{font-size:.84rem;padding:9px 10px}.mini-guide #guide-message{flex:1 1 150px}}
 </style>
 </head>
 <body>
@@ -177,7 +186,7 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 <div class="activity-header">
 <h2 id="activity-title">Vamos brincar?</h2>
 </div>
-<div class="mini-guide" role="status" aria-live="polite"><span class="face" aria-hidden="true">💖</span><p id="guide-message">Ritinha: Qual cantinho vamos conhecer?</p></div>
+<div class="mini-guide" role="group" aria-label="Convite da Ritinha"><span class="face" aria-hidden="true">💖</span><p id="guide-message" aria-live="polite">Ritinha: Qual cantinho vamos conhecer?</p><button type="button" id="ritinha-ouvir" class="ritinha-voice-btn" aria-pressed="false" aria-label="Ouvir o convite da Ritinha">🔊 Ouvir a Ritinha</button></div>
 <div class="rooms" role="group" aria-label="Escolha uma atividade da Casa das Emoções">
 <button type="button" class="room-choice" data-room-open="espelho" aria-controls="painel-espelho" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">🪞</span><span><strong>Espelho das Emoções</strong></span></button>
 <button type="button" class="room-choice" data-room-open="calma" aria-controls="painel-calma" aria-pressed="false"><span class="tile-emoji" aria-hidden="true">☁️</span><span><strong>Cantinho da Calma</strong></span></button>
@@ -240,6 +249,7 @@ h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.1;margin:7px 0 12px;letter-s
 </section>
 </main>
 <footer class="room-footer"><div class="wrap"><p>© 2026 SoulKids · Brincar, pertencer e descobrir. Feito para explorar junto, com respeito ao tempo de cada criança.</p></div></footer>
+<script src="/ritinha-voz.js" defer></script>
 <script src="/casa-das-emocoes.js" defer></script>
 </body>
 </html>
