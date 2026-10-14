@@ -1,115 +1,34 @@
-name: QA público de áudio SoulKids
+name: QA público de cartilhas SoulKids
 on:
   push:
     branches: [qa/ritinha-live-20261014]
 permissions:
   contents: read
 jobs:
-  smoke:
+  pdfs:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 7
     steps:
-      - name: Conferir endereços públicos e os oito áudios
+      - name: Homepage responde publicamente
+        run: |
+          set -euo pipefail
+          status="$(curl --retry 2 --retry-delay 1 -sSL --max-time 60 -w '%{http_code}' -o /tmp/home.html https://soulkidsbrasil.com.br/)"
+          echo "HOME_TEST $status $(wc -c </tmp/home.html)"
+          test "$status" = 200
+          grep -q 'Cartilha_Psicologia_Infantil_SoulKids_16p.pdf' /tmp/home.html
+          grep -q 'Cartilha_Psicomotricidade_SoulKids_Versao_Definitiva_16p.pdf' /tmp/home.html
+          grep -q 'https://www.instagram.com/soulkids.br/' /tmp/home.html
+      - name: Testar downloads reais dos PDFs
         shell: bash
         run: |
           set -euo pipefail
-          for path in \
-            casa-das-emocoes.html jardim-do-movimento.html ritinha-voz.js \
-            casa-das-emocoes.js jardim-do-movimento.js \
-            audios/ritinha-casa-entrada.mp3 audios/ritinha-casa-espelho.mp3 \
-            audios/ritinha-casa-calma.mp3 audios/ritinha-casa-historias.mp3 \
-            audios/ritinha-jardim-entrada.mp3 audios/ritinha-jardim-trilha.mp3 \
-            audios/ritinha-jardim-espelho.mp3 audios/ritinha-jardim-ritmo.mp3
+          for p in Cartilha_Psicologia_Infantil_SoulKids_16p.pdf Cartilha_Psicomotricidade_SoulKids_Versao_Definitiva_16p.pdf Turma_da_Ritinha_Historia_01_A_Chegada.pdf Turma_da_Ritinha_para_Colorir.pdf
           do
-            address="https://soulkidsbrasil.com.br/$path"
-            status="$(curl --retry 2 --retry-delay 2 -sSL --max-time 45 -w '%{http_code}' -o /tmp/qa_soulkids "$address")"
-            bytes="$(wc -c </tmp/qa_soulkids)"
-            echo "PUBLIC_TEST $status $bytes $path"
+            status="$(curl --retry 2 --retry-delay 1 -sSL --max-time 90 -w '%{http_code}' -o /tmp/cartilha-test.pdf "https://soulkidsbrasil.com.br/$p")"
+            bytes="$(wc -c </tmp/cartilha-test.pdf)"
+            magic="$(head -c 5 /tmp/cartilha-test.pdf)"
+            echo "PDF_DOWNLOAD_TEST $status $bytes $magic $p"
             test "$status" = 200
-            test "$bytes" -gt 1000
+            test "$magic" = '%PDF-'
+            test "$bytes" -gt 10000
           done
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Instalar teste de navegador
-        run: npm install --no-save --ignore-scripts playwright@1.56.1
-      - name: Simular uso real no celular e no computador
-        shell: bash
-        run: |
-          node <<'NODE'
-          const { chromium } = require('playwright');
-          const assert = require('node:assert/strict');
-          (async()=>{
-            const browser=await chromium.launch({channel:'chrome',headless:true,args:['--no-sandbox','--autoplay-policy=no-user-gesture-required']});
-            const sites=[
-              {path:'casa-das-emocoes.html',rooms:['espelho','calma','historias'],prefix:'casa',selector:'data-room-open'},
-              {path:'jardim-do-movimento.html',rooms:['trilha','espelho','ritmo'],prefix:'jardim',selector:'data-garden-open'}
-            ];
-            for(const profile of [{name:'Android 390',width:390,height:844,isMobile:true,hasTouch:true},{name:'desktop 1280',width:1280,height:800,isMobile:false,hasTouch:false}]){
-              const context=await browser.newContext({viewport:{width:profile.width,height:profile.height},isMobile:profile.isMobile,hasTouch:profile.hasTouch});
-              for(const site of sites){
-                const page=await context.newPage();
-                const errs=[];
-                page.on('pageerror',e=>errs.push(String(e)));
-                page.on('response',r=>{if(r.status()>=400&&r.url().startsWith('https://soulkidsbrasil.com.br/'))errs.push('HTTP '+r.status()+' '+r.url());});
-                await page.addInitScript(()=>{
-                  window.__voiceAudio=[];
-                  const original=document.createElement.bind(document);
-                  document.createElement=function(tag,...args){
-                    const item=original(tag,...args);
-                    if(String(tag).toLowerCase()==='audio')window.__voiceAudio.push(item);
-                    return item;
-                  };
-                });
-                const addr='https://soulkidsbrasil.com.br/'+site.path;
-                const response=await page.goto(addr,{waitUntil:'domcontentloaded',timeout:45000});
-                assert.equal(response.status(),200,addr);
-                await page.locator('#ritinha-ouvir').waitFor({state:'visible'});
-                assert.ok(await page.evaluate(()=>Boolean(window.SoulKidsVozRitinha)),'Player script loaded');
-                assert.equal(await page.evaluate(()=>window.__voiceAudio.length),0,'No autoplay');
-                const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:window.innerWidth}));
-                console.log('LAYOUT '+profile.name+' '+site.path+' scroll='+overflow.scroll+' viewport='+overflow.viewport);
-                assert.ok(overflow.scroll<=overflow.viewport+4,'No horizontal overflow');
-                const button=page.locator('#ritinha-ouvir');
-                await button.click();
-                await page.waitForTimeout(650);
-                let current=await page.evaluate(()=>window.__voiceAudio.map(a=>({src:a.getAttribute('src'),paused:a.paused,readyState:a.readyState,error:a.error&&a.error.code})));
-                assert.equal(current.length,1,'one shared audio');
-                assert.equal(current[0].src,'/audios/ritinha-'+site.prefix+'-entrada.mp3','entry clip correct');
-                assert.ok(!current[0].error,'entry audio decodes');
-                console.log('PLAY_ENTRY '+profile.name+' '+site.path+' '+JSON.stringify(current[0]));
-                await button.click();
-                assert.equal(await page.evaluate(()=>window.SoulKidsVozRitinha.isPlaying()),false,'button stops audio');
-                for(const room of site.rooms){
-                  await page.locator('['+site.selector+'="'+room+'"]').first().click();
-                  assert.equal(await page.evaluate(()=>window.SoulKidsVozRitinha.isPlaying()),false,'room change stays silent');
-                  await button.click();
-                  await page.waitForTimeout(450);
-                  current=await page.evaluate(()=>window.__voiceAudio.map(a=>({src:a.getAttribute('src'),paused:a.paused,readyState:a.readyState,error:a.error&&a.error.code})));
-                  assert.equal(current[0].src,'/audios/ritinha-'+site.prefix+'-'+room+'.mp3','room mapping '+room);
-                  assert.ok(!current[0].error,'room audio decode '+room);
-                  console.log('PLAY_ROOM '+profile.name+' '+site.path+' '+room+' '+JSON.stringify(current[0]));
-                  await button.click();
-                }
-                if(site.prefix==='jardim'){
-                  await page.locator('[data-garden-open="trilha"]').first().click();
-                  await page.locator('#trilha-next').click();
-                  assert.match(await page.locator('#trilha-art').getAttribute('src'),/movimento-luca\.webp/,'Luca image changes');
-                  for(let i=0;i<2;i++) await page.locator('#trilha-next').click();
-                  assert.match(await page.locator('#trilha-art').getAttribute('src'),/movimento-tonico\.webp/,'Tonico image changes');
-                  console.log('JARDIM_CHARACTERS '+profile.name+' OK');
-                }else{
-                  await page.locator('[data-room-open="espelho"]').first().click();
-                  await page.locator('[data-feeling="feliz"]').first().click();
-                  assert.match(await page.locator('#mirror-face').getAttribute('src'),/ritinha-feliz\.webp/,'Ritinha expression');
-                  console.log('CASA_EMOTIONS '+profile.name+' OK');
-                }
-                assert.deepEqual(errs,[],'JS/HTTP errors');
-                console.log('BROWSER_OK '+profile.name+' '+site.path);
-                await page.close();
-              }
-              await context.close();
-            }
-            await browser.close();
-          })().catch(e=>{console.error('QA_FAILED',e);process.exitCode=1;});
-          NODE
