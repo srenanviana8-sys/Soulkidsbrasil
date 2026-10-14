@@ -16,7 +16,6 @@
       voiceButton.setAttribute("aria-label", active ? "Parar voz da Ritinha" : "Ouvir o convite da Ritinha");
     });
     voiceButton.addEventListener("click", () => {
-      stopSpeech();
       stopRhythm();
       voicePlayer.toggle(voiceClip());
     });
@@ -27,7 +26,6 @@
   if (!controls.length || !panels.length || !guide) return;
 
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
-  const speechReady = typeof window.SpeechSynthesisUtterance === "function" && "speechSynthesis" in window;
   const musicReady = Boolean(window.AudioContext || window.webkitAudioContext);
   const prompts = {
     trilha: [
@@ -61,20 +59,20 @@
       ["Vamos pelas cores?","Escolha duas cores!"],
       ["Eu vou pular!","Qual ilha você escolhe?"],
       ["Tem lugar para todo mundo!","Escolha seu caminho!"],
-      ["Essa linha!","Siga a linha com o corpo ou com o dedo."],
-      ["Vou fazer uma pausa.","Mexer... parar... brincar!"],
+      ["Essa linha!","Siga com o corpo ou com o dedo."],
+      ["Vou fazer uma pausa.","Mexer, parar, brincar!"],
       ["Sua vez de inventar!","Crie uma trilha para nós."]
     ],
     espelho:[
       ["Faz uma pose comigo?","Braços lá em cima!"],
       ["Olha a cabeça!","Aponte sua cabeça!"],
-      ["Você escolhe!","Um lado. Depois o outro!"],
+      ["Você escolhe!","Um lado, depois o outro!"],
       ["Vamos voar?","Abra e feche os braços!"],
       ["Cadê o joelho?","Mostre onde fica o joelho!"],
       ["Qual é sua pose?","Invente um movimento!"]
     ],
     ritmo:[
-      ["Quer fazer um ritmo?","Palma. Passo!"],
+      ["Quer fazer um ritmo?","Palma, passo!"],
       ["Agora vem a pausa!","Palma, palma, pausa."],
       ["Som e silêncio!","Som, pausa, som."],
       ["Escolhe um lado!","Esquerda, direita, pausa."],
@@ -83,6 +81,27 @@
     ]
   };
   const positions = {trilha:0,espelho:0,ritmo:0};
+  const labels={
+    trilha:"🔊 Ouvir a brincadeira",
+    espelho:"🔊 Ouvir a proposta",
+    ritmo:"🔊 Ouvir a proposta"
+  };
+  if (voicePlayer) {
+    voicePlayer.subscribe(()=>{
+      for(const room of Object.keys(labels)){
+        const button=$(room==="ritmo"?"ritmo-speak":room+"-listen");
+        const active=voicePlayer.isPlaying("jardim-"+room+"-"+positions[room]);
+        button.setAttribute("aria-pressed",String(active));
+        button.textContent=active?"⏹ Parar a fala":labels[room];
+      }
+    });
+  } else {
+    ["trilha-listen","espelho-listen","ritmo-speak"].forEach(id=>{$(id).hidden=true;});
+  }
+  $("ritmo-speak").addEventListener("click",()=>{
+    if(playing)stopRhythm();
+    voicePlayer?.toggle("jardim-ritmo-"+positions.ritmo);
+  });
   const roomFalas = {
     trilha:"Ritinha: Vamos pela trilha?",
     espelho:"Ritinha: Faz uma pose comigo?",
@@ -105,23 +124,6 @@
       if (!zones.includes("movimento")) zones.push("movimento");
       localStorage.setItem(STORAGE,JSON.stringify({...obj,zones}));
     } catch (_) { /* A experiência não depende do armazenamento. */ }
-  }
-  function stopSpeech() {
-    if (!speechReady) return;
-    try {window.speechSynthesis.cancel();} catch (_) {}
-  }
-  function speak(text) {
-    if (!speechReady || !text) return;
-    stopSpeech();
-    voicePlayer?.stop();
-    try {
-      const utterance = new window.SpeechSynthesisUtterance(text);
-      utterance.lang="pt-BR";utterance.rate=.9;utterance.pitch=1.04;
-      window.speechSynthesis.speak(utterance);
-    } catch (_) {}
-  }
-  if (!speechReady) {
-    ["trilha-listen","espelho-listen"].forEach(id => {const el=$(id);if(el)el.hidden=true;});
   }
   function stopRhythm() {
     timeouts.splice(0).forEach(id => window.clearTimeout(id));
@@ -178,7 +180,6 @@
     voicePlayer?.stop();
     currentRoom = room;
     stopRhythm();
-    stopSpeech();
     registerVisit();
     controls.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.gardenOpen===room)));
     panels.forEach(p=>{p.hidden=p.dataset.gardenPanel!==room;});
@@ -194,6 +195,7 @@
   controls.forEach(b=>b.addEventListener("click",()=>openRoom(b.dataset.gardenOpen,true)));
   for(const room of Object.keys(prompts)){
     $(room+"-next").addEventListener("click",()=>{
+      voicePlayer?.stop();
       if(playing)stopRhythm();
       positions[room]=(positions[room]+1)%prompts[room].length;
       render(room);
@@ -201,8 +203,7 @@
     });
     if(room!=="ritmo"){
       $(room+"-listen").addEventListener("click",()=>{
-        const p=prompts[room][positions[room]];
-        speak(p.name+" diz: "+childCopy[room][positions[room]].join(" "));
+        voicePlayer?.toggle("jardim-"+room+"-"+positions[room]);
       });
     }
   }
@@ -222,7 +223,6 @@
   }
   listen.addEventListener("click",()=>{
     stopRhythm();
-    stopSpeech();
     voicePlayer?.stop();
     const seq=prompts.ritmo[positions.ritmo].sequence;
     if(musicReady){
@@ -245,9 +245,9 @@
   });
   $("ritmo-stop").addEventListener("click",stopRhythm);
   document.addEventListener("visibilitychange",()=>{
-    if(document.hidden){stopRhythm();stopSpeech();}
+    if(document.hidden){stopRhythm();}
   });
-  window.addEventListener("pagehide",()=>{stopRhythm();stopSpeech();});
+  window.addEventListener("pagehide",stopRhythm);
   const key=window.location?.hash?.replace("#","");
   if(key in prompts)openRoom(key);
 })();
