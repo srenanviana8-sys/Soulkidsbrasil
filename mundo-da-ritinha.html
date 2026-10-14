@@ -170,13 +170,25 @@ h1 span{color:#f28029}
 .story-scene.is-arrived .story-house-door{transform:rotateY(-78deg)}
 .story-house-hearts{position:absolute;right:-2%;top:-15%;z-index:6;font-size:2.3rem;opacity:0;transform:translateY(8px) scale(.7);transition:opacity 420ms ease,transform 420ms ease;pointer-events:none}
 .story-scene.is-arrived .story-house-hearts{opacity:1;transform:translateY(0) scale(1)}
-.story-traveler{position:absolute;z-index:7;left:7%;bottom:19%;width:clamp(77px,11vw,120px);filter:drop-shadow(0 8px 9px #2f675c3c);pointer-events:none}
-.story-traveler img{display:block;width:100%;max-height:150px;object-fit:contain}
-.story-traveler .story-step-sparkle{position:absolute;font-size:1.2rem;left:0;top:4%;animation:story-sparkle 1s alternate infinite}
-.story-scene.is-walking .story-traveler{animation:ritinha-travel 3.3s cubic-bezier(.42,.11,.36,1) both}
-.story-scene.is-walking .story-traveler img{animation:ritinha-footstep .36s ease-in-out infinite}
-.story-scene.is-arrived .story-traveler{left:61%;bottom:23%}
-.story-scene.is-arrived .story-traveler .story-step-sparkle{animation:none}
+.story-route .story-progress{stroke:#fff8b4;stroke-width:14;stroke-dasharray:100 100;stroke-dashoffset:100;stroke-linecap:round;filter:drop-shadow(0 0 9px #fff469)}
+.story-scene.is-walking .story-progress{animation:story-light-path 3.3s linear forwards}
+.story-scene.is-arrived .story-progress{stroke-dashoffset:0}
+.story-trail-markers{position:absolute;inset:0;z-index:5;pointer-events:none}
+.story-trail-marker{position:absolute;display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:#fff8efeb;border:2px solid #ffdfab;color:#cb6f94;font-size:1.05rem;line-height:1;opacity:.5;transform:translate(-50%,50%) scale(.82);box-shadow:0 3px 10px #99604b26}
+.story-trail-marker:nth-child(1){left:16%;bottom:20%}
+.story-trail-marker:nth-child(2){left:26%;bottom:18%}
+.story-trail-marker:nth-child(3){left:37%;bottom:16%}
+.story-trail-marker:nth-child(4){left:48%;bottom:17%}
+.story-trail-marker:nth-child(5){left:59%;bottom:18%}
+.story-trail-marker:nth-child(6){left:69%;bottom:22%}
+.story-scene.is-walking .story-trail-marker{opacity:0;animation:story-light-step .45s cubic-bezier(.2,1.45,.36,1) both}
+.story-scene.is-walking .story-trail-marker:nth-child(1){animation-delay:.22s}
+.story-scene.is-walking .story-trail-marker:nth-child(2){animation-delay:.7s}
+.story-scene.is-walking .story-trail-marker:nth-child(3){animation-delay:1.2s}
+.story-scene.is-walking .story-trail-marker:nth-child(4){animation-delay:1.7s}
+.story-scene.is-walking .story-trail-marker:nth-child(5){animation-delay:2.2s}
+.story-scene.is-walking .story-trail-marker:nth-child(6){animation-delay:2.75s}
+.story-scene.is-arrived .story-trail-marker{opacity:1;transform:translate(-50%,50%) scale(1);background:#fff9e5;box-shadow:0 0 15px #fff4a4}
 .story-scene:before{content:"";position:absolute;left:0;bottom:0;width:100%;height:5%;background:#77b982;z-index:3}
 .story-scene-marker{position:absolute;left:5%;top:8%;z-index:5;font-weight:900;font-size:.76rem;color:#2d7a6a;background:#ffffffd9;padding:7px 12px;border-radius:40px}
 .story-scene-marker.arrival{left:auto;right:6%;color:#a04c7b}
@@ -191,18 +203,13 @@ h1 span{color:#f28029}
 .story-adventure [hidden]{display:none!important}
 .story-adventure-note{font-size:.8rem;line-height:1.5;color:#627587;margin:0;padding:0 28px 23px}
 .story-adventure .story-action:focus-visible,.story-adventure .story-secondary:focus-visible,.story-adventure .story-tertiary:focus-visible{outline:3px solid #edb73e;outline-offset:2px}
-@keyframes ritinha-travel{0%{left:7%;bottom:19%}25%{left:21%;bottom:17%}50%{left:35%;bottom:19%}75%{left:49%;bottom:21%}100%{left:61%;bottom:23%}}
-@keyframes ritinha-footstep{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
-@keyframes story-sparkle{from{transform:scale(.8);opacity:.5}to{transform:scale(1.15);opacity:1}}
+@keyframes story-light-path{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes story-light-step{from{opacity:0;transform:translate(-50%,55%) scale(.45)}to{opacity:1;transform:translate(-50%,50%) scale(1)}}
 @media(max-width:850px){.story-adventure-heading{align-items:flex-start;flex-direction:column;gap:11px}.story-adventure-footer{flex-direction:column;align-items:stretch;gap:13px}.story-adventure-actions{justify-content:flex-start}.story-status{max-width:none}}
-@media(max-width:650px){.story-adventure{margin:18px 0 26px;border-radius:24px}.story-adventure-heading{padding:22px 19px 18px}.story-adventure-heading h3{font-size:1.7rem}.story-scene{height:clamp(224px,68vw,302px)}.story-sun{width:50px;height:50px}.story-cloud{transform:scale(.6);transform-origin:0 0}.story-cloud.two{transform:scale(.5)}.story-tree{transform:scale(.65);transform-origin:bottom}.story-house{width:34%;right:2%;bottom:19%;height:48%}.story-house-sign{top:36%;font-size:.58rem;padding:3px 0}.story-house-body{border-width:2px}.story-house-window{border-width:2px}.story-house-entry{border-width:2px}.story-house-hearts{font-size:1.3rem}.story-traveler{width:clamp(76px,21vw,100px)}.story-scene-marker{font-size:.59rem;left:3%;padding:5px 7px}.story-scene-marker.arrival{right:2%;max-width:36%;text-align:center}.story-flowers{letter-spacing:8px;font-size:1rem}.story-adventure-footer{padding:19px 16px 18px}.story-adventure-actions{gap:8px}.story-action,.story-secondary,.story-tertiary{width:100%}.story-adventure-note{padding:0 16px 20px}}
-@media(prefers-reduced-motion:reduce){.story-scene.is-walking .story-traveler,.story-scene.is-walking .story-traveler img,.story-traveler .story-step-sparkle{animation:none!important}.story-house-door,.story-house-hearts{transition:none!important}}
+@media(max-width:650px){.story-adventure{margin:18px 0 26px;border-radius:24px}.story-adventure-heading{padding:22px 19px 18px}.story-adventure-heading h3{font-size:1.7rem}.story-scene{height:clamp(224px,68vw,302px)}.story-sun{width:50px;height:50px}.story-cloud{transform:scale(.6);transform-origin:0 0}.story-cloud.two{transform:scale(.5)}.story-tree{transform:scale(.65);transform-origin:bottom}.story-house{width:34%;right:2%;bottom:19%;height:48%}.story-house-sign{top:36%;font-size:.58rem;padding:3px 0}.story-house-body{border-width:2px}.story-house-window{border-width:2px}.story-house-entry{border-width:2px}.story-house-hearts{font-size:1.3rem}.story-trail-marker{width:22px;height:22px;font-size:.74rem}.story-scene-marker{font-size:.59rem;left:3%;padding:5px 7px}.story-scene-marker.arrival{right:2%;max-width:36%;text-align:center}.story-flowers{letter-spacing:8px;font-size:1rem}.story-adventure-footer{padding:19px 16px 18px}.story-adventure-actions{gap:8px}.story-action,.story-secondary,.story-tertiary{width:100%}.story-adventure-note{padding:0 16px 20px}}
+@media(prefers-reduced-motion:reduce){.story-scene.is-walking .story-progress,.story-scene.is-walking .story-trail-marker{animation:none!important}.story-house-door,.story-house-hearts{transition:none!important}}
 @media print{.story-adventure{display:none!important}}
 
-/* A Ritinha percorre a trilha em pé: imagem separada da marca S. */
-.story-traveler{width:clamp(78px,9vw,110px)}
-.story-traveler img{width:100%;height:auto;max-height:165px;object-fit:contain;transform-origin:center bottom}
-@media(max-width:650px){.story-traveler{width:clamp(65px,18vw,85px)}.story-traveler img{max-height:132px}}
 </style>
 </head>
 <body>
@@ -267,18 +274,18 @@ h1 span{color:#f28029}
   <div class="story-adventure-heading">
     <div>
       <span class="story-kicker">Primeira aventura guiada · Casa das Emoções</span>
-      <h3 id="emotions-adventure-title">Vamos acompanhar a Ritinha até a primeira casinha?</h3>
-      <p>Comece o passeio para ver o caminho, descobrir a porta e entrar no jogo das emoções. A criança pode fazer tudo no próprio ritmo.</p>
+      <h3 id="emotions-adventure-title">Vamos iluminar o caminho até a primeira casinha?</h3>
+      <p>A Ritinha vai orientar o passeio: siga as luzinhas, veja a porta se abrir e descubra o jogo das emoções.</p>
     </div>
     <span class="story-adventure-indicator" aria-label="Experiência gratuita, sem inteligência artificial paga">✨ Passeio interativo</span>
   </div>
-  <div class="story-scene" id="emotions-scene" data-state="idle" role="img" aria-label="Paisagem ilustrada com jardim, caminho, Ritinha e a Casa das Emoções com porta rosa">
+  <div class="story-scene" id="emotions-scene" data-state="idle" role="img" aria-label="Jardim ilustrado com luzes no caminho e a Casa das Emoções com uma porta rosa">
     <span class="story-sun" aria-hidden="true"></span>
     <span class="story-cloud" aria-hidden="true"></span><span class="story-cloud two" aria-hidden="true"></span>
     <span class="story-hill" aria-hidden="true"></span><span class="story-hill two" aria-hidden="true"></span>
     <svg class="story-route" viewBox="0 0 900 360" preserveAspectRatio="none" aria-hidden="true">
       <path d="M105 285 Q225 270 320 302 T540 289 Q640 285 755 255"/>
-      <path class="line" d="M105 285 Q225 270 320 302 T540 289 Q640 285 755 255"/>
+      <path class="line" d="M105 285 Q225 270 320 302 T540 289 Q640 285 755 255"/><path class="story-progress" id="emotions-progress" pathLength="100" d="M105 285 Q225 270 320 302 T540 289 Q640 285 755 255"/>
     </svg>
     <span class="story-tree" aria-hidden="true"></span><span class="story-flowers" aria-hidden="true">🌼 🌸 🌷</span>
     <span class="story-scene-marker" aria-hidden="true">🏡 Praça da Amizade</span>
@@ -291,25 +298,25 @@ h1 span{color:#f28029}
       <span class="story-house-entry"><span class="story-house-door"></span></span>
       <span class="story-house-hearts">💗✨</span>
     </div>
-    <div class="story-traveler" id="emotions-traveler" aria-hidden="true">
-      <img src="/ritinha-em-pe.webp" alt="" width="128" height="192" loading="eager">
-      <span class="story-step-sparkle">✨</span>
+    <div class="story-trail-markers" aria-hidden="true">
+      <span class="story-trail-marker">✦</span><span class="story-trail-marker">✦</span><span class="story-trail-marker">✦</span>
+      <span class="story-trail-marker">✦</span><span class="story-trail-marker">✦</span><span class="story-trail-marker">♥</span>
     </div>
   </div>
   <div class="story-adventure-footer">
     <p class="story-status" id="emotions-status" role="status" aria-live="polite" aria-atomic="true">Ritinha: “Oi! Vamos conhecer a Casa das Emoções? Eu te mostro o caminho!”</p>
     <div class="story-adventure-actions">
-      <button type="button" class="story-action" id="emotions-start">Acompanhar a Ritinha →</button>
+      <button type="button" class="story-action" id="emotions-start">Iluminar o caminho →</button>
       <a class="story-action" id="emotions-enter" href="/jogo-emocoes.html" data-explore="emocoes" hidden>Entrar na Casa das Emoções →</a>
       <button type="button" class="story-secondary" id="emotions-repeat" hidden>Refazer o passeio ↻</button>
       <a class="story-tertiary" href="/jogo-emocoes.html" data-explore="emocoes">Ir direto ao jogo ↗</a>
     </div>
   </div>
-  <p class="story-adventure-note">O passeio é uma animação ilustrada, não um vídeo de caminhada real. A porta do jogo pode ser acessada diretamente. O movimento é dispensado quando o aparelho solicita animações reduzidas.</p>
+  <p class="story-adventure-note">A Ritinha oficial continua apresentando a aventura. Aqui, ela orienta com suas falas enquanto o caminho se ilumina. O jogo pode ser acessado diretamente.</p>
 </section>
 
 <div class="zone-grid">
-<article class="zone emocoes" data-zone-card="emocoes"><span class="stamp" data-stamp-label="emocoes">Para explorar</span><span class="zone-icon" aria-hidden="true">💗</span><span class="tag">Psicologia</span><h3>Casa das Emoções</h3><p>Como reconhecer sentimentos? Explore histórias da turma e descubra maneiras de conversar sobre emoções.</p><div class="zone-links"><button type="button" class="zone-link" data-visit-emotions>Ir com a Ritinha →</button><a class="zone-link secondary" href="/jogo-emocoes.html" data-explore="emocoes">Jogar direto</a><a class="zone-link secondary" href="/Cartilha_Psicologia_Infantil_SoulKids_16p.pdf" target="_blank" rel="noopener" data-explore="emocoes">Cartilha</a></div></article>
+<article class="zone emocoes" data-zone-card="emocoes"><span class="stamp" data-stamp-label="emocoes">Para explorar</span><span class="zone-icon" aria-hidden="true">💗</span><span class="tag">Psicologia</span><h3>Casa das Emoções</h3><p>Como reconhecer sentimentos? Explore histórias da turma e descubra maneiras de conversar sobre emoções.</p><div class="zone-links"><button type="button" class="zone-link" data-visit-emotions>Seguir as luzinhas →</button><a class="zone-link secondary" href="/jogo-emocoes.html" data-explore="emocoes">Jogar direto</a><a class="zone-link secondary" href="/Cartilha_Psicologia_Infantil_SoulKids_16p.pdf" target="_blank" rel="noopener" data-explore="emocoes">Cartilha</a></div></article>
 <article class="zone movimento" data-zone-card="movimento"><span class="stamp" data-stamp-label="movimento">Para explorar</span><span class="zone-icon" aria-hidden="true">🌳</span><span class="tag">Psicomotricidade</span><h3>Jardim do Movimento</h3><p>Memória, ritmo e sequência de cores em brincadeiras da Ritinha. A próxima missão pode acontecer fora da tela!</p><div class="zone-links"><a class="zone-link" href="/jogo-ritinha.html" data-explore="movimento">Jogar e explorar →</a><a class="zone-link secondary" href="#missao" data-explore="movimento">Missão</a></div></article>
 <article class="zone palavras" data-zone-card="palavras"><span class="stamp" data-stamp-label="palavras">Para explorar</span><span class="zone-icon" aria-hidden="true">🎶</span><span class="tag">Fonoaudiologia</span><h3>Oficina das Palavras</h3><p>Sons iniciais, rimas e descobertas com palavras. Escolha um nível e explore os desafios no seu ritmo.</p><div class="zone-links"><a class="zone-link" href="/jogo-fonoaudiologia.html" data-explore="palavras">Jogar e explorar →</a></div></article>
 <article class="zone descobertas" data-zone-card="descobertas"><span class="stamp" data-stamp-label="descobertas">Para explorar</span><span class="zone-icon" aria-hidden="true">🧩</span><span class="tag">TO e Psicopedagogia</span><h3>Estação das Descobertas</h3><p>Rotinas, planejamento de tarefas, padrões e raciocínio. Duas formas de explorar a mesma estação!</p><div class="zone-links"><a class="zone-link" href="/jogo-terapia-ocupacional.html" data-explore="descobertas">Organizar rotinas →</a><a class="zone-link secondary" href="/jogo-psicopedagogia.html" data-explore="descobertas">Sequências</a></div></article>
