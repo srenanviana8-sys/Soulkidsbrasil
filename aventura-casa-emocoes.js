@@ -10,6 +10,11 @@
   if (![scene, traveler, start, enter, repeat, status].every(Boolean)) return;
 
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+  const tellRitinha = (text, mood) => {
+    if (typeof window.SoulKidsRitinha?.narrate === "function") {
+      window.SoulKidsRitinha.narrate({text, mood});
+    }
+  };
   const duration = 3300;
   let state = "idle";
   let fallback = null;
@@ -29,6 +34,7 @@
     scene.classList.add("is-arrived");
     scene.setAttribute("data-state", state);
     status.textContent = "Chegamos! A porta da Casa das Emoções se abriu. Quer entrar e descobrir como os personagens estão se sentindo?";
+    tellRitinha("Chegamos! A porta está aberta. Vamos conhecer o Jogo das Emoções?", "Que bom, chegamos!");
     start.disabled = false;
     start.hidden = true;
     enter.hidden = false;
@@ -51,6 +57,7 @@
     enter.hidden = true;
     repeat.hidden = true;
     status.textContent = "Ritinha: Vamos juntas até a Casa das Emoções! Acompanhe o caminho até a porta.";
+    tellRitinha("Vamos juntas até a Casa das Emoções! Eu vou mostrar o caminho.", "Hora de descobrir!");
 
     if (reducedMotion) {
       arrive();
