@@ -69,6 +69,20 @@
     action.textContent = cta;
     speak(currentPhrase);
   }
+  // Ponte leve entre as aventuras do mapa e a guia já existente.
+  // O áudio só é acionado quando a família optou por ativar a voz.
+  window.SoulKidsRitinha = Object.freeze({
+    narrate({text, mood: tag}) {
+      if (typeof text !== "string" || !text.trim()) return;
+      update({
+        text,
+        mood: tag || "Aventura no Mundo da Ritinha",
+        href: "#aventura-casa-emocoes",
+        cta: "Acompanhar a aventura →"
+      });
+    }
+  });
+
   document.querySelectorAll("[data-guide-choice]").forEach(button => {
     button.addEventListener("click", () => {
       const choice = choices[button.dataset.guideChoice];
