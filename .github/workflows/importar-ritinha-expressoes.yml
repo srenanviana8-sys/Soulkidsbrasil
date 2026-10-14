@@ -1,0 +1,38 @@
+name: Importar expressões aprovadas da Ritinha
+on:
+  push:
+    branches:
+      - feature/ritinha-expressoes-casa-20261014
+permissions:
+  contents: write
+jobs:
+  portraits:
+    if: "!contains(github.event.head_commit.message, 'Expressões importadas')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recortar expressões autorizadas em WebP
+        env:
+          SOURCE_IMAGE: 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/34020d0e-ff70-40d9-bd83-83a3d1bd217a.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMDM3NzQ4YWYzYjFkNGEwMCIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjExMDYzOX0.qpfxUHd5xGN-41pmwRUQKyDz1v10COYPqpkUzPB-EO4'
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 "$SOURCE_IMAGE" -o /tmp/ritinha-approved.png
+          python -m pip install -q pillow
+          python - <<'PY'
+          from PIL import Image
+          im=Image.open("/tmp/ritinha-approved.png").convert("RGB")
+          assert im.size==(1536,1024),f"Tamanho de arte inesperado: {im.size}"
+          names=("feliz","triste","bravo","medo","calmo")
+          for i,name in enumerate(names):
+              col,row=i%3,i//3
+              frame=im.crop((col*512,row*512,(col+1)*512,(row+1)*512))
+              frame=frame.resize((384,384),Image.Resampling.LANCZOS)
+              frame.save("ritinha-"+name+".webp","WEBP",quality=85,method=6)
+              print(name,frame.size)
+          PY
+          test -s ritinha-feliz.webp
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "SoulKids Assets"
+          git add ritinha-{feliz,triste,bravo,medo,calmo}.webp
+          git commit -m "Expressões importadas: Ritinha aprovada"
+          git push
