@@ -155,6 +155,15 @@ footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:cen
   .challenge-art[data-art-kind="personagem"]{width:96px;min-width:96px;height:112px}
   .cast img{width:100%;height:auto;max-height:230px}
 }
+
+/* Convites pré-gravados na voz da Ritinha, por escolha da criança. */
+.guide{flex-wrap:wrap}
+.guide #guide-message{flex:1 1 225px}
+.ritinha-voice-btn{border:2px solid #b1dabe;border-radius:14px;background:#eef9ed;color:#266b52;font-weight:900;min-height:46px;padding:9px 13px;line-height:1.2;white-space:nowrap;flex:none;cursor:pointer}
+.ritinha-voice-btn:hover{background:#dff1e3}
+.ritinha-voice-btn[aria-pressed="true"]{border-color:#3c9870;background:#d5f0e3}
+.ritinha-voice-btn:focus-visible{outline:3px solid #2745d4;outline-offset:3px}
+@media(max-width:580px){.ritinha-voice-btn{padding:9px 10px;font-size:.84rem}.guide #guide-message{flex:1 1 150px}}
 </style>
 </head>
 <body>
@@ -194,7 +203,7 @@ footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:cen
 </section>
 <section class="activities wrap" id="atividades" aria-labelledby="activities-heading">
 <div class="section-heading"><h2 id="activities-heading">Vamos brincar?</h2></div>
-<div class="guide" role="status" aria-live="polite"><img class="icon guide-ritinha" src="/ritinha-feliz.webp?v=20261014-oficial" alt="" width="54" height="54" decoding="async"><p id="guide-message">Ritinha: Por onde vamos começar?</p></div>
+<div class="guide" role="group" aria-label="Convite da Ritinha"><img class="icon guide-ritinha" src="/ritinha-feliz.webp?v=20261014-oficial" alt="" width="54" height="54" decoding="async"><p id="guide-message" aria-live="polite">Ritinha: Por onde vamos começar?</p><button type="button" id="ritinha-ouvir" class="ritinha-voice-btn" aria-pressed="false" aria-label="Ouvir o convite da Ritinha">🔊 Ouvir a Ritinha</button></div>
 <div class="tabs" role="group" aria-label="Escolha uma atividade do jardim">
 <button type="button" class="tab" data-garden-open="trilha" aria-controls="painel-trilha" aria-pressed="false"><span class="symbol" aria-hidden="true">👣</span><span>Trilha dos Movimentos</span></button>
 <button type="button" class="tab" data-garden-open="espelho" aria-controls="painel-espelho" aria-pressed="false"><span class="symbol" aria-hidden="true">🪞</span><span>Espelho do Corpo</span></button>
@@ -230,5 +239,6 @@ footer{background:#fff;border-top:1px solid #d8e6db;color:#6e7d76;text-align:cen
 </section>
 </main>
 <footer>© 2026 SoulKids · Brincar, pertencer e descobrir. Nenhuma imagem ou dado da criança é solicitado.</footer>
+<script src="/ritinha-voz.js" defer></script>
 <script src="/jardim-do-movimento.js" defer></script>
 </body></html>
