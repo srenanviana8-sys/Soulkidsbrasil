@@ -1,0 +1,38 @@
+name: Importar arte da turma aprovada
+on:
+  push:
+    branches: [feature/jardim-personagens-aprovados-20261014]
+permissions:
+  contents: write
+jobs:
+  process:
+    if: "!contains(github.event.head_commit.message, 'Approved cast portraits')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare characters from approved art
+        env:
+          IMAGE_URL: 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/fb16edc7-3bb4-4e17-8d39-592c94f82383.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZmJlNDU2ZjFmYjZiYTAxMSIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE1NzY4MX0.Jz_p-HZ-cRuzBY1NCtEu-ApBHHCYOVmiOCQkDeWdiM0'
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 2 "$IMAGE_URL" -o /tmp/aprovados.png
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from PIL import Image
+          im=Image.open('/tmp/aprovados.png').convert('RGB')
+          assert im.size==(1448,1086),f'Image mismatch: {im.size}'
+          group=im.copy()
+          group.thumbnail((1000,750), Image.Resampling.LANCZOS)
+          group.save('turma-movimento-aprovada.webp','WEBP',quality=78,method=6)
+          for idx,(name,y) in enumerate([('luca',225),('tonico',260),('maya',240),('lia',225)]):
+              x=362*idx
+              portrait=im.crop((x,y,x+362,y+362)).resize((320,320),Image.Resampling.LANCZOS)
+              portrait.save('movimento-'+name+'.webp','WEBP',quality=86,method=6)
+              print('Prepared', name)
+          PY
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "SoulKids Assets"
+          git add turma-movimento-aprovada.webp movimento-*.webp
+          git diff --staged --quiet && exit 0
+          git commit -m "Approved cast portraits from SoulKids reference"
+          git push
