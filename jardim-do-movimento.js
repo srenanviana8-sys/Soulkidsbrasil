@@ -120,14 +120,18 @@
     })){
       $(room+"-"+part).textContent=value;
     }
-    // Somente a Ritinha possui retratos individuais aprovados.
-    // Para Luca, Tonico, Lia e Maya, exibir a turma inteira sem inventar rostos.
+    // Retratos individuais da turma, aprovados pelo usuário.
+    // Tonico é o menino de cabelo azul, com camisa verde.
     const image=$(room+"-art");
     if(image){
       const isRitinha=item.name==="Ritinha";
       const mood=(room==="espelho"&&positions.espelho===5)?"calmo":"feliz";
-      const art=isRitinha?"/ritinha-"+mood+".webp?v=20261014-oficial":"/turma-soulkids.png";
-      image.parentElement.dataset.artKind=isRitinha?"ritinha":"turma";
+      const people={Luca:"luca",Tonico:"tonico",Lia:"lia",Maya:"maya"};
+      const actor=people[item.name];
+      const art=isRitinha
+        ? "/ritinha-"+mood+".webp?v=20261014-oficial"
+        : "/movimento-"+actor+".webp?v=20261014-turma";
+      image.parentElement.dataset.artKind=isRitinha?"ritinha":"personagem";
       if(image.getAttribute("src")!==art) image.setAttribute("src",art);
     }
     if(room==="ritmo"){
