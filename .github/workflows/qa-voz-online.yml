@@ -1,0 +1,36 @@
+name: Teste público dos áudios da Ritinha
+on:
+  push:
+    branches: [qa/verificar-voz-completa-20261014]
+permissions:
+  contents: read
+jobs:
+  public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar páginas, scripts e 48 áudios no domínio público
+        shell: bash
+        run: |
+          set -euo pipefail
+          for p in casa-das-emocoes.html jardim-do-movimento.html casa-das-emocoes.js jardim-do-movimento.js ritinha-voz.js; do
+            status="$(curl --retry 2 --retry-delay 1 --max-time 50 -fLsS -w '%{http_code}' -o /tmp/public-test "https://soulkidsbrasil.com.br/$p")"
+            test "$status" = 200
+            test "$(stat -c%s /tmp/public-test)" -gt 1000
+            echo "PUBLIC_PAGE_OK $p"
+          done
+          python3 - <<'PY'
+          import json
+          clips=json.load(open('audios/ritinha-falas.json'))['clips']
+          assert len(clips)==48
+          import subprocess
+          for x in clips:
+              url="https://soulkidsbrasil.com.br/audios/ritinha-"+x['id']+".mp3"
+              r=subprocess.run(["curl","--retry","2","-fLsS","--head","--max-time","45","-o","/dev/null","-w","%{http_code}",url],capture_output=True,text=True,timeout=65)
+              if r.returncode or r.stdout.strip()!="200":
+                  print("PUBLIC_AUDIO_FAIL",x["id"],r.returncode,r.stdout.strip(),r.stderr[-200:])
+                  raise SystemExit(1)
+              print("PUBLIC_AUDIO_OK",x['id'])
+          print("PUBLIC_ALL_48_OK")
+          PY
