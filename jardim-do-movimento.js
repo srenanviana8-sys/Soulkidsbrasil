@@ -35,11 +35,38 @@
       {emoji:"🌈",title:"A turma inventa",text:"Experimente palma, pausa, passo e escolha como repetir.",adapt:"Você pode montar a sequência com figuras e pedir que alguém demonstre.",name:"Ritinha",says:"Agora a sequência pode ser inventada por você!",sequence:["palma","pausa","passo","palma"]}
     ]
   };
+  // Mensagens curtas para a criança; orientações completas permanecem em "Para quem acompanha".
+  const childCopy = {
+    trilha:[
+      ["Vamos pelas cores?","Escolha duas cores!"],
+      ["Qual ilha vem agora?","Escolha uma ilha!"],
+      ["Tem lugar para todo mundo!","Escolha seu caminho!"],
+      ["Essa linha!","Siga a linha com o corpo ou com o dedo."],
+      ["Vou fazer uma pausa.","Mexer... parar... brincar!"],
+      ["Sua vez de inventar!","Crie uma trilha para nós."]
+    ],
+    espelho:[
+      ["Faz uma pose comigo?","Braços lá em cima!"],
+      ["Olha a cabeça!","Aponte sua cabeça!"],
+      ["Você escolhe!","Um lado. Depois o outro!"],
+      ["Vamos voar?","Abra e feche os braços!"],
+      ["Cadê o joelho?","Mostre onde fica o joelho!"],
+      ["Qual é sua pose?","Invente um movimento!"]
+    ],
+    ritmo:[
+      ["Quer fazer um ritmo?","Palma. Passo!"],
+      ["Agora vem a pausa!","Palma, palma, pausa."],
+      ["Som e silêncio!","Som, pausa, som."],
+      ["Escolhe um lado!","Esquerda, direita, pausa."],
+      ["Todo mundo junto!","Toque, toque, pausa, toque."],
+      ["Sua sequência!","Palma, pausa, passo, palma."]
+    ]
+  };
   const positions = {trilha:0,espelho:0,ritmo:0};
   const roomFalas = {
-    trilha:"Ritinha: Vamos seguir a Trilha dos Movimentos? Você escolhe como participar!",
-    espelho:"Ritinha: No Espelho do Corpo, toda pose pode ser diferente. Quer inventar uma?",
-    ritmo:"Ritinha: O Bosque do Ritmo tem sons, pausas e movimentos. Vamos descobrir?"
+    trilha:"Ritinha: Vamos pela trilha?",
+    espelho:"Ritinha: Faz uma pose comigo?",
+    ritmo:"Ritinha: Qual ritmo vamos fazer?"
   };
   const symbols = {
     palma:["👏",440],passo:["👣",330],pausa:["⏸",null],som:["🔔",520],
@@ -88,8 +115,8 @@
   function render(room) {
     const item=prompts[room][positions[room]];
     for(const [part,value] of Object.entries({
-      "character":item.name,"says":item.says,"emoji":item.emoji,
-      "title":item.title,"text":item.text,"adapt":item.adapt
+      "character":item.name,"says":childCopy[room][positions[room]][0],"emoji":item.emoji,
+      "title":item.title,"text":childCopy[room][positions[room]][1],"adapt":item.adapt
     })){
       $(room+"-"+part).textContent=value;
     }
@@ -138,7 +165,7 @@
     if(room!=="ritmo"){
       $(room+"-listen").addEventListener("click",()=>{
         const p=prompts[room][positions[room]];
-        speak(p.name+" diz: "+p.says+" "+p.title+". "+p.text+" Outro jeito de brincar: "+p.adapt);
+        speak(p.name+" diz: "+childCopy[room][positions[room]].join(" "));
       });
     }
   }
