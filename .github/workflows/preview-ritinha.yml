@@ -1,0 +1,32 @@
+name: Prévia temporária da Ritinha
+on:
+  push:
+    branches:
+      - fix/ritinha-sem-s-aventura-20261013
+permissions:
+  contents: write
+jobs:
+  inspect:
+    if: "!contains(github.event.head_commit.message, 'Prévia oficial pronta')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar miniatura de referência
+        run: |
+          python -m pip install --quiet Pillow
+          python - <<'PY'
+          import base64
+          from PIL import Image
+          from io import BytesIO
+          image = Image.open('ritinha-soulkids-s.png').convert('RGBA')
+          image.thumbnail((380,380))
+          stream = BytesIO()
+          image.save(stream, format='WEBP', quality=68, method=5)
+          with open('official-preview-b64.txt','w') as f:
+              f.write(base64.b64encode(stream.getvalue()).decode('ascii'))
+          PY
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "SoulKids"
+          git add official-preview-b64.txt
+          git commit -m "Prévia oficial pronta"
+          git push
