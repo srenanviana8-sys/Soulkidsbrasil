@@ -4,6 +4,26 @@
   const controls = [...document.querySelectorAll("[data-garden-open]")];
   const panels = [...document.querySelectorAll("[data-garden-panel]")];
   const guide = $("guide-message");
+  const voicePlayer = window.SoulKidsVozRitinha;
+  const voiceButton = $("ritinha-ouvir");
+  let currentRoom = null;
+  const voiceClip = () => "jardim-" + (currentRoom || "entrada");
+  if (voiceButton && voicePlayer) {
+    voicePlayer.subscribe(() => {
+      const active = voicePlayer.isPlaying(voiceClip());
+      voiceButton.setAttribute("aria-pressed", String(active));
+      voiceButton.textContent = active ? "⏹ Parar a Ritinha" : "🔊 Ouvir a Ritinha";
+      voiceButton.setAttribute("aria-label", active ? "Parar voz da Ritinha" : "Ouvir o convite da Ritinha");
+    });
+    voiceButton.addEventListener("click", () => {
+      stopSpeech();
+      stopRhythm();
+      voicePlayer.toggle(voiceClip());
+    });
+  } else if (voiceButton) {
+    voiceButton.hidden = true;
+  }
+
   if (!controls.length || !panels.length || !guide) return;
 
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
@@ -93,6 +113,7 @@
   function speak(text) {
     if (!speechReady || !text) return;
     stopSpeech();
+    voicePlayer?.stop();
     try {
       const utterance = new window.SpeechSynthesisUtterance(text);
       utterance.lang="pt-BR";utterance.rate=.9;utterance.pitch=1.04;
@@ -154,6 +175,8 @@
   }
   function openRoom(room, focus=false) {
     if(!(room in prompts))return;
+    voicePlayer?.stop();
+    currentRoom = room;
     stopRhythm();
     stopSpeech();
     registerVisit();
@@ -200,6 +223,7 @@
   listen.addEventListener("click",()=>{
     stopRhythm();
     stopSpeech();
+    voicePlayer?.stop();
     const seq=prompts.ritmo[positions.ritmo].sequence;
     if(musicReady){
       try {
