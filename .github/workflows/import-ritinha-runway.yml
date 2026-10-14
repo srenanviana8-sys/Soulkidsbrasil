@@ -20,7 +20,11 @@ jobs:
           set -euo pipefail
           curl --fail --location --retry 2 --silent --show-error "$RUNWAY_VIDEO_URL" -o /tmp/soulkids-runway-original.mp4
           test -s /tmp/soulkids-runway-original.mp4
-          ffmpeg -hide_banner -loglevel error -y -i /tmp/soulkids-runway-original.mp4 -vf 'scale=640:-2,fps=24' -c:v libx264 -pix_fmt yuv420p -crf 29 -preset medium -movflags +faststart -an ritinha-boas-vindas.mp4
+          if command -v ffmpeg >/dev/null 2>&1; then
+            ffmpeg -hide_banner -loglevel error -y -i /tmp/soulkids-runway-original.mp4 -vf 'scale=640:-2,fps=24' -c:v libx264 -pix_fmt yuv420p -crf 29 -preset medium -movflags +faststart -an ritinha-boas-vindas.mp4
+          else
+            cp /tmp/soulkids-runway-original.mp4 ritinha-boas-vindas.mp4
+          fi
           test -s ritinha-boas-vindas.mp4
           echo "Arquivo otimizado: $(wc -c < ritinha-boas-vindas.mp4) bytes"
       - name: Publicar mídia na ramificação
