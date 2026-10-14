@@ -9,6 +9,26 @@
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
   const speechReady = "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance === "function";
   const guide = $("guide-message");
+  const voicePlayer = window.SoulKidsVozRitinha;
+  const voiceButton = $("ritinha-ouvir");
+  let currentRoom = null;
+  const voiceClip = () => "casa-" + (currentRoom || "entrada");
+
+  if (voiceButton && voicePlayer) {
+    voicePlayer.subscribe(() => {
+      const active = voicePlayer.isPlaying(voiceClip());
+      voiceButton.setAttribute("aria-pressed", String(active));
+      voiceButton.textContent = active ? "⏹ Parar a Ritinha" : "🔊 Ouvir a Ritinha";
+      voiceButton.setAttribute("aria-label", active ? "Parar voz da Ritinha" : "Ouvir o convite da Ritinha");
+    });
+    voiceButton.addEventListener("click", () => {
+      cancelSpeech();
+      voicePlayer.toggle(voiceClip());
+    });
+  } else if (voiceButton) {
+    voiceButton.hidden = true;
+  }
+
   const roomPhrases = {
     espelho: "Vamos descobrir os sentimentos? Você pode escolher um rostinho e brincar comigo!",
     calma: "Esse cantinho é para encontrar conforto. Você escolhe o que faz bem para você.",
@@ -37,6 +57,7 @@
   function speak(content) {
     if (!speechReady || !content) return;
     cancelSpeech();
+    voicePlayer?.stop();
     try {
       const phrase = new window.SpeechSynthesisUtterance(content);
       phrase.lang = "pt-BR";
@@ -51,6 +72,8 @@
 
   function openRoom(room, focus = false) {
     if (!roomPhrases[room]) return;
+    voicePlayer?.stop();
+    currentRoom = room;
     nav.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.roomOpen === room)));
     panels.forEach(panel => { panel.hidden = panel.dataset.roomPanel !== room; });
     guide.textContent = roomPhrases[room];
