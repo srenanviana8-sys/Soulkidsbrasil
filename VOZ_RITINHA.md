@@ -29,9 +29,17 @@ Atualização: 14 de outubro de 2026.
 - Não há reprodução automática. Cada MP3 é carregado apenas quando solicitado, com `preload=none`.
 - Tocar novamente interrompe o áudio. Trocar de atividade, iniciar o áudio de outra função, ocultar a aba ou sair da página também interrompe.
 - O botão usa estado acessível `aria-pressed` e alterna texto para **Parar a Ritinha** durante a reprodução.
-- As narrações variáveis das situações e histórias ainda usam a voz sintetizada do navegador como recurso existente; esta primeira etapa **não** substitui todas as falas. O Bosque do Ritmo mantém seus sons curtos como feedback da sequência.
+- **Segunda etapa concluída**: mais 48 gravações da mesma voz, armazenadas localmente:
+  - 18 propostas do Jardim do Movimento (6 em cada estação)
+  - 15 situações do Espelho das Emoções (3 por emoção)
+  - 5 histórias e 10 respostas às escolhas da turma
+- Os botões de escuta dos dois ambientes usam somente arquivos MP3 aprovados, sem `speechSynthesis` do navegador.
+- No Bosque do Ritmo, **Ouvir a proposta** reproduz a fala; **Ouvir o ritmo** conserva o padrão sonoro interativo.
+- Nas histórias, a introdução é reproduzida primeiro e a resposta escolhida em seguida, sem sobrepor narrações.
+- O catálogo `/audios/ritinha-falas.json` registra o texto e o nome de cada arquivo.
+- Ao todo são 56 MP3s (8 convites originais + 48 falas).
 - Os convites pré-gravados não geram cobrança por reprodução; novos áudios exigem nova síntese pontual.
-- Para atualizar o texto de um convite, gere/avalie o novo MP3 antes de trocar o arquivo no repositório.
+- Para atualizar um texto narrado, atualize o catálogo, a fala exibida e o MP3 correspondente antes de publicar.
 
 ## Validação
 - Conferir volume e pronúncia no Android e no iPhone, carregamento em redes móveis, cliques repetidos, troca de estação e funcionamento com voz do navegador indisponível.

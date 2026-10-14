@@ -7,7 +7,6 @@
   if (!nav.length || !panels.length) return;
 
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
-  const speechReady = "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance === "function";
   const guide = $("guide-message");
   const voicePlayer = window.SoulKidsVozRitinha;
   const voiceButton = $("ritinha-ouvir");
@@ -22,7 +21,6 @@
       voiceButton.setAttribute("aria-label", active ? "Parar voz da Ritinha" : "Ouvir o convite da Ritinha");
     });
     voiceButton.addEventListener("click", () => {
-      cancelSpeech();
       voicePlayer.toggle(voiceClip());
     });
   } else if (voiceButton) {
@@ -50,26 +48,6 @@
     }
   }
 
-  function cancelSpeech() {
-    if (!speechReady) return;
-    try { window.speechSynthesis.cancel(); } catch (_) {}
-  }
-  function speak(content) {
-    if (!speechReady || !content) return;
-    cancelSpeech();
-    voicePlayer?.stop();
-    try {
-      const phrase = new window.SpeechSynthesisUtterance(content);
-      phrase.lang = "pt-BR";
-      phrase.rate = 0.88;
-      phrase.pitch = 1.02;
-      window.speechSynthesis.speak(phrase);
-    } catch (_) {}
-  }
-  if (!speechReady) {
-    ["mirror-listen", "story-listen"].forEach(id => { if ($(id)) $(id).hidden = true; });
-  }
-
   function openRoom(room, focus = false) {
     if (!roomPhrases[room]) return;
     voicePlayer?.stop();
@@ -78,7 +56,6 @@
     panels.forEach(panel => { panel.hidden = panel.dataset.roomPanel !== room; });
     guide.textContent = roomPhrases[room];
     rememberVisit();
-    cancelSpeech();
     const panel = $("painel-" + room);
     panel.scrollIntoView?.({behavior: reducedMotion ? "auto" : "smooth", block: "start"});
     if (focus) {
@@ -138,10 +115,16 @@
   const counters = Object.fromEntries(Object.keys(emotions).map(k => [k, 0]));
   let feeling = null;
   let lastMirrorMessage = "";
+  $("mirror-listen").disabled = true;
+  if (!voicePlayer) {
+    $("mirror-listen").hidden = true;
+    $("story-listen").hidden = true;
+  }
 
   function showFeeling(id, next = false) {
     const entry = emotions[id];
     if (!entry) return;
+    voicePlayer?.stop();
     if (next || (id === feeling && feeling !== null)) counters[id] += 1;
     feeling = id;
     const [example, question] = entry.situations[counters[id] % entry.situations.length];
@@ -152,6 +135,7 @@
     $("mirror-example").textContent = example;
     $("mirror-question").textContent = question;
     $("mirror-another").disabled = false;
+    $("mirror-listen").disabled = false;
     lastMirrorMessage = example;
     document.querySelectorAll("[data-feeling]").forEach(b => {
       b.setAttribute("aria-pressed", String(b.dataset.feeling === id));
@@ -162,7 +146,10 @@
     b.addEventListener("click", () => showFeeling(b.dataset.feeling))
   );
   $("mirror-another").addEventListener("click", () => { if (feeling) showFeeling(feeling, true); });
-  $("mirror-listen").addEventListener("click", () => speak(lastMirrorMessage || "Escolha um rostinho para descobrir uma emoção."));
+  $("mirror-listen").addEventListener("click", () => {
+    if (!voicePlayer || !feeling) return;
+    voicePlayer.toggle("casa-espelho-" + feeling + "-" + (counters[feeling] % emotions[feeling].situations.length));
+  });
 
   const calm = [
     ["Um instante só seu", "Vamos achar um lugar gostoso para descansar?"],
@@ -200,28 +187,28 @@
     {
       character: "Ritinha · A chegada",
       title: "Uma porta diferente",
-      text: "Ritinha ficou insegura diante de uma porta nova.",
+      text: "Ritinha ficou com medo de entrar numa sala nova.",
       choices: [
-        ["Observar a sala primeiro", "Boa ideia! A Ritinha pode conhecer o lugar aos poucos, sem pressa."],
-        ["Entrar acompanhada", "Ter alguém de confiança por perto também pode ajudar a Ritinha a se sentir segura."]
+        ["Observar a sala primeiro", "Ritinha pode conhecer a sala aos poucos."],
+        ["Entrar acompanhada", "Entrar acompanhada pode trazer segurança."]
       ]
     },
     {
       character: "Lia · O meu espaço",
       title: "Agora eu não quero!",
-      text: "Um amigo quer brincar, mas Lia disse: “Não!”.",
+      text: "Lia disse não, e a turma respeitou a escolha!",
       choices: [
-        ["Perguntar se ela prefere brincar depois", "Respeitar o momento de Lia ajuda a turma a combinar outra oportunidade."],
-        ["Oferecer uma brincadeira lado a lado", "Uma proposta sem obrigação pode criar espaço para brincarem juntos, se Lia quiser."]
+        ["Perguntar se ela prefere brincar depois", "Respeitar o tempo da Lia faz bem à turma."],
+        ["Oferecer uma brincadeira lado a lado", "Brincar ao lado da Lia, sem forçar, também vale!"]
       ]
     },
     {
       character: "Tonico · Um jeito de participar",
       title: "O convite do Tonico",
-      text: "Tonico chegou e apontou para uma peça do jogo.",
+      text: "Tonico apontou para uma peça do jogo.",
       choices: [
-        ["Mostrar duas peças para ele escolher", "Dar opções ajuda a turma a entender o que Tonico está comunicando."],
-        ["Esperar e observar seu gesto", "Dar tempo também é uma forma de escutar e respeitar a comunicação do Tonico."]
+        ["Mostrar duas peças para ele escolher", "Dar duas opções ajuda Tonico a escolher."],
+        ["Esperar e observar seu gesto", "Esperar o gesto do Tonico é escutar."]
       ]
     },
     {
@@ -229,17 +216,17 @@
       title: "Um castelo de blocos",
       text: "A torre de Luca caiu. Ele ficou chateado.",
       choices: [
-        ["Perguntar se ele quer ajuda", "Oferecer ajuda sem obrigar Luca permite que ele escolha como continuar."],
-        ["Dar um tempinho antes de voltar", "Fazer uma pausa é uma possibilidade quando a frustração aparece."]
+        ["Perguntar se ele quer ajuda", "Perguntar se Luca quer ajuda é acolher."],
+        ["Dar um tempinho antes de voltar", "Uma pausa pode ajudar antes de tentar."]
       ]
     },
     {
       character: "Maya · Vamos brincar juntos?",
       title: "A mesa da turma",
-      text: "Maya chegou ao jogo, mas as peças estão longe.",
+      text: "Maya chegou, mas as peças estão longe dela.",
       choices: [
-        ["Perguntar onde ela prefere os materiais", "Ouvir Maya ajuda a organizar a brincadeira para que ela participe com autonomia."],
-        ["Aproximar uma mesa acessível", "Pensar no espaço e nas adaptações permite que mais pessoas brinquem juntas."]
+        ["Perguntar onde ela prefere os materiais", "Pergunte à Maya onde colocar as peças."],
+        ["Aproximar uma mesa acessível", "Uma mesa acessível inclui mais amigos!"]
       ]
     }
   ];
@@ -266,6 +253,7 @@
       const data = stories[storyIndex];
       if (!data.choices[index]) return;
       selectedStory = index;
+      voicePlayer?.stop();
       $("story-feedback").textContent = data.choices[index][1];
       $("story-feedback").hidden = false;
       document.querySelectorAll("[data-story-choice]").forEach(b =>
@@ -275,18 +263,19 @@
     });
   });
   $("story-next").addEventListener("click", () => {
+    voicePlayer?.stop();
     storyIndex = (storyIndex + 1) % stories.length;
     renderStory();
     rememberVisit();
   });
   $("story-listen").addEventListener("click", () => {
-    const data = stories[storyIndex];
-    speak(data.title + ". " + data.text + (selectedStory === null ? "" : " " + data.choices[selectedStory][1]));
+    if (!voicePlayer) return;
+    const clips = ["casa-historia-" + storyIndex];
+    if (selectedStory !== null) clips.push("casa-historia-" + storyIndex + "-resposta-" + selectedStory);
+    voicePlayer.playSequence(clips);
   });
 
   renderStory();
   const hash = window.location?.hash?.replace("#", "");
   if (roomPhrases[hash]) openRoom(hash);
-  document.addEventListener("visibilitychange", () => { if (document.hidden) cancelSpeech(); });
-  window.addEventListener("pagehide", cancelSpeech);
 })();

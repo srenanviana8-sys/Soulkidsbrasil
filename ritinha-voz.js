@@ -1,14 +1,21 @@
 "use strict";
-/* Convites curtos, pré-gravados na voz da Ritinha aprovada. Nenhuma reprodução automática. */
+/* Reprodução sob demanda, com 56 áudios locais: 8 convites + 48 falas das atividades.
+   Sem voz sintetizada pelo navegador, sem reprodução automática, sem APIs pagas durante o uso. */
 (() => {
-  const approved = new Set([
+  const invitations = new Set([
     "casa-entrada","casa-espelho","casa-calma","casa-historias",
     "jardim-entrada","jardim-trilha","jardim-espelho","jardim-ritmo"
   ]);
+  const validKey = key => typeof key === "string" && (
+    invitations.has(key) ||
+    /^jardim-(trilha|espelho|ritmo)-[0-5]$/.test(key) ||
+    /^casa-espelho-(feliz|triste|bravo|medo|calmo)-[0-2]$/.test(key) ||
+    /^casa-historia-[0-4](?:-resposta-[01])?$/.test(key)
+  );
   let player = null;
   let active = null;
-  // Impede que uma promessa antiga interrompa um novo toque no mesmo áudio.
-  let playbackVersion = 0;
+  let signature = null;
+  let queue = [];
   const listeners = new Set();
 
   function isPlaying(key) {
@@ -20,7 +27,8 @@
     }
   }
   function stop() {
-    playbackVersion++;
+    queue = [];
+    signature = null;
     if (player) {
       try { player.pause(); player.currentTime = 0; } catch (_) {}
     }
@@ -32,35 +40,47 @@
     player = document.createElement("audio");
     player.preload = "none";
     player.setAttribute("aria-hidden", "true");
-    player.addEventListener("ended", stop);
+    player.addEventListener("ended", () => {
+      if (queue.length) {
+        const next = queue.shift();
+        start(next);
+      } else {
+        stop();
+      }
+    });
     player.addEventListener("error", stop);
     return player;
   }
-  function toggle(key) {
-    if (!approved.has(key)) return false;
-    // Mesmo durante o carregamento, tocar novamente deve cancelar o áudio atual.
-    if (active === key) {
+  function start(key) {
+    try {
+      const audio = ensurePlayer();
+      active = key;
+      audio.src = "/audios/ritinha-" + key + ".mp3";
+      const result = audio.play();
+      notify();
+      if (result && typeof result.catch === "function") {
+        result.catch(() => { if (active === key) stop(); });
+      }
+    } catch (_) {
+      stop();
+    }
+  }
+  function playSequence(keys) {
+    const selected = Array.isArray(keys) ? keys : [keys];
+    if (!selected.length || selected.length > 3 || !selected.every(validKey)) return false;
+    const newSignature = selected.join("|");
+    if (signature === newSignature && isPlaying()) {
       stop();
       return false;
     }
     stop();
-    try {
-      const audio = ensurePlayer();
-      active = key;
-      const version = playbackVersion;
-      audio.src = "/audios/ritinha-" + key + ".mp3";
-      const promise = audio.play();
-      notify();
-      if (promise && typeof promise.catch === "function") {
-        promise.catch(() => {
-          if (playbackVersion === version && active === key) stop();
-        });
-      }
-      return true;
-    } catch (_) {
-      stop();
-      return false;
-    }
+    signature = newSignature;
+    queue = selected.slice(1);
+    start(selected[0]);
+    return true;
+  }
+  function toggle(key) {
+    return playSequence([key]);
   }
   function subscribe(callback) {
     listeners.add(callback);
@@ -71,5 +91,5 @@
     if (document.hidden) stop();
   });
   window.addEventListener("pagehide", stop);
-  window.SoulKidsVozRitinha = { toggle, stop, isPlaying, subscribe };
+  window.SoulKidsVozRitinha = { toggle, playSequence, stop, isPlaying, subscribe };
 })();
