@@ -126,6 +126,15 @@ h1 span{color:#f28029}
 @media(prefers-reduced-motion:reduce){.guia-avatar img,.guia-hand,.guia-star{animation:none!important}}
 @media print{.guia-section{display:none!important}}
 
+
+/* Animação do Runway: reproduzida apenas se o aparelho aceitar vídeo leve */
+.guia-avatar .guia-intro-video{display:none;width:100%;max-width:410px;aspect-ratio:16/9;max-height:265px;object-fit:contain;border-radius:18px;filter:drop-shadow(0 10px 15px #324f7133)}
+.guia-avatar.has-video{max-width:410px;min-height:260px}
+.guia-avatar.has-video #guia-still{display:none}
+.guia-avatar.has-video .guia-intro-video{display:block}
+.guia-panel.has-video .guia-hand{display:none}
+@media(max-width:650px){.guia-avatar.has-video{max-width:315px;min-height:193px}.guia-avatar.has-video .guia-intro-video{max-height:193px}}
+@media(prefers-reduced-motion:reduce){.guia-avatar .guia-intro-video{display:none!important}.guia-avatar #guia-still{display:block!important}}
 </style>
 </head>
 <body>
@@ -151,7 +160,8 @@ h1 span{color:#f28029}
 <div>
   <div class="guia-visual">
     <button type="button" class="guia-avatar" id="guia-avatar" aria-label="Ver outra fala da Ritinha" title="Toque na Ritinha para ver outra fala">
-      <img src="/ritinha-soulkids-s.png" loading="lazy" alt="">
+      <img id="guia-still" src="/ritinha-soulkids-s.png" loading="lazy" alt="">
+      <video id="guia-intro-video" class="guia-intro-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
     </button>
     <span class="guia-hand" aria-hidden="true">👋</span>
     <span class="guia-star" aria-hidden="true">✨</span>

@@ -108,12 +108,33 @@
     document.addEventListener("visibilitychange", () => { if (document.hidden) cancelVoice(); });
   }
   const systemReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+  const saveData = Boolean(window.navigator?.connection?.saveData);
+  const video = $("guia-intro-video");
+  const panel = $("guia-container");
   let paused = systemReduced;
+  let videoReady = false;
+
+  function manageVideo() {
+    if (!video || !videoReady) return;
+    if (paused || document.hidden) {
+      video.pause();
+      return;
+    }
+    const attempt = video.play();
+    if (attempt && typeof attempt.catch === "function") {
+      attempt.catch(() => {
+        // Algumas configurações exigem um gesto. A imagem ou primeiro quadro continua visível.
+      });
+    }
+  }
+
   function syncMotion() {
-    $("guia-container").classList.toggle("motion-paused", paused);
+    panel.classList.toggle("motion-paused", paused);
     motion.setAttribute("aria-pressed", String(paused));
     motion.textContent = paused ? "▶️ Ativar animação" : "⏸️ Pausar animação";
+    manageVideo();
   }
+
   if (systemReduced) {
     motion.disabled = true;
     motion.textContent = "Animação reduzida";
@@ -123,4 +144,30 @@
   }
   syncMotion();
   if (systemReduced) motion.textContent = "Animação reduzida";
+
+  if (video && !systemReduced && !saveData) {
+    video.addEventListener("canplay", () => {
+      videoReady = true;
+      avatar.classList.add("has-video");
+      panel.classList.add("has-video");
+      manageVideo();
+    }, {once: true});
+
+    video.addEventListener("error", () => {
+      videoReady = false;
+      avatar.classList.remove("has-video");
+      panel.classList.remove("has-video");
+      // Se houver erro na mídia, a imagem oficial é restaurada.
+      video.removeAttribute("src");
+    }, {once: true});
+
+    video.src = "/ritinha-boas-vindas.mp4";
+    video.load();
+    // Uma interação direta também permite iniciar o vídeo em navegadores restritivos.
+    avatar.addEventListener("click", () => {
+      if (!paused) manageVideo();
+    });
+    document.addEventListener("visibilitychange", manageVideo);
+    window.addEventListener("pagehide", () => video.pause());
+  }
 })();
