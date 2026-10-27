@@ -599,90 +599,23 @@
         width: 100%;
         height: auto;
       }
-      .story {
-        padding: 82px 0;
-        background: linear-gradient(180deg, #fff 0%, #fff9ef 100%);
-      }
-      .story-heading {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 28px;
-        margin-bottom: 30px;
-      }
-      .story-heading h2 {
-        margin: 8px 0 0;
-        color: var(--navy);
-        font-size: clamp(2.2rem, 5vw, 4rem);
-        line-height: 1;
-        letter-spacing: -0.05em;
-      }
-      .story-heading p {
-        max-width: 480px;
-        margin: 0;
-        color: var(--muted);
-      }
-      .story-controls {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-shrink: 0;
-      }
-      .story-counter {
-        min-width: 92px;
-        color: var(--navy);
-        font-weight: 850;
-        text-align: center;
-      }
-      .story-control {
-        width: 48px;
-        height: 48px;
-        border: 1px solid var(--line);
-        border-radius: 50%;
-        background: var(--white);
-        color: var(--navy);
-        font: inherit;
-        font-size: 1.45rem;
-        font-weight: 900;
-        cursor: pointer;
-        box-shadow: 0 8px 22px rgba(9, 44, 97, 0.1);
-      }
-      .story-track {
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: min(480px, 82vw);
-        gap: 18px;
-        overflow-x: auto;
-        padding: 4px 4px 22px;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        scrollbar-color: var(--orange) #f1e8db;
-      }
-      .story-page {
-        margin: 0;
-        scroll-snap-align: center;
-        overflow: hidden;
-        border-radius: 24px;
-        background: var(--white);
-        box-shadow: 0 16px 45px rgba(12, 44, 94, 0.14);
-      }
-      .story-page img {
-        width: 100%;
-        height: auto;
-      }
-      .story-hint {
-        margin: 10px 0 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-        text-align: center;
-      }
-      .story-actions {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-top: 20px;
-      }
+      .gibi-feature { padding: 68px 0; background: linear-gradient(118deg, #071f44, #0b3975 70%, #075b69); color: #fff; overflow: hidden; }
+      .gibi-feature-layout { display: grid; grid-template-columns: minmax(230px, .65fr) minmax(0, 1.3fr); gap: clamp(26px, 6vw, 76px); align-items: center; }
+      .gibi-cover { display: block; justify-self: center; width: min(100%, 360px); position: relative; transform: rotate(-2.5deg); transition: transform .2s ease; }
+      .gibi-cover:hover { transform: rotate(0); }
+      .gibi-cover img { display: block; width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 10px; box-shadow: 0 26px 65px rgba(0,0,0,.36); border: 5px solid white; }
+      .gibi-kicker { display: inline-flex; align-items: center; background: #ffe77a; color: #092c61; font-size: .76rem; padding: 7px 13px; border-radius: 100px; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; }
+      .gibi-feature h2 { margin: 20px 0 17px; color: #fff; font-size: clamp(2.35rem, 4.6vw, 4.8rem); line-height: 1; letter-spacing: -.055em; }
+      .gibi-feature h2 span { color: #ffcd68; }
+      .gibi-feature p { max-width: 620px; color: #e5effb; font-size: 1.09rem; line-height: 1.75; }
+      .gibi-benefits { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 26px; }
+      .gibi-benefits span { color: #fff; padding: 8px 12px; border: 1px solid rgba(255,255,255,.27); border-radius: 999px; font-size: .82rem; font-weight: 700; }
+      .gibi-feature .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .gibi-feature .btn-primary { background: #ffb951; color: #092c61; }
+      .gibi-feature .btn-secondary { background: #fff; color: #092c61; }
+      .gibi-feature .gibi-note { font-size: .82rem; color: #d7e6f8; margin: 16px 0 0; }
+      .menu-toggle { display:none; margin-left:auto; padding: 10px 14px; border:1px solid #dfe7ef; border-radius:12px; background:#fff; color:var(--navy); font:inherit; font-weight:800; cursor:pointer; }
+      .menu-toggle:focus-visible, .nav-links a:focus-visible, .gibi-feature a:focus-visible { outline: 3px solid #ffb951; outline-offset: 3px; }
       .play-section {
         padding: 34px 0 28px;
       }
@@ -797,20 +730,20 @@
         font-weight: 750;
       }
       @media (max-width: 880px) {
-        .nav-links a:not(.nav-cta) {
-          display: none;
-        }
+        nav { height: auto; min-height: 86px; flex-wrap: wrap; gap: 8px; }
+        .menu-toggle { display: inline-flex; }
+        .nav-links { display: none; width: 100%; flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 3px; padding: 0 0 15px; }
+        .nav-links.is-open { display: flex; }
+        .nav-links a, .nav-links a:not(.nav-cta) { display: block; padding: 11px 14px; border-radius: 10px; }
+        .nav-links .nav-cta { text-align: center; }
+        .gibi-feature-layout { grid-template-columns: 1fr; text-align: center; gap: 28px; }
+        .gibi-cover { max-width: 230px; }
+        .gibi-benefits, .gibi-feature .actions { justify-content: center; }
+        .gibi-feature p { margin-left: auto; margin-right: auto; }
         .hero {
           padding-top: 48px;
         }
-        .story-heading {
-          align-items: flex-start;
-          flex-direction: column;
-        }
-        .story-track {
-          grid-auto-columns: 88vw;
-        }
-        .hero-grid,
+.hero-grid,
         .experience-grid,
         .guide-grid,
         .guide-card,
@@ -867,9 +800,7 @@
         .wrap {
           width: min(100% - 26px, 1160px);
         }
-        nav {
-          height: 78px;
-        }
+        nav { min-height: 78px; }
         .brand-symbol {
           width: 52px;
           height: 52px;
