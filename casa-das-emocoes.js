@@ -185,30 +185,12 @@
 
   const stories = [
     {
-      character: "Ritinha · A chegada",
-      title: "Uma porta diferente",
-      text: "Ritinha ficou com medo de entrar numa sala nova.",
-      choices: [
-        ["Observar a sala primeiro", "Ritinha pode conhecer a sala aos poucos."],
-        ["Entrar acompanhada", "Entrar acompanhada pode trazer segurança."]
-      ]
-    },
-    {
       character: "Lia · O meu espaço",
       title: "Agora eu não quero!",
       text: "Lia disse não, e a turma respeitou a escolha!",
       choices: [
         ["Perguntar se ela prefere brincar depois", "Respeitar o tempo da Lia faz bem à turma."],
         ["Oferecer uma brincadeira lado a lado", "Brincar ao lado da Lia, sem forçar, também vale!"]
-      ]
-    },
-    {
-      character: "Tonico · Um jeito de participar",
-      title: "O convite do Tonico",
-      text: "Tonico apontou para uma peça do jogo.",
-      choices: [
-        ["Mostrar duas peças para ele escolher", "Dar duas opções ajuda Tonico a escolher."],
-        ["Esperar e observar seu gesto", "Esperar o gesto do Tonico é escutar."]
       ]
     },
     {

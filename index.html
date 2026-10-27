@@ -9,6 +9,15 @@
       content="Conteúdos sobre Psicologia, Psicomotricidade e outras terapias voltadas ao desenvolvimento infantil, à inclusão e ao cuidado com propósito."
     />
     <meta name="theme-color" content="#092c61" />
+    <link rel="canonical" href="https://soulkidsbrasil.com.br/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SoulKids" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="Turma da Ritinha — Gibi 1 | SoulKids" />
+    <meta property="og:description" content="Leia gratuitamente O começo de uma turma, o primeiro gibi da Turma da Ritinha, com 48 páginas ilustradas." />
+    <meta property="og:image" content="https://soulkidsbrasil.com.br/gibi1-capa.webp" />
+    <meta property="og:url" content="https://soulkidsbrasil.com.br/" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href="/soulkids-symbol.png" />
     <style>
       :root {
@@ -590,90 +599,23 @@
         width: 100%;
         height: auto;
       }
-      .story {
-        padding: 82px 0;
-        background: linear-gradient(180deg, #fff 0%, #fff9ef 100%);
-      }
-      .story-heading {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 28px;
-        margin-bottom: 30px;
-      }
-      .story-heading h2 {
-        margin: 8px 0 0;
-        color: var(--navy);
-        font-size: clamp(2.2rem, 5vw, 4rem);
-        line-height: 1;
-        letter-spacing: -0.05em;
-      }
-      .story-heading p {
-        max-width: 480px;
-        margin: 0;
-        color: var(--muted);
-      }
-      .story-controls {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-shrink: 0;
-      }
-      .story-counter {
-        min-width: 92px;
-        color: var(--navy);
-        font-weight: 850;
-        text-align: center;
-      }
-      .story-control {
-        width: 48px;
-        height: 48px;
-        border: 1px solid var(--line);
-        border-radius: 50%;
-        background: var(--white);
-        color: var(--navy);
-        font: inherit;
-        font-size: 1.45rem;
-        font-weight: 900;
-        cursor: pointer;
-        box-shadow: 0 8px 22px rgba(9, 44, 97, 0.1);
-      }
-      .story-track {
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: min(480px, 82vw);
-        gap: 18px;
-        overflow-x: auto;
-        padding: 4px 4px 22px;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        scrollbar-color: var(--orange) #f1e8db;
-      }
-      .story-page {
-        margin: 0;
-        scroll-snap-align: center;
-        overflow: hidden;
-        border-radius: 24px;
-        background: var(--white);
-        box-shadow: 0 16px 45px rgba(12, 44, 94, 0.14);
-      }
-      .story-page img {
-        width: 100%;
-        height: auto;
-      }
-      .story-hint {
-        margin: 10px 0 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-        text-align: center;
-      }
-      .story-actions {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-top: 20px;
-      }
+      .gibi-feature { padding: 68px 0; background: linear-gradient(118deg, #071f44, #0b3975 70%, #075b69); color: #fff; overflow: hidden; }
+      .gibi-feature-layout { display: grid; grid-template-columns: minmax(230px, .65fr) minmax(0, 1.3fr); gap: clamp(26px, 6vw, 76px); align-items: center; }
+      .gibi-cover { display: block; justify-self: center; width: min(100%, 360px); position: relative; transform: rotate(-2.5deg); transition: transform .2s ease; }
+      .gibi-cover:hover { transform: rotate(0); }
+      .gibi-cover img { display: block; width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 10px; box-shadow: 0 26px 65px rgba(0,0,0,.36); border: 5px solid white; }
+      .gibi-kicker { display: inline-flex; align-items: center; background: #ffe77a; color: #092c61; font-size: .76rem; padding: 7px 13px; border-radius: 100px; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; }
+      .gibi-feature h2 { margin: 20px 0 17px; color: #fff; font-size: clamp(2.35rem, 4.6vw, 4.8rem); line-height: 1; letter-spacing: -.055em; }
+      .gibi-feature h2 span { color: #ffcd68; }
+      .gibi-feature p { max-width: 620px; color: #e5effb; font-size: 1.09rem; line-height: 1.75; }
+      .gibi-benefits { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 26px; }
+      .gibi-benefits span { color: #fff; padding: 8px 12px; border: 1px solid rgba(255,255,255,.27); border-radius: 999px; font-size: .82rem; font-weight: 700; }
+      .gibi-feature .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .gibi-feature .btn-primary { background: #ffb951; color: #092c61; }
+      .gibi-feature .btn-secondary { background: #fff; color: #092c61; }
+      .gibi-feature .gibi-note { font-size: .82rem; color: #d7e6f8; margin: 16px 0 0; }
+      .menu-toggle { display:none; margin-left:auto; padding: 10px 14px; border:1px solid #dfe7ef; border-radius:12px; background:#fff; color:var(--navy); font:inherit; font-weight:800; cursor:pointer; }
+      .menu-toggle:focus-visible, .nav-links a:focus-visible, .gibi-feature a:focus-visible { outline: 3px solid #ffb951; outline-offset: 3px; }
       .play-section {
         padding: 34px 0 28px;
       }
@@ -788,20 +730,20 @@
         font-weight: 750;
       }
       @media (max-width: 880px) {
-        .nav-links a:not(.nav-cta) {
-          display: none;
-        }
+        nav { height: auto; min-height: 86px; flex-wrap: wrap; gap: 8px; }
+        .menu-toggle { display: inline-flex; }
+        .nav-links { display: none; width: 100%; flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 3px; padding: 0 0 15px; }
+        .nav-links.is-open { display: flex; }
+        .nav-links a, .nav-links a:not(.nav-cta) { display: block; padding: 11px 14px; border-radius: 10px; }
+        .nav-links .nav-cta { text-align: center; }
+        .gibi-feature-layout { grid-template-columns: 1fr; text-align: center; gap: 28px; }
+        .gibi-cover { max-width: 230px; }
+        .gibi-benefits, .gibi-feature .actions { justify-content: center; }
+        .gibi-feature p { margin-left: auto; margin-right: auto; }
         .hero {
           padding-top: 48px;
         }
-        .story-heading {
-          align-items: flex-start;
-          flex-direction: column;
-        }
-        .story-track {
-          grid-auto-columns: 88vw;
-        }
-        .hero-grid,
+.hero-grid,
         .experience-grid,
         .guide-grid,
         .guide-card,
@@ -858,9 +800,7 @@
         .wrap {
           width: min(100% - 26px, 1160px);
         }
-        nav {
-          height: 78px;
-        }
+        nav { min-height: 78px; }
         .brand-symbol {
           width: 52px;
           height: 52px;
@@ -965,7 +905,9 @@
             <small>CUIDADO E DESENVOLVIMENTO</small>
           </span>
         </a>
-        <div class="nav-links">
+        <button class="menu-toggle" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Abrir menu">☰ Menu</button>
+        <div class="nav-links" id="site-menu">
+          <a href="#gibi1">Gibi 1</a>
           <a href="#terapias">Terapias</a
           ><a href="#metodo">Como funciona</a
           ><a href="#turma">Turma da Ritinha</a><a href="#sobre">Sobre</a
@@ -1015,12 +957,31 @@
         </div>
       </aside>
 
+      <section class="gibi-feature" id="gibi1" aria-labelledby="gibi-title">
+        <div class="wrap gibi-feature-layout">
+          <a class="gibi-cover" href="/gibi1.html" aria-label="Ler o Gibi 1 da Turma da Ritinha">
+            <img src="/gibi1-capa.webp" width="768" height="1152" alt="Capa do Gibi 1: O começo de uma turma, com a Turma da Ritinha" loading="eager" fetchpriority="high" />
+          </a>
+          <div class="gibi-copy">
+            <span class="gibi-kicker">Lançamento · Gibi 1 · Leitura gratuita</span>
+            <h2 id="gibi-title">Turma da Ritinha: <span>O começo de uma turma</span></h2>
+            <p>Ritinha chega a um lugar novo e descobre, ao lado de Tonico, Maya, Luca, Lia e Ravi, que cada criança tem seu próprio jeito de participar. Uma aventura sobre movimento, amizade, inclusão e a Árvore das Emoções.</p>
+            <div class="gibi-benefits"><span>48 páginas</span><span>História ilustrada</span><span>Para ler em família</span></div>
+            <div class="actions">
+              <a class="btn btn-primary" href="/gibi1.html">Ler o Gibi 1 →</a>
+              <a class="btn btn-secondary" href="/Turma_da_Ritinha_Gibi_1_O_Comeco_de_uma_Turma.pdf" download="Turma_da_Ritinha_Gibi_1_O_Comeco_de_uma_Turma.pdf">Baixar PDF ↓</a>
+            </div>
+            <p class="gibi-note">Material digital gratuito SoulKids.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="turma" id="turma" aria-label="Turma da Ritinha">
         <div class="wrap">
           <a
             class="turma-link"
-            href="#historia"
-            aria-label="Ler a primeira história da Turma da Ritinha"
+            href="#gibi1"
+            aria-label="Conhecer o Gibi 1 da Turma da Ritinha"
           >
             <img
               class="turma-art"
@@ -1090,56 +1051,7 @@
         </div>
       </section>
 
-      <section class="story" id="historia" aria-labelledby="story-title">
-        <div class="wrap">
-          <div class="story-heading">
-            <div>
-              <span class="eyebrow">História 1</span>
-              <h2 id="story-title">A chegada da Ritinha</h2>
-            </div>
-            <p>
-              Ritinha chega insegura, encontra acolhimento, aceita um desafio e
-              descobre a primeira pista de uma caça ao tesouro.
-            </p>
-            <div class="story-controls" aria-label="Controles da história">
-              <button class="story-control" type="button" data-story-prev aria-label="Página anterior">←</button>
-              <span class="story-counter" data-story-counter aria-live="polite">1 de 8</span>
-              <button class="story-control" type="button" data-story-next aria-label="Próxima página">→</button>
-            </div>
-          </div>
-          <div class="story-track" data-story-track tabindex="0" aria-label="Páginas da história A chegada da Ritinha">
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-1.webp" alt="Página 1: Ritinha chega à SoulKids com sua família" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-2.webp" alt="Página 2: Ravi recebe Ritinha na entrada" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-3.webp" alt="Página 3: Ravi conversa com Ritinha na altura dela" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-4.webp" alt="Página 4: Ritinha entra e observa a sala" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-5.webp" alt="Página 5: Ritinha escolhe a bola amarela" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-6.webp" alt="Página 6: Ritinha tenta realizar o desafio" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-7.webp" alt="Página 7: Ritinha tenta outra vez e consegue" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-8.webp" alt="Página 8: Ritinha encontra a primeira pista da caça ao tesouro" loading="lazy" />
-            </figure>
-          </div>
-          <p class="story-hint">Deslize para o lado para continuar a história.</p>
-          <div class="story-actions">
-            <a class="btn btn-primary" href="/Turma_da_Ritinha_Historia_01_A_Chegada.pdf" target="_blank" rel="noopener">Ler história em PDF →</a>
-            <a class="btn btn-secondary" href="/Turma_da_Ritinha_Historia_01_A_Chegada.pdf" download>Baixar história ↓</a>
-          </div>
-        </div>
-      </section>
+      
 
       <section id="terapias" aria-labelledby="therapies-title">
         <div class="wrap">
@@ -1427,28 +1339,23 @@
       </div>
     </footer>
     <script>
-      const storyTrack = document.querySelector("[data-story-track]");
-      const storyStep = () => {
-        const page = storyTrack.querySelector(".story-page");
-        return page.offsetWidth + 18;
-      };
-      const storyPages = [...storyTrack.querySelectorAll(".story-page")];
-      const storyCounter = document.querySelector("[data-story-counter]");
-      const updateStoryCounter = () => {
-        const current = Math.min(
-          storyPages.length,
-          Math.max(1, Math.round(storyTrack.scrollLeft / storyStep()) + 1)
-        );
-        storyCounter.textContent = `${current} de ${storyPages.length}`;
-      };
-      document.querySelector("[data-story-prev]").addEventListener("click", () => {
-        storyTrack.scrollBy({ left: -storyStep(), behavior: "smooth" });
+      const menuButton = document.querySelector(".menu-toggle");
+      const siteMenu = document.querySelector("#site-menu");
+      function closeMenu() {
+        siteMenu.classList.remove("is-open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Abrir menu");
+        menuButton.textContent = "☰ Menu";
+      }
+      menuButton.addEventListener("click", () => {
+        const open = siteMenu.classList.toggle("is-open");
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+        menuButton.textContent = open ? "✕ Fechar" : "☰ Menu";
       });
-      document.querySelector("[data-story-next]").addEventListener("click", () => {
-        storyTrack.scrollBy({ left: storyStep(), behavior: "smooth" });
-      });
-      storyTrack.addEventListener("scroll", updateStoryCounter, { passive: true });
-      window.addEventListener("resize", updateStoryCounter);
+      siteMenu.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
+      document.addEventListener("keydown", event => { if (event.key === "Escape") closeMenu(); });
+      window.addEventListener("resize", () => { if (window.innerWidth > 880) closeMenu(); });
     </script>
   </body>
 </html>
