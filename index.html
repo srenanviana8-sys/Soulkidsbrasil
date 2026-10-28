@@ -590,90 +590,6 @@
         width: 100%;
         height: auto;
       }
-      .story {
-        padding: 82px 0;
-        background: linear-gradient(180deg, #fff 0%, #fff9ef 100%);
-      }
-      .story-heading {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 28px;
-        margin-bottom: 30px;
-      }
-      .story-heading h2 {
-        margin: 8px 0 0;
-        color: var(--navy);
-        font-size: clamp(2.2rem, 5vw, 4rem);
-        line-height: 1;
-        letter-spacing: -0.05em;
-      }
-      .story-heading p {
-        max-width: 480px;
-        margin: 0;
-        color: var(--muted);
-      }
-      .story-controls {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-shrink: 0;
-      }
-      .story-counter {
-        min-width: 92px;
-        color: var(--navy);
-        font-weight: 850;
-        text-align: center;
-      }
-      .story-control {
-        width: 48px;
-        height: 48px;
-        border: 1px solid var(--line);
-        border-radius: 50%;
-        background: var(--white);
-        color: var(--navy);
-        font: inherit;
-        font-size: 1.45rem;
-        font-weight: 900;
-        cursor: pointer;
-        box-shadow: 0 8px 22px rgba(9, 44, 97, 0.1);
-      }
-      .story-track {
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: min(480px, 82vw);
-        gap: 18px;
-        overflow-x: auto;
-        padding: 4px 4px 22px;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        scrollbar-color: var(--orange) #f1e8db;
-      }
-      .story-page {
-        margin: 0;
-        scroll-snap-align: center;
-        overflow: hidden;
-        border-radius: 24px;
-        background: var(--white);
-        box-shadow: 0 16px 45px rgba(12, 44, 94, 0.14);
-      }
-      .story-page img {
-        width: 100%;
-        height: auto;
-      }
-      .story-hint {
-        margin: 10px 0 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-        text-align: center;
-      }
-      .story-actions {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-top: 20px;
-      }
       .play-section {
         padding: 34px 0 28px;
       }
@@ -1019,8 +935,8 @@
         <div class="wrap">
           <a
             class="turma-link"
-            href="#historia"
-            aria-label="Ler a primeira história da Turma da Ritinha"
+            href="/mundo-da-ritinha.html"
+            aria-label="Conhecer o Mundo da Ritinha"
           >
             <img
               class="turma-art"
@@ -1090,56 +1006,7 @@
         </div>
       </section>
 
-      <section class="story" id="historia" aria-labelledby="story-title">
-        <div class="wrap">
-          <div class="story-heading">
-            <div>
-              <span class="eyebrow">História 1</span>
-              <h2 id="story-title">A chegada da Ritinha</h2>
-            </div>
-            <p>
-              Ritinha chega insegura, encontra acolhimento, aceita um desafio e
-              descobre a primeira pista de uma caça ao tesouro.
-            </p>
-            <div class="story-controls" aria-label="Controles da história">
-              <button class="story-control" type="button" data-story-prev aria-label="Página anterior">←</button>
-              <span class="story-counter" data-story-counter aria-live="polite">1 de 8</span>
-              <button class="story-control" type="button" data-story-next aria-label="Próxima página">→</button>
-            </div>
-          </div>
-          <div class="story-track" data-story-track tabindex="0" aria-label="Páginas da história A chegada da Ritinha">
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-1.webp" alt="Página 1: Ritinha chega à SoulKids com sua família" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-2.webp" alt="Página 2: Ravi recebe Ritinha na entrada" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-3.webp" alt="Página 3: Ravi conversa com Ritinha na altura dela" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-4.webp" alt="Página 4: Ritinha entra e observa a sala" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-5.webp" alt="Página 5: Ritinha escolhe a bola amarela" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-6.webp" alt="Página 6: Ritinha tenta realizar o desafio" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-7.webp" alt="Página 7: Ritinha tenta outra vez e consegue" loading="lazy" />
-            </figure>
-            <figure class="story-page">
-              <img src="/historia-ritinha-pagina-8.webp" alt="Página 8: Ritinha encontra a primeira pista da caça ao tesouro" loading="lazy" />
-            </figure>
-          </div>
-          <p class="story-hint">Deslize para o lado para continuar a história.</p>
-          <div class="story-actions">
-            <a class="btn btn-primary" href="/Turma_da_Ritinha_Historia_01_A_Chegada.pdf" target="_blank" rel="noopener">Ler história em PDF →</a>
-            <a class="btn btn-secondary" href="/Turma_da_Ritinha_Historia_01_A_Chegada.pdf" download>Baixar história ↓</a>
-          </div>
-        </div>
-      </section>
+      
 
       <section id="terapias" aria-labelledby="therapies-title">
         <div class="wrap">
@@ -1426,29 +1293,6 @@
         ><a href="#inicio">Voltar ao início ↑</a>
       </div>
     </footer>
-    <script>
-      const storyTrack = document.querySelector("[data-story-track]");
-      const storyStep = () => {
-        const page = storyTrack.querySelector(".story-page");
-        return page.offsetWidth + 18;
-      };
-      const storyPages = [...storyTrack.querySelectorAll(".story-page")];
-      const storyCounter = document.querySelector("[data-story-counter]");
-      const updateStoryCounter = () => {
-        const current = Math.min(
-          storyPages.length,
-          Math.max(1, Math.round(storyTrack.scrollLeft / storyStep()) + 1)
-        );
-        storyCounter.textContent = `${current} de ${storyPages.length}`;
-      };
-      document.querySelector("[data-story-prev]").addEventListener("click", () => {
-        storyTrack.scrollBy({ left: -storyStep(), behavior: "smooth" });
-      });
-      document.querySelector("[data-story-next]").addEventListener("click", () => {
-        storyTrack.scrollBy({ left: storyStep(), behavior: "smooth" });
-      });
-      storyTrack.addEventListener("scroll", updateStoryCounter, { passive: true });
-      window.addEventListener("resize", updateStoryCounter);
-    </script>
+    
   </body>
 </html>
