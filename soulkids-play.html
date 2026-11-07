@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#092c61">
+<meta name="description" content="SoulKids Play: aventura interativa na clínica com dado giratório, 30 casas, seis categorias de cartas e personagens da Turma da Ritinha.">
+<title>SoulKids Play — Aventura na Clínica</title>
+<link rel="icon" type="image/png" href="/soulkids-symbol.png">
+<link rel="canonical" href="https://soulkidsbrasil.com.br/soulkids-play.html">
+<meta property="og:title" content="SoulKids Play — Aventura na Clínica">
+<meta property="og:type" content="website">
+<meta property="og:description" content="Escolha um personagem, pare o dado giratório e descubra as cartas de uma aventura pela clínica.">
+<meta property="og:image" content="https://soulkidsbrasil.com.br/gibi1-capa.webp">
+<style>
+:root{--navy:#092c61;--ink:#28445d;--teal:#0b756f;--cream:#fffaf0;--line:#d8e7df;--shadow:0 16px 45px #17364b20;
+ --blue:#2678d2;--green:#559e37;--yellow:#edb324;--red:#e75643;--purple:#8752be;--gold:#cf9034}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f7f8f2;color:var(--ink);font:500 16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,a{font:inherit}
+button{cursor:pointer;touch-action:manipulation}
+a{color:var(--navy)}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:4px solid #f4ae3d;outline-offset:3px}
+[hidden]{display:none!important}
+.wrap{width:min(1210px,calc(100% - 30px));margin:auto}
+.skip{position:absolute;top:-99px;left:10px;z-index:60;background:#fff;padding:8px 13px}.skip:focus{top:10px}
+.site-header{background:#fff;border-bottom:1px solid #e4eceb}
+.header-inner{min-height:70px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.site-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:1.16rem;font-weight:950;color:var(--navy)}
+.site-logo img{width:40px;height:40px;object-fit:contain}
+.return-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid #dae7e5;border-radius:12px;padding:10px 13px;text-decoration:none;font-size:.83rem;font-weight:850;min-height:44px}
+.hero{padding:42px 0 24px;background:linear-gradient(120deg,#e8f7ef,#fff6de 65%,#ffe9d8);border-bottom:1px solid #e7e7d6}
+.hero-inner{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:28px}
+.kicker{font-size:.72rem;font-weight:950;letter-spacing:.12em;color:#236d5c}
+h1,h2,h3{letter-spacing:-.045em;line-height:1.13}
+h1{font-size:clamp(2.5rem,6vw,4.8rem);margin:8px 0;color:var(--navy)}
+h1 em{font-style:normal;color:#af520b}
+.hero p{max-width:640px;margin:0;color:#486575;font-weight:700}
+.hero-card{display:flex;align-items:center;justify-content:center;gap:10px}
+.hero-card img{width:min(175px,42%);max-height:220px;object-fit:contain;border:5px solid white;border-radius:12px;box-shadow:0 10px 24px #26483b2e;transform:rotate(-4deg)}
+.hero-card span{font-size:.82rem;font-weight:850;background:#fff;border:1px solid #c9e1d0;border-radius:14px;padding:16px;max-width:155px;line-height:1.45}
+.setup-section{padding:32px 0 60px}
+.setup-panel{max-width:1000px;background:#fff;border:1px solid var(--line);border-radius:26px;padding:clamp(22px,4vw,38px);box-shadow:var(--shadow);margin:auto}
+.setup-panel h2{color:var(--navy);font-size:clamp(1.5rem,3vw,2.3rem);margin:6px 0 7px}
+.setup-panel>p{color:#627581;margin:0 0 24px;font-size:.92rem}
+.character-picker{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:25px}
+.character-choice{display:flex;align-items:center;flex-direction:column;gap:8px;padding:15px 9px;border-radius:17px;border:2px solid #d7e7e2;background:#f9fcf9;color:var(--navy);min-height:133px;font-weight:900}
+.character-choice[aria-pressed=true],.character-choice.is-selected{border-color:#116e65;background:#e8f6ee;box-shadow:0 0 0 2px #b9e2ce}
+.portrait{display:block;flex-shrink:0;width:76px;height:76px;border-radius:50%;background:#fff url("/gibi1-capa.webp") no-repeat;background-size:760% auto;border:3px solid #fff;box-shadow:0 4px 0 #d1e0cf,0 5px 12px #0e43502b}
+.char-ritinha{background-position:43.4% 57%}
+.char-tonico{background-position:28.4% 39.9%}
+.char-luca{background-position:83.9% 59.4%}
+.char-lia{background-position:14.2% 58.5%}
+.char-maya{background-position:63.9% 36.1%}
+.setup-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.action{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-weight:950;border:2px solid transparent;padding:13px 20px;min-height:53px;border-radius:15px}
+.action-primary{background:var(--navy);color:#fff;box-shadow:0 4px 0 #021b39}
+.action-secondary{background:#fff;color:var(--navy);border-color:#c9d9d8}
+.action:active{transform:translateY(2px)}
+.setup-note{color:#6b7e87;font-size:.76rem;text-align:center;margin:18px 0 0!important}
+.board-section{padding:25px 0 60px}
+.board-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:15px}
+.board-title{display:flex;flex-direction:column;gap:4px}
+.board-title h2{font-size:clamp(1.8rem,4.8vw,3rem);color:var(--navy);margin:0}
+.board-title p{margin:0;font-weight:800;color:#496a73;font-size:.93rem}
+.settings{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.toggle{background:#fff;border:1px solid #bfcfcd;color:#235c5c;border-radius:12px;padding:10px 13px;min-height:44px;font-size:.82rem;font-weight:850}
+.toggle[aria-pressed=true]{background:#e0f2e9;border-color:#96c8b6}
+.game-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.6fr);gap:18px;align-items:start}
+.map-card{background:#fff;border:1px solid #dbe7dc;border-radius:26px;padding:clamp(8px,1.6vw,17px);box-shadow:var(--shadow)}
+.board-frame{position:relative;isolation:isolate;width:100%;aspect-ratio:1000/620;border-radius:20px;overflow:hidden;border:4px solid #d7dfb7;
+ background:
+ radial-gradient(ellipse at 78% 48%,#f1e4c28c 0%,transparent 36%),
+ radial-gradient(ellipse at 13% 75%,#edf2a87e 0%,transparent 34%),
+ linear-gradient(145deg,#d8f0e5 0%,#eaf4ce 34%,#f6e6bf 68%,#d0e7ca 100%)}
+.board-frame:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.25;pointer-events:none;background-image:radial-gradient(#4f8a6c 1px,transparent 1px);background-size:24px 24px}
+.scene-label{position:absolute;z-index:0;display:flex;align-items:center;justify-content:center;gap:5px;border:1px solid #ffffffaa;background:#fffffff0;color:#3a665d;border-radius:12px;padding:5px 9px;font-size:clamp(.5rem,1vw,.85rem);font-weight:950;white-space:nowrap}
+.scene-label.welcome{left:2%;top:3%}
+.scene-label.motion{left:51%;top:10%}
+.scene-label.emotions{left:5%;top:49%}
+.scene-label.communication{left:66%;bottom:4%}
+.route-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.route-shadow{fill:none;stroke:#94754e77;stroke-width:41;stroke-linejoin:round;stroke-linecap:round}
+.route-main{fill:none;stroke:#fff6dc;stroke-width:32;stroke-linejoin:round;stroke-linecap:round}
+.route-dashes{fill:none;stroke:#cfb186;stroke-width:3.3;stroke-dasharray:8 13;stroke-linecap:round}
+.path-tiles{position:absolute;inset:0;z-index:2}
+.path-tile{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;width:clamp(33px,5.4vw,63px);height:clamp(33px,5.4vw,63px);border-radius:50%;border:3px solid #fffaed;box-shadow:0 3px 0 #65533971,0 4px 10px #244d3935;color:#fff;text-shadow:0 1px 2px #16353566}
+.path-tile:hover,.path-tile:focus-visible{outline:3px solid #173e60;outline-offset:1px}
+.path-tile:active{filter:brightness(.94)}
+.tile-symbol{font-size:clamp(.8rem,1.8vw,1.35rem);line-height:1.03}
+.tile-number{font-size:clamp(.48rem,1vw,.73rem);line-height:1.1;font-weight:950}
+.tile-blue{background:var(--blue)}.tile-green{background:var(--green)}.tile-yellow{background:var(--yellow);color:#543707;text-shadow:none}
+.tile-red{background:var(--red)}.tile-purple{background:var(--purple)}.tile-gold{background:var(--gold)}
+.start-marker,.finish-marker{position:absolute;z-index:2;display:grid;place-items:center;border:2px solid #fff;border-radius:11px;background:#207f6b;color:#fff;font-weight:950;font-size:.7rem;padding:5px 7px;box-shadow:0 2px 5px #25453240}
+.start-marker{left:2%;bottom:1%}
+.finish-marker{right:1.2%;top:3%;background:#c58e28;color:#fff;font-size:.6rem}
+.player-token{position:absolute;z-index:5;transform:translate(-50%,-56%);width:clamp(31px,5.2vw,58px);height:clamp(31px,5.2vw,58px);border:3px solid #fff;box-shadow:0 0 0 3px #0c655f,0 5px 13px #062b4355;border-radius:50%;background-image:url("/gibi1-capa.webp");background-size:760% auto;background-repeat:no-repeat;transition:left .20s ease,top .20s ease;pointer-events:none}
+.legend{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:14px}
+.legend-chip{display:inline-flex;align-items:center;background:#f4f7f3;color:#2f5363;border:1px solid #dae5df;border-radius:99px;padding:7px 11px;font-size:.78rem;font-weight:900}
+.sidebar{display:grid;gap:14px}
+.dice-card,.rewards-card{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:23px;text-align:center}
+.dice-card h3,.rewards-card h3{color:var(--navy);margin:0 0 12px;font-size:1.3rem}
+.dice-stage{display:grid;place-items:center;min-height:139px}
+.dice-button{width:125px;height:125px;display:grid;place-items:center;background:transparent;border:0;border-radius:20px;perspective:620px;cursor:pointer}
+.dice-button:hover:not(:disabled){filter:brightness(1.05)}
+.dice-button:disabled{cursor:default;opacity:1}
+.dice-cube{--side:85px;width:var(--side);height:var(--side);position:relative;transform-style:preserve-3d;transition:transform .4s cubic-bezier(.2,.8,.3,1.2)}
+.dice-face{position:absolute;inset:0;display:grid;place-items:center;border:3px solid #efddbb;border-radius:13px;color:#172f48;background:#fffdf4;box-shadow:inset 0 0 16px #e9dbc1aa;font-size:65px;line-height:1}
+.face-1{transform:translateZ(calc(var(--side)/2))}
+.face-2{transform:rotateX(90deg) translateZ(calc(var(--side)/2))}
+.face-3{transform:rotateY(90deg) translateZ(calc(var(--side)/2))}
+.face-4{transform:rotateY(-90deg) translateZ(calc(var(--side)/2))}
+.face-5{transform:rotateX(-90deg) translateZ(calc(var(--side)/2))}
+.face-6{transform:rotateY(180deg) translateZ(calc(var(--side)/2))}
+.dice-cube.is-spinning{animation:spinDie .88s linear infinite}
+.dice-cube:not(.is-spinning)[data-value="1"]{transform:rotateX(0deg) rotateY(0deg)}
+.dice-cube:not(.is-spinning)[data-value="2"]{transform:rotateX(-90deg)}
+.dice-cube:not(.is-spinning)[data-value="3"]{transform:rotateY(-90deg)}
+.dice-cube:not(.is-spinning)[data-value="4"]{transform:rotateY(90deg)}
+.dice-cube:not(.is-spinning)[data-value="5"]{transform:rotateX(90deg)}
+.dice-cube:not(.is-spinning)[data-value="6"]{transform:rotateY(180deg)}
+@keyframes spinDie{0%{transform:rotateX(0deg) rotateY(0deg)}25%{transform:rotateX(140deg) rotateY(100deg)}50%{transform:rotateX(280deg) rotateY(220deg)}75%{transform:rotateX(410deg) rotateY(350deg)}100%{transform:rotateX(720deg) rotateY(720deg)}}
+.dice-prompt{color:#1b665e;font-size:.9rem;font-weight:950;min-height:25px;margin:7px 0}
+.dice-status{color:#526f78;font-size:.85rem;font-weight:900;min-height:24px;margin:0}
+.turn-status{padding:12px;background:#ecf7f1;color:#2a6356;border-radius:13px;font-size:.85rem;font-weight:800;min-height:65px;margin:12px 0 0}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:9px 0 19px}
+.stat{display:grid;justify-items:center;gap:4px;padding:11px 5px;border-radius:13px;background:#f2f8f3;border:1px solid #deebe4}
+.stat strong{font-size:1.13rem;color:#135f59}
+.stat small{font-size:.68rem;color:#5a7380}
+.badge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.badge-slot{background:#f7f8f4;border:1px dashed #cbd9d4;border-radius:10px;color:#839291;padding:9px 6px;font-size:.72rem;font-weight:850}
+.badge-slot.is-earned{background:#fff4d9;border:1px solid #e0c47a;color:#85580d}
+.reward-notice{font-size:.81rem;color:#3b6d64;font-weight:900;margin:13px 0 0}
+.game-help{max-width:840px;margin:22px auto 0;background:#fff;border:1px solid #e1e9e6;border-radius:17px;padding:15px}
+.game-help summary{cursor:pointer;color:#294f64;font-weight:900}
+.game-help p{margin:9px 0 0;font-size:.87rem;color:#577180}
+.overlay{position:fixed;z-index:80;inset:0;background:#092c61b8;backdrop-filter:blur(5px);display:grid;place-items:center;overflow-y:auto;padding:15px}
+.card-panel,.finish-panel{width:min(100%,480px);max-height:calc(100dvh - 30px);overflow:auto;position:relative;text-align:center;background:#fffdf7;border:5px solid #fff;border-radius:29px;box-shadow:0 24px 80px #061c324e;padding:22px 24px 25px}
+.card-panel:before{content:"";position:absolute;z-index:0;inset:0 0 auto;height:115px;border-radius:24px 24px 0 0;background:#e9f7ec;pointer-events:none}
+.overlay[data-category="corpo"] .card-panel:before{background:#d9eafd}
+.overlay[data-category="imaginacao"] .card-panel:before{background:#e3f3d7}
+.overlay[data-category="emocao"] .card-panel:before{background:#fff0bd}
+.overlay[data-category="desafio"] .card-panel:before{background:#ffe0d8}
+.overlay[data-category="fono"] .card-panel:before{background:#eadffb}
+.overlay[data-category="surpresa"] .card-panel:before{background:#fff0c8}
+.card-content{position:relative;z-index:1}
+.card-category{display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e4dfc9;border-radius:99px;padding:6px 13px;color:#37596a;font-size:.8rem;font-weight:950;margin:0 auto 8px}
+.card-icon{font-size:clamp(3.4rem,11vw,5rem);line-height:1.2;margin:3px 0 6px}
+.card-panel h2{color:var(--navy);font-size:clamp(1.65rem,5vw,2.25rem);margin:5px 0 9px}
+.card-text{font-size:1.08rem;color:#3e5a6b;font-weight:750;line-height:1.4;margin:0 0 15px}
+.card-effect{background:#eef8f2;border:1px solid #cae5d6;color:#205d50;border-radius:13px;padding:11px;font-size:.88rem;font-weight:900;margin-bottom:16px}
+.card-actions{display:grid;gap:9px}
+.card-actions .action{width:100%;font-size:.93rem}
+.shield-button{background:#ffefc6;color:#745011;border-color:#e1bd6a}
+.card-note{font-size:.73rem;color:#687c82;margin:12px 0 0}
+.finish-panel{background:linear-gradient(155deg,#f6ffed,#fff1d0);padding:34px 25px}
+.finish-emoji{font-size:4rem;line-height:1.1}
+.finish-panel h2{color:var(--navy);font-size:2rem;margin:11px 0}
+.finish-panel p{color:#526d72}
+.finish-summary{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:16px 0 24px;font-weight:900;color:#286b5d}
+.footer{padding:24px 0;text-align:center;background:#092c61;color:#e8f4f7;font-size:.78rem}
+.footer a{color:#fff}
+body.quiet .dice-cube.is-spinning{animation:none;transform:rotateY(-20deg) rotateX(15deg)}
+body.quiet .player-token{transition:none}
+@media(max-width:1000px){
+.game-layout{grid-template-columns:1fr}
+.sidebar{display:grid;grid-template-columns:1fr 1fr;align-items:start}
+.board-frame{aspect-ratio:1000/620}
+}
+@media(max-width:700px){
+.wrap{width:calc(100% - 18px)}
+.site-logo{font-size:1rem}.site-logo img{width:34px;height:34px}
+.return-link{font-size:.75rem;padding:8px}
+.hero{padding:23px 0}.hero-inner{grid-template-columns:1fr}.hero-card{display:none}
+.character-picker{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.character-choice{padding:9px 5px;min-height:110px;font-size:.79rem}
+.portrait{width:65px;height:65px}
+.setup-panel{padding:18px;border-radius:18px}
+.board-title h2{font-size:1.65rem}
+.settings{width:100%;justify-content:space-between}
+.toggle{flex:1;font-size:.75rem;padding:8px 9px}
+.map-card{padding:7px;border-radius:17px}
+.board-frame{aspect-ratio:0.83;border-radius:13px;border-width:3px}
+.scene-label{font-size:.56rem;padding:4px}
+.scene-label.motion{left:56%;top:13%}
+.scene-label.emotions{left:2%;top:49%}
+.scene-label.communication{left:53%;bottom:4%}
+.path-tile{width:clamp(32px,9.2vw,43px);height:clamp(32px,9.2vw,43px);border-width:2px}
+.tile-symbol{font-size:1rem}.tile-number{font-size:.62rem}
+.player-token{width:35px;height:35px}
+.legend-chip{font-size:.72rem;padding:6px 9px}
+.sidebar{grid-template-columns:1fr}
+.dice-card,.rewards-card{padding:18px}
+.badge-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card-panel{padding:18px 16px 19px}
+.card-panel h2{font-size:1.7rem}
+}
+@media(max-width:365px){
+.path-tile{width:31px;height:31px}.tile-symbol{font-size:.87rem}.tile-number{font-size:.52rem}
+.badge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.dice-cube.is-spinning{transform:rotateY(-20deg) rotateX(15deg)}}
+@media print{
+@page{size:A4;margin:14mm}
+.site-header,.hero,.board-section,.overlay,.footer{display:none!important}
+body:before{content:"SoulKids Play — Orientações para famílias";font-size:18pt;font-weight:900}
+}
+#chosen-avatar{width:34px;height:34px;display:inline-block;vertical-align:middle;margin-right:7px;border-width:2px}
+@media(max-width:700px){
+.game-layout{display:flex;flex-direction:column;gap:10px}
+.sidebar{display:contents}
+.dice-card{order:-1;width:100%;display:grid;grid-template-columns:minmax(0,1fr) 110px;align-items:center;gap:2px 12px;padding:12px 15px;border-radius:17px}
+.dice-card h3{grid-column:1;grid-row:1;font-size:1.04rem;text-align:left;margin:0}
+.dice-stage{grid-column:2;grid-row:1 / span 3;min-height:95px}
+.dice-button{width:100px;height:90px}
+.dice-cube{--side:62px}
+.dice-face{font-size:48px;border-radius:10px}
+.dice-prompt{grid-column:1;grid-row:2;text-align:left;font-size:.84rem;margin:0}
+.dice-status{grid-column:1;grid-row:3;text-align:left;font-size:.78rem}
+.turn-status{grid-column:1 / -1;grid-row:4;text-align:center;min-height:0;margin:6px 0 0;padding:9px;font-size:.81rem}
+.map-card{order:0;width:100%}
+.rewards-card{order:1;width:100%}
+}
+</style>
+</head>
+<body>
+<a href="#setup-screen" class="skip">Ir para o jogo</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="site-logo" href="/index.html"><img src="/soulkids-symbol.png" width="40" height="40" alt=""> SoulKids Play</a>
+<a href="/mundo-da-ritinha.html" class="return-link">Mundo da Ritinha</a>
+</div></header>
+<main>
+<section class="hero"><div class="wrap hero-inner">
+<div><span class="kicker">UMA AVENTURA NA CLÍNICA SOULKIDS</span>
+<h1>Jogue. Descubra. <em>Conquiste!</em></h1>
+<p>Um jogo de corpo, imaginação, comunicação e emoções. Escolha um amigo, toque no dado e descubra as cartas pelo caminho.</p></div>
+<div class="hero-card"><img src="/gibi1-capa.webp" alt="Capa oficial do Gibi 1 da Turma da Ritinha" width="175" height="255"><span>Os personagens do Gibi 1 agora são os peões da aventura!</span></div>
+</div></section>
+<section id="setup-screen" class="setup-section" aria-labelledby="choose-title"><div class="wrap">
+<div class="setup-panel">
+<span class="kicker">PASSO 1 · ESCOLHA UM AMIGO</span>
+<h2 id="choose-title">Quem vai jogar?</h2>
+<p>Cinco personagens oficiais da Turma da Ritinha.</p>
+<div class="character-picker" role="group" aria-label="Selecionar personagem">
+<button class="character-choice is-selected" data-character="ritinha" type="button" aria-pressed="true"><span class="portrait char-ritinha" aria-hidden="true"></span>Ritinha</button>
+<button class="character-choice" data-character="tonico" type="button" aria-pressed="false"><span class="portrait char-tonico" aria-hidden="true"></span>Tonico</button>
+<button class="character-choice" data-character="luca" type="button" aria-pressed="false"><span class="portrait char-luca" aria-hidden="true"></span>Luca</button>
+<button class="character-choice" data-character="lia" type="button" aria-pressed="false"><span class="portrait char-lia" aria-hidden="true"></span>Lia</button>
+<button class="character-choice" data-character="maya" type="button" aria-pressed="false"><span class="portrait char-maya" aria-hidden="true"></span>Maya</button>
+</div>
+<div class="setup-actions">
+<button id="play-sound" class="action action-primary" type="button">🎲 Começar com som</button>
+<button id="play-silent" class="action action-secondary" type="button">🔇 Jogar sem som</button>
+</div>
+<p class="setup-note">Nenhum cadastro ou dado pessoal. O dado é sorteado quando você toca. Sem publicidade e sem cobrança.</p>
+</div></div></section>
+<section class="board-section" id="board-game" aria-labelledby="board-title" hidden><div class="wrap">
+<div class="board-topline">
+<div class="board-title"><span class="kicker">SOULKIDS PLAY · TABULEIRO DIGITAL</span><h2 id="board-title">Aventura na Clínica</h2><p><span id="chosen-avatar" class="portrait char-ritinha" aria-hidden="true"></span> Peão: <strong id="chosen-name">Ritinha</strong> · Entrada ao Espaço da Conquista</p></div>
+<div class="settings"><button id="sound-toggle" class="toggle" type="button" aria-pressed="false">🔇 Som desligado</button><button id="quiet-toggle" class="toggle" type="button" aria-pressed="false">🌿 Modo tranquilo</button></div>
+</div>
+<div class="game-layout">
+<div class="map-card">
+<div class="board-frame" id="board-frame" aria-label="Tabuleiro da clínica com trinta casas em seis categorias">
+<span class="scene-label welcome">🏠 Recepção</span><span class="scene-label motion">🤸 Sala do Movimento</span>
+<span class="scene-label emotions">💗 Casa das Emoções</span><span class="scene-label communication">💬 Comunicação</span>
+<svg class="route-svg" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+<path class="route-shadow" id="route-shadow" d=""></path><path class="route-main" id="route-path" d=""></path><path class="route-dashes" id="route-dashes" d=""></path>
+</svg>
+<span class="start-marker" aria-hidden="true">INÍCIO</span><span class="finish-marker" aria-hidden="true">🏆 CHEGADA</span>
+<div id="track-tiles" class="path-tiles" role="group" aria-label="Casas do tabuleiro"></div>
+<div id="player-token" class="player-token char-ritinha" role="img" aria-label="Peão de Ritinha na largada"></div>
+</div>
+<div id="legend-list" class="legend" aria-label="Seis categorias do jogo"></div>
+</div>
+<aside class="sidebar">
+<div class="dice-card"><h3>Toque para parar o dado</h3>
+<div class="dice-stage"><button id="dice-button" class="dice-button" type="button" aria-label="Dado girando. Toque para parar.">
+<span id="dice-cube" class="dice-cube is-spinning" data-value="1" aria-hidden="true">
+<span class="dice-face face-1">⚀</span><span class="dice-face face-2">⚁</span><span class="dice-face face-3">⚂</span>
+<span class="dice-face face-4">⚃</span><span class="dice-face face-5">⚄</span><span class="dice-face face-6">⚅</span>
+</span></button></div>
+<p class="dice-prompt" id="dice-status" aria-live="polite">Toque no dado para parar!</p>
+<p class="turn-status" id="turn-status" aria-live="polite" aria-atomic="true">Sua aventura vai começar.</p>
+</div>
+<div class="rewards-card">
+<h3>🎒 Mochila de Conquistas</h3>
+<div class="stats">
+<div class="stat"><strong id="position-total">0/30</strong><small>Casas</small></div>
+<div class="stat"><strong>⭐ <span id="stars-total">0</span></strong><small>Estrelas</small></div>
+<div class="stat"><strong>🛡️ <span id="shields-total">0</span></strong><small>Passes</small></div>
+</div>
+<div id="badge-grid" class="badge-grid" role="group" aria-label="Álbum de seis adesivos"></div>
+<p id="reward-notice" class="reward-notice">A cada descoberta, um novo adesivo!</p>
+</div>
+</aside>
+</div>
+<details class="game-help"><summary>Para responsáveis e profissionais — regras e adaptações</summary>
+<p>Escolha um personagem, toque no dado para pará-lo, acompanhe o peão e veja a carta da casa onde ele parar. A carta aparece automaticamente. As atividades podem ser realizadas com ajuda ou adaptadas a gestos, comunicação alternativa e possibilidades de movimento de cada criança. A participação vale tanto quanto a execução independente.</p>
+<p>São seis categorias: Corpo, Imaginação, Emoção, Desafio, Fono e Surpresa. Em cada categoria há cinco cartas. Cartas de Desafio podem fazer avançar ou voltar; um passe de ajuda protege contra um retrocesso. As estrelas e os seis adesivos têm função recreativa e não representam avaliação clínica.</p>
+<p>As brincadeiras com movimento exigem supervisão e espaço adequado. Qualquer atividade pode ser interrompida, substituída ou adaptada. Dificuldades terapêuticas não são tratadas como falhas pessoais. Nenhum dado é transmitido pelo jogo.</p>
+<button id="guide-print" class="action action-secondary" type="button">Imprimir orientações</button>
+</details>
+</div></section>
+</main>
+<div id="card-modal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="card-title" hidden>
+<div class="card-panel" data-category="corpo"><div class="card-content">
+<p id="card-category" class="card-category">💪 Corpo</p><div id="card-icon" class="card-icon" aria-hidden="true">👏</div>
+<h2 id="card-title">Cartinha da Turma</h2><p id="card-text" class="card-text">A brincadeira chegou!</p>
+<div id="card-effect" class="card-effect">Você participou! Ganhe uma estrela.</div>
+<div class="card-actions">
+<button id="card-done" class="action action-primary" type="button">✓ Concluí / Continuar</button>
+<button id="card-help" class="action action-secondary" type="button">🤝 Fiz com ajuda</button>
+<button id="card-shield" class="action shield-button" type="button" hidden>🛡️ Usar passe e evitar voltar</button>
+</div>
+<p class="card-note">Não precisa acertar sozinho. Vale mostrar, apontar ou participar com ajuda.</p>
+</div></div></div>
+<div id="finish-modal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="finish-title" hidden>
+<div class="finish-panel"><div class="finish-emoji">🏆</div><h2 id="finish-title">Você chegou ao Espaço da Conquista!</h2>
+<p>Boa, jovem! A turma encontrou o caminho!</p><div class="finish-summary"><span id="finish-stars">0 estrelas</span><span id="finish-badges">0 de 6 adesivos</span></div>
+<button id="replay" class="action action-primary" type="button">🎲 Jogar outra vez</button></div></div>
+<footer class="footer"><div class="wrap">© 2026 SoulKids · Aventura original da Turma da Ritinha · <a href="/mundo-da-ritinha.html">Mundo da Ritinha</a></div></footer>
+<script src="/soulkids-play.js" defer></script>
+</body></html>

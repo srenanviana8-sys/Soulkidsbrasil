@@ -876,6 +876,15 @@
       .therapy-games-heading { text-align:center;max-width:760px;margin:0 auto 29px }
       .therapy-games-heading h2 { color:var(--navy);font-size:clamp(2.15rem,5vw,3.5rem);letter-spacing:-.055em;line-height:1.04;margin:9px 0 15px }
       .therapy-games-heading p { color:var(--muted);font-size:1.05rem;margin:0 }
+      .board-promo{display:grid;grid-template-columns:1.25fr .75fr;align-items:center;gap:18px;padding:clamp(25px,4vw,42px);border-radius:24px;background:linear-gradient(120deg,#fff4d7,#e8f5e9);border:2px solid #d8dca8;margin-top:20px;margin-bottom:17px}
+      .board-promo h3{color:#092c61;font-size:clamp(1.8rem,3vw,2.8rem);margin:7px 0 10px;letter-spacing:-.045em;line-height:1.12}
+      .board-promo p{max-width:610px;color:#3e5f69;font-size:.98rem;line-height:1.6;margin:0 0 17px}
+      .board-promo a{display:inline-flex;justify-content:center;align-items:center;min-height:51px;border-radius:12px;background:#092c61;color:#fff;text-decoration:none;padding:13px 20px;font-weight:900}
+      .board-promo-art{display:grid;justify-items:center;gap:17px;padding:18px}
+      .board-promo-die{display:grid;place-items:center;width:120px;height:120px;background:#fff;border:3px solid #dfcb98;border-radius:24px;box-shadow:10px 10px 0 #cbb97c;color:#153552;font-size:6rem;line-height:1}
+      .board-promo-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+      .board-promo-chips span{display:grid;place-items:center;width:43px;height:43px;background:#fff;border:2px solid #ebd8a8;border-radius:50%;font-size:1.3rem}
+      @media(max-width:700px){.board-promo{grid-template-columns:1fr;padding:24px}.board-promo-art{display:none}.board-promo a{width:100%}}
       .pilot-promo{display:grid;grid-template-columns:1.35fr .65fr;gap:24px;align-items:center;background:#eef7f3;border:1px solid #cfe3dc;border-radius:24px;padding:clamp(24px,4vw,40px)}
       .pilot-kicker{font-size:.76rem;font-weight:900;color:#1d625a;text-transform:uppercase;letter-spacing:.09em}
       .pilot-promo h3{color:var(--navy);font-size:clamp(1.7rem,3vw,2.7rem);letter-spacing:-.045em;margin:10px 0 12px}
@@ -1050,6 +1059,18 @@
             <span class="eyebrow">SoulKids Play · Gratuito</span>
             <h2 id="play-title">Jogos para diferentes habilidades</h2>
             <p>Explore recursos educativos de diferentes áreas no celular ou computador. Conheça também nossa nova experiência de orientação espacial.</p>
+          </div>
+          <div class="board-promo" aria-labelledby="board-promo-title">
+            <div class="board-promo-copy">
+              <span class="pilot-kicker">Novo · Tabuleiro interativo · Turma da Ritinha</span>
+              <h3 id="board-promo-title">SoulKids Play — Aventura na Clínica</h3>
+              <p>Escolha seu personagem, toque no dado para parar e caminhe por 30 casas. Seis categorias, cartas-surpresa, estrelas e adesivos para colecionar.</p>
+              <a href="/soulkids-play.html">Começar o jogo de tabuleiro →</a>
+            </div>
+            <div class="board-promo-art" aria-hidden="true">
+              <span class="board-promo-die">⚄</span>
+              <div class="board-promo-chips"><span>💪</span><span>💡</span><span>❤️</span><span>❗</span><span>💬</span><span>⭐</span></div>
+            </div>
           </div>
           <div class="pilot-promo" aria-labelledby="pilot-title">
             <div class="pilot-promo-copy">
