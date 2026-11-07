@@ -175,4 +175,49 @@ const inside=e.key("ArrowUp",true);assert.equal(inside.prevented,true);
 assert.ok(html.includes('<details class="parent-details"'),"Orientações técnicas devem ficar recolhidas");
 assert.ok(html.includes('gibi1-capa.webp'),"Imagens derivadas da capa oficial");
 assert.ok(!source.includes("localStorage")&&!source.includes("fetch("),"Jogo não coleta dados");
-console.log("PASSOU — Rota da Ritinha 4.0: trilha original, passos com direções, falas ao encontrar, estrela, reinício e avanços.");
+// Interações 5.0 — tocar em células, investigar, liberar caminhos e coletar.
+const touch=build(),v=touch.elements;
+const tap=(r,c)=>v["adventure-board"].children[r*4+c].click();
+touch.click("start-quiet");
+assert.equal(v["adventure-board"].children[0].type,"button","Casa precisa ser um botão real");
+assert.equal(v["reward-count"].textContent,"🎒 0 descobertas");
+const far= v["adventure-board"].children[0];
+far.click();
+assert.match(v["game-feedback"].textContent,/longe/,"Não pode saltar para casas distantes");
+assert.equal(v["reward-count"].textContent,"🎒 0 descobertas");
+tap(2,0);
+assert.match(v["adventure-board"].attributes["aria-label"],/linha 3, coluna 1/,"Toque move a Ritinha uma casa");
+tap(1,0);
+assert.equal(v["reward-count"].textContent,"🎒 1 descoberta","A estrela entra na coleção");
+tap(2,0);
+tap(2,1); // Obstáculo: poça de água (perto).
+assert.equal(v["obstacle-panel"].hidden,false,"O obstáculo abre uma conversa");
+assert.match(v["obstacle-story"].textContent,/Ploc/);
+assert.equal(v["obstacle-choice-a"].disabled,false,"Perto do obstáculo é possível escolher");
+assert.match(v["obstacle-choice-a"].textContent,/pedras/);
+touch.click("obstacle-choice-a");
+assert.equal(v["obstacle-panel"].hidden,true);
+assert.equal(v["reward-count"].textContent,"🎒 2 descobertas","Passagem liberada dá uma recompensa");
+assert.match(v["reward-badge"].textContent,/Exploradora/);
+assert.match(v["adventure-board"].attributes["aria-label"],/linha 3, coluna 2/,"Ritinha atravessa a passagem liberada");
+tap(2,2);
+tap(1,2); // Obstáculo: brinquedo.
+assert.match(v["obstacle-title"].textContent,/Brinquedo/);
+touch.click("obstacle-choice-b"); // Escolha inadequada.
+assert.match(v["story-line"].textContent,/Ops!/);
+touch.tick(1050);
+assert.match(v["stage-title"].textContent,/Tonico/,"Erro recomeça apenas esta fase");
+assert.match(v["adventure-board"].attributes["aria-label"],/linha 4, coluna 1/);
+assert.equal(v["reward-count"].textContent,"🎒 2 descobertas","Conquistas já obtidas não desaparecem no erro");
+assert.equal(v["obstacle-panel"].hidden,true,"O painel fecha após o erro");
+// Um obstáculo distante pode ser visto, mas não resolvido fora de alcance.
+tap(1,2);
+assert.equal(v["obstacle-choice-a"].disabled,true);
+assert.equal(v["obstacle-choice-b"].disabled,true);
+assert.match(v["obstacle-question"].textContent,/Chegue/);
+touch.click("obstacle-close");
+assert.equal(v["obstacle-panel"].hidden,true);
+assert.ok(html.includes('<details class="alternative-controls"'),"As setas devem ficar opcionais");
+assert.ok(html.includes('id="reward-badge"'),"Os selos devem ser visíveis");
+console.log("PASSOU — Rota da Ritinha 5.0:  mapa por toque, obstáculos interativos, recompensas e reinício.");
+
