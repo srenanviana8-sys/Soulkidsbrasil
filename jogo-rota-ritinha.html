@@ -215,7 +215,7 @@ box-shadow:0 3px 0 #dbe7d3;overflow:visible}
 .tile.is-goal{background:#fff4d9;border-color:#c9a965;box-shadow:0 3px 0 #d3be8a;color:#87510d}
 .tile.is-passed{background:#d5eee0;border-color:#86be9e;color:#256d57}
 .tile.is-player{z-index:3;border:2px solid #8fbf95;border-radius:16px;background:#f4fff6;box-shadow:0 3px 0 #a0ccab;color:#093a39}
-.ritinha-player{position:absolute;z-index:2;display:block;bottom:3%;left:50%;transform:translateX(-50%);width:min(72%,72px);height:96%;background:url("/ritinha-passos.webp") left center/200% 100% no-repeat;pointer-events:none;filter:drop-shadow(0 3px 2px #244a3c30)}
+.ritinha-player{position:absolute;z-index:2;display:block;bottom:3%;left:50%;transform:translateX(-50%);width:auto;aspect-ratio:13/18;height:96%;background:url("/ritinha-passos.webp") left center/200% 100% no-repeat;pointer-events:none;filter:drop-shadow(0 3px 2px #244a3c30)}
 .tile.is-player.is-stepping .ritinha-player{background-position:right center;animation:ritinha-step-in .24s ease-out}
 @keyframes ritinha-step-in{from{opacity:.78;transform:translateX(-50%) translateY(5px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .goal-marker{display:grid;place-items:center;width:53%;height:53%;min-width:25px;min-height:25px;background:#b96d2b;color:#fff;border-radius:50% 50% 50% 9px;transform:rotate(-18deg);box-shadow:0 3px 0 #e6cdac}
@@ -275,7 +275,7 @@ body.calm .ritinha-player,body.calm .tile.is-player.is-stepping .ritinha-player{
 .board-scene-foot{gap:8px}
 .tile{border-radius:10px}
 .goal-marker{min-width:19px;min-height:19px}
-.ritinha-player{width:min(82%,51px)}
+.ritinha-player{max-width:82%}
 .direction-pad{grid-template-rows:repeat(3,69px)}
 .ladder-grid,.observation-choices{grid-template-columns:1fr}
 .observation-sheet{padding:16px}
@@ -285,6 +285,7 @@ body.calm .ritinha-player,body.calm .tile.is-player.is-stepping .ritinha-player{
 
 .keyboard-hint{color:#627980;background:#f5f9f7;border-radius:9px;padding:8px 11px;font-size:.78rem;margin:-9px 0 18px}
 .board:focus-visible{outline:4px solid #a45f1b;outline-offset:6px}
+@media(max-width:510px){.journey-stop strong{display:none}.journey-stop span{width:32px;height:32px}.journey-connector{max-width:44px}}
 </style>
 </head>
 <body>
