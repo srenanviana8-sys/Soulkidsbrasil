@@ -4,415 +4,314 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#092c61">
-<meta name="description" content="Rota da Ritinha: jogo de orientação espacial com três níveis, planejamento de trajetos e propostas de brincadeiras para famílias. Gratuito e sem cadastro.">
-<title>Rota da Ritinha — Aventura de orientação espacial | SoulKids</title>
+<meta name="description" content="Rota da Ritinha: uma aventura interativa para encontrar os amigos da SoulKids. Três fases, personagens oficiais e desafios de orientação espacial.">
+<title>Rota da Ritinha 3.0 | A aventura da turma · SoulKids</title>
 <link rel="canonical" href="https://soulkidsbrasil.com.br/jogo-rota-ritinha.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="SoulKids">
-<meta property="og:title" content="Rota da Ritinha — SoulKids Play">
-<meta property="og:description" content="Explore caminhos e pratique planejamento espacial com três níveis e atividades para brincar junto.">
-<meta property="og:url" content="https://soulkidsbrasil.com.br/jogo-rota-ritinha.html">
+<meta property="og:title" content="Rota da Ritinha — Cadê a turma?">
+<meta property="og:description" content="Encontre os amigos da Ritinha em três fases. Toque nas setas, tente outros caminhos e celebre as descobertas.">
 <meta property="og:image" content="https://soulkidsbrasil.com.br/gibi1-capa.webp">
 <link rel="icon" type="image/png" href="/soulkids-symbol.png">
 <style>
-:root{--navy:#092c61;--ink:#243d54;--muted:#52697a;--teal:#166c66;--line:#dbe7e7;--cream:#fbfaf6;--orange:#a94b0c}
+:root{--navy:#092c61;--ink:#253d59;--teal:#0c786e;--teal-dark:#075e5a;--gold:#ffd068;--coral:#fc805d;--lilac:#d9c8fa;--base:#fffaf4;--shadow:0 18px 48px rgba(28,51,71,.12)}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:86px}
-body{margin:0;color:var(--ink);background:var(--cream);font:500 16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-button,a{font:inherit;touch-action:manipulation}
-button{cursor:pointer}
-a{color:var(--navy)}
-button:focus-visible,a:focus-visible{outline:3px solid #ed991c;outline-offset:3px}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--base);color:var(--ink);font:500 16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
 [hidden]{display:none!important}
-.wrap{max-width:1140px;width:calc(100% - 34px);margin:0 auto}
-.skip{position:absolute;left:12px;top:-100px;padding:10px 16px;background:#fff;z-index:50}.skip:focus{top:10px}
-header{background:#fff;border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:76px}
-.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:950;font-size:1.2rem;color:var(--navy)}
-.brand img{width:44px;height:44px;object-fit:contain}
-.top-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.top-links a{text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:10px 13px;color:var(--navy);font-weight:800;font-size:.9rem}
-.top-links a:hover{background:#edf6f3}
-.intro{padding:52px 0 37px;background:linear-gradient(130deg,#fffdf8,#edf7f3)}
-.intro-layout{display:grid;grid-template-columns:1fr auto;align-items:center;gap:30px}
-.kicker{color:#14645d;font-size:.78rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
-h1,h2,h3{letter-spacing:-.035em;line-height:1.15}
-h1{color:var(--navy);font-size:clamp(2.35rem,5.3vw,4.5rem);max-width:800px;margin:11px 0 14px}
-h1 span{color:#a7490d}
-.intro p{max-width:725px;color:var(--muted);font-size:1.06rem;margin:0 0 18px}
-.intro .intro-chips{display:flex;gap:8px;flex-wrap:wrap}
-.intro-chips span{font-size:.8rem;font-weight:850;color:#205b56;background:#ecf5f2;border:1px solid #cce1dc;padding:7px 11px;border-radius:99px}
-.intro-buddy{display:flex;flex-direction:column;align-items:center;justify-content:center;width:170px;min-height:170px;padding:12px;border:1px solid #d9e9e3;background:#fff;border-radius:25px;box-shadow:0 8px 26px #183e5514}
-.intro-buddy img{width:110px;height:110px;object-fit:contain}
-.intro-buddy span{color:var(--navy);font-size:.76rem;font-weight:900;text-align:center}
-.game-section{padding:40px 0 65px}
-.game-top{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
-.game-top h2{margin:6px 0 0;color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem)}
-.quiet-button{border:1px solid #a8c9c2;color:#1f5a56;background:#fff;padding:11px 15px;border-radius:12px;min-height:46px;font-weight:850}
-.quiet-button[aria-pressed=true]{background:#154f4d;color:white}
-.level-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 0 17px}
-.level-tab{display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;border:1px solid #d6e3e5;border-radius:13px;background:#fff;color:var(--navy);font-weight:900;padding:12px}
-.level-tab[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
-.level-tab .no{font-size:.75rem;opacity:.8;letter-spacing:.05em}
-.play-layout{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(300px,.87fr);gap:19px;align-items:start}
-.game-card,.controls-card{border:1px solid #dae5e5;background:white;border-radius:24px;box-shadow:0 14px 38px #163d5610}
-.game-card{padding:clamp(19px,3vw,32px)}
-.controls-card{padding:clamp(18px,2.8vw,30px)}
-.play-head{display:flex;align-items:start;justify-content:space-between;gap:14px}
-.play-head h3{color:var(--navy);font-size:1.5rem;margin:0 0 9px}
-.goal-pill{font-size:.79rem;font-weight:850;border:1px solid #bcd8d0;background:#f0f9f5;border-radius:99px;color:#246b58;padding:8px 12px;max-width:165px;text-align:center}
-.level-intro{color:var(--muted);margin:8px 0 10px;max-width:570px}.focus-line{color:#285f5a;background:#f1f9f6;border-radius:10px;padding:10px 12px;font-size:.84rem;margin:0 0 19px}
-.board-shell{padding:clamp(11px,2.4vw,23px);border-radius:20px;background:#edf3f4;border:1px solid #d5e3e5;display:flex;justify-content:center}
-.board{--cells:4;display:grid;grid-template-columns:repeat(var(--cells),minmax(0,1fr));gap:clamp(5px,1.3vw,9px);width:100%;max-width:420px;aspect-ratio:1}
-.tile{position:relative;min-width:0;aspect-ratio:1;border:1px solid #d0e0e4;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;color:#36586d;font-weight:900;font-size:clamp(1rem,3.3vw,1.8rem)}
-.tile.is-visited{background:#e6f5f0;border-color:#b9dacc}
-.tile.is-planned{outline:3px dashed #df9351;outline-offset:-6px}
-.tile.is-wall{background:#607888;border-color:#607888}
-.wall-mark{width:36%;height:5px;border-radius:9px;background:#e9f0f2;transform:rotate(-40deg)}
-.tile.is-goal{background:#fdf0db;border:2px solid #d39e54;color:#865111}
-.tile.is-passed{background:#d9eee7;color:#276a57}
-.tile.is-player{z-index:1;border:4px solid #a1d8ca;background:var(--navy);color:#fff;border-radius:50%;font-size:clamp(1.2rem,4vw,2rem);box-shadow:0 4px 9px #092c6138}
-.board-caption{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:17px 0 13px;color:#426073;font-size:.9rem;font-weight:800}
-.legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid #e3ebed;padding-top:15px;font-size:.78rem;color:#576e7a}
-.legend span{display:flex;align-items:center;gap:6px}
-.legend i{width:15px;height:15px;border-radius:5px;background:#fff;display:inline-block;border:2px solid #d3e2e2}
-.legend .person{background:var(--navy);border-color:#9bd3c4;border-radius:100%}
-.legend .dest{background:#fdf0db;border-color:#d39e54}
-.legend .wall{background:#607888;border-color:#607888}
-.legend .trail{background:#e6f5f0;border-color:#b9dacc}
-.controls-card h3{color:var(--navy);font-size:1.4rem;margin:0 0 8px}
-.control-copy{color:var(--muted);margin:0 0 19px;font-size:.94rem}
-.direction-pad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,65px);gap:7px;max-width:320px;margin:0 auto}
-.direction-pad button{border:1px solid #b9d4d3;border-radius:13px;background:#edf8f5;color:var(--navy);font-size:1.6rem;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.08;user-select:none}
-.direction-pad button:hover{background:#dcefe9}
-.direction-pad button:active{background:#c9e7df}
-.direction-pad small{font-size:.68rem;font-weight:800;letter-spacing:.02em;margin-top:2px}
-.direction-pad .up{grid-column:2;grid-row:1}
-.direction-pad .left{grid-column:1;grid-row:2}
-.direction-pad .right{grid-column:3;grid-row:2}
-.direction-pad .down{grid-column:2;grid-row:3}
-.direction-pad .center{grid-column:2;grid-row:2;display:grid;place-items:center;color:#577f84;font-weight:900;font-size:.72rem}
-.plan-tools{border:1px solid #d7e4e2;background:#f8fbfa;border-radius:17px;padding:15px;margin-top:19px}
-.plan-tools h4{margin:0 0 10px;color:var(--navy);font-size:1rem}
-.plan-sequence{display:flex;align-items:center;flex-wrap:wrap;gap:5px;min-height:48px}
-.plan-chip{width:35px;height:35px;border:1px solid #b1cfc9;border-radius:9px;background:#fff;display:grid;place-items:center;color:var(--navy);font-size:1.3rem;font-weight:850}
-.plan-preview{color:#536b76;font-size:.85rem;line-height:1.5;margin:9px 0 12px}
-.plan-buttons,.tools{display:flex;gap:8px;flex-wrap:wrap}
-.btn{display:inline-flex;justify-content:center;align-items:center;gap:7px;min-height:46px;border-radius:11px;border:1px solid transparent;padding:11px 15px;font-size:.89rem;font-weight:850;text-decoration:none}
-.btn.primary{background:var(--navy);color:white}
-.btn.secondary{background:white;border-color:#cbdcdf;color:var(--navy)}
-.btn:hover{filter:brightness(.96)}
-.btn:disabled{opacity:.48;cursor:not-allowed}
-.tools{border-top:1px solid #e3eaeb;margin-top:18px;padding-top:18px}
-.game-feedback{margin-top:19px;min-height:70px;background:#eff8f6;border-left:4px solid #358d83;border-radius:10px;padding:14px 16px;color:#244e51;font-weight:750;font-size:.9rem}
-.finish{border:2px solid #7dbda7;border-radius:16px;margin-top:19px;padding:19px;background:#f3fbf7}
-.finish h3{color:#226650;margin:0 0 8px}
-.finish p{color:#426365;margin:0 0 15px}
-.practice{padding:60px 0;background:#fff;border-top:1px solid #e4e9e8}
-.practice-heading{max-width:740px;margin-bottom:27px}
-.practice h2{font-size:clamp(1.8rem,3vw,2.9rem);color:var(--navy);margin:6px 0 12px}
-.practice-heading p{color:var(--muted);margin:0}
-.practice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.practice-card{border:1px solid #dbe6e3;border-radius:18px;background:#f9fbfa;padding:24px}
-.practice-card .index{display:inline-flex;align-items:center;justify-content:center;color:#176f61;background:#e7f5ee;border-radius:10px;width:40px;height:40px;font-size:.85rem;font-weight:950}
-.practice-card h3{font-size:1.13rem;color:var(--navy);margin:14px 0 10px}
-.practice-card p,.practice-card li{font-size:.92rem;color:#456173}
-.practice-card ul{padding-left:18px;margin-bottom:0}
-.practice-note{border-left:4px solid #176f61;padding:10px 16px;background:#eff8f4;color:#234d4b;border-radius:8px;margin-top:22px;font-size:.92rem}
-.print-action{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
-footer{background:#092c61;color:#e6eff7;padding:25px 0}
-.footer-inner{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
-footer a{color:#e6eff7;font-weight:800}
-body.calm .intro{background:#fbfaf6}
-body.calm .direction-pad button{background:#f3f6f5}
-body.calm .tile.is-planned{outline-style:solid}
-body.calm .tile,body.calm .btn,body.calm .direction-pad button{transition:none!important;animation:none!important}
-@media(max-width:960px){.play-layout{grid-template-columns:1fr}.game-card,.controls-card{max-width:none}.direction-pad{margin:0 auto}.practice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:650px){
-  .wrap{width:calc(100% - 24px)}
-  .top{min-height:66px}
-  .brand{font-size:1rem}.brand img{width:38px;height:38px}
-  .top-links{gap:4px}
-  .top-links a{font-size:.78rem;padding:9px 10px}
-  .intro{padding:34px 0 25px}
-  .intro-layout{grid-template-columns:1fr}
-  .intro-buddy{display:none}
-  .intro h1{font-size:clamp(2.3rem,10vw,3.5rem)}
-  .game-section{padding:28px 0 43px}
-  .level-tabs{grid-template-columns:1fr;gap:7px}
-  .level-tab{min-height:48px;justify-content:flex-start}
-  .game-card,.controls-card{padding:17px;border-radius:17px}
-  .play-head{flex-wrap:wrap}
-  .goal-pill{max-width:100%}
-  .board-shell{padding:9px}
-  .board{gap:5px}
-  .tile{border-radius:8px}
-  .direction-pad{grid-template-rows:repeat(3,61px)}
-  .plan-buttons .btn{flex:1 1 130px}
-  .practice{padding:42px 0}
-  .practice-grid{grid-template-columns:1fr}
-  .practice-card{padding:20px}
+a,button{font:inherit}
+button{cursor:pointer;touch-action:manipulation}
+button:disabled{opacity:.5;cursor:wait}
+:focus-visible{outline:3px solid #c06119;outline-offset:4px}
+.wrap{max-width:1110px;width:min(100% - 28px,1110px);margin:0 auto}
+.skip{position:absolute;left:10px;top:-80px;background:white;color:var(--navy);padding:9px 13px;z-index:100}.skip:focus{top:10px}
+.site-nav{background:#fff;border-bottom:1px solid #e5eceb;position:relative;z-index:4}
+.site-nav .wrap{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--navy);font-size:1.03rem;font-weight:950;white-space:nowrap}
+.logo img{width:43px;height:43px;object-fit:contain}
+.nav-return{color:#28536b;text-decoration:none;padding:9px 12px;border-radius:12px;font-size:.87rem;font-weight:850;border:1px solid #e1eaea}
+.nav-return:hover{background:#f3f9f7}
+.kicker{font-size:.76rem;font-weight:950;letter-spacing:.13em;color:#12625d}
+h1,h2,h3{letter-spacing:-.045em;line-height:1.09}
+h1{color:var(--navy);font-size:clamp(2.8rem,6.8vw,5.6rem);margin:11px 0 13px}
+p{line-height:1.5}
+.hero{background:linear-gradient(120deg,#effcf9 0%,#fff8e3 58%,#ffe8d7 100%);padding:clamp(24px,5vw,62px) 0 55px;min-height:calc(100dvh - 73px);display:grid;align-items:center}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(230px,.85fr);align-items:center;gap:38px}
+.hero-copy{position:relative;z-index:1}
+.hero h1 span{color:#a54508}
+.hero-text{max-width:540px;font-weight:750;color:#436473;font-size:clamp(1.06rem,1.6vw,1.27rem);margin:0 0 23px}
+.hero-avatars{display:flex;align-items:center;gap:10px;margin:0 0 26px;flex-wrap:wrap}
+.avatar-named{display:grid;justify-items:center;gap:5px}
+.avatar-named small{color:#345875;font-size:.74rem;font-weight:850}
+.character-avatar{display:inline-block;background-image:url("/gibi1-capa.webp");background-size:760% auto;background-repeat:no-repeat;background-color:#fff;flex-shrink:0;border-radius:50%;border:3px solid #fff;box-shadow:0 4px 0 #c6ded4,0 5px 15px #173b4b26}
+.avatar-named .character-avatar{width:69px;height:69px}
+.char-ritinha{background-position:43.4% 57%}
+.char-ravi{background-position:92.6% 37.7%}
+.char-tonico{background-position:28.4% 39.9%}
+.char-luca{background-position:83.9% 59.4%}
+.char-maya{background-position:63.9% 36.1%}
+.char-lia{background-position:14.2% 58.5%}
+.hero-actions{display:grid;gap:10px;max-width:400px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:17px;min-height:55px;border:2px solid transparent;padding:12px 19px;text-decoration:none;font-weight:950;line-height:1.2}
+.btn-main{background:var(--navy);color:#fff;box-shadow:0 6px 0 #041a3b}
+.btn-main:active{transform:translateY(3px);box-shadow:0 3px 0 #041a3b}
+.btn-alt{background:#fff;color:var(--navy);border-color:#e3e9e9}
+.hero-note{font-size:.79rem;color:#536f7b;margin:17px 0 0}
+.hero-book{display:grid;justify-items:center;gap:13px;padding:15px}
+.hero-book img{width:min(100%,310px);height:auto;border:7px solid #fff;transform:rotate(3deg);border-radius:15px;box-shadow:0 23px 48px #23486933}
+.hero-book span{font-size:.85rem;font-weight:850;color:#446775;background:#fff;border-radius:99px;padding:7px 14px}
+.game{padding:22px 0 55px;background:linear-gradient(180deg,#fff7e5 0%,#f7fbf7 53%,#f4f8f7 100%);min-height:calc(100dvh - 72px)}
+.game-header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 16px}
+.stage-kicker{font-weight:950;font-size:.75rem;color:#0b7769;letter-spacing:.12em}
+.game-title{margin:5px 0 0;font-size:clamp(1.65rem,4vw,2.65rem);color:var(--navy)}
+.settings{display:flex;gap:7px;flex-wrap:wrap}
+.tool-toggle{min-height:43px;border:1px solid #c9dcd6;background:#fff;color:#1b5e60;font-weight:850;border-radius:12px;padding:9px 12px;font-size:.79rem}
+.tool-toggle[aria-pressed=true]{background:#e3f3ec;color:#104d49;border-color:#99c5b3}
+.progress-row{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:14px}
+.progress-dot{display:grid;place-items:center;width:33px;height:33px;background:#fff;border:2px solid #c7deda;color:#568377;border-radius:50%;font-weight:950;font-size:.84rem}
+.progress-dot.is-current{color:#fff;background:#0b7469;border-color:#0b7469;transform:scale(1.13)}
+.progress-dot.is-complete{background:#e6f7db;color:#216b58;border-color:#88bea8}
+.game-layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start}
+.map-card,.controls-card{background:#fff;border:1px solid #e1ebe6;border-radius:27px;box-shadow:var(--shadow)}
+.map-card{padding:clamp(12px,2.8vw,27px)}
+.story-bubble{display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:14px;border:2px solid #ecd8aa;background:#fff8df;border-radius:18px}
+.speaker-avatar{width:71px;height:71px;box-shadow:0 4px 0 #e4c885,0 6px 13px #1a3a4122}
+.story-bubble strong{color:#875009;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+.story-bubble p{font-size:clamp(1.05rem,2vw,1.35rem);font-weight:950;line-height:1.24;color:var(--navy);margin:3px 0 0}
+.map-scene{position:relative;overflow:hidden;border-radius:23px;background:
+radial-gradient(circle at 83% 18%,#fff6bc 0%,transparent 28%),
+linear-gradient(150deg,#c5eaf5 0%,#dcf8ee 38%,#b8e3a7 100%);
+border:3px solid #c2e2c4;padding:20px 16px 18px}
+.map-scene:before{content:"";position:absolute;left:-40px;bottom:-60px;width:230px;height:145px;background:#9bd593;border-radius:50%;opacity:.48;pointer-events:none}
+.map-scene:after{content:"";position:absolute;right:-48px;top:-45px;width:150px;height:150px;border:12px solid #fffbe7;border-radius:50%;opacity:.4;pointer-events:none}
+.map-hint{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;color:#245a6c;font-weight:950;font-size:.8rem}
+.target-pill{background:#fff;border:1px solid #c3e1d6;border-radius:99px;color:#0f6f66;padding:6px 12px;font-weight:950}
+.board{--cells:4;display:grid;position:relative;z-index:1;grid-template-columns:repeat(var(--cells),minmax(0,1fr));gap:clamp(5px,1vw,9px);width:min(100%,505px);margin:auto;aspect-ratio:1}
+.board-tile{position:relative;display:grid;place-items:center;min-width:0;aspect-ratio:1;background:#fffdf4d9;border:2px solid #c3e2c2;border-radius:clamp(9px,1.5vw,17px);box-shadow:0 3px 0 #8bb98d55}
+.board-tile.decorated:after{content:"✿";color:#c2deb2;font-size:clamp(.9rem,2vw,1.4rem)}
+.board-tile.visited{background:#f9eac0;border-color:#e4cc77}
+.board-tile.obstacle{background:#fbe2c4;border-color:#e2b87d;box-shadow:0 3px 0 #cba37655}
+.obstacle-icon{font-size:clamp(1.2rem,4vw,2.35rem);filter:drop-shadow(0 3px 1px #ad876a55);line-height:1}
+.board-tile.goal{background:#ffe7a6;border-color:#eab261;box-shadow:0 3px 0 #d5a35066}
+.goal-avatar{width:76%;height:76%;box-shadow:0 2px 0 #d3ac70}
+.goal-index{position:absolute;bottom:-6px;right:-5px;display:grid;place-items:center;background:var(--navy);color:white;border:2px solid white;border-radius:50%;width:24px;height:24px;font-size:.76rem;font-weight:950}
+.board-tile.player{z-index:2;background:#e3f8ec;border-color:#5cbda4;box-shadow:0 3px 0 #81bb95}
+.ritinha-token{display:block;width:70%;height:92%;aspect-ratio:13/18;background:url("/ritinha-passos.webp") left center/200% 100% no-repeat;filter:drop-shadow(0 3px 2px #184a4935)}
+.board.has-error{animation:route-shake .28s linear 1}
+@keyframes route-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.scene-footer{position:relative;z-index:1;display:flex;justify-content:center;gap:7px;margin-top:12px}
+.scene-footer span{width:23px;height:5px;background:#97d2a5;border-radius:99px}
+.scene-footer span:nth-child(2){background:#fad388}
+.controls-card{padding:clamp(16px,2.5vw,25px)}
+.controls-card h3{color:var(--navy);font-size:1.23rem;margin:2px 0 17px}
+.pad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,72px);gap:8px;max-width:330px;margin:auto}
+.dir-btn{border:2px solid #abd3cc;background:#e4f7ef;border-radius:17px;color:#0a5b57;font-size:1.9rem;font-weight:950;box-shadow:0 4px 0 #a8cfc4}
+.dir-btn:hover{background:#d2f3e4}
+.dir-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #a8cfc4}
+.pad .up{grid-row:1;grid-column:2}
+.pad .down{grid-row:3;grid-column:2}
+.pad .left{grid-row:2;grid-column:1}
+.pad .right{grid-row:2;grid-column:3}
+.pad .pad-middle{grid-row:2;grid-column:2;display:grid;place-items:center;font-weight:950;font-size:.68rem;color:#658b82}
+.plan-area{margin-top:16px;padding:16px;background:#fff9e9;border:1px solid #f3deb7;border-radius:17px}
+.plan-caption{font-size:.85rem;font-weight:950;color:#80500d;margin:0 0 10px}
+.command-chips{display:flex;gap:5px;flex-wrap:wrap;min-height:40px;margin-bottom:13px}
+.command-chip{display:grid;place-items:center;border:2px solid #d4d1a6;background:#fff;border-radius:10px;width:38px;height:38px;font-size:1.35rem;color:var(--navy);font-weight:950}
+.execute-btn{width:100%;background:#fdc44d;color:#57360a;box-shadow:0 4px 0 #d9a53d;border-color:#eab144;min-height:62px;font-size:1.4rem}
+.plan-actions,.aside-tools{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.small-btn{border:1px solid #d1dedc;border-radius:11px;background:#fff;color:#245d69;padding:10px 13px;font-size:.82rem;font-weight:850;min-height:44px}
+.small-btn:hover{background:#f5fbf8}
+.aside-tools{margin-top:22px;padding-top:15px;border-top:1px solid #e5eded}
+.feedback{min-height:53px;background:#f0f7f2;border-radius:12px;border-left:4px solid #66ac91;padding:11px 13px;margin-top:16px;font-weight:850;font-size:.85rem;color:#386a5c}
+.game-help{color:#5b7880;font-size:.74rem;text-align:center;margin:10px 0 0}
+.celebration{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:25px;background:rgba(12,40,61,.72);backdrop-filter:blur(5px)}
+.celebration-card{position:relative;overflow:hidden;max-width:440px;width:100%;background:linear-gradient(135deg,#fff7d9,#f1ffef);border:5px solid white;border-radius:32px;padding:34px 24px;text-align:center;box-shadow:0 26px 60px #071d3155}
+.celebration-card:before{content:"✦  ✿  ★  ✦";position:absolute;top:9px;left:10%;font-size:1.5rem;letter-spacing:22px;color:#e4aa53;opacity:.6}
+.finish-avatar{width:95px;height:95px;margin-top:10px;box-shadow:0 7px 0 #b4ddae}
+.celebration h2{font-size:clamp(1.8rem,5vw,2.55rem);margin:19px 0 9px;color:var(--navy)}
+.celebration-quote{color:#a95015;font-size:1.28rem;font-weight:950;margin:0 0 10px}
+.celebration-detail{color:#526b70;font-size:.9rem;margin:0 0 22px}
+.celebration .btn{width:100%;margin-top:6px}
+.celebration .hold-btn{border:0;background:transparent;color:#536e77;text-decoration:underline;font-weight:850;font-size:.81rem;min-height:43px;margin-top:10px}
+.parent-section{padding:45px 0 65px;background:#fff;border-top:1px solid #e4eae7}
+.parent-details{max-width:880px;margin:auto;border:1px solid #dbe8e4;border-radius:20px;background:#f8fbf9;overflow:hidden}
+.parent-details summary{cursor:pointer;color:var(--navy);font-weight:900;padding:22px 25px;font-size:1.08rem;list-style-position:inside}
+.parent-details[open] summary{border-bottom:1px solid #dde9e4}
+.parent-content{padding:21px 25px 27px}
+.parent-content p{font-size:.93rem;color:#435b69}
+.parent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.parent-grid article{padding:18px;background:#fff;border:1px solid #e0e9e6;border-radius:13px}
+.parent-grid h3{color:#0d625b;font-size:1rem;line-height:1.25;margin:0 0 9px}
+.parent-grid p{font-size:.85rem;margin:0}
+.checks{display:grid;gap:11px;margin:20px 0}
+.checks label{display:flex;align-items:flex-start;gap:10px;color:#36566b;font-size:.89rem}
+.checks input{width:19px;height:19px;accent-color:#147565}
+.safety{padding:13px 15px;background:#edf7f2;border-left:4px solid #0c786e;border-radius:7px}
+.footer{background:#092c61;color:#e9f3f8;padding:25px 0;text-align:center;font-size:.78rem}
+.footer a{color:#fff}
+body.calm .board.has-error{animation:none}
+body.calm .hero-book img{transform:none}
+body.calm *{scroll-behavior:auto}
+@media(max-width:850px){
+.hero-grid{grid-template-columns:minmax(0,1fr) 240px;gap:16px}
+.hero-book img{width:230px}
+.game-layout{grid-template-columns:1fr}
+.controls-card{max-width:680px;width:100%;margin:auto}
+.parent-grid{grid-template-columns:1fr}
 }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
-@media print{
-  @page{size:A4;margin:14mm}
-  header,.intro,.game-section,.print-action,footer{display:none!important}
-  body,.practice{background:white!important}
-  .practice{padding:0!important;border:0!important}
-  .wrap{width:100%;max-width:none}
-  .practice-grid{display:block}
-  .practice-card{break-inside:avoid;margin:0 0 8mm;border:1px solid #aaa;background:white}
-  .practice-note{border:1px solid #888}
+@media(max-width:600px){
+.site-nav .wrap{min-height:62px}
+.logo{font-size:.89rem}.logo img{width:36px;height:36px}
+.nav-return{font-size:.77rem;padding:8px}
+.hero{padding:28px 0 43px}
+.hero-grid{grid-template-columns:1fr}
+.hero-book{display:none}
+.hero h1{font-size:clamp(2.75rem,11vw,4.4rem)}
+.hero-avatars{gap:7px}
+.avatar-named .character-avatar{width:57px;height:57px}
+.avatar-named small{font-size:.68rem}
+.hero-actions{max-width:none}
+.game{padding:17px 0 42px}
+.game-header{gap:9px}
+.settings{width:100%;justify-content:space-between}
+.tool-toggle{flex:1;font-size:.75rem;padding:9px 7px}
+.game-layout{gap:13px}
+.map-card,.controls-card{border-radius:20px}
+.map-card{padding:12px}
+.story-bubble{padding:11px;gap:10px}
+.speaker-avatar{width:59px;height:59px}
+.story-bubble p{font-size:1.07rem}
+.map-scene{padding:12px 9px 13px}
+.board{gap:5px}
+.board-tile{border-radius:10px;border-width:1.5px}
+.obstacle-icon{font-size:clamp(1.15rem,6vw,1.9rem)}
+.goal-index{width:19px;height:19px;font-size:.64rem}
+.pad{grid-template-rows:repeat(3,65px)}
+.parent-details summary{padding:18px}
+.parent-content{padding:16px}
 }
-
-/* SoulKids — Rota da Ritinha | versão editorial: identidade visual oficial */
-body{--warm:#fff7e7}
-.intro{position:relative;overflow:hidden;background:linear-gradient(117deg,#fffaf0 0%,#f1faf7 62%,#e8f7f4 100%);padding:55px 0}
-.intro:before{content:"";position:absolute;top:-75px;right:-45px;width:260px;height:260px;border-radius:50%;border:35px solid #f0e5c96b;pointer-events:none}
-.intro-layout{grid-template-columns:1.2fr .8fr;position:relative}
-.intro-buddy{width:230px;min-height:230px;justify-self:end;border-radius:38px;background:linear-gradient(155deg,#f6fff9,#ecf7e5);border:2px solid #d7e9d8;box-shadow:0 18px 30px #23594b15}
-.hero-ritinha-figure{height:164px;width:119px;background:url("/ritinha-passos.webp") left center / 200% 100% no-repeat}
-.intro-buddy span{max-width:175px;font-size:.9rem;margin-top:9px;line-height:1.35}
-.intro h1{max-width:690px}
-.intro h1 span{color:#a34508}
-.intro .intro-chips span{background:#fffefb;border-color:#e4e4d5}
-.game-section{background:#f5f7f4}
-.game-top{margin-bottom:19px}
-.level-tab{border-radius:16px;box-shadow:0 5px 15px #1e51460d}
-.level-tab[aria-pressed=true]{background:#124e51;border-color:#124e51;box-shadow:0 6px 17px #124e5130}
-.journey-rail{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto 20px;max-width:910px}
-.journey-rail-label{font-size:.73rem;text-transform:uppercase;letter-spacing:.07em;font-weight:900;color:#617782;margin-right:auto}
-.journey-stop{display:flex;align-items:center;gap:7px;font-size:.85rem;font-weight:800;color:#647a81;opacity:.72}
-.journey-stop span{display:grid;place-items:center;width:30px;height:30px;border:2px solid #c4d8d7;border-radius:50%;font-size:.75rem}
-.journey-stop.is-current{color:#124e51;opacity:1}
-.journey-stop.is-current span{background:#124e51;border-color:#124e51;color:#fff}
-.journey-stop.is-complete{color:#247759;opacity:1}
-.journey-stop.is-complete span{border-color:#91c7b1;background:#e4f7ed}
-.journey-connector{flex:1;max-width:60px;height:2px;background:#c9dbd7}
-.game-card,.controls-card{border-radius:27px;box-shadow:0 13px 35px #144b4c0f}
-.quest-count{font-size:.7rem;color:#33766c;font-weight:950;letter-spacing:.1em}
-.play-head h3{margin-top:5px}
-.mission-brief{display:flex;align-items:flex-start;gap:13px;background:#f5f8ec;border:1px solid #dfe9d5;border-radius:18px;padding:17px;margin:12px 0 14px}
-.mission-symbol{width:43px;height:43px;flex:0 0 43px;border:1px solid #cbe1bc;background:#e5f0da;border-radius:15px;color:#508465;display:grid;place-items:center;font-size:1.6rem}
-.mission-brief h4{color:var(--navy);font-size:1.04rem;margin:0 0 6px;line-height:1.25}
-.mission-brief p{margin:0;color:#536974;font-size:.88rem;line-height:1.52}
-.level-intro{font-size:.92rem}
-.focus-line{background:#eff6f2;border:1px solid #dce9e2}
-.board-shell{display:flex;flex-direction:column;align-items:center;gap:13px;background:
-radial-gradient(ellipse at 70% 18%,#fefce6 0,transparent 54%),
-linear-gradient(150deg,#ebf7ee,#d9ebde);
-border:2px solid #c8decf;border-radius:24px;min-height:0;padding:21px}
-.board-scene-head,.board-scene-foot{width:100%;max-width:490px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.63rem;letter-spacing:.12em;font-weight:950;color:#517365}
-.board-scene-foot{justify-content:center;gap:16px}
-.board-scene-foot span:first-child,.board-scene-foot span:last-child{font-size:.95rem;color:#86ac6c}
-.board{max-width:492px;gap:clamp(5px,1.2vw,9px)}
-.tile{border:2px solid #cfe2d5;border-radius:16px;background:#fffdf6;
-box-shadow:0 3px 0 #dbe7d3;overflow:visible}
-.tile.is-visited{background:#e2f4e8;border-color:#8fc7aa;box-shadow:0 3px 0 #b6d9c4}
-.tile.is-wall{border-color:#91af92;background:linear-gradient(160deg,#b1d2a7,#80a995);box-shadow:0 3px 0 #77917b}
-.wall-mark{position:relative;display:block;width:58%;height:42%;border-radius:55% 55% 44% 46%;background:#46795f;transform:none;box-shadow:-6px 5px 0 -1px #649778,6px 4px 0 -1px #548565,inset 0 4px 0 #79ae7a}
-.tile.is-goal{background:#fff4d9;border-color:#c9a965;box-shadow:0 3px 0 #d3be8a;color:#87510d}
-.tile.is-passed{background:#d5eee0;border-color:#86be9e;color:#256d57}
-.tile.is-player{z-index:3;border:2px solid #8fbf95;border-radius:16px;background:#f4fff6;box-shadow:0 3px 0 #a0ccab;color:#093a39}
-.ritinha-player{position:absolute;z-index:2;display:block;bottom:3%;left:50%;transform:translateX(-50%);width:auto;aspect-ratio:13/18;height:96%;background:url("/ritinha-passos.webp") left center/200% 100% no-repeat;pointer-events:none;filter:drop-shadow(0 3px 2px #244a3c30)}
-.tile.is-player.is-stepping .ritinha-player{background-position:right center;animation:ritinha-step-in .24s ease-out}
-@keyframes ritinha-step-in{from{opacity:.78;transform:translateX(-50%) translateY(5px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.goal-marker{display:grid;place-items:center;width:53%;height:53%;min-width:25px;min-height:25px;background:#b96d2b;color:#fff;border-radius:50% 50% 50% 9px;transform:rotate(-18deg);box-shadow:0 3px 0 #e6cdac}
-.goal-marker span{transform:rotate(18deg);font-size:clamp(.8rem,2vw,1.15rem)}
-.tile.is-passed .goal-marker{background:#4c9879}
-.tile.is-planned{outline:3px dashed #ca8d50;outline-offset:-8px}
-.tile.is-planned:after{content:"";width:9px;height:9px;border-radius:50%;background:#d89250;position:absolute;bottom:5px;right:5px}
-.board-caption{margin:17px 0 13px}
-.legend .person{background:#e7fff0;border-color:#71ad90}
-.legend .wall{background:#46795f;border-color:#46795f}
-.controls-card{background:#fff}
-.direction-pad{grid-template-rows:repeat(3,74px)}
-.direction-pad button{background:#f2faf5;border:2px solid #b8d6c8;border-radius:17px;color:#114e4b;box-shadow:0 4px 0 #d3e5de;font-size:1.8rem}
-.direction-pad button:hover{background:#e5f4e9}
-.direction-pad button:active{transform:translateY(2px);box-shadow:0 1px 0 #b4d1c5}
-.direction-pad .center{color:#688d81}
-.guide-message{display:flex;align-items:center;gap:9px;color:#526c66;font-size:.83rem;font-weight:800;margin-top:19px}
-.guide-portrait{width:36px;height:36px;flex:0 0 36px;border:2px solid #dfd6b7;border-radius:50%;background:#fff url("/ritinha-feliz.webp") center center/cover}
-.game-feedback{margin-top:10px;background:#f1f8f1;border-color:#8ebea3;color:#254f46}
-.plan-tools{background:#f7fbf7;border:1px solid #d4e5d8}
-.plan-chip{background:#fffdf7;box-shadow:0 2px 0 #d8e5d6}
-.finish{background:#f0fbf2;border:1px solid #97c8a8;box-shadow:0 7px 21px #26794d15}
-.finish h3{font-size:1.4rem}
-.reflection{background:#fffdf5;border-left:3px solid #e2ac60;border-radius:8px;padding:11px 12px;color:#5b664e;margin-bottom:14px;font-size:.9rem}
-.activity-ladder{margin-top:30px;background:#eff7f3;padding:24px;border-radius:20px;border:1px solid #d4e7dd}
-.activity-ladder h3{font-size:1.25rem;color:var(--navy);margin:0 0 16px}
-.ladder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
-.ladder-grid div{background:#fff;border:1px solid #dbe6e1;border-radius:13px;padding:16px}
-.ladder-grid span{color:#1f6656;font-weight:900}
-.ladder-grid p{color:#4e6670;font-size:.88rem;margin:9px 0 0}
-.observation-sheet{margin-top:23px;border:1px solid #d4e2df;border-radius:20px;background:#fff;padding:24px}
-.observation-sheet h3{color:var(--navy);font-size:1.35rem;margin:6px 0 7px}
-.observation-sheet p{font-size:.88rem;color:#5b6e78;margin:0 0 15px}
-.observation-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.observation-choices label{display:flex;align-items:flex-start;gap:10px;font-size:.86rem;color:#3f5c66;background:#f5f9f7;border:1px solid #e3ebe7;border-radius:11px;padding:12px}
-.observation-choices input{accent-color:#1f7664;width:19px;height:19px;flex:0 0 19px}
-.observation-disclaimer{margin-top:15px!important;font-size:.78rem!important}
-body.calm .ritinha-player,body.calm .tile.is-player.is-stepping .ritinha-player{animation:none!important}
-@media(max-width:960px){.intro-buddy{width:195px;min-height:200px}.hero-ritinha-figure{height:135px;width:97px}}
-@media(max-width:650px){
-.intro-layout{grid-template-columns:minmax(0,1fr) 95px;gap:12px}
-.intro-buddy{display:flex;width:94px;min-height:128px;padding:6px 5px;border-radius:18px}
-.hero-ritinha-figure{height:94px;width:68px}
-.intro-buddy span{font-size:.63rem;line-height:1.2}
-.intro h1{font-size:clamp(2rem,9vw,3.2rem)}
-.intro .intro-chips span{font-size:.72rem;padding:6px 9px}
-.journey-rail{gap:5px}
-.journey-rail-label{display:none}
-.journey-stop{font-size:.72rem;gap:4px}
-.journey-stop span{width:27px;height:27px}
-.journey-connector{max-width:20px}
-.mission-brief{padding:14px;gap:9px}
-.mission-symbol{width:34px;height:34px;flex-basis:34px}
-.board-shell{padding:10px;gap:8px}
-.board{max-width:100%;gap:5px}
-.board-scene-head,.board-scene-foot{font-size:.5rem}
-.board-scene-foot{gap:8px}
-.tile{border-radius:10px}
-.goal-marker{min-width:19px;min-height:19px}
-.ritinha-player{max-width:82%}
-.direction-pad{grid-template-rows:repeat(3,69px)}
-.ladder-grid,.observation-choices{grid-template-columns:1fr}
-.observation-sheet{padding:16px}
-}
-@media(prefers-reduced-motion:reduce){.tile.is-player.is-stepping .ritinha-player{animation:none!important}}
-@media print{.activity-ladder,.observation-sheet{break-inside:avoid}.observation-choices label{background:#fff}}
-
-.keyboard-hint{color:#627980;background:#f5f9f7;border-radius:9px;padding:8px 11px;font-size:.78rem;margin:-9px 0 18px}
-.board:focus-visible{outline:4px solid #a45f1b;outline-offset:6px}
-@media(max-width:510px){.journey-stop strong{display:none}.journey-stop span{width:32px;height:32px}.journey-connector{max-width:44px}}
+@media(max-width:360px){.avatar-named .character-avatar{width:48px;height:48px}.hero-avatars{gap:4px}.game-title{font-size:1.5rem}.board{gap:4px}.story-bubble p{font-size:1rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.hero-book img{transform:none}}
+@media print{@page{size:A4;margin:15mm}.site-nav,.hero,.game,.celebration,.footer,.parent-details summary,.parent-content button{display:none!important}.parent-section{border:0;padding:0}.parent-details,.parent-content{border:0;padding:0}.parent-details .parent-content{display:block!important}.parent-grid{display:block}.parent-grid article{break-inside:avoid;margin-bottom:8mm}.safety{border:1px solid #aaa}}
 </style>
 </head>
 <body>
-<a class="skip" href="#atividade">Ir direto para o jogo</a>
-<header><div class="wrap top">
-<a class="brand" href="/index.html"><img src="/soulkids-symbol.png" alt="" width="44" height="44"> SoulKids Play</a>
-<nav class="top-links" aria-label="Navegação principal">
-<a href="/mundo-da-ritinha.html">Mundo da Ritinha</a>
-<a href="#orientacoes">Para responsáveis</a>
-</nav>
+<a href="#game-screen" class="skip">Ir para o jogo</a>
+<header class="site-nav"><div class="wrap">
+  <a class="logo" href="/index.html"><img src="/soulkids-symbol.png" alt="" width="43" height="43">SoulKids Play</a>
+  <a class="nav-return" href="/mundo-da-ritinha.html">Mundo da Ritinha ↗</a>
 </div></header>
-<main id="conteudo">
-<section class="intro" aria-labelledby="page-title"><div class="wrap intro-layout">
-<div><span class="kicker">Uma aventura SoulKids · Orientação espacial</span>
-<h1 id="page-title">Rota da <span>Ritinha</span></h1>
-<p>Acompanhe a Ritinha por três caminhos diferentes. Explore direções, planeje percursos e descubra como mudar de estratégia quando necessário.</p>
-<div class="intro-chips"><span>3 níveis</span><span>Sem competição</span><span>Teclado e toque</span><span>Sem cadastro</span></div></div>
-<div class="intro-buddy">
- <div class="hero-ritinha-figure" role="img" aria-label="Ritinha com óculos azuis, cabelo longo e tênis rosa, pronta para caminhar"></div>
- <span>Qual caminho vamos escolher?</span>
- </div>
-</div></section>
-<section class="game-section" id="atividade" aria-labelledby="activity-title"><div class="wrap">
-<div class="game-top"><div><span class="kicker">Trilha interativa · Sem pressa</span><h2 id="activity-title">A aventura começa aqui</h2></div>
-<button type="button" class="quiet-button" id="quiet-toggle" aria-pressed="false">Modo tranquilo</button></div>
-<div class="level-tabs" role="group" aria-label="Selecionar nível">
-<button type="button" class="level-tab" data-level="0" aria-pressed="true"><span class="no">01</span> Explorar</button>
-<button type="button" class="level-tab" data-level="1" aria-pressed="false"><span class="no">02</span> Planejar</button>
-<button type="button" class="level-tab" data-level="2" aria-pressed="false"><span class="no">03</span> Sequenciar</button>
-</div>
-<div class="journey-rail" aria-label="Três etapas da aventura">
-  <span class="journey-rail-label">Sua jornada</span>
-  <div class="journey-stop is-current" data-journey="0"><span>01</span><strong>Explorar</strong></div>
-  <span class="journey-connector" aria-hidden="true"></span>
-  <div class="journey-stop" data-journey="1"><span>02</span><strong>Planejar</strong></div>
-  <span class="journey-connector" aria-hidden="true"></span>
-  <div class="journey-stop" data-journey="2"><span>03</span><strong>Sequenciar</strong></div>
- </div>
-<div class="play-layout">
-<article class="game-card" aria-labelledby="level-name">
-<div class="play-head"><div><span class="quest-count" id="quest-count">MISSÃO 01 DE 03</span><h3 id="level-name">1 · Explorar</h3></div><span class="goal-pill" id="goal-label">Destino: Chegada</span></div>
-<div class="mission-brief">
- <div class="mission-symbol" aria-hidden="true">✦</div>
- <div><h4 id="mission-title">O primeiro caminho</h4><p id="mission-story">A Ritinha vai explorar uma trilha. Ajude-a a encontrar o destino.</p></div>
-</div>
-<p class="level-intro" id="level-intro">Encontre a chegada usando as setas.</p>
-<p class="focus-line"><strong>Habilidade em foco:</strong> <span id="stage-focus">Orientação espacial.</span></p>
-<div class="board-shell">
- <div class="board-scene-head" aria-hidden="true"><span>TRILHA SOULKIDS</span><span>UM PASSO DE CADA VEZ</span></div>
- <div class="board" id="rota-board" role="group" tabindex="0" aria-label="Trilha do jogo. Coloque o foco aqui para usar as setas do teclado."></div>
- <div class="board-scene-foot" aria-hidden="true"><span>✦</span><span>EXPLORAR · TENTAR · DESCOBRIR</span><span>✦</span></div>
- </div>
-<div class="board-caption"><span id="position-label">Posição inicial</span><span id="move-count">0 movimentos</span></div>
-<div class="legend" aria-label="Legenda do tabuleiro">
-<span><i class="person" aria-hidden="true"></i> Ritinha</span>
-<span><i class="dest" aria-hidden="true"></i> Destinos numerados</span>
-<span><i class="wall" aria-hidden="true"></i> Arbustos (obstáculos)</span>
-<span><i class="trail" aria-hidden="true"></i> Caminho percorrido</span>
-</div>
-</article>
-<aside class="controls-card" aria-labelledby="controls-heading">
-<h3 id="controls-heading">Ajude a Ritinha a caminhar</h3>
-<p class="control-copy" id="control-mode">Use as setas para explorar o tabuleiro.</p><p class="keyboard-hint">No computador: selecione a trilha ou um botão e use as setas do teclado.</p>
-<div class="direction-pad" role="group" aria-label="Direções do marcador">
-<button type="button" class="up" data-dir="up" aria-label="Para cima">↑<small>Cima</small></button>
-<button type="button" class="left" data-dir="left" aria-label="Para a esquerda">←<small>Esquerda</small></button>
-<span class="center" aria-hidden="true">ROTA</span>
-<button type="button" class="right" data-dir="right" aria-label="Para a direita">→<small>Direita</small></button>
-<button type="button" class="down" data-dir="down" aria-label="Para baixo">↓<small>Baixo</small></button>
-</div>
-<div class="plan-tools" id="plan-tools" hidden>
-<h4>Seu plano de caminho</h4>
-<div class="plan-sequence" id="plan-sequence" role="group" aria-label="Sequência preparada"></div>
-<p class="plan-preview" id="plan-preview">Escolha uma direção para iniciar o plano.</p>
-<div class="plan-buttons">
-<button type="button" class="btn primary" id="execute-plan">Executar plano →</button>
-<button type="button" class="btn secondary" id="undo-plan">Retirar último</button>
-<button type="button" class="btn secondary" id="clear-plan">Limpar plano</button>
-</div></div>
-<div class="tools">
-<button type="button" class="btn secondary" id="hint-route">Uma pista</button>
-<button type="button" class="btn secondary" id="restart-level">Recomeçar nível</button>
-</div>
-<div class="guide-message" aria-hidden="true"><div class="guide-portrait"></div><span>Uma descoberta de cada vez.</span></div>
-<div class="game-feedback" role="status" aria-live="polite" aria-atomic="true" id="game-feedback">Vamos começar! Escolha uma direção.</div>
-<div class="finish" id="finish-panel" hidden>
-<h3 id="finish-title">Caminho concluído!</h3>
-<p id="finish-text">Você encontrou o destino.</p>
-<div class="reflection" id="reflection-prompt">Pergunte: qual outro caminho poderíamos experimentar?</div>
-<button type="button" class="btn primary" id="next-level">Próximo nível →</button>
-</div>
-</aside>
-</div></div></section>
-<section class="practice" id="orientacoes" aria-labelledby="practice-title"><div class="wrap">
-<div class="practice-heading"><span class="kicker">Para adultos e profissionais</span>
-<h2 id="practice-title">Do jogo para a experiência corporal</h2>
-<p>O objetivo não é vencer rapidamente. É oferecer oportunidades de perceber direções, organizar uma sequência de ações, testar alternativas e conversar sobre o percurso. Adapte o desafio ao perfil da criança.</p></div>
-<div class="practice-grid">
-<article class="practice-card"><span class="index">01</span><h3>O que observar</h3>
-<ul><li>Como identifica cima, baixo, esquerda e direita.</li><li>Se antecipa etapas antes de agir.</li><li>Como reage quando encontra um obstáculo.</li><li>Se solicita ajuda, explica ou modifica a estratégia.</li></ul></article>
-<article class="practice-card"><span class="index">02</span><h3>Transformar em brincadeira real</h3>
-<p>Monte um caminho seguro com folhas grandes ou marcas no chão. Convide a criança a escolher o destino e indicar duas ou três direções antes de percorrer o trajeto. Um adulto acompanha e ajusta o desafio.</p></article>
-<article class="practice-card"><span class="index">03</span><h3>Adaptação inclusiva</h3>
-<p>O trajeto pode ser planejado com cartões de setas, apontamentos, olhar ou comunicação alternativa. Não é necessário caminhar: uma pessoa pode mover o marcador enquanto a criança escolhe os comandos.</p></article>
-</div>
-<div class="activity-ladder" aria-labelledby="ladder-title">
- <h3 id="ladder-title">Progressão prática com a criança</h3>
- <div class="ladder-grid">
-  <div><span>1 · Explorar</span><p>Comece com uma direção por vez. Pergunte “para onde vamos agora?”. Modele o comando quando necessário.</p></div>
-  <div><span>2 · Planejar</span><p>Combine duas ou três setas antes de executar. Amplie a sequência apenas quando a criança demonstrar compreensão.</p></div>
-  <div><span>3 · Sequenciar</span><p>Proponha dois destinos e uma mudança de rota. Aceite apontar, olhar, falar ou utilizar cartões como resposta.</p></div>
- </div>
-</div>
-<div class="observation-sheet" aria-labelledby="observation-title">
- <div><span class="kicker">Registro qualitativo · Uso acompanhado</span><h3 id="observation-title">O que vale observar?</h3><p>Uma conversa breve após a atividade, sem pontuação clínica.</p></div>
- <div class="observation-choices">
-  <label><input type="checkbox"> Identificou alguma direção com autonomia</label>
-  <label><input type="checkbox"> Precisou de ajuda para organizar os comandos</label>
-  <label><input type="checkbox"> Tentou outra estratégia após um obstáculo</label>
-  <label><input type="checkbox"> Participou usando gestos, olhar ou comunicação alternativa</label>
- </div>
- <p class="observation-disclaimer">As observações servem para orientar conversas com a família; não constituem avaliação padronizada. Nada é enviado ou armazenado pelo jogo.</p>
-</div>
-<p class="practice-note"><strong>Segurança e limites:</strong> atividades físicas exigem supervisão e ambiente adequado, sem obstáculos perigosos. Esta experiência é educativa, não gera diagnóstico, classificação ou medida clínica padronizada. O número de movimentos não representa um escore psicomotor.</p>
-<div class="print-action"><button type="button" class="btn primary" id="print-guide">Imprimir orientações para responsáveis</button><a href="/mundo-da-ritinha.html" class="btn secondary">Voltar ao Mundo da Ritinha</a></div>
-</div></section>
+<main>
+<section id="intro-screen" class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="kicker">UMA AVENTURA DA TURMA DA RITINHA</span>
+      <h1 id="hero-title">Cadê a <span>turma?</span></h1>
+      <p class="hero-text">Ritinha precisa encontrar os amigos. Ajude a descobrir os caminhos!</p>
+      <div class="hero-avatars" aria-label="Amigos da Ritinha">
+        <div class="avatar-named"><span class="character-avatar char-tonico" role="img" aria-label="Tonico"></span><small>Tonico</small></div>
+        <div class="avatar-named"><span class="character-avatar char-luca" role="img" aria-label="Luca"></span><small>Luca</small></div>
+        <div class="avatar-named"><span class="character-avatar char-maya" role="img" aria-label="Maya"></span><small>Maya</small></div>
+        <div class="avatar-named"><span class="character-avatar char-lia" role="img" aria-label="Lia"></span><small>Lia</small></div>
+        <div class="avatar-named"><span class="character-avatar char-ravi" role="img" aria-label="Ravi"></span><small>Ravi</small></div>
+      </div>
+      <div class="hero-actions">
+        <button id="start-sound" class="btn btn-main" type="button">▶ Começar com som</button>
+        <button id="start-quiet" class="btn btn-alt" type="button">🔇 Jogar sem som</button>
+      </div>
+      <p class="hero-note">3 fases · Sem cadastro · Sons opcionais · Sem pontos ou vidas</p>
+    </div>
+    <div class="hero-book"><img src="/gibi1-capa.webp" width="768" height="1152" loading="eager" decoding="async" alt="Capa oficial da Turma da Ritinha com todos os amigos reunidos"><span>Personagens oficiais SoulKids</span></div>
+  </div>
+</section>
+<section id="game-screen" class="game" aria-label="Aventura da Ritinha" hidden>
+  <div class="wrap">
+    <div class="game-header">
+      <div><div class="stage-kicker" id="stage-count">FASE 1 / 3</div><h2 class="game-title" id="stage-title">Cadê o Tonico?</h2></div>
+      <div class="settings">
+        <button id="sound-toggle" class="tool-toggle" type="button" aria-pressed="false">🔇 Som desligado</button>
+        <button id="calm-toggle" class="tool-toggle" type="button" aria-pressed="false">🌿 Modo tranquilo</button>
+        <button id="start-over" class="tool-toggle" type="button">⌂ Início</button>
+      </div>
+    </div>
+    <div class="progress-row" id="story-progress" aria-label="Progresso das três fases"></div>
+    <div class="game-layout">
+      <article class="map-card" aria-label="Mapa da aventura">
+        <div class="story-bubble">
+          <span id="speaker-avatar" class="character-avatar speaker-avatar char-ritinha" aria-hidden="true"></span>
+          <div><strong id="speaker-name">Ritinha</strong><p id="story-line">Cadê o Tonico? Vamos procurar!</p></div>
+        </div>
+        <div class="map-scene">
+          <div class="map-hint"><span>✦ MAPA DA TURMA</span><span id="target-label" class="target-pill">🎯 Tonico</span></div>
+          <div class="board" id="adventure-board" role="group" tabindex="0" aria-label="Mapa de exploração. Use as setas para mover a Ritinha."></div>
+          <div class="scene-footer" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>
+      </article>
+      <aside class="controls-card" aria-labelledby="controls-title">
+        <h3 id="controls-title">Por onde vamos?</h3>
+        <div id="move-controls" class="pad" role="group" aria-label="Direções da Ritinha">
+          <button class="dir-btn up" data-dir="up" type="button" aria-label="Mover para cima">↑</button>
+          <button class="dir-btn left" data-dir="left" type="button" aria-label="Mover para esquerda">←</button>
+          <span class="pad-middle" aria-hidden="true">RITINHA</span>
+          <button class="dir-btn right" data-dir="right" type="button" aria-label="Mover para direita">→</button>
+          <button class="dir-btn down" data-dir="down" type="button" aria-label="Mover para baixo">↓</button>
+        </div>
+        <div id="plan-area" class="plan-area" hidden>
+          <p class="plan-caption">Escolha as setas e depois toque em IR!</p>
+          <div id="plan-chips" class="command-chips" aria-label="Seu caminho planejado"></div>
+          <button id="execute-plan" class="btn execute-btn" type="button" disabled>▶ IR!</button>
+          <div class="plan-actions">
+            <button id="undo-plan" class="small-btn" type="button">↶ Voltar seta</button>
+            <button id="clear-plan" class="small-btn" type="button">✕ Limpar</button>
+          </div>
+        </div>
+        <div class="aside-tools">
+          <button id="hint-step" class="small-btn" type="button">💡 Pista</button>
+          <button id="restart-stage" class="small-btn" type="button">↻ Recomeçar</button>
+        </div>
+        <div id="game-feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">Escolha uma seta para começar.</div>
+        <p class="game-help">Encontrou um obstáculo? A fase recomeça. Tente um caminho diferente!</p>
+      </aside>
+    </div>
+  </div>
+</section>
+<section class="parent-section">
+  <div class="wrap">
+    <details class="parent-details" id="adult-info">
+      <summary>Para responsáveis e profissionais — como aproveitar a atividade</summary>
+      <div class="parent-content">
+        <p><strong>Objetivo educativo:</strong> oferecer situações de orientação espacial, antecipação de ações, sequenciamento, tolerância a dificuldades e busca de outras estratégias. Os níveis progridem de movimentos isolados para planos com um ou dois destinos.</p>
+        <div class="parent-grid">
+          <article><h3>Fase 1 · Explorar</h3><p>Ofereça uma direção por vez. A criança pode apontar, falar, olhar ou acionar o botão. Se encontrar um obstáculo, a fase recomeça; valorize a tentativa e ofereça ajuda quando necessário.</p></article>
+          <article><h3>Fase 2 · Planejar</h3><p>Escolha duas ou três setas antes de tocar em IR. Aos poucos, amplie o percurso. O erro reinicia a fase, sem perda de vidas, classificação ou punições.</p></article>
+          <article><h3>Fase 3 · Sequenciar</h3><p>Organize a visita à Maya e depois à Lia. Converse sobre caminhos que permitam a participação de todos. A criança não precisa caminhar para participar.</p></article>
+        </div>
+        <h3>Observações qualitativas (opcionais)</h3>
+        <div class="checks">
+          <label><input type="checkbox"> Identificou uma direção, com ou sem ajuda.</label>
+          <label><input type="checkbox"> Antecipou parte do trajeto.</label>
+          <label><input type="checkbox"> Reorganizou a tentativa depois de um erro.</label>
+          <label><input type="checkbox"> Participou por gesto, olhar ou comunicação alternativa.</label>
+        </div>
+        <p class="safety"><strong>Supervisão e segurança:</strong> erros reiniciam somente a fase atual. Caso haja sinais de cansaço, desconforto ou desregulação, faça uma pausa ou adapte a atividade. O jogo não equivale a instrumento de avaliação psicomotora, tratamento ou diagnóstico. Nenhum dado da criança é transmitido pelo jogo.</p>
+        <button id="print-guide" class="btn btn-alt" type="button">Imprimir orientações</button>
+      </div>
+    </details>
+  </div>
+</section>
 </main>
-<footer><div class="wrap footer-inner"><span>© 2026 SoulKids · Brincar, pertencer e descobrir.</span><span>Sem conta, anúncios ou coleta de dados pessoais nesta atividade. <a href="/index.html">Site principal</a></span></div></footer>
+<div id="finish-overlay" class="celebration" role="dialog" aria-modal="true" aria-labelledby="finish-title" hidden>
+  <div class="celebration-card">
+    <span id="finish-avatar" class="character-avatar finish-avatar char-ravi" aria-hidden="true"></span>
+    <h2 id="finish-title">Amigo encontrado!</h2>
+    <p id="finish-quote" class="celebration-quote">Boa, jovem!</p>
+    <p id="finish-detail" class="celebration-detail">Tonico encontrou a Ritinha!</p>
+    <button id="continue-button" class="btn btn-main" type="button">Continuar agora →</button>
+    <button id="hold-next" class="hold-btn" type="button" aria-pressed="false">⏸ Pausar avanço</button>
+  </div>
+</div>
+<footer class="footer"><div class="wrap">© 2026 SoulKids · Uma aventura original com a Turma da Ritinha. <a href="/mundo-da-ritinha.html">Voltar ao mundo</a></div></footer>
 <script src="/jogo-rota-ritinha.js" defer></script>
-</body></html>
+</body>
+</html>
