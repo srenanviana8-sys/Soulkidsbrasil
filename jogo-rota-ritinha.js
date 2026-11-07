@@ -2,9 +2,9 @@
 (() => {
   // Jogo local, sem login, armazenamento, rastreamento ou envio de dados.
   const levels = [
-    {name:"Explorar",size:4,mode:"move",start:[3,0],walls:[[2,1]],goals:[{at:[0,3],label:"Chegada"}],instruction:"Encontre a chegada. Use as setas para mover o marcador R, uma casa de cada vez.",focus:"Direções espaciais e exploração de trajetos."},
-    {name:"Planejar",size:5,mode:"plan",start:[4,0],walls:[[1,1],[2,1],[3,3]],goals:[{at:[0,4],label:"Chegada"}],instruction:"Antes de andar, escolha uma sequência de setas. Confira a rota prevista e toque em Executar plano.",focus:"Antecipação, organização de sequência e ajuste de estratégia."},
-    {name:"Sequenciar",size:6,mode:"plan",start:[5,0],walls:[[4,1],[4,3],[3,3],[2,1],[1,1],[1,4]],goals:[{at:[3,2],label:"Ponto 1"},{at:[0,5],label:"Chegada 2"}],instruction:"Planeje uma rota até o ponto 1 e depois até a chegada 2. Você pode executar o percurso em partes.",focus:"Sequenciamento de objetivos, orientação e flexibilidade no planejamento."}
+    {name:"Explorar",size:4,mode:"move",start:[3,0],walls:[[2,1]],goals:[{at:[0,3],label:"Chegada"}],mission:"O caminho do jardim",story:"A Ritinha quer chegar ao Jardim do Movimento. Observe as casas e escolha uma direção de cada vez.",reflection:"Que outras direções poderiam levar a Ritinha até o jardim?",instruction:"Escolha uma seta por vez para mover a Ritinha. Experimente explorar caminhos diferentes.",focus:"Direções espaciais e exploração de trajetos."},
+    {name:"Planejar",size:5,mode:"plan",start:[4,0],walls:[[1,1],[2,1],[3,3]],goals:[{at:[0,4],label:"Chegada"}],mission:"Antes de caminhar, vamos pensar",story:"O caminho tem arbustos! Monte uma sequência de setas para ajudar a Ritinha a chegar ao ponto de encontro.",reflection:"Você pensou em uma rota antes de executá-la? O que mudaria na próxima tentativa?",instruction:"Escolha uma sequência de setas, observe a previsão no mapa e toque em Executar plano. É possível avançar por partes.",focus:"Antecipação, organização de sequência e ajuste de estratégia."},
+    {name:"Sequenciar",size:6,mode:"plan",start:[5,0],walls:[[4,1],[4,3],[3,3],[2,1],[1,1],[1,4]],goals:[{at:[3,2],label:"Ponto 1"},{at:[0,5],label:"Chegada 2"}],mission:"Dois lugares, uma aventura",story:"Primeiro, ajude a Ritinha a chegar ao ponto 1. Depois, planeje o percurso até a chegada 2.",reflection:"Como você organizou os dois destinos? Onde precisou mudar de estratégia?",instruction:"Planeje até o ponto 1 e, em seguida, até a chegada 2. Execute o trajeto em uma ou mais partes.",focus:"Sequenciamento de objetivos, orientação e flexibilidade no planejamento."}
   ];
   const dirs = {
     up:{dr:-1,dc:0,word:"cima",sign:"↑"},
@@ -20,7 +20,9 @@
     sequence:$("plan-sequence"),preview:$("plan-preview"),execute:$("execute-plan"),
     undo:$("undo-plan"),clear:$("clear-plan"),hint:$("hint-route"),restart:$("restart-level"),
     finish:$("finish-panel"),finishTitle:$("finish-title"),finishText:$("finish-text"),
-    next:$("next-level"),focus:$("stage-focus"),calm:$("quiet-toggle")
+    next:$("next-level"),focus:$("stage-focus"),calm:$("quiet-toggle"),
+    questCount:$("quest-count"),missionTitle:$("mission-title"),missionStory:$("mission-story"),
+    reflection:$("reflection-prompt")
   };
   if (Object.values(dom).some(node => !node)) return;
   const key = (r,c) => r+","+c;
@@ -48,12 +50,24 @@
     return null;
   };
   let state;
+  let runToken=0;
+  const reduceMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches??false;
+  const journeySteps=[...document.querySelectorAll("[data-journey]")];
   function announce(msg){dom.feedback.textContent=msg;}
   function current(){return levels[state.level];}
   function target(){return current().goals[state.targetIndex];}
   function newLevel(index){
     const cfg=levels[index];
-    state={level:index,pos:[...cfg.start],targetIndex:0,steps:0,checks:0,done:false,plan:[],visited:new Set([key(...cfg.start)])};
+    runToken++;
+    state={level:index,pos:[...cfg.start],targetIndex:0,steps:0,checks:0,hints:0,done:false,running:false,lastMove:false,plan:[],visited:new Set([key(...cfg.start)])};
+    dom.questCount.textContent="MISSÃO "+String(index+1).padStart(2,"0")+" DE 03";
+    dom.missionTitle.textContent=cfg.mission;
+    dom.missionStory.textContent=cfg.story;
+    dom.reflection.textContent=cfg.reflection;
+    journeySteps.forEach((element,i)=>{
+      element.classList.toggle("is-current",i===index);
+      element.classList.toggle("is-complete",i<index);
+    });
     document.querySelectorAll("[data-level]").forEach(btn=>{
       const active=Number(btn.dataset.level)===index;
       btn.setAttribute("aria-pressed",String(active));
@@ -73,8 +87,9 @@
     const d=dirs[dirName],cfg=current();
     if(!d||state.done)return {stopped:true};
     const next=[state.pos[0]+d.dr,state.pos[1]+d.dc];
-    if(blocked(cfg,...next)){state.checks++;return {blocked:true};}
+    if(blocked(cfg,...next)){state.checks++;state.lastMove=false;return {blocked:true};}
     state.pos=next;
+    state.lastMove=true;
     state.steps++;
     state.visited.add(key(...next));
     if(same(next,target().at)){
@@ -117,9 +132,25 @@
         if(planned.cells.has(k)&&cfg.mode==="plan")cell.classList.add("is-planned");
         if(goalIndex>=0&&goalIndex>=state.targetIndex)cell.classList.add("is-goal");
         if(goalIndex>=0&&goalIndex<state.targetIndex)cell.classList.add("is-passed");
-        if(isPlayer){cell.classList.add("is-player");cell.textContent="R";}
-        else if(goalIndex>=0&&!isWall){cell.textContent=String(goalIndex+1);cell.classList.add("goal-number");}
-        else if(isWall){const stripe=document.createElement("span");stripe.className="wall-mark";stripe.setAttribute("aria-hidden","true");cell.appendChild(stripe);}
+        if(isPlayer){
+          cell.classList.add("is-player");
+          if(state.lastMove)cell.classList.add("is-stepping");
+          const ritinha=document.createElement("span");
+          ritinha.className="ritinha-player";
+          ritinha.setAttribute("aria-hidden","true");
+          cell.appendChild(ritinha);
+        } else if(goalIndex>=0&&!isWall){
+          const marker=document.createElement("span");
+          marker.className="goal-marker";
+          const number=document.createElement("span");
+          number.textContent=String(goalIndex+1);
+          marker.appendChild(number);
+          cell.appendChild(marker);
+          cell.classList.add("goal-number");
+        }else if(isWall){
+          const bush=document.createElement("span");
+          bush.className="wall-mark";bush.setAttribute("aria-hidden","true");cell.appendChild(bush);
+        }
         let label="Linha "+(r+1)+", coluna "+(c+1);
         if(isWall)label+=": obstáculo";
         if(goalIndex>=0)label+=": "+cfg.goals[goalIndex].label;
@@ -148,9 +179,9 @@
         ?"Atenção: o comando "+pred.collision+" encontra um limite ou obstáculo. Retire ou ajuste a sequência."
         :state.plan.length+" comando(s) preparados. A rota aparece marcada no tabuleiro.";
     }
-    dom.execute.disabled=state.plan.length===0;
-    dom.undo.disabled=state.plan.length===0;
-    dom.clear.disabled=state.plan.length===0;
+    dom.execute.disabled=state.running||state.plan.length===0;
+    dom.undo.disabled=state.running||state.plan.length===0;
+    dom.clear.disabled=state.running||state.plan.length===0;
   }
   function render(){
     const cfg=current();
@@ -171,12 +202,12 @@
     }
     dom.finish.hidden=false;
     dom.finishTitle.textContent="Caminho concluído!";
-    dom.finishText.textContent="Você percorreu "+state.steps+" casa(s). Um percurso possível usa "+optimum+" movimento(s). Há diferentes maneiras de explorar o caminho.";
+    dom.finishText.textContent="Ritinha percorreu "+state.steps+" casa(s). Uma das rotas possíveis tem "+optimum+" movimento(s). "+(state.hints?"Você pediu "+state.hints+" pista(s). ":"")+"O objetivo é explorar e explicar escolhas, não ser mais rápido.";
     dom.next.textContent=state.level<levels.length-1?"Explorar o próximo nível →":"Recomeçar a trilha ↺";
     announce("Caminho concluído! Se quiser, conte a alguém como escolheu seu trajeto.");
   }
   function direction(name){
-    if(!dirs[name]||state.done)return;
+    if(!dirs[name]||state.done||state.running)return;
     if(current().mode==="plan"){
       if(state.plan.length>=20){announce("O plano tem até 20 comandos. Execute uma parte e depois continue.");return;}
       state.plan.push(name);
@@ -190,26 +221,41 @@
     else if(result.done)announce("Caminho concluído! Você chegou ao destino.");
     else announce("Movimento para "+dirs[name].word+". "+dom.position.textContent+".");
   }
-  function runPlan(){
-    if(!state.plan.length||state.done)return;
-    const commands=[...state.plan];state.plan=[];
-    let result,executed=0,checkpoint=false;
-    for(const cmd of commands){
-      result=visit(cmd);
-      if(result.blocked||result.done)break;
-      executed++;if(result.checkpoint)checkpoint=true;
-    }
+  async function runPlan(){
+    if(!state.plan.length||state.done||state.running)return;
+    const commands=[...state.plan];
+    state.plan=[];
+    state.running=true;
+    const token=++runToken;
+    const instant=reduceMotion||document.body.classList.contains("calm");
     render();
-    if(result?.blocked)announce("O percurso parou em um obstáculo ou limite. Revise o próximo trecho.");
-    else if(result?.done)announce("Caminho concluído! Você percorreu os destinos na ordem.");
-    else if(checkpoint)announce("Ponto 1 encontrado! Agora planeje até a chegada 2.");
-    else announce("Plano executado. "+dom.position.textContent+". Prepare o próximo trecho.");
+    announce("A Ritinha está caminhando pelo plano. Acompanhe cada movimento no mapa.");
+    let result,checkpoint=false;
+    for(let i=0;i<commands.length;i++){
+      if(token!==runToken)return;
+      result=visit(commands[i]);
+      if(result.blocked)break;
+      if(result.checkpoint)checkpoint=true;
+      render();
+      if(result.done)break;
+      // Passos sucessivos: a criança vê o caminho, em vez de saltar direto à chegada.
+      await new Promise(resolve=>setTimeout(resolve,instant?0:300));
+    }
+    if(token!==runToken)return;
+    state.running=false;
+    render();
+    if(result?.blocked)announce("Um arbusto ou limite interrompeu o caminho. Você pode mudar a próxima sequência.");
+    else if(result?.done)announce("Muito bem! Ritinha encontrou os destinos na ordem. Converse sobre o caminho percorrido.");
+    else if(checkpoint)announce("Ponto 1 encontrado! Agora podemos pensar no caminho até a chegada 2.");
+    else announce("Ritinha seguiu o plano. "+dom.position.textContent+". Escolha o próximo trecho.");
   }
   document.querySelectorAll("[data-level]").forEach(btn=>btn.addEventListener("click",()=>newLevel(Number(btn.dataset.level))));
   document.querySelectorAll("[data-dir]").forEach(btn=>btn.addEventListener("click",()=>direction(btn.dataset.dir)));
   const keyboard={ArrowUp:"up",ArrowRight:"right",ArrowDown:"down",ArrowLeft:"left",w:"up",d:"right",s:"down",a:"left",W:"up",D:"right",S:"down",A:"left"};
   document.addEventListener("keydown",event=>{
     if(event.altKey||event.ctrlKey||event.metaKey||event.target?.closest?.("input,textarea,select,[contenteditable='true']"))return;
+    // Fora do jogo, as setas continuam disponíveis para rolar a página.
+    if(!event.target?.closest?.("#atividade"))return;
     const dir=keyboard[event.key];
     if(dir){event.preventDefault();direction(dir);}
   });
@@ -224,6 +270,7 @@
   dom.hint.addEventListener("click",()=>{
     if(state.done)return;
     const route=shortest(current(),state.pos,target().at);
+    state.hints++;
     if(!route){announce("Não foi possível encontrar uma rota.");return;}
     if(!route.length){announce("Você já está no destino.");return;}
     announce("Uma possibilidade é seguir para "+dirs[route[0]].word+". Você pode escolher outro caminho.");
