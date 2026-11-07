@@ -62,7 +62,7 @@ h1 span{color:#a7490d}
 .play-head{display:flex;align-items:start;justify-content:space-between;gap:14px}
 .play-head h3{color:var(--navy);font-size:1.5rem;margin:0 0 9px}
 .goal-pill{font-size:.79rem;font-weight:850;border:1px solid #bcd8d0;background:#f0f9f5;border-radius:99px;color:#246b58;padding:8px 12px;max-width:165px;text-align:center}
-.level-intro{color:var(--muted);margin:8px 0 20px;max-width:570px}
+.level-intro{color:var(--muted);margin:8px 0 10px;max-width:570px}.focus-line{color:#285f5a;background:#f1f9f6;border-radius:10px;padding:10px 12px;font-size:.84rem;margin:0 0 19px}
 .board-shell{padding:clamp(11px,2.4vw,23px);border-radius:20px;background:#edf3f4;border:1px solid #d5e3e5;display:flex;justify-content:center}
 .board{--cells:4;display:grid;grid-template-columns:repeat(var(--cells),minmax(0,1fr));gap:clamp(5px,1.3vw,9px);width:100%;max-width:420px;aspect-ratio:1}
 .tile{position:relative;min-width:0;aspect-ratio:1;border:1px solid #d0e0e4;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;color:#36586d;font-weight:900;font-size:clamp(1rem,3.3vw,1.8rem)}
@@ -196,6 +196,7 @@ body.calm .tile,body.calm .btn,body.calm .direction-pad button{transition:none!i
 <article class="game-card" aria-labelledby="level-name">
 <div class="play-head"><h3 id="level-name">1 · Explorar</h3><span class="goal-pill" id="goal-label">Destino: Chegada</span></div>
 <p class="level-intro" id="level-intro">Encontre a chegada usando as setas.</p>
+<p class="focus-line"><strong>Habilidade em foco:</strong> <span id="stage-focus">Orientação espacial.</span></p>
 <div class="board-shell"><div class="board" id="rota-board" role="group" aria-label="Tabuleiro do jogo"></div></div>
 <div class="board-caption"><span id="position-label">Posição inicial</span><span id="move-count">0 movimentos</span></div>
 <div class="legend" aria-label="Legenda do tabuleiro">
