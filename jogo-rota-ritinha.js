@@ -369,7 +369,8 @@
     if(index>=stages.length)index=0;
     activeStage=index;document.body.dataset.stage=String(index+1);transitionHold=false;
     const stage=current();
-    state={pos:[...stage.start],goalIndex:0,plan:[],locked:false,collected:false,visited:new Set([coord(stage.start)])};
+    state={pos:[...stage.start],goalIndex:0,plan:[],locked:false,collected:false,cleared:new Set(),activeObstacle:null,visited:new Set([coord(stage.start)])};
+    ui.obstaclePanel.hidden=true;
     ui.meetingNote.hidden=true;
     musicStep=0;
     ui.game.hidden=false;ui.intro.hidden=true;ui.finish.hidden=true;
@@ -378,12 +379,12 @@
     ui.planArea.hidden=stage.mode!=="plan";
     display(stage.speaker==="ritinha"?"Ritinha":stage.speaker==="maya"?"Maya":stage.speaker,stage.story);
     progress();update();
-    inform(retry?"Ops! Voltamos ao começo. Tente outro caminho.":"Vamos lá! Escolha uma seta.");
+    inform(retry?"Ritinha voltou ao início da fase. Vamos tentar outro jeito!":"Toque numa casa vizinha. Investigue os obstáculos!");
     if(!retry){effect("select");ui.board.focus?.({preventScroll:true});}
   }
   function fail(obstacle){
     if(!state||state.locked)return;
-    state.locked=true;state.plan=[];stopVoice();effect("error");
+    state.locked=true;state.plan=[];state.activeObstacle=null;ui.obstaclePanel.hidden=true;stopVoice();effect("error");
     const where=obstacle?obstacle.label:"limite do caminho";
     display("Ritinha","Ops! "+where+". Vamos de novo?");
     inform("O caminho não deu certo. A fase vai recomeçar.");
@@ -443,11 +444,12 @@
     const d=directions[name],stage=current();
     if(!d||!state||state.locked)return {ignored:true};
     const next=[state.pos[0]+d.r,state.pos[1]+d.c],obs=obstacleAt(stage,...next);
-    if(!inside(stage,...next)||obs){fail(obs);return {error:true};}
+    if(!inside(stage,...next)||(obs&&!isCleared(...next))){fail(obs);return {error:true};}
     state.pos=next;state.visited.add(coord(next));effect("step",name);
     if(!state.collected&&equal(next,stage.star)){
-      state.collected=true;effect("star");
-      inform("⭐ Você encontrou uma estrela!");
+      state.collected=true;grantReward("estrela",next);
+      inform("⭐ Uma estrela entrou para a sua coleção!");
+      display("Ritinha","Olha! Uma estrela na aventura!");
     }
     const goal=stage.goals[state.goalIndex];
     if(equal(next,goal.at)){
@@ -498,6 +500,7 @@
     walk();
   }
   function start(activateSound){
+    rewardsEarned.clear();updateRewards();
     setInitialSound(activateSound);
     startStage(0);
     if(activateSound&&musicOn)musicBeat();
