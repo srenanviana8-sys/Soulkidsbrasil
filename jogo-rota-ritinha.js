@@ -189,6 +189,7 @@
     dom.goal.textContent=state.done?"Concluído":"Destino: "+target().label;
     dom.count.textContent=state.steps+" movimento"+(state.steps===1?"":"s");
     renderBoard();
+    state.lastMove=false;
     renderPlan();
     if(state.done)finish();
   }
@@ -224,7 +225,6 @@
   async function runPlan(){
     if(!state.plan.length||state.done||state.running)return;
     const commands=[...state.plan];
-    state.plan=[];
     state.running=true;
     const token=++runToken;
     const instant=reduceMotion||document.body.classList.contains("calm");
@@ -233,7 +233,8 @@
     let result,checkpoint=false;
     for(let i=0;i<commands.length;i++){
       if(token!==runToken)return;
-      result=visit(commands[i]);
+      const command=state.plan.shift();
+      result=visit(command);
       if(result.blocked)break;
       if(result.checkpoint)checkpoint=true;
       render();
@@ -242,6 +243,7 @@
       await new Promise(resolve=>setTimeout(resolve,instant?0:300));
     }
     if(token!==runToken)return;
+    state.plan=[];
     state.running=false;
     render();
     if(result?.blocked)announce("Um arbusto ou limite interrompeu o caminho. Você pode mudar a próxima sequência.");
