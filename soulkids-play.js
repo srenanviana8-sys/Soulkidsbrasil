@@ -20,15 +20,15 @@
   // 30 cartas, cinco de cada categoria. As propostas admitem ajuda e adaptação.
   const decks = {
     corpo:[
-      {title:"Três pulinhos",action:"Pule três vezes ou movimente os braços três vezes.",icon:"🦘"},
+      {title:"Três pulinhos",action:"Faça três movimentos ou toque as figuras na tela.",icon:"🦘",mini:{type:"sequence",prompt:"Conte três saltos da Ritinha!",options:["🦘 Salto","🚶 Caminhar","⏸️ Pausa"],steps:[0,0,0]}},
       {title:"Estátua da turma",action:"Faça uma pose e segure por alguns segundos, com apoio se precisar.",icon:"🗿"},
       {title:"Alto e baixo",action:"Mostre algo lá em cima e algo lá embaixo.",icon:"🙌"},
       {title:"Passos de animal",action:"Escolha um animal e imite seus movimentos ou gestos.",icon:"🐻"},
-      {title:"Ritmo das palmas",action:"Faça duas palmas e uma pausa. Quem está junto pode acompanhar.",icon:"👏"}
+      {title:"Ritmo das palmas",action:"Descubra o ritmo da turma tocando nas figuras.",icon:"👏",mini:{type:"sequence",prompt:"Toque na ordem: palma, palma, pausa.",options:["👏 Palma","🙌 Braços","⏸️ Pausa"],steps:[0,0,2]}}
     ],
     imaginacao:[
       {title:"Quem sou eu?",action:"Finja que é um animal. Vale falar, gesticular ou apontar.",icon:"🐱"},
-      {title:"Objeto mágico",action:"Imagine outro jeito de usar uma almofada.",icon:"🪄"},
+      {title:"Objeto mágico",action:"Sua imaginação vai transformar um objeto!",icon:"🪄",mini:{type:"choice",prompt:"O rolo de papel pode virar o quê? Escolha uma ideia!",options:["🚀 Foguete","🔭 Luneta","🐉 Dragão"],correct:null}},
       {title:"Era uma vez...",action:"Comece uma história com: 'Um dia, na SoulKids...'",icon:"📖"},
       {title:"Superpoder",action:"Invente um poder e faça uma pose.",icon:"🦸"},
       {title:"Uma aventura",action:"Imagine que o corredor virou uma floresta. O que aparece?",icon:"🌳"}
@@ -38,26 +38,26 @@
       {title:"Como estou?",action:"Diga, aponte ou mostre uma emoção de hoje.",icon:"💛"},
       {title:"Pausa tranquila",action:"Se quiser, respire devagar ou faça um pequeno descanso.",icon:"🌿"},
       {title:"Algo de que gosto",action:"Conte ou mostre algo que faz você sorrir.",icon:"🥰"},
-      {title:"Amigo do lado",action:"Como você ajudaria um amigo que está chateado?",icon:"🤝"}
+      {title:"Amigo do lado",action:"Lia ficou frustrada com um desafio.",icon:"🤝",mini:{type:"choice",prompt:"O que pode ajudar a Lia?",options:["⏳ Dar um tempo","🗯️ Gritar com ela","🚫 Impedir de sair"],correct:0}}
     ],
     desafio:[
       {title:"Poça no corredor!",action:"Uma poça bloqueou a passagem. Volte duas casas para contorná-la.",icon:"💦",effect:{move:-2}},
       {title:"Chegou na hora!",action:"Você chegou a tempo da brincadeira. Avance uma casa!",icon:"⏰",effect:{move:1}},
       {title:"O cone rolou!",action:"Um cone caiu na trilha. Volte uma casa para organizar o caminho.",icon:"🚧",effect:{move:-1}},
-      {title:"Trabalho em equipe",action:"A turma abriu uma passagem. Avance duas casas!",icon:"🙌",effect:{move:2}},
+      {title:"Trabalho em equipe",action:"Ajude a organizar o caminho. Se conseguir, avance duas casas!",icon:"🙌",effect:{move:2},mini:{type:"sequence",prompt:"Organize a passagem: cone, bola, argola.",options:["🏀 Bola","🔺 Cone","⭕ Argola"],steps:[1,0,2]}},
       {title:"Hora de reorganizar",action:"A sala precisa de espaço. Volte uma casa e procure outra rota.",icon:"🧩",effect:{move:-1}}
     ],
     fono:[
       {title:"Mostre o que quer",action:"Escolha algo e comunique por fala, gesto, olhar ou figura.",icon:"🗣️"},
-      {title:"Duas descobertas",action:"Nomeie ou aponte duas coisas da clínica.",icon:"👀"},
+      {title:"Duas descobertas",action:"Encontre os objetos pedidos na sala.",icon:"👀",mini:{type:"sequence",prompt:"Primeiro a bola, depois o livro.",options:["📚 Livro","⚽ Bola","🧸 Ursinho"],steps:[1,0]}},
       {title:"Posso brincar?",action:"Faça um pedido do seu jeito, com ou sem ajuda.",icon:"🧸"},
-      {title:"Escolha da turma",action:"Escolha entre brincar de bola ou de argolas. Mostre sua escolha.",icon:"🎈"},
+      {title:"Escolha da turma",action:"Mostre o que prefere para brincar.",icon:"🎈",mini:{type:"choice",prompt:"Escolha uma brincadeira para a turma.",options:["⚽ Bola","⭕ Argolas","🎶 Música"],correct:null}},
       {title:"Som ou movimento",action:"Escolha um som, gesto ou expressão e convide alguém a repetir.",icon:"🎶"}
     ],
     surpresa:[
       {title:"Ravi apareceu!",action:"'Boa, jovem!' A turma encontrou um atalho. Avance uma casa.",icon:"🌟",effect:{move:1}},
       {title:"Ajuda da Ray",action:"Ray encontrou um passe de ajuda. Guarde-o para evitar um retrocesso.",icon:"🛡️",effect:{shield:1}},
-      {title:"Estrela brilhante",action:"Você descobriu uma estrela extra para a coleção!",icon:"✨",effect:{stars:2}},
+      {title:"Estrela brilhante",action:"Há três caixas-surpresa. Escolha uma para abrir!",icon:"✨",effect:{stars:2},mini:{type:"choice",prompt:"Qual caixa você gostaria de abrir?",options:["🎁 Azul","🎁 Verde","🎁 Amarela"],correct:null}},
       {title:"Bilhete especial",action:"Você pode jogar o dado outra vez após esta carta.",icon:"🎲",effect:{extraRoll:true}},
       {title:"Porta secreta",action:"Uma passagem apareceu! Avance duas casas.",icon:"🚪",effect:{move:2}}
     ]
@@ -73,6 +73,7 @@
     stars:$("stars-total"),shields:$("shields-total"),position:$("position-total"),
     card:$("card-modal"),cardCategory:$("card-category"),cardTitle:$("card-title"),
     cardText:$("card-text"),cardIcon:$("card-icon"),cardEffect:$("card-effect"),
+    mini:$("card-mini"),miniPrompt:$("mini-prompt"),miniOptions:$("mini-options"),miniFeedback:$("mini-feedback"),
     cardDone:$("card-done"),cardHelp:$("card-help"),cardShield:$("card-shield"),
     badgeGrid:$("badge-grid"),rewardNotice:$("reward-notice"),end:$("finish-modal"),
     endBadges:$("finish-badges"),endStars:$("finish-stars"),replay:$("replay"),
@@ -80,14 +81,18 @@
     legend:$("legend-list"),chosenIcon:$("chosen-avatar"),
     opening:$("opening-screen"),selection:$("character-selection"),openingStart:$("arcade-music-start"),
     openingQuiet:$("arcade-quiet-start"),setupSound:$("setup-sound-toggle"),
-    selectionAnnouncement:$("selection-announcement")
+    selectionAnnouncement:$("selection-announcement"),
+    slotPicker:$("slot-picker"),selectionPrompt:$("selection-prompt"),
+    scoreboard:$("player-scoreboard"),otherTokens:$("other-tokens"),turnLabel:$("turn-label"),
+    finishPlayers:$("finish-players"),finishTitle:$("finish-title")
   };
   if(Object.values(ui).some(item=>!item))return;
 
   const state = {
     selected:"ritinha",position:0,stars:0,shields:0,
+    playerCount:1,selectedSlots:["ritinha"],activeSlot:0,players:[],activeIndex:0,
     badges:new Set(),used:{},ready:false,moving:false,cardOpen:false,
-    won:false,extraRoll:false,turns:0,activeCard:null,
+    won:false,extraRoll:false,turns:0,activeCard:null,miniStep:0,
     soundOn:false,musicOn:false,context:null,musicTimer:null,musicNote:0,
     reduced:window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches??false,
     movementToken:0
@@ -135,12 +140,73 @@
     if(!state.ready||state.moving||state.cardOpen)return;
     ui.turnStatus.textContent="Casa "+space.n+": "+categoryInfo[space.category].label+". Jogue o dado para chegar lá!";
   }
+  function saveActive(){
+    const player=state.players[state.activeIndex];
+    if(!player)return;
+    player.position=state.position;player.stars=state.stars;
+    player.shields=state.shields;player.badges=state.badges;
+    player.extraRoll=state.extraRoll;
+  }
+  function loadActive(){
+    const player=state.players[state.activeIndex];
+    if(!player)return;
+    state.selected=player.character;
+    state.position=player.position;state.stars=player.stars;
+    state.shields=player.shields;state.badges=player.badges;
+    state.extraRoll=player.extraRoll;
+    ui.characterName.textContent=characterInfo[state.selected];
+    ui.chosenIcon.className="portrait char-"+state.selected;
+    ui.turnLabel.textContent="Vez do Jogador "+(state.activeIndex+1);
+  }
+  function renderScoreboard(){
+    ui.scoreboard.replaceChildren();
+    if(!state.players.length)return;
+    const fragment=document.createDocumentFragment();
+    state.players.forEach((p,i)=>{
+      const active=i===state.activeIndex;
+      const position=active?state.position:p.position;
+      const stars=active?state.stars:p.stars;
+      const box=document.createElement("div");
+      box.className="score-player"+(active?" is-active":"");
+      box.setAttribute("aria-label","Jogador "+(i+1)+", "+characterInfo[p.character]+", casa "+position+(active?", sua vez":""));
+      const face=document.createElement("span");
+      face.className="portrait score-avatar char-"+p.character;
+      face.setAttribute("aria-hidden","true");
+      const copy=document.createElement("span");copy.className="score-copy";
+      const name=document.createElement("strong");
+      name.textContent=(active?"▶ ":"")+"J"+(i+1)+" · "+characterInfo[p.character];
+      const detail=document.createElement("small");
+      detail.textContent="Casa "+position+" · ⭐ "+stars;
+      copy.appendChild(name);copy.appendChild(detail);
+      box.appendChild(face);box.appendChild(copy);fragment.appendChild(box);
+    });
+    ui.scoreboard.appendChild(fragment);
+  }
+  function placeToken(node,position,i,character,walking=false,active=false){
+    const point=currentPoint(position);
+    // Deslocamentos leves permitem reconhecer peões que ocupam a mesma casa.
+    const offset=state.players.length>1?(i%2===0?-2.0:2.0):0;
+    const up=state.players.length>2?(i<2?-2.0:2.0):0;
+    node.style.left=Math.max(5,Math.min(95,point.x+offset))+"%";
+    node.style.top=Math.max(9,Math.min(95,point.y+up))+"%";
+    node.className="player-token char-"+character+(walking?" is-walking":"")+(active?" is-active-turn":"");
+    node.setAttribute("aria-label","Peão de "+characterInfo[character]+" na "+(position===0?"largada":"casa "+position));
+  }
   function renderPiece(){
-    const point=currentPoint(state.position);
-    ui.token.style.left=point.x+"%";ui.token.style.top=point.y+"%";
+    placeToken(ui.token,state.position,state.activeIndex,state.selected,state.moving,true);
     ui.position.textContent=state.position+"/30";
-    ui.token.setAttribute("aria-label","Peça de "+characterInfo[state.selected]+" na "+(state.position===0?"largada":"casa "+state.position));
-    ui.token.className="player-token char-"+state.selected;
+    ui.otherTokens.replaceChildren();
+    if(state.players.length>1){
+      const fragment=document.createDocumentFragment();
+      state.players.forEach((p,i)=>{
+        if(i===state.activeIndex)return;
+        const node=document.createElement("span");
+        placeToken(node,p.position,i,p.character,false,false);
+        fragment.appendChild(node);
+      });
+      ui.otherTokens.appendChild(fragment);
+    }
+    renderScoreboard();
   }
   function renderRewards(){
     ui.stars.textContent=String(state.stars);
@@ -154,21 +220,71 @@
       badge.setAttribute("aria-label",cfg.badge+(got?" conquistado":" ainda não conquistado"));
       ui.badgeGrid.appendChild(badge);
     });
+    renderScoreboard();
   }
-  function announce(text){
-    ui.turnStatus.textContent=text;
+  function announce(text){ui.turnStatus.textContent=text;}
+  function updateLobby(){
+    document.querySelectorAll("[data-player-count]").forEach(btn=>{
+      btn.setAttribute("aria-pressed",String(Number(btn.dataset.playerCount)===state.playerCount));
+    });
+    ui.slotPicker.replaceChildren();
+    const fragment=document.createDocumentFragment();
+    for(let i=0;i<state.playerCount;i++){
+      const button=document.createElement("button");button.type="button";
+      button.dataset.slot=String(i);
+      button.setAttribute("aria-pressed",String(i===state.activeSlot));
+      button.textContent="Jogador "+(i+1);
+      const small=document.createElement("span");
+      small.className=state.selectedSlots[i]?"slot-character":"slot-empty";
+      small.textContent=state.selectedSlots[i]?characterInfo[state.selectedSlots[i]]:"Escolher";
+      button.appendChild(small);
+      button.addEventListener("click",()=>{
+        state.activeSlot=i;updateLobby();
+      });
+      fragment.appendChild(button);
+    }
+    ui.slotPicker.appendChild(fragment);
+    const open=state.selectedSlots.findIndex(x=>!x);
+    const full=open<0;
+    ui.selectionPrompt.textContent=full?
+      (state.playerCount===1?"Personagem pronto!":"Turma completa! Você pode trocar qualquer personagem.") :
+      "Jogador "+(state.activeSlot+1)+": escolha um personagem!";
+    $("play-sound").disabled=!full;
+    $("play-silent").disabled=!full;
+    document.querySelectorAll("[data-character]").forEach(btn=>{
+      const name=btn.dataset.character;
+      const own=state.selectedSlots[state.activeSlot]===name;
+      const taken=state.selectedSlots.some((other,i)=>i!==state.activeSlot&&other===name);
+      btn.disabled=taken;
+      btn.setAttribute("aria-pressed",String(own));
+      btn.classList.toggle("is-selected",own);
+    });
+  }
+  function changePlayerCount(count){
+    if(!Number.isInteger(count)||count<1||count>4||!ui.game.hidden)return;
+    state.playerCount=count;
+    state.selectedSlots=count===1?["ritinha"]:Array(count).fill(null);
+    state.activeSlot=0;
+    state.selected="ritinha";
+    ui.selectionAnnouncement.textContent=count===1?"⭐ Ritinha selecionada!":"🎮 Selecione o personagem do Jogador 1.";
+    updateLobby();
+    sfx("select");
   }
   function selectCharacter(name){
-    if(!characterInfo[name])return;
-    state.selected=name;
-    document.querySelectorAll("[data-character]").forEach(btn=>{
-      const selected=btn.dataset.character===name;
-      btn.setAttribute("aria-pressed",String(selected));
-      btn.classList.toggle("is-selected",selected);
-    });
+    if(!characterInfo[name]||!ui.game.hidden)return;
+    if(state.selectedSlots.some((other,i)=>i!==state.activeSlot&&other===name)){
+      ui.selectionAnnouncement.textContent=characterInfo[name]+" já está com outro jogador. Escolha outro amigo.";
+      return;
+    }
+    state.selectedSlots[state.activeSlot]=name;state.selected=name;
     ui.characterName.textContent=characterInfo[name];
     ui.chosenIcon.className="portrait char-"+name;
-    ui.selectionAnnouncement.textContent="⭐ "+characterInfo[name]+" selecionad"+(name==="tonico"||name==="luca"?"o":"a")+"!";
+    ui.selectionAnnouncement.textContent="⭐ Jogador "+(state.activeSlot+1)+": "+characterInfo[name]+"!";
+    if(state.playerCount>1){
+      const next=state.selectedSlots.findIndex(x=>!x);
+      if(next>=0)state.activeSlot=next;
+    }
+    updateLobby();
     if(state.soundOn&&!ui.selection.hidden&&!ui.setup.hidden)sfx("select");
     renderPiece();
   }
@@ -327,6 +443,52 @@
     if(effect.extraRoll)parts.push("Jogue o dado novamente");
     return parts.join(" · ");
   }
+  function showMini(card){
+    state.miniStep=0;
+    ui.mini.hidden=!card.mini;
+    ui.cardDone.disabled=Boolean(card.mini);
+    ui.miniFeedback.textContent=card.mini?"Descubra a sequência ou peça ajuda.":"";
+    ui.miniOptions.replaceChildren();
+    if(!card.mini)return;
+    const mini=card.mini,fragment=document.createDocumentFragment();
+    ui.miniPrompt.textContent=mini.prompt;
+    mini.options.forEach((label,index)=>{
+      const button=document.createElement("button");
+      button.type="button";button.className="mini-option";
+      button.textContent=label;
+      button.setAttribute("aria-label",label);
+      button.addEventListener("click",()=>chooseMini(index));
+      fragment.appendChild(button);
+    });
+    ui.miniOptions.appendChild(fragment);
+    ui.miniOptions.children[0]?.focus?.({preventScroll:true});
+  }
+  function chooseMini(index){
+    if(!state.cardOpen||!state.activeCard?.card?.mini||!ui.cardDone.disabled)return;
+    const mini=state.activeCard.card.mini;
+    let complete=false;
+    if(mini.type==="sequence"){
+      if(index===mini.steps[state.miniStep]){
+        state.miniStep++;
+        complete=state.miniStep===mini.steps.length;
+        ui.miniFeedback.textContent=complete?"Conseguiu! A turma agradece!":
+          "Muito bem! "+state.miniStep+" de "+mini.steps.length+" passos.";
+        sfx("select");
+      }else{
+        state.miniStep=0;
+        ui.miniFeedback.textContent="Essa não era a próxima figura. Tente a sequência outra vez!";
+        sfx("oops");
+      }
+    }else{
+      complete=mini.correct===null||index===mini.correct;
+      ui.miniFeedback.textContent=complete?"Boa escolha! Vamos continuar.":"Talvez exista uma opção melhor. Tente outra!";
+      sfx(complete?"star":"oops");
+    }
+    if(complete){
+      ui.cardDone.disabled=false;
+      ui.cardDone.focus?.({preventScroll:true});
+    }
+  }
   function openCard(){
     const cat=track[state.position-1],info=categoryInfo[cat],card=takeCard(cat);
     state.activeCard={cat,card};
@@ -338,9 +500,10 @@
     ui.cardText.textContent=card.action;
     ui.cardIcon.textContent=card.icon;
     ui.cardEffect.textContent=effectText(card.effect);
+    showMini(card);
     const backwards=card.effect?.move<0;
     ui.cardShield.hidden=!(backwards&&state.shields>0);
-    ui.cardDone.focus?.({preventScroll:true});
+    if(!card.mini)ui.cardDone.focus?.({preventScroll:true});
     announce("Carta "+info.label+": "+card.title);
     sfx("card");
   }
@@ -355,6 +518,7 @@
     if(!state.cardOpen||!state.activeCard)return;
     const {cat,card}=state.activeCard;
     state.cardOpen=false;state.activeCard=null;ui.card.hidden=true;
+    ui.cardDone.disabled=false;ui.mini.hidden=true;
     state.stars+=1+(card.effect?.stars||0);
     const earned=collectBadge(cat);
     let move=card.effect?.move||0;
@@ -385,9 +549,19 @@
   function afterCard(){
     if(state.position>=30){finishGame();return;}
     state.ready=true;state.moving=false;
-    drawDice();
-    announce(state.extraRoll?"🎲 Rodada extra! Toque no dado novamente.":"Sua vez! Toque no dado para descobrir o próximo caminho.");
+    const extra=state.extraRoll;
     state.extraRoll=false;
+    if(!extra&&state.players.length>1){
+      saveActive();
+      state.activeIndex=(state.activeIndex+1)%state.players.length;
+      loadActive();
+      renderRewards();renderPiece();
+      ui.rewardNotice.textContent="🎲 Agora é a vez de "+characterInfo[state.selected]+"!";
+      if(state.soundOn)sfx("select");
+    }
+    drawDice();
+    announce(extra?"🎲 Rodada extra de "+characterInfo[state.selected]+"!":
+      "Jogador "+(state.activeIndex+1)+": vez de "+characterInfo[state.selected]+". Toque no dado!");
     ui.die.focus?.({preventScroll:true});
   }
   function roll(){
@@ -402,38 +576,64 @@
     });
   }
   function finishGame(){
-    state.won=true;state.ready=false;stopMusic();
+    saveActive();
+    state.won=true;state.ready=false;state.moving=false;stopMusic();
     ui.end.hidden=false;
+    ui.finishTitle.textContent=state.players.length>1?
+      characterInfo[state.selected]+" chegou ao Espaço da Conquista!":
+      "Você chegou ao Espaço da Conquista!";
     ui.endBadges.textContent="Adesivos: "+state.badges.size+" de 6";
     ui.endStars.textContent=state.stars+" estrelas de descoberta";
-    ui.rewardNotice.textContent="🎉 Você chegou ao Espaço da Conquista!";
+    ui.finishPlayers.replaceChildren();
+    const frag=document.createDocumentFragment();
+    state.players.forEach((player,i)=>{
+      const row=document.createElement("div");
+      row.className="finish-player"+(i===state.activeIndex?" is-finisher":"");
+      row.textContent=(i===state.activeIndex?"🏆 ":"⭐ ")+"J"+(i+1)+" · "+characterInfo[player.character]+
+        " · Casa "+player.position+" · "+player.stars+" estrelas";
+      frag.appendChild(row);
+    });
+    ui.finishPlayers.appendChild(frag);
+    ui.rewardNotice.textContent="🎉 A aventura da turma foi concluída!";
     sfx("finish");
     ui.replay.focus?.({preventScroll:true});
   }
   function startGame(withSound){
-    state.position=0;state.stars=0;state.shields=0;state.badges.clear();
+    if(state.selectedSlots.length!==state.playerCount||state.selectedSlots.some(x=>!x))return;
+    state.players=state.selectedSlots.map(character=>({
+      character,position:0,stars:0,shields:0,badges:new Set(),extraRoll:false
+    }));
+    state.activeIndex=0;
     state.used={};state.ready=true;state.won=false;state.moving=false;
     state.cardOpen=false;state.turns=0;state.activeCard=null;
-    state.extraRoll=false;state.movementToken++;
+    state.movementToken++;
     ui.setup.hidden=true;ui.game.hidden=false;ui.card.hidden=true;ui.end.hidden=true;
-    ui.rewardNotice.textContent="Complete cartas e descubra adesivos da turma!";
-    ui.characterName.textContent=characterInfo[state.selected];
-    state.musicOn=Boolean(withSound);
-    setSound(withSound);
+    loadActive();
+    ui.rewardNotice.textContent="Cada jogador conquista seu próprio álbum de adesivos!";
+    state.musicOn=Boolean(withSound);setSound(withSound);
     renderRewards();renderPiece();drawDice();
-    announce("O dado está girando. Toque nele para parar e começar a aventura.");
+    announce("Jogador 1: vez de "+characterInfo[state.selected]+". Toque no dado!");
     ui.game.scrollIntoView?.({block:"start",behavior:state.reduced?"auto":"smooth"});
     ui.die.focus?.({preventScroll:true});
   }
   function reset(){
-    stopMusic();state.ready=false;state.movementToken++;
+    stopMusic();state.ready=false;state.moving=false;state.movementToken++;
     ui.card.hidden=true;ui.end.hidden=true;ui.game.hidden=true;ui.setup.hidden=false;
     ui.opening.hidden=true;ui.selection.hidden=false;
+    state.players=[];state.activeIndex=0;state.activeSlot=0;
+    state.selected=state.selectedSlots[0]||"ritinha";state.position=0;
+    state.stars=0;state.shields=0;state.badges=new Set();
+    ui.characterName.textContent=characterInfo[state.selected];
+    ui.chosenIcon.className="portrait char-"+state.selected;
+    updateLobby();renderPiece();
     state.musicOn=state.soundOn;setSound(state.soundOn);
     ui.setup.scrollIntoView?.({block:"start",behavior:state.reduced?"auto":"smooth"});
   }
 
   decorateBoard();
+  document.querySelectorAll("[data-player-count]").forEach(button=>{
+    button.addEventListener("click",()=>changePlayerCount(Number(button.dataset.playerCount)));
+  });
   ui.openingStart.addEventListener("click",()=>openSelection(true));
   ui.openingQuiet.addEventListener("click",()=>openSelection(false));
   ui.setupSound.addEventListener("click",toggleSelectionMusic);
@@ -469,4 +669,5 @@
     ui.quiet.textContent="✓ Modo tranquilo";
   }
   selectCharacter("ritinha");
+  updateLobby();
 })();

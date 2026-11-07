@@ -267,6 +267,59 @@ linear-gradient(135deg,#091b43,#182b67 62%,#39225e);color:#fff;border-radius:24p
 @media(prefers-reduced-motion:reduce){.arcade-start,.selection-inner{animation:none}.character-choice{transition:none}}
 body.quiet .arcade-start,body.quiet .selection-inner{animation:none}
 
+
+/* Jogo de tabuleiro local: seleção de 1–4 participantes e rodadas alternadas. */
+.player-count-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0 18px}
+.player-count-picker button,.slot-picker button{min-height:47px;border:2px solid #c9dfd5;border-radius:13px;background:#f7fbf9;color:#235e58;font-weight:900;padding:9px}
+.player-count-picker button[aria-pressed="true"],.slot-picker button[aria-pressed="true"]{background:#e0f5e8;border-color:#0b756f;box-shadow:0 0 0 2px #b8decf}
+.slot-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 11px}
+.slot-picker button{font-size:.82rem;display:grid;justify-items:center;align-content:center;gap:3px;line-height:1.25}
+.slot-picker .slot-character{font-size:.73rem;color:#416e64;font-weight:750}
+.slot-picker .slot-empty{color:#a46624;font-size:.73rem;font-weight:800}
+.selection-prompt{border-left:4px solid #338b77;background:#eff8f4;padding:10px 13px;border-radius:9px;color:#215d51;font-weight:900;margin:0 0 13px!important}
+.player-scoreboard{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.score-player{display:flex;align-items:center;gap:9px;background:#fff;border:2px solid #d7e6df;border-radius:14px;padding:9px 12px;min-width:150px;flex:1;color:#315d5b}
+.score-player.is-active{border-color:#0b756f;background:#e1f6ec;box-shadow:0 3px 0 #8cbfa5}
+.score-player .score-avatar{width:38px;height:38px;border:2px solid white;box-shadow:0 1px 0 #9ec2b4}
+.score-player .score-copy{display:grid;gap:1px}
+.score-player strong{font-size:.83rem;color:#183f4b}
+.score-player small{font-size:.73rem;color:#426c69;font-weight:750}
+.other-tokens{position:absolute;inset:0;z-index:4;pointer-events:none}
+.player-token{will-change:left,top}
+.player-token.is-active-turn{z-index:8;outline:2px solid #ffcd60;outline-offset:2px}
+.player-token.char-ritinha{width:clamp(32px,4.4vw,56px);height:clamp(46px,6.2vw,77px);border:0;border-radius:0;box-shadow:none;outline:none;background-image:url("/ritinha-passos.webp");background-size:200% 100%;background-position:left center;background-color:transparent;filter:drop-shadow(0 3px 3px #1e4a4855)}
+.player-token.char-ritinha.is-walking{animation:ritinha-walk-cycle .24s steps(1,end) infinite}
+.player-token:not(.char-ritinha).is-walking{animation:token-walk-bob .24s ease-in-out infinite alternate}
+.player-token.char-ritinha.is-active-turn{filter:drop-shadow(0 0 3px #f6d35f) drop-shadow(0 3px 3px #1e4a4855)}
+@keyframes ritinha-walk-cycle{0%,49%{background-position:left center}50%,100%{background-position:right center}}
+@keyframes token-walk-bob{from{margin-top:0}to{margin-top:-5px}}
+.finish-players{display:grid;gap:7px;margin:11px 0 18px;text-align:left}
+.finish-player{border:1px solid #dfdfca;background:#fffdf5;border-radius:12px;padding:9px 13px;font-size:.88rem;color:#39635c;font-weight:850}
+.finish-player.is-finisher{border:2px solid #d4aa43;background:#fff1c8;color:#754b0f}
+@media(max-width:700px){
+.player-count-picker{grid-template-columns:repeat(2,minmax(0,1fr))}
+.slot-picker{grid-template-columns:repeat(2,minmax(0,1fr))}
+.player-scoreboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.score-player{min-width:0;padding:7px;gap:5px}
+.score-player .score-avatar{width:30px;height:30px}
+.score-player strong{font-size:.73rem}
+.score-player small{font-size:.66rem}
+.player-token.char-ritinha{width:36px;height:53px}
+}
+@media(prefers-reduced-motion:reduce){.player-token.is-walking{animation:none!important}}
+body.quiet .player-token.is-walking{animation:none!important}
+
+
+/* Mini-interações em algumas cartas — com alternativa de participação assistida. */
+.card-mini{background:#f7fbf6;border:2px solid #c2ddcf;border-radius:17px;padding:14px;margin:0 0 14px}
+.mini-prompt{color:#174f4b;font-size:.95rem;font-weight:950;margin:0 0 12px;line-height:1.4}
+.mini-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mini-option{min-height:57px;padding:10px 6px;font-size:.86rem;font-weight:900;line-height:1.25;border:2px solid #b5d0c1;border-radius:13px;background:#fff;color:#1d5761}
+.mini-option:hover,.mini-option:focus-visible{border-color:#0f786a;background:#e9f7f0}
+.mini-feedback{min-height:23px;color:#24645b;font-weight:850;font-size:.81rem;margin:10px 0 0}
+#card-done:disabled{opacity:.5;cursor:wait;box-shadow:none}
+@media(max-width:390px){.mini-option{font-size:.73rem;padding:8px 3px;min-height:55px}}
+
 </style>
 </head>
 <body>
@@ -297,9 +350,17 @@ body.quiet .arcade-start,body.quiet .selection-inner{animation:none}
  <p class="arcade-tip">O som começa somente depois de tocar. Você pode desligá-lo a qualquer momento.</p>
 </div>
 <div id="character-selection" class="selection-inner" hidden>
-<div class="selection-heading"><span class="kicker">PLAYER 1 · ESCOLHA SEU PERSONAGEM</span><button id="setup-sound-toggle" class="setup-music-btn" type="button" aria-pressed="false">🎵 Música desligada</button></div>
-<h2 id="choose-title">Selecione seu personagem!</h2>
-<p>Cinco personagens oficiais da Turma da Ritinha. Toque em um deles para ouvir o efeito de seleção.</p>
+<div class="selection-heading"><span class="kicker">ESCOLHA A TURMA · 1 A 4 JOGADORES</span><button id="setup-sound-toggle" class="setup-music-btn" type="button" aria-pressed="false">🎵 Música desligada</button></div>
+<h2 id="choose-title">Quem vai participar?</h2>
+<p>Todos jogam no mesmo celular, um de cada vez. Cada jogador escolhe um amigo diferente.</p>
+<div class="player-count-picker" role="group" aria-label="Quantidade de jogadores">
+  <button type="button" data-player-count="1" aria-pressed="true">1 jogador</button>
+  <button type="button" data-player-count="2" aria-pressed="false">2 jogadores</button>
+  <button type="button" data-player-count="3" aria-pressed="false">3 jogadores</button>
+  <button type="button" data-player-count="4" aria-pressed="false">4 jogadores</button>
+</div>
+<div id="slot-picker" class="slot-picker" role="group" aria-label="Escolher o personagem de cada jogador"></div>
+<p id="selection-prompt" class="selection-prompt" role="status" aria-live="polite">Jogador 1: escolha seu personagem!</p>
 <div class="character-picker" role="group" aria-label="Selecionar personagem">
 <button class="character-choice is-selected" data-character="ritinha" type="button" aria-pressed="true"><span class="portrait char-ritinha" aria-hidden="true"></span>Ritinha</button>
 <button class="character-choice" data-character="tonico" type="button" aria-pressed="false"><span class="portrait char-tonico" aria-hidden="true"></span>Tonico</button>
@@ -312,14 +373,15 @@ body.quiet .arcade-start,body.quiet .selection-inner{animation:none}
 <button id="play-sound" class="action action-primary" type="button">🎲 Começar a partida</button>
 <button id="play-silent" class="action action-secondary" type="button">🔇 Começar sem som</button>
 </div>
-<p class="setup-note">Trilha sonora original · Cinco personagens · Sem cadastro · Música opcional</p>
+<p class="setup-note">1 a 4 jogadores locais · Um personagem por participante · Trilha original · Sem cadastro</p>
 </div>
 </div></div></section>
 <section class="board-section" id="board-game" aria-labelledby="board-title" hidden><div class="wrap">
 <div class="board-topline">
-<div class="board-title"><span class="kicker">SOULKIDS PLAY · TABULEIRO DIGITAL</span><h2 id="board-title">Aventura na Clínica</h2><p><span id="chosen-avatar" class="portrait char-ritinha" aria-hidden="true"></span> Peão: <strong id="chosen-name">Ritinha</strong> · Entrada ao Espaço da Conquista</p></div>
+<div class="board-title"><span class="kicker">SOULKIDS PLAY · TABULEIRO DIGITAL</span><h2 id="board-title">Aventura na Clínica</h2><p><span id="chosen-avatar" class="portrait char-ritinha" aria-hidden="true"></span> <strong id="turn-label">Vez do Jogador 1</strong>: <strong id="chosen-name">Ritinha</strong></p></div>
 <div class="settings"><button id="sound-toggle" class="toggle" type="button" aria-pressed="false">🔇 Som desligado</button><button id="quiet-toggle" class="toggle" type="button" aria-pressed="false">🌿 Modo tranquilo</button></div>
 </div>
+<div id="player-scoreboard" class="player-scoreboard" role="group" aria-label="Participantes da partida"></div>
 <div class="game-layout">
 <div class="map-card">
 <div class="board-frame" id="board-frame" aria-label="Tabuleiro da clínica com trinta casas em seis categorias">
@@ -330,6 +392,7 @@ body.quiet .arcade-start,body.quiet .selection-inner{animation:none}
 </svg>
 <span class="start-marker" aria-hidden="true">INÍCIO</span><span class="finish-marker" aria-hidden="true">🏆 CHEGADA</span>
 <div id="track-tiles" class="path-tiles" role="group" aria-label="Casas do tabuleiro"></div>
+<div id="other-tokens" class="other-tokens" aria-label="Peões dos demais jogadores"></div>
 <div id="player-token" class="player-token char-ritinha" role="img" aria-label="Peão de Ritinha na largada"></div>
 </div>
 <div id="legend-list" class="legend" aria-label="Seis categorias do jogo"></div>
@@ -357,7 +420,8 @@ body.quiet .arcade-start,body.quiet .selection-inner{animation:none}
 </aside>
 </div>
 <details class="game-help"><summary>Para responsáveis e profissionais — regras e adaptações</summary>
-<p>Escolha um personagem, toque no dado para pará-lo, acompanhe o peão e veja a carta da casa onde ele parar. A carta aparece automaticamente. As atividades podem ser realizadas com ajuda ou adaptadas a gestos, comunicação alternativa e possibilidades de movimento de cada criança. A participação vale tanto quanto a execução independente.</p>
+<p>Escolha de um a quatro jogadores e um personagem diferente para cada um. Em cada turno, toque no dado para pará-lo; o peão ativo caminha e a carta da casa abre automaticamente. Concluída a carta, a vez passa ao próximo participante, exceto em rodada extra. A primeira pessoa a alcançar a casa 30 encerra a partida. Todos recebem estrelas e adesivos pela participação, inclusive com ajuda.</p>
+<p>As atividades podem ser realizadas com apoio ou adaptadas a gestos, comunicação alternativa e possibilidades de movimento de cada criança. Na primeira versão, Ritinha dispõe de animação oficial de corpo inteiro; os demais usam retratos do Gibi 1 enquanto aguardam sprites oficiais aprovados.</p>
 <p>São seis categorias: Corpo, Imaginação, Emoção, Desafio, Fono e Surpresa. Em cada categoria há cinco cartas. Cartas de Desafio podem fazer avançar ou voltar; um passe de ajuda protege contra um retrocesso. As estrelas e os seis adesivos têm função recreativa e não representam avaliação clínica.</p>
 <p>As brincadeiras com movimento exigem supervisão e espaço adequado. Qualquer atividade pode ser interrompida, substituída ou adaptada. Dificuldades terapêuticas não são tratadas como falhas pessoais. Nenhum dado é transmitido pelo jogo.</p>
 <button id="guide-print" class="action action-secondary" type="button">Imprimir orientações</button>
@@ -368,17 +432,22 @@ body.quiet .arcade-start,body.quiet .selection-inner{animation:none}
 <div class="card-panel" data-category="corpo"><div class="card-content">
 <p id="card-category" class="card-category">💪 Corpo</p><div id="card-icon" class="card-icon" aria-hidden="true">👏</div>
 <h2 id="card-title">Cartinha da Turma</h2><p id="card-text" class="card-text">A brincadeira chegou!</p>
+<div id="card-mini" class="card-mini" hidden>
+  <p id="mini-prompt" class="mini-prompt">Toque nas figuras!</p>
+  <div id="mini-options" class="mini-options" role="group" aria-label="Escolhas do desafio"></div>
+  <p id="mini-feedback" class="mini-feedback" role="status" aria-live="polite"></p>
+</div>
 <div id="card-effect" class="card-effect">Você participou! Ganhe uma estrela.</div>
 <div class="card-actions">
 <button id="card-done" class="action action-primary" type="button">✓ Concluí / Continuar</button>
-<button id="card-help" class="action action-secondary" type="button">🤝 Fiz com ajuda</button>
+<button id="card-help" class="action action-secondary" type="button">🤝 Fazer com ajuda / Pular desafio</button>
 <button id="card-shield" class="action shield-button" type="button" hidden>🛡️ Usar passe e evitar voltar</button>
 </div>
 <p class="card-note">Não precisa acertar sozinho. Vale mostrar, apontar ou participar com ajuda.</p>
 </div></div></div>
 <div id="finish-modal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="finish-title" hidden>
 <div class="finish-panel"><div class="finish-emoji">🏆</div><h2 id="finish-title">Você chegou ao Espaço da Conquista!</h2>
-<p>Boa, jovem! A turma encontrou o caminho!</p><div class="finish-summary"><span id="finish-stars">0 estrelas</span><span id="finish-badges">0 de 6 adesivos</span></div>
+<p>Boa, jovem! A turma encontrou o caminho!</p><div id="finish-players" class="finish-players" aria-label="Participação de todos os jogadores"></div><div class="finish-summary"><span id="finish-stars">0 estrelas</span><span id="finish-badges">0 de 6 adesivos</span></div>
 <button id="replay" class="action action-primary" type="button">🎲 Jogar outra vez</button></div></div>
 <footer class="footer"><div class="wrap">© 2026 SoulKids · Aventura original da Turma da Ritinha · <a href="/mundo-da-ritinha.html">Mundo da Ritinha</a></div></footer>
 <script src="/soulkids-play.js" defer></script>
