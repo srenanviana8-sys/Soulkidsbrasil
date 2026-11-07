@@ -230,6 +230,7 @@
   });
   dom.restart.addEventListener("click",()=>newLevel(state.level));
   dom.next.addEventListener("click",()=>newLevel((state.level+1)%levels.length));
+  $("print-guide")?.addEventListener("click",()=>window.print());
   dom.calm.addEventListener("click",()=>{
     const on=document.body.classList.toggle("calm");
     dom.calm.setAttribute("aria-pressed",String(on));
