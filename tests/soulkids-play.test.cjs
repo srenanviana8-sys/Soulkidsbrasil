@@ -62,11 +62,17 @@ function createGame(randoms=[]){
   elements["card-modal"].hidden=true;
   elements["finish-modal"].hidden=true;
   elements["setup-screen"].hidden=false;
+  elements["opening-screen"].hidden=false;
+  elements["character-selection"].hidden=true;
   const playerChoices=choices.map(name=>{const n=new Node();n.dataset.character=name;return n});
   const document={
     body:new Node(),hidden:false,
     getElementById:name=>elements[name]||null,
     querySelectorAll:selector=>selector==="[data-character]"?playerChoices:[],
+    querySelector:selector=>{
+      const match=String(selector).match(/^\[data-character="([^"]+)"\]$/);
+      return match?playerChoices.find(x=>x.dataset.character===match[1]):null;
+    },
     createElement:()=>new Node(),
     createDocumentFragment:()=>{const f=new Node();f.fragment=true;return f},
     addEventListener:(name,fn)=>(events.get(name)||events.set(name,[]).get(name)).push(fn)
@@ -99,6 +105,11 @@ assert.equal(a.elements["legend-list"].children.length,6);
 assert.equal(a.elements["route-path"].getAttribute("d"),a.elements["route-shadow"].getAttribute("d"));
 assert.equal(a.elements["route-path"].getAttribute("d"),a.elements["route-dashes"].getAttribute("d"));
 assert.equal(a.elements["dice-cube"].classList.contains("is-spinning"),false,"Dado não gira antes do começo");
+assert.equal(a.elements["character-selection"].hidden,true,"Personagens não aparecem antes de entrar na seleção");
+assert.equal(a.oscillators(),0,"Não deve tocar música sem toque");
+a.click("arcade-quiet-start");
+assert.equal(a.elements["character-selection"].hidden,false,"Seleção abre após o toque inicial");
+assert.equal(a.oscillators(),0,"Entrar sem som não ativa a trilha");
 a.choose("maya");
 assert.equal(a.elements["chosen-name"].textContent,"Maya");
 assert.match(a.elements["player-token"].className,/char-maya/);
@@ -123,6 +134,7 @@ assert.equal(a.elements["dice-cube"].classList.contains("is-spinning"),true,"O d
 
 // Em uma carta Surpresa recebe-se passe; depois, numa carta Desafio, ele pode ser usado.
 const b=createGame([.99,.21,.99,0]);
+b.click("arcade-quiet-start");
 b.click("play-silent");
 b.click("dice-button");b.advance(2500);
 assert.equal(b.elements["position-total"].textContent,"6/30");
@@ -141,6 +153,7 @@ assert.equal(b.elements["card-modal"].hidden,true);
 
 // Retrocesso sem passe é animado, sem abrir nova carta durante o deslocamento.
 const c=createGame([.52,0]);
+c.click("arcade-quiet-start");
 c.click("play-silent");
 c.click("dice-button");c.advance(2500);
 assert.equal(c.elements["position-total"].textContent,"4/30");
@@ -153,6 +166,7 @@ assert.equal(c.elements["dice-cube"].classList.contains("is-spinning"),true);
 
 // Chegada após múltiplas rodadas; a última casa também produz carta.
 const d=createGame([]);
+d.click("arcade-quiet-start");
 d.click("play-silent");
 let turns=0,lastCard=false;
 while(d.elements["finish-modal"].hidden&&turns<50){
@@ -169,19 +183,41 @@ assert.equal(lastCard,true);
 assert.match(d.elements["finish-stars"].textContent,/estrelas/);
 d.click("replay");
 assert.equal(d.elements["setup-screen"].hidden,false,"Reiniciar devolve à seleção");
+assert.equal(d.elements["character-selection"].hidden,false,"A seleção é restaurada depois da partida");
 assert.equal(d.elements["board-game"].hidden,true);
 
-// Confirma som por escolha, nunca autoplay antes do início.
+// Antes da escolha, a música retro começa com toque explícito.
 const e=createGame([0,.2]);
-assert.equal(e.oscillators(),0);
+assert.equal(e.oscillators(),0,"Sem autoplay audível antes de gesto");
+assert.equal(e.elements["opening-screen"].hidden,false);
+e.click("arcade-music-start");
+assert.equal(e.elements["opening-screen"].hidden,true);
+assert.equal(e.elements["character-selection"].hidden,false);
+assert.equal(e.elements["setup-sound-toggle"].getAttribute("aria-pressed"),"true");
+assert.ok(e.oscillators()>0,"A trilha deve começar antes da seleção de personagens");
+const afterFirstChord=e.oscillators();
+e.advance(625);
+assert.ok(e.oscillators()>afterFirstChord,"A música de seleção deve continuar em loop");
+const beforeSelect=e.oscillators();
+e.choose("tonico");
+assert.ok(e.oscillators()>beforeSelect,"Trocar personagem produz efeito retrô próprio");
+assert.match(e.elements["selection-announcement"].textContent,/Tonico/);
+e.click("setup-sound-toggle");
+assert.equal(e.elements["setup-sound-toggle"].getAttribute("aria-pressed"),"false");
+const beforeQuiet=e.oscillators();
+e.advance(1500);
+assert.equal(e.oscillators(),beforeQuiet,"Música da seleção para quando desligada");
+e.click("setup-sound-toggle");
+assert.equal(e.elements["setup-sound-toggle"].getAttribute("aria-pressed"),"true");
 e.click("play-sound");
-assert.ok(e.oscillators()>0,"Som e trilha começam após escolha explícita");
+assert.equal(e.elements["board-game"].hidden,false,"Começar partida preserva som ativado na seleção");
+assert.ok(e.oscillators()>beforeQuiet);
 const before=e.oscillators();
 e.click("sound-toggle");
 e.advance(1500);
-assert.equal(e.oscillators(),before,"Ao silenciar, música não produz novas notas");
+assert.equal(e.oscillators(),before,"Ao silenciar durante a partida, música não produz novas notas");
 assert.ok(html.includes("dice-face face-6"),"Dado deve ter seis faces");
 assert.ok(html.includes('id="card-modal"'),"Cartas devem ter diálogo acessível");
 assert.ok(html.includes('id="badge-grid"'),"Álbum de recompensas deve existir");
 assert.ok(!script.includes("localStorage")&&!script.includes("fetch("),"Não coletar dados");
-console.log("PASSOU — SoulKids Play: seleção, dado 3D, cartas automáticas, seis categorias, ajuda, retrocesso, proteção, recompensa e chegada.");
+console.log("PASSOU — SoulKids Play: seleção arcade com trilha original opt-in, som por personagem, dado 3D, cartas, seis categorias e chegada.");
