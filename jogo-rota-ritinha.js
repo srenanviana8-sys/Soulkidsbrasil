@@ -326,6 +326,12 @@
       state.locked=false;
       const result=move(commands[i++]);
       if(result.error||result.done)return;
+      if(i>=commands.length){
+        state.locked=false;
+        planDisplay();
+        if(!result.checkpoint)inform("Agora escolha o próximo trecho.");
+        return;
+      }
       state.locked=true;planDisplay();
       later(quietMotion||document.body.classList.contains("calm")?50:playTime,walk);
     };
