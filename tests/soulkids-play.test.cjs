@@ -33,7 +33,7 @@ class Node {
   get className(){return [...this._classes].join(" ")}
   setAttribute(k,v){this.attributes[k]=String(v)}
   getAttribute(k){return this.attributes[k]}
-  appendChild(child){this.children.push(child);return child}
+  appendChild(child){if(child?.fragment)this.children.push(...child.children);else this.children.push(child);return child}
   replaceChildren(...children){
     this.children=children.length===1&&children[0]?.fragment?[...children[0].children]:children;
   }
