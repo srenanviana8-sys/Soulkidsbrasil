@@ -467,6 +467,68 @@
     if(!state.collected)inform("Ritinha avançou para "+d.label+".");
     return {moved:true};
   }
+  // Toque nas casas: a criança escolhe cada passo sem precisar usar as setas.
+  function tapTile(r,c){
+    if(!state||state.locked||ui.game.hidden)return;
+    const pos=[r,c],obs=obstacleAt(current(),r,c);
+    if(equal(pos,state.pos)){
+      display("Ritinha","Estamos aqui! Qual casa vamos explorar?");
+      inform("Toque numa casa vizinha ou investigue um obstáculo.");
+      return;
+    }
+    if(obs&&!isCleared(r,c)){openObstacle(r,c,obs);return;}
+    if(!isAdjacent(state.pos,pos)){
+      inform("Essa casa está longe. Toque numa casa vizinha primeiro!");
+      display("Ritinha","Um passo de cada vez. Escolha a casa ao lado!");
+      effect("select");return;
+    }
+    ui.obstaclePanel.hidden=true;state.activeObstacle=null;state.plan=[];
+    const dir=directionTo(state.pos,pos);
+    if(dir){
+      const result=move(dir);
+      if(result.moved||result.checkpoint){
+        const selector='[data-tile="'+coord(state.pos)+'"]';
+        ui.board.querySelector?.(selector)?.focus?.({preventScroll:true});
+      }
+    }
+  }
+  function openObstacle(r,c,obs){
+    if(!state||state.locked)return;
+    const challenge=obstacleChallenges[obs.label];
+    if(!challenge){inform("Esse obstáculo ainda não tem um desafio.");return;}
+    const near=isAdjacent(state.pos,[r,c]);
+    state.activeObstacle={at:[r,c],obs,challenge,near};
+    ui.obstaclePanel.hidden=false;
+    ui.obstacleEmoji.textContent=obs.icon;
+    ui.obstacleTitle.textContent=obs.label.charAt(0).toUpperCase()+obs.label.slice(1);
+    ui.obstacleStory.textContent=challenge.line;
+    ui.obstacleQuestion.textContent=near?challenge.question:"Chegue a uma casa vizinha para ajudar!";
+    ui.choiceA.textContent=challenge.options[0];ui.choiceB.textContent=challenge.options[1];
+    ui.choiceA.disabled=!near;ui.choiceB.disabled=!near;
+    display("Ritinha",near?"Esse obstáculo tem um desafio!":"Olha! "+obs.label+"! Vamos chegar mais perto?");
+    inform(near?"Escolha como resolver o obstáculo.":"Você descobriu o obstáculo. Para interagir, chegue mais perto.");
+    effect("select");
+    ui.obstaclePanel.scrollIntoView?.({block:"nearest",behavior:document.body.classList.contains("calm")?"auto":"smooth"});
+    if(near)ui.choiceA.focus?.({preventScroll:true});
+  }
+  function chooseObstacle(index){
+    if(!state||state.locked||!state.activeObstacle?.near)return;
+    const {at,obs,challenge}=state.activeObstacle;
+    if(!isAdjacent(state.pos,at)){ui.obstaclePanel.hidden=true;state.activeObstacle=null;return;}
+    ui.obstaclePanel.hidden=true;state.activeObstacle=null;
+    if(index!==challenge.correct){
+      display("Ritinha","Ops! Esse jeito não funcionou. Vamos tentar outra vez!");
+      fail(obs);return;
+    }
+    state.cleared.add(coord(at));
+    grantReward("obstaculo",at);
+    display("Ritinha",challenge.solved);
+    inform("🎁 Caminho liberado! Você ganhou uma descoberta para a coleção.");
+    const dir=directionTo(state.pos,at);
+    if(dir)move(dir);
+    update();
+  }
+
   function pressDirection(name){
     if(!state||state.locked||!directions[name])return;
     if(current().mode==="plan"){
@@ -522,6 +584,12 @@
     document.body.classList.add("calm");ui.calm.setAttribute("aria-pressed","true");
     ui.calm.textContent="✓ Visual tranquilo";
   }
+  ui.choiceA.addEventListener("click",()=>chooseObstacle(0));
+  ui.choiceB.addEventListener("click",()=>chooseObstacle(1));
+  ui.obstacleClose.addEventListener("click",()=>{
+    ui.obstaclePanel.hidden=true;if(state)state.activeObstacle=null;
+    ui.board.focus?.({preventScroll:true});
+  });
   document.querySelectorAll("[data-dir]").forEach(button=>{
     button.addEventListener("click",()=>pressDirection(button.dataset.dir));
   });
