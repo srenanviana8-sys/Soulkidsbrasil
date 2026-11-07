@@ -68,7 +68,7 @@
   const $ = id => document.getElementById(id);
   const ui = {
     setup:$("setup-screen"),game:$("board-game"),board:$("board-frame"),track:$("track-tiles"),
-    route:$("route-path"),token:$("player-token"),die:$("dice-button"),cube:$("dice-cube"),
+    route:$("route-path"),shadow:$("route-shadow"),dashes:$("route-dashes"),token:$("player-token"),die:$("dice-button"),cube:$("dice-cube"),
     diceStatus:$("dice-status"),turnStatus:$("turn-status"),characterName:$("chosen-name"),
     stars:$("stars-total"),shields:$("shields-total"),position:$("position-total"),
     card:$("card-modal"),cardCategory:$("card-category"),cardTitle:$("card-title"),
@@ -95,7 +95,7 @@
     const mapped=row%2===0?col:COLS-1-col;
     return {x:10+mapped*16,y:83-row*15,n:i+1,category:track[i]};
   });
-  const begin={x:3.3,y:95};
+  const begin={x:10,y:94};
   const end={x:96,y:15};
   const currentPoint=position=>position<=0?begin:spaces[Math.min(30,position)-1];
 
@@ -104,6 +104,8 @@
     const p=[begin,...spaces,end];
     const d=p.map((v,i)=>(i?"L":"M")+(v.x*10).toFixed(1)+" "+(v.y*6.2).toFixed(1)).join(" ");
     ui.route.setAttribute("d",d);
+    ui.shadow.setAttribute("d",d);
+    ui.dashes.setAttribute("d",d);
     ui.track.replaceChildren();
     const fragment=document.createDocumentFragment();
     spaces.forEach(space=>{
@@ -203,7 +205,7 @@
   }
   function musicBeat(){
     stopMusic();
-    if(!state.ready||!state.soundOn||!state.musicOn||document.hidden)return;
+    if(!state.soundOn||!state.musicOn||ui.game.hidden||state.won||document.hidden)return;
     const index=state.musicNote++%tune.length;
     playTone(tune[index],.20,.006,0,"triangle");
     if(index%4===0)playTone(48,.33,.0035,0,"sine");
