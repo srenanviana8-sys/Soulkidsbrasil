@@ -112,4 +112,4 @@ assert.equal(event.prevented,true);
 assert.equal(e["move-count"].textContent,"1 movimento");
 t.click("restart-level");
 assert.equal(e["move-count"].textContent,"0 movimentos");
-console.log("PASSOU — Rota da Ritinha: 18 verificações dos 3 níveis, controles e acessibilidade.");
+console.log("PASSOU — Rota da Ritinha: 30 verificações dos 3 níveis, controles e acessibilidade.");
