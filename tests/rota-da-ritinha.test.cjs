@@ -217,6 +217,27 @@ assert.equal(v["obstacle-choice-b"].disabled,true);
 assert.match(v["obstacle-question"].textContent,/Chegue/);
 touch.click("obstacle-close");
 assert.equal(v["obstacle-panel"].hidden,true);
+// Passagem liberada deve continuar transitável e a fase seguinte também ter desafio.
+for(const d of ["up","up","up","right","right","right"])touch.dir(d);
+assert.equal(v["finish-overlay"].hidden,false);
+touch.tick(5500);
+assert.match(v["stage-title"].textContent,/Luca/);
+const tap5=(r,c)=>v["adventure-board"].children[r*5+c].click();
+tap5(3,0);tap5(2,0); // A estrela da fase 2.
+assert.equal(v["reward-count"].textContent,"🎒 3 descobertas");
+tap5(2,1); // Ovo de dinossauro, opção B é a solução.
+assert.match(v["obstacle-title"].textContent,/Ovo/);
+touch.click("obstacle-choice-b");
+assert.equal(v["reward-count"].textContent,"🎒 4 descobertas");
+assert.match(v["reward-badge"].textContent,/Caminhos/);
+tap5(2,0);
+const before= v["reward-count"].textContent;
+tap5(2,1); // A casa já liberada não deve reabrir o desafio.
+assert.equal(v["obstacle-panel"].hidden,true);
+assert.equal(v["reward-count"].textContent,before);
+assert.match(v["adventure-board"].attributes["aria-label"],/linha 3, coluna 2/);
+touch.click("restart-stage");
+assert.equal(v["reward-count"].textContent,before,"Reiniciar a fase mantém descobertas já conquistadas");
 assert.ok(html.includes('<details class="alternative-controls"'),"As setas devem ficar opcionais");
 assert.ok(html.includes('id="reward-badge"'),"Os selos devem ser visíveis");
 console.log("PASSOU — Rota da Ritinha 5.0:  mapa por toque, obstáculos interativos, recompensas e reinício.");
