@@ -1,0 +1,293 @@
+{
+  "document_version": "1.0",
+  "date": "2026-11-07",
+  "document": "docs/BIBLIA_VISUAL_SOULKIDS_PLAY.md",
+  "source": {
+    "kind": "artboard_from_user_conversation",
+    "archived_in_repository": false,
+    "description": "Prancha coletiva com sete personagens, vistas e expressoes enviada na conversa; nao corresponde a sprites animados separados"
+  },
+  "rules": {
+    "game_categories": [
+      "corpo",
+      "imaginacao",
+      "emocao",
+      "desafio",
+      "fono",
+      "surpresa"
+    ],
+    "playable_characters": [
+      "ritinha",
+      "tonico",
+      "luca",
+      "lia",
+      "maya"
+    ],
+    "hosts": [
+      "ravi",
+      "ray"
+    ],
+    "max_local_players": 4,
+    "same_character_for_multiple_players": false,
+    "audio_autoplay": false,
+    "no_unapproved_dubbed_voices": true,
+    "no_character_identity_substitution": true,
+    "andador_maya_must_remain": true,
+    "all_new_game_dialogue_is_proposal": true
+  },
+  "required_animation_states": [
+    "idle",
+    "walk",
+    "celebrate",
+    "surprised",
+    "interact"
+  ],
+  "characters": [
+    {
+      "id": "ritinha",
+      "name": "Ritinha",
+      "role": "exploradora protagonista",
+      "playable": true,
+      "visual": [
+        "cabelo longo loiro/acobreado liso",
+        "oculos grandes azuis",
+        "camiseta listras verticais multicoloridas",
+        "short laranja na prancha",
+        "tenis rosa"
+      ],
+      "personality": [
+        "curiosa",
+        "sensivel",
+        "timida inicialmente",
+        "confiante progressivamente"
+      ],
+      "signature": {
+        "type": "official_catchphrase",
+        "text": "Tá goxxxtando ou tá amando?!",
+        "usage": "raramente"
+      },
+      "voice_approved": true,
+      "existing_sprite": "ritinha-passos.webp",
+      "sprite_status": "existe_necessita_conferencia_com_prancha",
+      "animation_notes": [
+        "olhar",
+        "andar",
+        "descobrir",
+        "comemorar",
+        "pausar"
+      ],
+      "conflicts": [
+        "short amarelo em registros anteriores"
+      ]
+    },
+    {
+      "id": "tonico",
+      "name": "Tonico",
+      "role": "ritmo e trocas",
+      "playable": true,
+      "visual": [
+        "cabelo azul",
+        "camiseta azul clara SK",
+        "short azul escuro",
+        "tenis claros"
+      ],
+      "personality": [
+        "carinhoso",
+        "comunicacao no proprio tempo",
+        "fala pouco",
+        "participa pelo brincar"
+      ],
+      "signature": {
+        "type": "rhythmic_mark",
+        "text": "Toc, toc!",
+        "usage": "contextual, sem obrigacao"
+      },
+      "voice_approved": false,
+      "existing_sprite": null,
+      "sprite_status": "pendente",
+      "animation_notes": [
+        "tocar ritmo",
+        "andar com gestos discretos",
+        "comemorar por gesto"
+      ],
+      "conflicts": [
+        "arquivo movimento-tonico.webp inconsistente com personagem"
+      ]
+    },
+    {
+      "id": "luca",
+      "name": "Luca",
+      "role": "imaginacao e dinossauros",
+      "playable": true,
+      "visual": [
+        "cabelo castanho cacheado",
+        "camiseta verde com dinossauro",
+        "short azul escuro",
+        "tenis escuros"
+      ],
+      "personality": [
+        "animado",
+        "brincalhao",
+        "sociavel",
+        "imaginativo"
+      ],
+      "signature": {
+        "type": "speech_pattern",
+        "text": "boritinha",
+        "usage": "alteracao fonetica pontual, nao automatica"
+      },
+      "voice_approved": false,
+      "existing_sprite": null,
+      "sprite_status": "pendente",
+      "animation_notes": [
+        "passos alegres",
+        "gestos amplos",
+        "surpresa"
+      ],
+      "conflicts": [
+        "arquivo movimento-luca.webp inconsistente com personagem"
+      ]
+    },
+    {
+      "id": "lia",
+      "name": "Lia",
+      "role": "escolhas e retomada",
+      "playable": true,
+      "visual": [
+        "cabelo castanho escuro em duas marias chiquinhas",
+        "acessorios rosa",
+        "casaco escuro com estrela rosa",
+        "short roxo",
+        "tenis escuros"
+      ],
+      "personality": [
+        "intensa",
+        "determinada",
+        "expressiva",
+        "evolui com vinculo"
+      ],
+      "signature": {
+        "type": "contextual_reaction",
+        "text": "NÃO!",
+        "usage": "reacao contextual, sem repeticao automatica"
+      },
+      "voice_approved": false,
+      "existing_sprite": null,
+      "sprite_status": "pendente",
+      "animation_notes": [
+        "observar",
+        "pausar",
+        "retomar por escolha",
+        "comemorar"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "maya",
+      "name": "Maya",
+      "role": "cooperacao e acessibilidade",
+      "playable": true,
+      "visual": [
+        "menina negra",
+        "cabelos em cachos/trancas com acessorio rosa",
+        "camiseta rosa com coracao",
+        "short azul escuro na prancha",
+        "tenis rosa",
+        "andador azul funcional"
+      ],
+      "personality": [
+        "alegre",
+        "comunicativa",
+        "determinada",
+        "participativa"
+      ],
+      "signature": {
+        "type": "undefined",
+        "text": null,
+        "usage": "nenhum bordao oficial"
+      },
+      "voice_approved": false,
+      "existing_sprite": null,
+      "sprite_status": "pendente_andador_obrigatorio",
+      "animation_notes": [
+        "caminhar junto com andador",
+        "manter maos e rodas coerentes",
+        "pausar",
+        "apontar e comemorar"
+      ],
+      "conflicts": [
+        "calca roxa em registros antigos vs short escuro na prancha"
+      ]
+    },
+    {
+      "id": "ravi",
+      "name": "Ravi",
+      "role": "mediador psicomotor",
+      "playable": false,
+      "visual": [
+        "adulto jovem",
+        "cabelo castanho cacheado",
+        "sem barba",
+        "uniforme azul marinho SoulKids"
+      ],
+      "personality": [
+        "acolhedor",
+        "divertido",
+        "atento",
+        "respeita ritmo"
+      ],
+      "signature": {
+        "type": "official_catchphrase",
+        "text": "Boa, jovem!",
+        "usage": "conquistas marcantes"
+      },
+      "voice_approved": false,
+      "existing_sprite": null,
+      "sprite_status": "pendente",
+      "animation_notes": [
+        "acenar",
+        "gesticular",
+        "comemorar",
+        "falar na altura da crianca"
+      ],
+      "conflicts": [
+        "Aí eu gostei! bordao revogado"
+      ]
+    },
+    {
+      "id": "ray",
+      "name": "Ray",
+      "role": "mediadora psicologa",
+      "playable": false,
+      "visual": [
+        "adulta",
+        "cabelo longo castanho escuro ondulado",
+        "uniforme rosa SoulKids",
+        "tenis rosa"
+      ],
+      "personality": [
+        "empatica",
+        "acolhedora",
+        "atenta",
+        "respeitosa"
+      ],
+      "signature": {
+        "type": "undefined",
+        "text": null,
+        "usage": "nenhum bordao oficial"
+      },
+      "voice_approved": false,
+      "existing_sprite": null,
+      "sprite_status": "pendente",
+      "animation_notes": [
+        "escuta",
+        "aceno",
+        "convite",
+        "sinal de pausa"
+      ],
+      "conflicts": [
+        "somente no final do Gibi 1; participacao em jogos nao retroage"
+      ]
+    }
+  ]
+}
