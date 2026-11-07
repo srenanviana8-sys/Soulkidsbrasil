@@ -207,6 +207,21 @@ body.quiet .player-token{transition:none}
 body:before{content:"SoulKids Play — Orientações para famílias";font-size:18pt;font-weight:900}
 }
 #chosen-avatar{width:34px;height:34px;display:inline-block;vertical-align:middle;margin-right:7px;border-width:2px}
+@media(max-width:700px){
+.game-layout{display:flex;flex-direction:column;gap:10px}
+.sidebar{display:contents}
+.dice-card{order:-1;width:100%;display:grid;grid-template-columns:minmax(0,1fr) 110px;align-items:center;gap:2px 12px;padding:12px 15px;border-radius:17px}
+.dice-card h3{grid-column:1;grid-row:1;font-size:1.04rem;text-align:left;margin:0}
+.dice-stage{grid-column:2;grid-row:1 / span 3;min-height:95px}
+.dice-button{width:100px;height:90px}
+.dice-cube{--side:62px}
+.dice-face{font-size:48px;border-radius:10px}
+.dice-prompt{grid-column:1;grid-row:2;text-align:left;font-size:.84rem;margin:0}
+.dice-status{grid-column:1;grid-row:3;text-align:left;font-size:.78rem}
+.turn-status{grid-column:1 / -1;grid-row:4;text-align:center;min-height:0;margin:6px 0 0;padding:9px;font-size:.81rem}
+.map-card{order:0;width:100%}
+.rewards-card{order:1;width:100%}
+}
 </style>
 </head>
 <body>
