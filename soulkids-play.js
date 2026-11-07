@@ -80,12 +80,16 @@
     legend:$("legend-list"),chosenIcon:$("chosen-avatar"),
     opening:$("opening-screen"),selection:$("character-selection"),openingStart:$("arcade-music-start"),
     openingQuiet:$("arcade-quiet-start"),setupSound:$("setup-sound-toggle"),
-    selectionAnnouncement:$("selection-announcement")
+    selectionAnnouncement:$("selection-announcement"),
+    slotPicker:$("slot-picker"),selectionPrompt:$("selection-prompt"),
+    scoreboard:$("player-scoreboard"),otherTokens:$("other-tokens"),turnLabel:$("turn-label"),
+    finishPlayers:$("finish-players"),finishTitle:$("finish-title")
   };
   if(Object.values(ui).some(item=>!item))return;
 
   const state = {
     selected:"ritinha",position:0,stars:0,shields:0,
+    playerCount:1,selectedSlots:["ritinha"],activeSlot:0,players:[],activeIndex:0,
     badges:new Set(),used:{},ready:false,moving:false,cardOpen:false,
     won:false,extraRoll:false,turns:0,activeCard:null,
     soundOn:false,musicOn:false,context:null,musicTimer:null,musicNote:0,
@@ -135,12 +139,73 @@
     if(!state.ready||state.moving||state.cardOpen)return;
     ui.turnStatus.textContent="Casa "+space.n+": "+categoryInfo[space.category].label+". Jogue o dado para chegar lá!";
   }
+  function saveActive(){
+    const player=state.players[state.activeIndex];
+    if(!player)return;
+    player.position=state.position;player.stars=state.stars;
+    player.shields=state.shields;player.badges=state.badges;
+    player.extraRoll=state.extraRoll;
+  }
+  function loadActive(){
+    const player=state.players[state.activeIndex];
+    if(!player)return;
+    state.selected=player.character;
+    state.position=player.position;state.stars=player.stars;
+    state.shields=player.shields;state.badges=player.badges;
+    state.extraRoll=player.extraRoll;
+    ui.characterName.textContent=characterInfo[state.selected];
+    ui.chosenIcon.className="portrait char-"+state.selected;
+    ui.turnLabel.textContent="Vez do Jogador "+(state.activeIndex+1);
+  }
+  function renderScoreboard(){
+    ui.scoreboard.replaceChildren();
+    if(!state.players.length)return;
+    const fragment=document.createDocumentFragment();
+    state.players.forEach((p,i)=>{
+      const active=i===state.activeIndex;
+      const position=active?state.position:p.position;
+      const stars=active?state.stars:p.stars;
+      const box=document.createElement("div");
+      box.className="score-player"+(active?" is-active":"");
+      box.setAttribute("aria-label","Jogador "+(i+1)+", "+characterInfo[p.character]+", casa "+position+(active?", sua vez":""));
+      const face=document.createElement("span");
+      face.className="portrait score-avatar char-"+p.character;
+      face.setAttribute("aria-hidden","true");
+      const copy=document.createElement("span");copy.className="score-copy";
+      const name=document.createElement("strong");
+      name.textContent=(active?"▶ ":"")+"J"+(i+1)+" · "+characterInfo[p.character];
+      const detail=document.createElement("small");
+      detail.textContent="Casa "+position+" · ⭐ "+stars;
+      copy.appendChild(name);copy.appendChild(detail);
+      box.appendChild(face);box.appendChild(copy);fragment.appendChild(box);
+    });
+    ui.scoreboard.appendChild(fragment);
+  }
+  function placeToken(node,position,i,character,walking=false,active=false){
+    const point=currentPoint(position);
+    // Deslocamentos leves permitem reconhecer peões que ocupam a mesma casa.
+    const offset=state.players.length>1?(i%2===0?-2.0:2.0):0;
+    const up=state.players.length>2?(i<2?-2.0:2.0):0;
+    node.style.left=Math.max(5,Math.min(95,point.x+offset))+"%";
+    node.style.top=Math.max(9,Math.min(95,point.y+up))+"%";
+    node.className="player-token char-"+character+(walking?" is-walking":"")+(active?" is-active-turn":"");
+    node.setAttribute("aria-label","Peão de "+characterInfo[character]+" na "+(position===0?"largada":"casa "+position));
+  }
   function renderPiece(){
-    const point=currentPoint(state.position);
-    ui.token.style.left=point.x+"%";ui.token.style.top=point.y+"%";
+    placeToken(ui.token,state.position,state.activeIndex,state.selected,state.moving,true);
     ui.position.textContent=state.position+"/30";
-    ui.token.setAttribute("aria-label","Peça de "+characterInfo[state.selected]+" na "+(state.position===0?"largada":"casa "+state.position));
-    ui.token.className="player-token char-"+state.selected;
+    ui.otherTokens.replaceChildren();
+    if(state.players.length>1){
+      const fragment=document.createDocumentFragment();
+      state.players.forEach((p,i)=>{
+        if(i===state.activeIndex)return;
+        const node=document.createElement("span");
+        placeToken(node,p.position,i,p.character,false,false);
+        fragment.appendChild(node);
+      });
+      ui.otherTokens.appendChild(fragment);
+    }
+    renderScoreboard();
   }
   function renderRewards(){
     ui.stars.textContent=String(state.stars);
@@ -154,21 +219,71 @@
       badge.setAttribute("aria-label",cfg.badge+(got?" conquistado":" ainda não conquistado"));
       ui.badgeGrid.appendChild(badge);
     });
+    renderScoreboard();
   }
-  function announce(text){
-    ui.turnStatus.textContent=text;
+  function announce(text){ui.turnStatus.textContent=text;}
+  function updateLobby(){
+    document.querySelectorAll("[data-player-count]").forEach(btn=>{
+      btn.setAttribute("aria-pressed",String(Number(btn.dataset.playerCount)===state.playerCount));
+    });
+    ui.slotPicker.replaceChildren();
+    const fragment=document.createDocumentFragment();
+    for(let i=0;i<state.playerCount;i++){
+      const button=document.createElement("button");button.type="button";
+      button.dataset.slot=String(i);
+      button.setAttribute("aria-pressed",String(i===state.activeSlot));
+      button.textContent="Jogador "+(i+1);
+      const small=document.createElement("span");
+      small.className=state.selectedSlots[i]?"slot-character":"slot-empty";
+      small.textContent=state.selectedSlots[i]?characterInfo[state.selectedSlots[i]]:"Escolher";
+      button.appendChild(small);
+      button.addEventListener("click",()=>{
+        state.activeSlot=i;updateLobby();
+      });
+      fragment.appendChild(button);
+    }
+    ui.slotPicker.appendChild(fragment);
+    const open=state.selectedSlots.findIndex(x=>!x);
+    const full=open<0;
+    ui.selectionPrompt.textContent=full?
+      (state.playerCount===1?"Personagem pronto!":"Turma completa! Você pode trocar qualquer personagem.") :
+      "Jogador "+(state.activeSlot+1)+": escolha um personagem!";
+    $("play-sound").disabled=!full;
+    $("play-silent").disabled=!full;
+    document.querySelectorAll("[data-character]").forEach(btn=>{
+      const name=btn.dataset.character;
+      const own=state.selectedSlots[state.activeSlot]===name;
+      const taken=state.selectedSlots.some((other,i)=>i!==state.activeSlot&&other===name);
+      btn.disabled=taken;
+      btn.setAttribute("aria-pressed",String(own));
+      btn.classList.toggle("is-selected",own);
+    });
+  }
+  function changePlayerCount(count){
+    if(!Number.isInteger(count)||count<1||count>4||!ui.game.hidden)return;
+    state.playerCount=count;
+    state.selectedSlots=count===1?["ritinha"]:Array(count).fill(null);
+    state.activeSlot=0;
+    state.selected="ritinha";
+    ui.selectionAnnouncement.textContent=count===1?"⭐ Ritinha selecionada!":"🎮 Selecione o personagem do Jogador 1.";
+    updateLobby();
+    sfx("select");
   }
   function selectCharacter(name){
-    if(!characterInfo[name])return;
-    state.selected=name;
-    document.querySelectorAll("[data-character]").forEach(btn=>{
-      const selected=btn.dataset.character===name;
-      btn.setAttribute("aria-pressed",String(selected));
-      btn.classList.toggle("is-selected",selected);
-    });
+    if(!characterInfo[name]||!ui.game.hidden)return;
+    if(state.selectedSlots.some((other,i)=>i!==state.activeSlot&&other===name)){
+      ui.selectionAnnouncement.textContent=characterInfo[name]+" já está com outro jogador. Escolha outro amigo.";
+      return;
+    }
+    state.selectedSlots[state.activeSlot]=name;state.selected=name;
     ui.characterName.textContent=characterInfo[name];
     ui.chosenIcon.className="portrait char-"+name;
-    ui.selectionAnnouncement.textContent="⭐ "+characterInfo[name]+" selecionad"+(name==="tonico"||name==="luca"?"o":"a")+"!";
+    ui.selectionAnnouncement.textContent="⭐ Jogador "+(state.activeSlot+1)+": "+characterInfo[name]+"!";
+    if(state.playerCount>1){
+      const next=state.selectedSlots.findIndex(x=>!x);
+      if(next>=0)state.activeSlot=next;
+    }
+    updateLobby();
     if(state.soundOn&&!ui.selection.hidden&&!ui.setup.hidden)sfx("select");
     renderPiece();
   }
