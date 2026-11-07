@@ -234,7 +234,7 @@
   function startStage(index,retry=false){
     stopTimers();
     if(index>=stages.length)index=0;
-    activeStage=index;transitionHold=false;
+    activeStage=index;document.body.dataset.stage=String(index+1);transitionHold=false;
     const stage=current();
     state={pos:[...stage.start],goalIndex:0,plan:[],locked:false,visited:new Set([coord(stage.start)])};
     ui.game.hidden=false;ui.intro.hidden=true;ui.finish.hidden=true;
@@ -244,7 +244,7 @@
     display(stage.speaker==="ritinha"?"Ritinha":stage.speaker==="maya"?"Maya":stage.speaker,stage.story);
     progress();update();
     inform(retry?"Ops! Voltamos ao começo. Tente outro caminho.":"Vamos lá! Escolha uma seta.");
-    if(!retry)effect("select");
+    if(!retry){effect("select");ui.board.focus?.({preventScroll:true});}
   }
   function fail(obstacle){
     if(!state||state.locked)return;
@@ -274,6 +274,7 @@
     ui.hold.setAttribute("aria-pressed","false");
     ui.hold.textContent="⏸ Pausar avanço";
     inform("Fase concluída! "+stage.rewardDetail);
+    ui.next.focus?.({preventScroll:true});
     if(activeStage<stages.length-1)scheduleWinNext();
   }
   function scheduleWinNext(){
@@ -283,7 +284,7 @@
   }
   function nextStage(){
     if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;}
-    if(activeStage===stages.length-1){ui.intro.hidden=false;ui.game.hidden=true;ui.finish.hidden=true;stopTimers();stopVoice();return;}
+    if(activeStage===stages.length-1){ui.intro.hidden=false;ui.game.hidden=true;ui.finish.hidden=true;stopTimers();stopVoice();ui.startSound.focus?.({preventScroll:true});return;}
     startStage(activeStage+1);
   }
   function move(name){
@@ -366,7 +367,7 @@
     ui.hold.textContent=transitionHold?"▶ Retomar avanço":"⏸ Pausar avanço";
     scheduleWinNext();
   });
-  ui.startOver.addEventListener("click",()=>{stopTimers();stopVoice();ui.game.hidden=true;ui.finish.hidden=true;ui.intro.hidden=false;});
+  ui.startOver.addEventListener("click",()=>{stopTimers();stopVoice();ui.game.hidden=true;ui.finish.hidden=true;ui.intro.hidden=false;ui.startSound.focus?.({preventScroll:true});});
   ui.print.addEventListener("click",()=>window.print());
   const keyNames={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"};
   document.addEventListener("keydown",e=>{
