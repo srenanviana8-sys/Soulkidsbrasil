@@ -128,7 +128,7 @@ a.advance(2000);
 assert.equal(a.elements["position-total"].textContent,"1/30");
 assert.equal(a.elements["card-modal"].hidden,false,"A carta abre automaticamente ao pousar");
 assert.equal(a.elements["card-category"].textContent,"💪 Corpo");
-assert.match(a.elements["card-text"].textContent,/Pule|Estátua|Alto|animal|palmas/i);
+assert.match(a.elements["card-text"].textContent,/Pule|Estátua|Alto|animal|palmas|movimentos|figuras/i);
 a.click("card-help");
 assert.equal(a.elements["card-modal"].hidden,true);
 assert.equal(a.elements["stars-total"].textContent,"1","Participar com ajuda também pontua");
@@ -177,7 +177,7 @@ while(d.elements["finish-modal"].hidden&&turns<50){
   d.click("dice-button");d.advance(3000);
   assert.equal(d.elements["card-modal"].hidden,false,"Carta automática obrigatória, rodada "+turns);
   lastCard=true;
-  d.click("card-done");d.advance(3000);
+  d.click(d.elements["card-done"].disabled?"card-help":"card-done");d.advance(3000);
   turns++;
 }
 assert.equal(d.elements["finish-modal"].hidden,false,"Partida deve alcançar a chegada");
@@ -292,7 +292,7 @@ while(race.elements["finish-modal"].hidden&&rounds<160){
   assert.equal(race.elements["dice-button"].disabled,false,"Dado pronto na rodada "+rounds);
   race.click("dice-button");race.advance(3500);
   assert.equal(race.elements["card-modal"].hidden,false,"Carta por rodada no multiplayer");
-  race.click("card-done");race.advance(3500);rounds++;
+  race.click(race.elements["card-done"].disabled?"card-help":"card-done");race.advance(3500);rounds++;
 }
 assert.equal(race.elements["finish-modal"].hidden,false,"A partida local termina com o primeiro a chegar");
 assert.equal(race.elements["finish-players"].children.length,2);
