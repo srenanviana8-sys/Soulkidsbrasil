@@ -18,6 +18,8 @@
 
 ![Capa oficial do Gibi 1, referência de proporções e roupas do grupo](../gibi1-capa.webp)
 
+**Complemento recente para o jogo:** [Bíblia Visual SoulKids Play — versão 1.0](BIBLIA_VISUAL_SOULKIDS_PLAY.md), preparada a partir da prancha coletiva enviada pelo criador em 07/11/2026, com vistas e expressões dos sete personagens. Para novas telas e sprites **do jogo**, consultar primeiro esse complemento e seus alertas de divergência; ele não altera retroativamente o Gibi 1. O arquivo original da prancha ainda precisa ser arquivado no repositório. Os dados de implementação estão em [personagens-soulkids-play.json](../dados/personagens-soulkids-play.json).
+
 ## 2. Fichas de personagens
 
 ### Ritinha — protagonista
