@@ -367,11 +367,13 @@
     setSound(withSound);
     renderRewards();renderPiece();drawDice();
     announce("O dado está girando. Toque nele para parar e começar a aventura.");
+    ui.game.scrollIntoView?.({block:"start",behavior:state.reduced?"auto":"smooth"});
     ui.die.focus?.({preventScroll:true});
   }
   function reset(){
     stopMusic();state.ready=false;state.movementToken++;
     ui.card.hidden=true;ui.end.hidden=true;ui.game.hidden=true;ui.setup.hidden=false;
+    ui.setup.scrollIntoView?.({block:"start",behavior:state.reduced?"auto":"smooth"});
   }
 
   decorateBoard();
