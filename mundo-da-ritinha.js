@@ -1,5 +1,42 @@
 "use strict";
 (() => {
+  // Navegação compacta acessível para celulares.
+  const menuToggle = document.getElementById("world-nav-toggle");
+  const menuLinks = document.getElementById("world-nav-links");
+  if (menuToggle && menuLinks) {
+    const closeMenu = () => {
+      menuLinks.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.textContent = "☰ Menu";
+    };
+    menuToggle.addEventListener("click", () => {
+      const open = menuLinks.classList.toggle("is-open");
+      menuToggle.setAttribute("aria-expanded", String(open));
+      menuToggle.textContent = open ? "✕ Fechar" : "☰ Menu";
+    });
+    menuLinks.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && menuLinks.classList.contains("is-open")) {
+        closeMenu();
+        menuToggle.focus();
+      }
+    });
+    window.addEventListener("resize", () => { if (window.innerWidth > 650) closeMenu(); });
+  }
+  // Modo tranquilo sem coleta de dados: controla apenas a aparência desta página.
+  const calmToggle = document.getElementById("world-calm-toggle");
+  if (calmToggle) {
+    let calm = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+    const renderCalm = () => {
+      document.body.classList.toggle("world-calm", calm);
+      calmToggle.setAttribute("aria-pressed", String(calm));
+      calmToggle.textContent = calm ? "✓ Modo tranquilo ativo" : "Modo tranquilo";
+      window.dispatchEvent(new CustomEvent("soulkids-calm-change", {detail:{calm}}));
+    };
+    calmToggle.addEventListener("click", () => { calm = !calm; renderCalm(); });
+    renderCalm();
+  }
+
   // Armazenamento apenas de visitas e IDs de missões, sem dados pessoais.
   const STORAGE="soulkids-mundo-ritinha-v1";
   const allZones=["emocoes","movimento","palavras","descobertas","cozinha","missao"];
