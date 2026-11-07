@@ -31,6 +31,7 @@
       document.body.classList.toggle("world-calm", calm);
       calmToggle.setAttribute("aria-pressed", String(calm));
       calmToggle.textContent = calm ? "✓ Modo tranquilo ativo" : "Modo tranquilo";
+      window.dispatchEvent(new CustomEvent("soulkids-calm-change", {detail:{calm}}));
     };
     calmToggle.addEventListener("click", () => { calm = !calm; renderCalm(); });
     renderCalm();
