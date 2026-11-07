@@ -11,9 +11,11 @@ const script = fs.readFileSync(path.join(root, "jogo-rota-ritinha.js"), "utf8");
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 const levels = [...html.matchAll(/data-level="(\d+)"/g)].map(m => m[1]);
 const directions = [...html.matchAll(/data-dir="([^"]+)"/g)].map(m => m[1]);
+const journeys = [...html.matchAll(/data-journey="(\d+)"/g)].map(m=>m[1]);
 assert.equal(new Set(ids).size, ids.length, "IDs não podem se repetir");
 assert.equal(levels.length, 3, "O jogo deve ter três níveis");
 assert.equal(directions.length, 4, "O jogo deve ter quatro controles de direção");
+assert.equal(journeys.length,3,"O painel deve ter três marcos da jornada");
 
 class MockElement {
   constructor(){
@@ -37,36 +39,47 @@ class MockElement {
   addEventListener(type,fn){(this.events[type]??=[]).push(fn)}
   appendChild(item){this.children.push(item);return item}
   replaceChildren(...items){this.children=items}
-  click(){for(const fn of this.events.click||[])fn({target:this})}
+  click(){let result;for(const fn of this.events.click||[])result=fn({target:this});return result}
 }
 function boot(){
   const elements = Object.fromEntries(ids.map(id=>[id,new MockElement()]));
   const tabs = levels.map(value=>{const n=new MockElement();n.dataset.level=value;return n});
   const arrows = directions.map(value=>{const n=new MockElement();n.dataset.dir=value;return n});
+  const trail=journeys.map(value=>{const n=new MockElement();n.dataset.journey=value;return n});
   const listeners = {};
   const document = {
     body:new MockElement(),
     getElementById:id=>elements[id]||null,
-    querySelectorAll:selector=>selector==="[data-level]"?tabs:selector==="[data-dir]"?arrows:[],
+    querySelectorAll:selector=>selector==="[data-level]"?tabs:selector==="[data-dir]"?arrows:selector==="[data-journey]"?trail:[],
     createElement:()=>new MockElement(),
     createDocumentFragment:()=>new MockElement(),
     addEventListener:(type,fn)=>(listeners[type]??=[]).push(fn)
   };
   let printed=0;
   const window={matchMedia:()=>({matches:false}),print:()=>{printed++}};
-  vm.runInNewContext(script,{document,window},{filename:"jogo-rota-ritinha.js",timeout:1500});
+  vm.runInNewContext(script,{document,window,setTimeout:callback=>callback()},{filename:"jogo-rota-ritinha.js",timeout:1500});
   return {
-    elements,document,
+    elements,document,trail,
     click:id=>elements[id].click(),
     tab:index=>tabs[index].click(),
     arrow:name=>arrows.find(n=>n.dataset.dir===name).click(),
-    key:key=>{const event={key,preventDefault(){this.prevented=true},target:{closest(){return false}}};for(const fn of listeners.keydown||[])fn(event);return event},
+    key:(key,inGame=true)=>{const event={key,preventDefault(){this.prevented=true},target:{closest:selector=>selector==="#atividade"&&inGame}};for(const fn of listeners.keydown||[])fn(event);return event},
     printed:()=>printed
   };
 }
+
+async function runTests(){
 const t=boot(), e=t.elements;
 assert.equal(e["level-name"].textContent,"1 · Explorar");
+assert.equal(e["mission-title"].textContent,"O caminho do jardim");
+assert.equal(e["quest-count"].textContent,"MISSÃO 01 DE 03");
 assert.equal(e["plan-tools"].hidden,true);
+assert.equal(t.trail[0].classList.contains("is-current"),true);
+const firstBoard=e["rota-board"].children[0];
+assert.equal(firstBoard.children.length,16);
+assert.equal(firstBoard.children.some(node=>node.classList.contains("is-player")),true,"Ritinha sprite ausente");
+const player=firstBoard.children.find(node=>node.classList.contains("is-player"));
+assert.equal(player.children[0].className,"ritinha-player");
 t.arrow("left");
 assert.equal(e["move-count"].textContent,"0 movimentos");
 assert.match(e["game-feedback"].textContent,/obstáculo/);
@@ -75,8 +88,11 @@ assert.match(e["game-feedback"].textContent,/possibilidade/);
 for(const dir of ["up","up","up","right","right","right"])t.arrow(dir);
 assert.equal(e["finish-panel"].hidden,false);
 assert.equal(e["move-count"].textContent,"6 movimentos");
+assert.match(e["reflection-prompt"].textContent,/jardim/);
 t.click("next-level");
 assert.equal(e["level-name"].textContent,"2 · Planejar");
+assert.equal(e["mission-title"].textContent,"Antes de caminhar, vamos pensar");
+assert.equal(t.trail[1].classList.contains("is-current"),true);
 assert.equal(e["plan-tools"].hidden,false);
 t.arrow("left");
 assert.match(e["plan-preview"].textContent,/obstáculo/);
@@ -88,17 +104,20 @@ assert.equal(e["plan-sequence"].children.length,0);
 for(const dir of [...Array(4).fill("up"),...Array(4).fill("right")])t.arrow(dir);
 assert.equal(e["move-count"].textContent,"0 movimentos","Planejamento não deve mover antes de executar");
 assert.equal(e["plan-sequence"].children.length,8);
-t.click("execute-plan");
+const playback=t.click("execute-plan");
+assert.equal(e["move-count"].textContent,"1 movimento","A animação deve avançar passo a passo");
+await playback;
 assert.equal(e["finish-panel"].hidden,false);
 assert.equal(e["move-count"].textContent,"8 movimentos");
 t.click("next-level");
 assert.equal(e["level-name"].textContent,"3 · Sequenciar");
+assert.equal(t.trail[2].classList.contains("is-current"),true);
 for(const dir of ["up","up","right","right"])t.arrow(dir);
-t.click("execute-plan");
+await t.click("execute-plan");
 assert.equal(e["goal-label"].textContent,"Destino: Chegada 2","O ponto 1 libera o segundo destino");
 assert.equal(e["finish-panel"].hidden,true);
 for(const dir of ["up","up","up","right","right","right"])t.arrow(dir);
-t.click("execute-plan");
+await t.click("execute-plan");
 assert.equal(e["finish-panel"].hidden,false);
 assert.equal(e["move-count"].textContent,"10 movimentos");
 assert.match(e["finish-text"].textContent,/10 movimento/);
@@ -107,9 +126,16 @@ assert.equal(t.document.body.classList.contains("calm"),true);
 t.click("print-guide");
 assert.equal(t.printed(),1);
 t.tab(0);
-const event=t.key("ArrowUp");
-assert.equal(event.prevented,true);
+const out=t.key("ArrowDown",false);
+assert.equal(Boolean(out.prevented),false,"Fora do jogo as setas não devem impedir rolagem");
+const inGame=t.key("ArrowUp");
+assert.equal(inGame.prevented,true);
 assert.equal(e["move-count"].textContent,"1 movimento");
 t.click("restart-level");
 assert.equal(e["move-count"].textContent,"0 movimentos");
-console.log("PASSOU — Rota da Ritinha: 30 verificações dos 3 níveis, controles e acessibilidade.");
+assert.match(html,/id="observation-title"/);
+assert.match(html,/class="activity-ladder"/);
+assert.match(html,/ritinha-passos\.webp/);
+console.log("PASSOU — Rota da Ritinha 2.0: "+(script.includes('async function runPlan')?"reprodução passo a passo; ":"")+"três níveis, personagem oficial, missões, acessibilidade e orientações.");
+}
+runTests().catch(err=>{console.error(err);process.exitCode=1});
