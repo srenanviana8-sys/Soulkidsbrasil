@@ -188,7 +188,7 @@
 
       .gibi-cover { width: min(100%, 440px); transform: none; }
       .gibi-cover:hover { transform: translateY(-3px); }
-      .gibi-cover img { aspect-ratio: auto; object-fit: contain; border: 0; border-radius: 16px; }
+      .gibi-cover img { aspect-ratio: 2 / 3; object-fit: cover; border: 4px solid white; border-radius: 12px; }
       @media (max-width: 880px) {
         .gibi-feature-layout { grid-template-columns: 1fr; text-align: center; gap: 30px; }
         .gibi-cover { max-width: 340px; }
@@ -1005,7 +1005,7 @@
       <section class="gibi-feature" id="gibi1" aria-labelledby="gibi-title">
         <div class="wrap gibi-feature-layout">
           <a class="gibi-cover" href="/gibi1.html" aria-label="Ler o Gibi 1 da Turma da Ritinha">
-            <img src="/turma-da-ritinha.webp"  alt="Ilustração promocional da Turma da Ritinha com seus personagens" loading="eager" fetchpriority="high" />
+            <img src="/gibi1-capa.webp" width="768" height="1152" alt="Capa oficial do Gibi 1 da Turma da Ritinha: O começo de uma turma" loading="eager" fetchpriority="high" decoding="async" />
           </a>
           <div class="gibi-copy">
             <span class="gibi-kicker">Lançamento · Gibi 1 · Leitura gratuita</span>
