@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#092c61">
 <meta name="description" content="Entre no Mundo da Ritinha: cinco lugares para explorar, jogos educativos SoulKids, missão do dia e passaporte de descobertas sem cadastro.">
-<title>Mundo da Ritinha | Explore a SoulKids</title>
+<title>Mundo da Ritinha 2.0 | Explore a SoulKids</title>
   <link rel="canonical" href="https://soulkidsbrasil.com.br/mundo-da-ritinha.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
@@ -13,7 +13,7 @@
   <meta property="og:title" content="Mundo da Ritinha | SoulKids">
   <meta property="og:description" content="Explore brincadeiras, jogos e descobertas com a Turma da Ritinha, uma experiência lúdica gratuita para crianças e famílias.">
   <meta property="og:url" content="https://soulkidsbrasil.com.br/mundo-da-ritinha.html">
-  <meta property="og:image" content="https://soulkidsbrasil.com.br/turma-da-ritinha.webp">
+  <meta property="og:image" content="https://soulkidsbrasil.com.br/gibi1-capa.webp">
   <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/soulkids-symbol.png">
 <style>
@@ -230,66 +230,121 @@ h1 span{color:#f28029}
 @media(prefers-reduced-motion:reduce){.story-scene.is-walking .story-traveler{animation:none!important}.story-scene.is-arrived .story-traveler{left:61%;bottom:23%}}
 @media print{.story-traveler{display:none!important}}
 
+
+/* Mundo da Ritinha 2.0: navegação calma, mapa acessível e identidade editorial. */
+:root { --orange:#e77c24; }
+html { scroll-padding-top:100px; }
+.hero{background:linear-gradient(135deg,#fdfaf5,#edf7f4);padding:48px 0 46px}
+.hero:before{display:none}
+.hero-grid{grid-template-columns:1.15fr .85fr;gap:38px}
+.hero h1{font-size:clamp(2.9rem,5.6vw,5.1rem)}
+.hero h1 span{color:#a7480a}
+.hero-art{min-height:0;background:none;padding:8px}
+.hero-book{display:grid;justify-items:center;gap:10px;text-decoration:none;max-width:290px;width:100%}
+.hero-book img{width:100%;height:auto;max-height:325px;object-fit:contain;border-radius:12px;border:4px solid #fff;box-shadow:0 14px 35px #16405e30;filter:none}
+.hero-book span{font-size:.83rem;font-weight:900;color:var(--navy)}
+.btn-primary{color:var(--navy);background:#ffc66e;box-shadow:none}
+.world{background:#f5f9f7}
+.world:before{display:none}
+.section-title{margin-bottom:25px}
+.destination-map{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;align-items:stretch}
+.destination{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:14px;min-width:0;min-height:158px;border:1px solid #d9e5e4;border-radius:18px;background:#fff;padding:18px;text-decoration:none;color:#173a55;box-shadow:0 6px 20px #173a5510;transition:transform .18s ease,box-shadow .18s ease}
+.destination:hover{transform:translateY(-2px);box-shadow:0 10px 25px #173a5522}
+.destination-number{font-weight:900;font-size:.78rem;letter-spacing:.1em;background:#e9f3f1;border-radius:9px;padding:5px 9px;color:#246f65}
+.destination strong{display:block;line-height:1.26;font-size:1rem}
+.destination small{display:block;line-height:1.4;color:#546c7d;margin-top:6px;font-size:.84rem}
+.map-instruction{text-align:center;color:#516c7c;margin:15px 0 25px;font-size:.87rem}
+.zone-grid{gap:14px}
+.zone{min-height:275px;background:#fff;border:1px solid #dce6e4;box-shadow:0 7px 20px #173a550f;border-top:4px solid var(--color);scroll-margin-top:110px}
+.zone:hover{transform:translateY(-2px);box-shadow:0 12px 25px #173a5519}
+.zone:target{outline:3px solid #277b77;outline-offset:4px}
+.zone-icon{width:55px;height:55px;font-size:2rem;border-radius:14px;background:#f2f7f6;margin-bottom:12px}
+.zone .stamp{right:16px;top:16px;font-size:.73rem}
+.zone-links .zone-link{border-radius:11px}
+.zone-footer{margin:23px auto;color:#516a79}
+.story-adventure{margin:35px 0 8px;border:1px solid #d8e6e5;box-shadow:none}
+.guia-section{background:#fff;padding:44px 0}
+.guia-panel{background:#f7f8f7;box-shadow:none;border:1px solid #e0e7e7}
+.guia-hand,.guia-star,.guia-visual:after{display:none}
+.guia-avatar img{animation:none}
+.world-nav-toggle{display:none;border:1px solid #dae5e4;border-radius:11px;background:#fff;color:var(--navy);font-weight:850;padding:10px 15px;min-height:44px}
+.calm-toggle{border:1px solid #bdd6d3;background:#eaf6f3;color:#1c5a57;border-radius:12px;padding:10px 12px;font-size:.83rem;font-weight:850;min-height:44px}
+.calm-toggle[aria-pressed="true"]{background:#164f56;color:#fff}
+.world-calm .guia-avatar img,.world-calm .guia-hand,.world-calm .guia-star,.world-calm .hero-book img{animation:none!important;transition:none!important}
+.world-calm .destination,.world-calm .zone,.world-calm .hero-book{transition:none!important}
+.world-calm .story-sun,.world-calm .story-cloud,.world-calm .story-flowers{opacity:.5}
+@media(max-width:1050px){.destination-map{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.destination-map{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-grid{grid-template-columns:1fr}.hero-art{display:none}}
+@media(max-width:650px){
+  nav.wrap{flex-wrap:wrap;gap:8px;padding-block:9px}
+  .world-nav-toggle{display:inline-flex;margin-left:auto;align-items:center}
+  .nav-items{display:none;flex-basis:100%;width:100%;align-items:stretch;gap:5px;padding:8px 0 12px}
+  .nav-items.is-open{display:flex;flex-direction:column}
+  .nav-items a:not(.nav-btn){display:block;padding:10px 14px}
+  .nav-items a.nav-btn{text-align:center}
+  .calm-toggle{width:100%}
+  .hero{padding:38px 0 30px}
+  .hero p{font-size:1rem}
+  .destination-map{grid-template-columns:1fr;gap:9px}
+  .destination{flex-direction:row;align-items:center;gap:13px;min-height:0;padding:13px 15px}
+  .destination small{margin-top:2px}
+  .section-title h2{font-size:2.2rem}
+  .zone-icon{width:48px;height:48px;font-size:1.6rem}
+  .zone{padding:21px}
+  .guia-visual{min-height:160px}
+}
+@media(prefers-reduced-motion:reduce){.destination,.zone{transition:none}.guia-avatar img{animation:none}}
+
 </style>
 </head>
 <body>
 <a class="skip" href="#conteudo">Ir para o conteúdo</a>
 <header class="site-header"><nav class="wrap" aria-label="Navegação do Mundo da Ritinha">
 <a class="brand" href="/index.html"><img src="/soulkids-symbol.png" alt="">SoulKids</a>
-<div class="nav-items"><a href="#lugares">Explorar</a><a href="#missao">Missão do dia</a><a href="#passaporte">Passaporte</a><a class="nav-btn" href="/index.html">Site principal ↗</a></div>
+<button id="world-nav-toggle" class="world-nav-toggle" type="button" aria-controls="world-nav-links" aria-expanded="false">☰ Menu</button>
+<div class="nav-items" id="world-nav-links">
+  <a href="#lugares">Mapa</a><a href="#ritinha-guia">Ritinha</a><a href="#missao">Missão</a><a href="#passaporte">Passaporte</a>
+  <button id="world-calm-toggle" class="calm-toggle" type="button" aria-pressed="false">Modo tranquilo</button>
+  <a class="nav-btn" href="/index.html">Site principal ↗</a>
+</div>
 </nav></header>
 <main id="conteudo">
 <section class="hero">
 <div class="wrap hero-grid">
-<div><span class="eyebrow">Uma aventura da SoulKids</span><h1>Bem-vindo ao <span>Mundo da Ritinha!</span></h1>
-<p>Cinco lugares cheios de histórias, jogos e pequenas descobertas. Escolha por onde começar e explore no seu ritmo, com a turma da Ritinha.</p>
-<div class="actions"><a class="btn btn-primary" href="#lugares">Explorar o mundo →</a><a class="btn btn-light" href="#missao">Missão de hoje ✨</a></div>
-<p class="intro-note">Gratuito, sem cadastro e com atividades para brincar junto.</p></div>
-<div class="hero-art"><span class="hero-spark one" aria-hidden="true">⭐</span><span class="hero-spark two" aria-hidden="true">🌈</span><span class="hero-spark three" aria-hidden="true">🌼</span>
-<img src="/turma-da-ritinha.webp" alt="Ilustração da turma da Ritinha, com os personagens da SoulKids" loading="eager"></div>
+<div><span class="eyebrow">SoulKids · Exploração no seu ritmo</span><h1>O Mundo da <span>Ritinha.</span></h1>
+<p>Escolha um dos cinco lugares para brincar, descobrir e participar. Cada experiência tem propostas diferentes e maneiras de adaptar as brincadeiras.</p>
+<div class="actions"><a class="btn btn-primary" href="#lugares">Escolher um lugar →</a><a class="btn btn-light" href="#ritinha-guia">Conhecer a Ritinha</a></div>
+<p class="intro-note">Gratuito · Sem cadastro · Sem competição · Acompanhamento de um responsável</p></div>
+<div class="hero-art">
+<a class="hero-book" href="/gibi1.html" aria-label="Conhecer o primeiro Gibi da Turma da Ritinha">
+<img src="/gibi1-capa.webp" width="480" height="720" alt="Capa oficial do Gibi 1, O começo de uma turma" loading="eager" decoding="async">
+<span>Leia o Gibi 1 completo →</span>
+</a>
+</div>
 </div></section>
 
-<section class="guia-section" id="ritinha-guia" aria-labelledby="guia-heading">
-<div class="wrap">
-<div class="guia-panel" id="guia-container">
-<div>
-  <div class="guia-visual">
-    <button type="button" class="guia-avatar" id="guia-avatar" aria-label="Ver outra fala da Ritinha" title="Toque na Ritinha para ver outra fala">
-      <img id="guia-still" src="/ritinha-soulkids-s.png" loading="lazy" alt="">
-      <video id="guia-intro-video" class="guia-intro-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-    </button>
-    <span class="guia-hand" aria-hidden="true">👋</span>
-    <span class="guia-star" aria-hidden="true">✨</span>
-  </div>
-  <div class="guia-visual-caption">Toque na Ritinha para uma nova fala</div>
-</div>
-<div class="guia-content">
-  <span class="guia-label">Sua guia de aventuras</span>
-  <h2 id="guia-heading">A Ritinha quer brincar com você!</h2>
-  <div class="guia-speech" role="status" aria-live="polite" aria-atomic="true">
-    <span class="guia-mood" id="guia-mood">Vamos nos conhecer?</span>
-    <p id="guia-message">Oi! Eu sou a Ritinha. Às vezes fico tímida com novidades, mas gosto de descobrir as coisas no meu tempo. Quer explorar comigo?</p>
-  </div>
-  <div class="guia-choices" role="group" aria-label="Escolha o próximo destino com a Ritinha">
-    <button type="button" class="guia-choice" data-guide-choice="jogos" aria-pressed="false">🎲 Quero jogar</button>
-    <button type="button" class="guia-choice" data-guide-choice="missao" aria-pressed="false">🌟 Quero uma missão</button>
-    <button type="button" class="guia-choice" data-guide-choice="familias" aria-pressed="false">🏡 Para minha família</button>
-  </div>
-  <div class="guia-actions">
-    <a id="guia-go" class="btn btn-primary" href="#lugares">Explorar meu mundo →</a>
-    <button type="button" class="guia-control" id="guia-voice" aria-pressed="false">🔊 Ativar voz</button>
-    <button type="button" class="guia-control" id="guia-motion" aria-pressed="false">⏸️ Pausar animação</button>
-  </div>
-  <p class="guia-note">A Ritinha usa falas preparadas e uma voz opcional do navegador. Não abre conversa livre, não usa câmera ou microfone e não precisa de IA paga.</p>
-</div>
-</div>
-</div>
-</section>
 <section class="world section" id="lugares" aria-labelledby="world-heading">
 <div class="wrap world-inner">
-<div class="section-title"><span class="eyebrow">Seu mapa de descobertas</span><h2 id="world-heading">Para onde vamos hoje?</h2><p>Cada lugar tem uma experiência diferente. Visite as áreas para descobrir jogos e atividades, sem competição e sem pressa.</p></div>
-<div class="plaza"><span class="emoji" aria-hidden="true">🏡</span><div><strong>Praça da Amizade</strong><span>O ponto de partida de todas as aventuras da turma.</span></div></div>
+<div class="section-title"><span class="eyebrow">Mapa dos cinco ambientes</span><h2 id="world-heading">Escolha seu caminho</h2><p>Você não precisa seguir uma ordem. Explore um lugar por vez, no seu tempo.</p></div>
+<nav class="destination-map" aria-label="Acesso rápido aos cinco ambientes">
+  <a class="destination destination-emocoes" href="#zona-emocoes"><span class="destination-number" aria-hidden="true">01</span><span><strong>Casa das Emoções</strong><small>Sentir e conversar</small></span></a>
+  <a class="destination destination-movimento" href="#zona-movimento"><span class="destination-number" aria-hidden="true">02</span><span><strong>Jardim do Movimento</strong><small>Corpo e ritmo</small></span></a>
+  <a class="destination destination-palavras" href="#zona-palavras"><span class="destination-number" aria-hidden="true">03</span><span><strong>Oficina das Palavras</strong><small>Sons e linguagem</small></span></a>
+  <a class="destination destination-descobertas" href="#zona-descobertas"><span class="destination-number" aria-hidden="true">04</span><span><strong>Estação das Descobertas</strong><small>Rotinas e raciocínio</small></span></a>
+  <a class="destination destination-cozinha" href="#zona-cozinha"><span class="destination-number" aria-hidden="true">05</span><span><strong>Cozinha da Ritinha</strong><small>Alimentos e escolhas</small></span></a>
+</nav>
+<p class="map-instruction">Toque em um lugar para ver as atividades disponíveis.</p>
 
+
+
+<div class="zone-grid">
+<article class="zone emocoes" id="zona-emocoes" data-zone-card="emocoes"><span class="stamp" data-stamp-label="emocoes">Para explorar</span><span class="zone-icon" aria-hidden="true">💗</span><span class="tag">Psicologia</span><h3>Casa das Emoções</h3><p>Como reconhecer sentimentos? Explore histórias da turma e descubra maneiras de conversar sobre emoções.</p><div class="zone-links"><button type="button" class="zone-link" data-visit-emotions>Passear com a Ritinha →</button><a class="zone-link secondary" href="/casa-das-emocoes.html" data-explore="emocoes">Entrar na casinha →</a><a class="zone-link secondary" href="/Cartilha_Psicologia_Infantil_SoulKids_16p.pdf" target="_blank" rel="noopener" data-explore="emocoes">Cartilha</a></div></article>
+<article class="zone movimento" id="zona-movimento" data-zone-card="movimento"><span class="stamp" data-stamp-label="movimento">Para explorar</span><span class="zone-icon" aria-hidden="true">🌳</span><span class="tag">Psicomotricidade</span><h3>Jardim do Movimento</h3><p>A Ritinha, Luca, Tonico, Lia e Maya convidam para explorar caminhos, poses do corpo e ritmos, com diferentes jeitos de participar.</p><div class="zone-links"><a class="zone-link" href="/jardim-do-movimento.html" data-explore="movimento">Entrar no jardim →</a><a class="zone-link secondary" href="/jogo-ritinha.html" data-explore="movimento">Jogar com a Ritinha</a><a class="zone-link secondary" href="#missao" data-explore="movimento">Missão</a></div></article>
+<article class="zone palavras" id="zona-palavras" data-zone-card="palavras"><span class="stamp" data-stamp-label="palavras">Para explorar</span><span class="zone-icon" aria-hidden="true">🎶</span><span class="tag">Fonoaudiologia</span><h3>Oficina das Palavras</h3><p>Sons iniciais, rimas e descobertas com palavras. Escolha um nível e explore os desafios no seu ritmo.</p><div class="zone-links"><a class="zone-link" href="/jogo-fonoaudiologia.html" data-explore="palavras">Jogar e explorar →</a></div></article>
+<article class="zone descobertas" id="zona-descobertas" data-zone-card="descobertas"><span class="stamp" data-stamp-label="descobertas">Para explorar</span><span class="zone-icon" aria-hidden="true">🧩</span><span class="tag">TO e Psicopedagogia</span><h3>Estação das Descobertas</h3><p>Rotinas, planejamento de tarefas, padrões e raciocínio. Duas formas de explorar a mesma estação!</p><div class="zone-links"><a class="zone-link" href="/jogo-terapia-ocupacional.html" data-explore="descobertas">Organizar rotinas →</a><a class="zone-link secondary" href="/jogo-psicopedagogia.html" data-explore="descobertas">Sequências</a></div></article>
+<article class="zone cozinha" id="zona-cozinha" data-zone-card="cozinha"><span class="stamp" data-stamp-label="cozinha">Para explorar</span><span class="zone-icon" aria-hidden="true">🍓</span><span class="tag">Nutrição</span><h3>Cozinha da Ritinha</h3><p>Uma feira cheia de sabores, cores e possibilidades de preparo. Descubra ingredientes para o piquenique da turma.</p><div class="zone-links"><a class="zone-link" href="/jogo-nutricao.html" data-explore="cozinha">Visitar a feira →</a></div></article>
+</div>
+<p class="zone-footer">Escolha um jogo ou atividade. As propostas são educativas e não substituem uma avaliação terapêutica.</p>
 <section class="story-adventure" id="aventura-casa-emocoes" aria-labelledby="emotions-adventure-title">
   <div class="story-adventure-heading">
     <div>
@@ -335,16 +390,43 @@ h1 span{color:#f28029}
   </div>
   <p class="story-adventure-note">Acompanhe a Ritinha até a porta e escolha o que explorar na casinha. Você pode repetir o passeio quando quiser.</p>
 </section>
-
-<div class="zone-grid">
-<article class="zone emocoes" data-zone-card="emocoes"><span class="stamp" data-stamp-label="emocoes">Para explorar</span><span class="zone-icon" aria-hidden="true">💗</span><span class="tag">Psicologia</span><h3>Casa das Emoções</h3><p>Como reconhecer sentimentos? Explore histórias da turma e descubra maneiras de conversar sobre emoções.</p><div class="zone-links"><button type="button" class="zone-link" data-visit-emotions>Passear com a Ritinha →</button><a class="zone-link secondary" href="/casa-das-emocoes.html" data-explore="emocoes">Entrar na casinha →</a><a class="zone-link secondary" href="/Cartilha_Psicologia_Infantil_SoulKids_16p.pdf" target="_blank" rel="noopener" data-explore="emocoes">Cartilha</a></div></article>
-<article class="zone movimento" data-zone-card="movimento"><span class="stamp" data-stamp-label="movimento">Para explorar</span><span class="zone-icon" aria-hidden="true">🌳</span><span class="tag">Psicomotricidade</span><h3>Jardim do Movimento</h3><p>A Ritinha, Luca, Tonico, Lia e Maya convidam para explorar caminhos, poses do corpo e ritmos, com diferentes jeitos de participar.</p><div class="zone-links"><a class="zone-link" href="/jardim-do-movimento.html" data-explore="movimento">Entrar no jardim →</a><a class="zone-link secondary" href="/jogo-ritinha.html" data-explore="movimento">Jogar com a Ritinha</a><a class="zone-link secondary" href="#missao" data-explore="movimento">Missão</a></div></article>
-<article class="zone palavras" data-zone-card="palavras"><span class="stamp" data-stamp-label="palavras">Para explorar</span><span class="zone-icon" aria-hidden="true">🎶</span><span class="tag">Fonoaudiologia</span><h3>Oficina das Palavras</h3><p>Sons iniciais, rimas e descobertas com palavras. Escolha um nível e explore os desafios no seu ritmo.</p><div class="zone-links"><a class="zone-link" href="/jogo-fonoaudiologia.html" data-explore="palavras">Jogar e explorar →</a></div></article>
-<article class="zone descobertas" data-zone-card="descobertas"><span class="stamp" data-stamp-label="descobertas">Para explorar</span><span class="zone-icon" aria-hidden="true">🧩</span><span class="tag">TO e Psicopedagogia</span><h3>Estação das Descobertas</h3><p>Rotinas, planejamento de tarefas, padrões e raciocínio. Duas formas de explorar a mesma estação!</p><div class="zone-links"><a class="zone-link" href="/jogo-terapia-ocupacional.html" data-explore="descobertas">Organizar rotinas →</a><a class="zone-link secondary" href="/jogo-psicopedagogia.html" data-explore="descobertas">Sequências</a></div></article>
-<article class="zone cozinha" data-zone-card="cozinha"><span class="stamp" data-stamp-label="cozinha">Para explorar</span><span class="zone-icon" aria-hidden="true">🍓</span><span class="tag">Nutrição</span><h3>Cozinha da Ritinha</h3><p>Uma feira cheia de sabores, cores e possibilidades de preparo. Descubra ingredientes para o piquenique da turma.</p><div class="zone-links"><a class="zone-link" href="/jogo-nutricao.html" data-explore="cozinha">Visitar a feira →</a></div></article>
-</div>
-<p class="zone-footer">O mapa reúne os jogos atuais da SoulKids. Novos lugares, histórias e personagens poderão chegar em futuras aventuras.</p>
 </div></section>
+<section class="guia-section" id="ritinha-guia" aria-labelledby="guia-heading">
+<div class="wrap">
+<div class="guia-panel" id="guia-container">
+<div>
+  <div class="guia-visual">
+    <button type="button" class="guia-avatar" id="guia-avatar" aria-label="Ver outra fala da Ritinha" title="Toque na Ritinha para ver outra fala">
+      <img id="guia-still" src="/ritinha-soulkids-s.png" loading="lazy" alt="">
+      <video id="guia-intro-video" class="guia-intro-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+    </button>
+    <span class="guia-hand" aria-hidden="true">👋</span>
+    <span class="guia-star" aria-hidden="true">✨</span>
+  </div>
+  <div class="guia-visual-caption">Toque na Ritinha para uma nova fala</div>
+</div>
+<div class="guia-content">
+  <span class="guia-label">Sua guia de aventuras</span>
+  <h2 id="guia-heading">A Ritinha quer brincar com você!</h2>
+  <div class="guia-speech" role="status" aria-live="polite" aria-atomic="true">
+    <span class="guia-mood" id="guia-mood">Vamos nos conhecer?</span>
+    <p id="guia-message">Oi! Eu sou a Ritinha. Às vezes fico tímida com novidades, mas gosto de descobrir as coisas no meu tempo. Quer explorar comigo?</p>
+  </div>
+  <div class="guia-choices" role="group" aria-label="Escolha o próximo destino com a Ritinha">
+    <button type="button" class="guia-choice" data-guide-choice="jogos" aria-pressed="false">🎲 Quero jogar</button>
+    <button type="button" class="guia-choice" data-guide-choice="missao" aria-pressed="false">🌟 Quero uma missão</button>
+    <button type="button" class="guia-choice" data-guide-choice="familias" aria-pressed="false">🏡 Para minha família</button>
+  </div>
+  <div class="guia-actions">
+    <a id="guia-go" class="btn btn-primary" href="#lugares">Explorar meu mundo →</a>
+    <button type="button" class="guia-control" id="guia-voice" aria-pressed="false">🔊 Ativar voz</button>
+    <button type="button" class="guia-control" id="guia-motion" aria-pressed="false">⏸️ Pausar animação</button>
+  </div>
+  <p class="guia-note">A Ritinha usa falas preparadas e uma voz opcional do navegador. Não abre conversa livre, não usa câmera ou microfone e não precisa de IA paga.</p>
+</div>
+</div>
+</div>
+</section>
 <section class="discover section" id="missao" aria-labelledby="discover-heading">
 <div class="wrap"><div class="section-title"><span class="eyebrow">O brincar continua fora da tela</span><h2 id="discover-heading">Missão de hoje e passaporte</h2><p>Pequenos convites para brincar em família e guardar lembranças das descobertas.</p></div>
 <div class="discover-grid">
