@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#092c61">
 <meta name="description" content="Rota da Ritinha: jogo de orientação espacial com três níveis, planejamento de trajetos e propostas de brincadeiras para famílias. Gratuito e sem cadastro.">
-<title>Rota da Ritinha — Jogo de orientação espacial | SoulKids</title>
+<title>Rota da Ritinha — Aventura de orientação espacial | SoulKids</title>
 <link rel="canonical" href="https://soulkidsbrasil.com.br/jogo-rota-ritinha.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
@@ -165,6 +165,124 @@ body.calm .tile,body.calm .btn,body.calm .direction-pad button{transition:none!i
   .practice-card{break-inside:avoid;margin:0 0 8mm;border:1px solid #aaa;background:white}
   .practice-note{border:1px solid #888}
 }
+
+/* SoulKids — Rota da Ritinha | versão editorial: identidade visual oficial */
+body{--warm:#fff7e7}
+.intro{position:relative;overflow:hidden;background:linear-gradient(117deg,#fffaf0 0%,#f1faf7 62%,#e8f7f4 100%);padding:55px 0}
+.intro:before{content:"";position:absolute;top:-75px;right:-45px;width:260px;height:260px;border-radius:50%;border:35px solid #f0e5c96b;pointer-events:none}
+.intro-layout{grid-template-columns:1.2fr .8fr;position:relative}
+.intro-buddy{width:230px;min-height:230px;justify-self:end;border-radius:38px;background:linear-gradient(155deg,#f6fff9,#ecf7e5);border:2px solid #d7e9d8;box-shadow:0 18px 30px #23594b15}
+.hero-ritinha-figure{height:164px;width:119px;background:url("/ritinha-passos.webp") left center / 200% 100% no-repeat}
+.intro-buddy span{max-width:175px;font-size:.9rem;margin-top:9px;line-height:1.35}
+.intro h1{max-width:690px}
+.intro h1 span{color:#a34508}
+.intro .intro-chips span{background:#fffefb;border-color:#e4e4d5}
+.game-section{background:#f5f7f4}
+.game-top{margin-bottom:19px}
+.level-tab{border-radius:16px;box-shadow:0 5px 15px #1e51460d}
+.level-tab[aria-pressed=true]{background:#124e51;border-color:#124e51;box-shadow:0 6px 17px #124e5130}
+.journey-rail{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto 20px;max-width:910px}
+.journey-rail-label{font-size:.73rem;text-transform:uppercase;letter-spacing:.07em;font-weight:900;color:#617782;margin-right:auto}
+.journey-stop{display:flex;align-items:center;gap:7px;font-size:.85rem;font-weight:800;color:#647a81;opacity:.72}
+.journey-stop span{display:grid;place-items:center;width:30px;height:30px;border:2px solid #c4d8d7;border-radius:50%;font-size:.75rem}
+.journey-stop.is-current{color:#124e51;opacity:1}
+.journey-stop.is-current span{background:#124e51;border-color:#124e51;color:#fff}
+.journey-stop.is-complete{color:#247759;opacity:1}
+.journey-stop.is-complete span{border-color:#91c7b1;background:#e4f7ed}
+.journey-connector{flex:1;max-width:60px;height:2px;background:#c9dbd7}
+.game-card,.controls-card{border-radius:27px;box-shadow:0 13px 35px #144b4c0f}
+.quest-count{font-size:.7rem;color:#33766c;font-weight:950;letter-spacing:.1em}
+.play-head h3{margin-top:5px}
+.mission-brief{display:flex;align-items:flex-start;gap:13px;background:#f5f8ec;border:1px solid #dfe9d5;border-radius:18px;padding:17px;margin:12px 0 14px}
+.mission-symbol{width:43px;height:43px;flex:0 0 43px;border:1px solid #cbe1bc;background:#e5f0da;border-radius:15px;color:#508465;display:grid;place-items:center;font-size:1.6rem}
+.mission-brief h4{color:var(--navy);font-size:1.04rem;margin:0 0 6px;line-height:1.25}
+.mission-brief p{margin:0;color:#536974;font-size:.88rem;line-height:1.52}
+.level-intro{font-size:.92rem}
+.focus-line{background:#eff6f2;border:1px solid #dce9e2}
+.board-shell{display:flex;flex-direction:column;align-items:center;gap:13px;background:
+radial-gradient(ellipse at 70% 18%,#fefce6 0,transparent 54%),
+linear-gradient(150deg,#ebf7ee,#d9ebde);
+border:2px solid #c8decf;border-radius:24px;min-height:0;padding:21px}
+.board-scene-head,.board-scene-foot{width:100%;max-width:490px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.63rem;letter-spacing:.12em;font-weight:950;color:#517365}
+.board-scene-foot{justify-content:center;gap:16px}
+.board-scene-foot span:first-child,.board-scene-foot span:last-child{font-size:.95rem;color:#86ac6c}
+.board{max-width:492px;gap:clamp(5px,1.2vw,9px)}
+.tile{border:2px solid #cfe2d5;border-radius:16px;background:#fffdf6;
+box-shadow:0 3px 0 #dbe7d3;overflow:visible}
+.tile.is-visited{background:#e2f4e8;border-color:#8fc7aa;box-shadow:0 3px 0 #b6d9c4}
+.tile.is-wall{border-color:#91af92;background:linear-gradient(160deg,#b1d2a7,#80a995);box-shadow:0 3px 0 #77917b}
+.wall-mark{position:relative;display:block;width:58%;height:42%;border-radius:55% 55% 44% 46%;background:#46795f;transform:none;box-shadow:-6px 5px 0 -1px #649778,6px 4px 0 -1px #548565,inset 0 4px 0 #79ae7a}
+.tile.is-goal{background:#fff4d9;border-color:#c9a965;box-shadow:0 3px 0 #d3be8a;color:#87510d}
+.tile.is-passed{background:#d5eee0;border-color:#86be9e;color:#256d57}
+.tile.is-player{z-index:3;border:2px solid #8fbf95;border-radius:16px;background:#f4fff6;box-shadow:0 3px 0 #a0ccab;color:#093a39}
+.ritinha-player{position:absolute;z-index:2;display:block;bottom:3%;left:50%;transform:translateX(-50%);width:min(72%,72px);height:96%;background:url("/ritinha-passos.webp") left center/200% 100% no-repeat;pointer-events:none;filter:drop-shadow(0 3px 2px #244a3c30)}
+.tile.is-player.is-stepping .ritinha-player{background-position:right center;animation:ritinha-step-in .24s ease-out}
+@keyframes ritinha-step-in{from{opacity:.78;transform:translateX(-50%) translateY(5px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.goal-marker{display:grid;place-items:center;width:53%;height:53%;min-width:25px;min-height:25px;background:#b96d2b;color:#fff;border-radius:50% 50% 50% 9px;transform:rotate(-18deg);box-shadow:0 3px 0 #e6cdac}
+.goal-marker span{transform:rotate(18deg);font-size:clamp(.8rem,2vw,1.15rem)}
+.tile.is-passed .goal-marker{background:#4c9879}
+.tile.is-planned{outline:3px dashed #ca8d50;outline-offset:-8px}
+.tile.is-planned:after{content:"";width:9px;height:9px;border-radius:50%;background:#d89250;position:absolute;bottom:5px;right:5px}
+.board-caption{margin:17px 0 13px}
+.legend .person{background:#e7fff0;border-color:#71ad90}
+.legend .wall{background:#46795f;border-color:#46795f}
+.controls-card{background:#fff}
+.direction-pad{grid-template-rows:repeat(3,74px)}
+.direction-pad button{background:#f2faf5;border:2px solid #b8d6c8;border-radius:17px;color:#114e4b;box-shadow:0 4px 0 #d3e5de;font-size:1.8rem}
+.direction-pad button:hover{background:#e5f4e9}
+.direction-pad button:active{transform:translateY(2px);box-shadow:0 1px 0 #b4d1c5}
+.direction-pad .center{color:#688d81}
+.guide-message{display:flex;align-items:center;gap:9px;color:#526c66;font-size:.83rem;font-weight:800;margin-top:19px}
+.guide-portrait{width:36px;height:36px;flex:0 0 36px;border:2px solid #dfd6b7;border-radius:50%;background:#fff url("/ritinha-feliz.webp") center center/cover}
+.game-feedback{margin-top:10px;background:#f1f8f1;border-color:#8ebea3;color:#254f46}
+.plan-tools{background:#f7fbf7;border:1px solid #d4e5d8}
+.plan-chip{background:#fffdf7;box-shadow:0 2px 0 #d8e5d6}
+.finish{background:#f0fbf2;border:1px solid #97c8a8;box-shadow:0 7px 21px #26794d15}
+.finish h3{font-size:1.4rem}
+.reflection{background:#fffdf5;border-left:3px solid #e2ac60;border-radius:8px;padding:11px 12px;color:#5b664e;margin-bottom:14px;font-size:.9rem}
+.activity-ladder{margin-top:30px;background:#eff7f3;padding:24px;border-radius:20px;border:1px solid #d4e7dd}
+.activity-ladder h3{font-size:1.25rem;color:var(--navy);margin:0 0 16px}
+.ladder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.ladder-grid div{background:#fff;border:1px solid #dbe6e1;border-radius:13px;padding:16px}
+.ladder-grid span{color:#1f6656;font-weight:900}
+.ladder-grid p{color:#4e6670;font-size:.88rem;margin:9px 0 0}
+.observation-sheet{margin-top:23px;border:1px solid #d4e2df;border-radius:20px;background:#fff;padding:24px}
+.observation-sheet h3{color:var(--navy);font-size:1.35rem;margin:6px 0 7px}
+.observation-sheet p{font-size:.88rem;color:#5b6e78;margin:0 0 15px}
+.observation-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.observation-choices label{display:flex;align-items:flex-start;gap:10px;font-size:.86rem;color:#3f5c66;background:#f5f9f7;border:1px solid #e3ebe7;border-radius:11px;padding:12px}
+.observation-choices input{accent-color:#1f7664;width:19px;height:19px;flex:0 0 19px}
+.observation-disclaimer{margin-top:15px!important;font-size:.78rem!important}
+body.calm .ritinha-player,body.calm .tile.is-player.is-stepping .ritinha-player{animation:none!important}
+@media(max-width:960px){.intro-buddy{width:195px;min-height:200px}.hero-ritinha-figure{height:135px;width:97px}}
+@media(max-width:650px){
+.intro-layout{grid-template-columns:minmax(0,1fr) 95px;gap:12px}
+.intro-buddy{display:flex;width:94px;min-height:128px;padding:6px 5px;border-radius:18px}
+.hero-ritinha-figure{height:94px;width:68px}
+.intro-buddy span{font-size:.63rem;line-height:1.2}
+.intro h1{font-size:clamp(2rem,9vw,3.2rem)}
+.intro .intro-chips span{font-size:.72rem;padding:6px 9px}
+.journey-rail{gap:5px}
+.journey-rail-label{display:none}
+.journey-stop{font-size:.72rem;gap:4px}
+.journey-stop span{width:27px;height:27px}
+.journey-connector{max-width:20px}
+.mission-brief{padding:14px;gap:9px}
+.mission-symbol{width:34px;height:34px;flex-basis:34px}
+.board-shell{padding:10px;gap:8px}
+.board{max-width:100%;gap:5px}
+.board-scene-head,.board-scene-foot{font-size:.5rem}
+.board-scene-foot{gap:8px}
+.tile{border-radius:10px}
+.goal-marker{min-width:19px;min-height:19px}
+.ritinha-player{width:min(82%,51px)}
+.direction-pad{grid-template-rows:repeat(3,69px)}
+.ladder-grid,.observation-choices{grid-template-columns:1fr}
+.observation-sheet{padding:16px}
+}
+@media(prefers-reduced-motion:reduce){.tile.is-player.is-stepping .ritinha-player{animation:none!important}}
+@media print{.activity-ladder,.observation-sheet{break-inside:avoid}.observation-choices label{background:#fff}}
+
 </style>
 </head>
 <body>
@@ -178,36 +296,55 @@ body.calm .tile,body.calm .btn,body.calm .direction-pad button{transition:none!i
 </div></header>
 <main id="conteudo">
 <section class="intro" aria-labelledby="page-title"><div class="wrap intro-layout">
-<div><span class="kicker">Jogo de movimento e planejamento · Piloto</span>
+<div><span class="kicker">Uma aventura SoulKids · Orientação espacial</span>
 <h1 id="page-title">Rota da <span>Ritinha</span></h1>
-<p>Descubra caminhos, pense antes de agir e experimente outras direções. Três níveis de exploração espacial com orientações para brincar também fora da tela.</p>
+<p>Acompanhe a Ritinha por três caminhos diferentes. Explore direções, planeje percursos e descubra como mudar de estratégia quando necessário.</p>
 <div class="intro-chips"><span>3 níveis</span><span>Sem competição</span><span>Teclado e toque</span><span>Sem cadastro</span></div></div>
-<div class="intro-buddy"><img src="/ritinha-feliz.webp" width="110" height="110" alt="Ritinha sorrindo" loading="eager"><span>Vamos descobrir?</span></div>
+<div class="intro-buddy">
+ <div class="hero-ritinha-figure" role="img" aria-label="Ritinha com óculos azuis, cabelo longo e tênis rosa, pronta para caminhar"></div>
+ <span>Qual caminho vamos escolher?</span>
+ </div>
 </div></section>
 <section class="game-section" id="atividade" aria-labelledby="activity-title"><div class="wrap">
-<div class="game-top"><div><span class="kicker">Escolha por onde começar</span><h2 id="activity-title">Explore o tabuleiro</h2></div>
+<div class="game-top"><div><span class="kicker">Trilha interativa · Sem pressa</span><h2 id="activity-title">A aventura começa aqui</h2></div>
 <button type="button" class="quiet-button" id="quiet-toggle" aria-pressed="false">Modo tranquilo</button></div>
 <div class="level-tabs" role="group" aria-label="Selecionar nível">
 <button type="button" class="level-tab" data-level="0" aria-pressed="true"><span class="no">01</span> Explorar</button>
 <button type="button" class="level-tab" data-level="1" aria-pressed="false"><span class="no">02</span> Planejar</button>
 <button type="button" class="level-tab" data-level="2" aria-pressed="false"><span class="no">03</span> Sequenciar</button>
 </div>
+<div class="journey-rail" aria-label="Três etapas da aventura">
+  <span class="journey-rail-label">Sua jornada</span>
+  <div class="journey-stop is-current" data-journey="0"><span>01</span><strong>Explorar</strong></div>
+  <span class="journey-connector" aria-hidden="true"></span>
+  <div class="journey-stop" data-journey="1"><span>02</span><strong>Planejar</strong></div>
+  <span class="journey-connector" aria-hidden="true"></span>
+  <div class="journey-stop" data-journey="2"><span>03</span><strong>Sequenciar</strong></div>
+ </div>
 <div class="play-layout">
 <article class="game-card" aria-labelledby="level-name">
-<div class="play-head"><h3 id="level-name">1 · Explorar</h3><span class="goal-pill" id="goal-label">Destino: Chegada</span></div>
+<div class="play-head"><div><span class="quest-count" id="quest-count">MISSÃO 01 DE 03</span><h3 id="level-name">1 · Explorar</h3></div><span class="goal-pill" id="goal-label">Destino: Chegada</span></div>
+<div class="mission-brief">
+ <div class="mission-symbol" aria-hidden="true">✦</div>
+ <div><h4 id="mission-title">O primeiro caminho</h4><p id="mission-story">A Ritinha vai explorar uma trilha. Ajude-a a encontrar o destino.</p></div>
+</div>
 <p class="level-intro" id="level-intro">Encontre a chegada usando as setas.</p>
 <p class="focus-line"><strong>Habilidade em foco:</strong> <span id="stage-focus">Orientação espacial.</span></p>
-<div class="board-shell"><div class="board" id="rota-board" role="group" aria-label="Tabuleiro do jogo"></div></div>
+<div class="board-shell">
+ <div class="board-scene-head" aria-hidden="true"><span>TRILHA SOULKIDS</span><span>UM PASSO DE CADA VEZ</span></div>
+ <div class="board" id="rota-board" role="group" aria-label="Trilha do jogo: quadro de posições"></div>
+ <div class="board-scene-foot" aria-hidden="true"><span>✦</span><span>EXPLORAR · TENTAR · DESCOBRIR</span><span>✦</span></div>
+ </div>
 <div class="board-caption"><span id="position-label">Posição inicial</span><span id="move-count">0 movimentos</span></div>
 <div class="legend" aria-label="Legenda do tabuleiro">
-<span><i class="person" aria-hidden="true"></i> R = marcador</span>
-<span><i class="dest" aria-hidden="true"></i> Números = destinos</span>
-<span><i class="wall" aria-hidden="true"></i> Obstáculo</span>
+<span><i class="person" aria-hidden="true"></i> Ritinha</span>
+<span><i class="dest" aria-hidden="true"></i> Destinos numerados</span>
+<span><i class="wall" aria-hidden="true"></i> Arbustos (obstáculos)</span>
 <span><i class="trail" aria-hidden="true"></i> Caminho percorrido</span>
 </div>
 </article>
 <aside class="controls-card" aria-labelledby="controls-heading">
-<h3 id="controls-heading">Escolha as direções</h3>
+<h3 id="controls-heading">Ajude a Ritinha a caminhar</h3>
 <p class="control-copy" id="control-mode">Use as setas para explorar o tabuleiro.</p>
 <div class="direction-pad" role="group" aria-label="Direções do marcador">
 <button type="button" class="up" data-dir="up" aria-label="Para cima">↑<small>Cima</small></button>
@@ -229,10 +366,12 @@ body.calm .tile,body.calm .btn,body.calm .direction-pad button{transition:none!i
 <button type="button" class="btn secondary" id="hint-route">Uma pista</button>
 <button type="button" class="btn secondary" id="restart-level">Recomeçar nível</button>
 </div>
+<div class="guide-message" aria-hidden="true"><div class="guide-portrait"></div><span>Uma descoberta de cada vez.</span></div>
 <div class="game-feedback" role="status" aria-live="polite" aria-atomic="true" id="game-feedback">Vamos começar! Escolha uma direção.</div>
 <div class="finish" id="finish-panel" hidden>
 <h3 id="finish-title">Caminho concluído!</h3>
 <p id="finish-text">Você encontrou o destino.</p>
+<div class="reflection" id="reflection-prompt">Pergunte: qual outro caminho poderíamos experimentar?</div>
 <button type="button" class="btn primary" id="next-level">Próximo nível →</button>
 </div>
 </aside>
@@ -248,6 +387,24 @@ body.calm .tile,body.calm .btn,body.calm .direction-pad button{transition:none!i
 <p>Monte um caminho seguro com folhas grandes ou marcas no chão. Convide a criança a escolher o destino e indicar duas ou três direções antes de percorrer o trajeto. Um adulto acompanha e ajusta o desafio.</p></article>
 <article class="practice-card"><span class="index">03</span><h3>Adaptação inclusiva</h3>
 <p>O trajeto pode ser planejado com cartões de setas, apontamentos, olhar ou comunicação alternativa. Não é necessário caminhar: uma pessoa pode mover o marcador enquanto a criança escolhe os comandos.</p></article>
+</div>
+<div class="activity-ladder" aria-labelledby="ladder-title">
+ <h3 id="ladder-title">Progressão prática com a criança</h3>
+ <div class="ladder-grid">
+  <div><span>1 · Explorar</span><p>Comece com uma direção por vez. Pergunte “para onde vamos agora?”. Modele o comando quando necessário.</p></div>
+  <div><span>2 · Planejar</span><p>Combine duas ou três setas antes de executar. Amplie a sequência apenas quando a criança demonstrar compreensão.</p></div>
+  <div><span>3 · Sequenciar</span><p>Proponha dois destinos e uma mudança de rota. Aceite apontar, olhar, falar ou utilizar cartões como resposta.</p></div>
+ </div>
+</div>
+<div class="observation-sheet" aria-labelledby="observation-title">
+ <div><span class="kicker">Registro qualitativo · Uso acompanhado</span><h3 id="observation-title">O que vale observar?</h3><p>Uma conversa breve após a atividade, sem pontuação clínica.</p></div>
+ <div class="observation-choices">
+  <label><input type="checkbox"> Identificou alguma direção com autonomia</label>
+  <label><input type="checkbox"> Precisou de ajuda para organizar os comandos</label>
+  <label><input type="checkbox"> Tentou outra estratégia após um obstáculo</label>
+  <label><input type="checkbox"> Participou usando gestos, olhar ou comunicação alternativa</label>
+ </div>
+ <p class="observation-disclaimer">As observações servem para orientar conversas com a família; não constituem avaliação padronizada. Nada é enviado ou armazenado pelo jogo.</p>
 </div>
 <p class="practice-note"><strong>Segurança e limites:</strong> atividades físicas exigem supervisão e ambiente adequado, sem obstáculos perigosos. Esta experiência é educativa, não gera diagnóstico, classificação ou medida clínica padronizada. O número de movimentos não representa um escore psicomotor.</p>
 <div class="print-action"><button type="button" class="btn primary" id="print-guide">Imprimir orientações para responsáveis</button><a href="/mundo-da-ritinha.html" class="btn secondary">Voltar ao Mundo da Ritinha</a></div>
