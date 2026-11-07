@@ -1,294 +1,384 @@
 "use strict";
 (() => {
-  // Jogo local, sem login, armazenamento, rastreamento ou envio de dados.
-  const levels = [
-    {name:"Explorar",size:4,mode:"move",start:[3,0],walls:[[2,1]],goals:[{at:[0,3],label:"Chegada"}],mission:"O caminho do jardim",story:"A Ritinha quer chegar ao Jardim do Movimento. Observe as casas e escolha uma direção de cada vez.",reflection:"Que outras direções poderiam levar a Ritinha até o jardim?",instruction:"Escolha uma seta por vez para mover a Ritinha. Experimente explorar caminhos diferentes.",focus:"Direções espaciais e exploração de trajetos."},
-    {name:"Planejar",size:5,mode:"plan",start:[4,0],walls:[[1,1],[2,1],[3,3]],goals:[{at:[0,4],label:"Chegada"}],mission:"Antes de caminhar, vamos pensar",story:"O caminho tem arbustos! Monte uma sequência de setas para ajudar a Ritinha a chegar ao ponto de encontro.",reflection:"Você pensou em uma rota antes de executá-la? O que mudaria na próxima tentativa?",instruction:"Escolha uma sequência de setas, observe a previsão no mapa e toque em Executar plano. É possível avançar por partes.",focus:"Antecipação, organização de sequência e ajuste de estratégia."},
-    {name:"Sequenciar",size:6,mode:"plan",start:[5,0],walls:[[4,1],[4,3],[3,3],[2,1],[1,1],[1,4]],goals:[{at:[3,2],label:"Ponto 1"},{at:[0,5],label:"Chegada 2"}],mission:"Dois lugares, uma aventura",story:"Primeiro, ajude a Ritinha a chegar ao ponto 1. Depois, planeje o percurso até a chegada 2.",reflection:"Como você organizou os dois destinos? Onde precisou mudar de estratégia?",instruction:"Planeje até o ponto 1 e, em seguida, até a chegada 2. Execute o trajeto em uma ou mais partes.",focus:"Sequenciamento de objetivos, orientação e flexibilidade no planejamento."}
+  // História original para este jogo, sem inventar novos bordões ou vozes dos personagens.
+  // Referência: docs/BIBLIA_PERSONAGENS_SOULKIDS.md
+  const stages = [
+    {
+      name:"Cadê o Tonico?", size:4, start:[3,0], mode:"walk",
+      walls:[{at:[2,1],icon:"💧",label:"poça de água"},{at:[1,2],icon:"🧸",label:"brinquedo no caminho"}],
+      goals:[{at:[0,3],name:"Tonico",character:"tonico"}],
+      speaker:"ritinha",story:"Cadê o Tonico? Vamos procurar!",
+      rewardSpeaker:"ravi",reward:"Boa, jovem!",rewardDetail:"Tonico encontrou a Ritinha: toc, toc!",
+      focus:"Explorar direções e reconhecer obstáculos"
+    },
+    {
+      name:"O ovo do Luca!", size:5, start:[4,0], mode:"plan",
+      walls:[{at:[1,1],icon:"🪵",label:"tronco"},{at:[2,1],icon:"🥚",label:"ovo de dinossauro"},{at:[3,3],icon:"🚧",label:"cones no caminho"}],
+      goals:[{at:[0,4],name:"Luca",character:"luca"}],
+      speaker:"ritinha",story:"Vamos achar o Luca! Pense no caminho.",
+      rewardSpeaker:"luca",reward:"Meu ovo de dinossauro!",rewardDetail:"A Ritinha chegou até o Luca!",
+      focus:"Planejar uma sequência de movimentos"
+    },
+    {
+      name:"A turma toda!", size:6, start:[5,0], mode:"plan",
+      walls:[
+        {at:[4,1],icon:"🟤",label:"lama"},
+        {at:[4,3],icon:"🪵",label:"tronco caído"},
+        {at:[3,3],icon:"🌧️",label:"chuva no caminho"},
+        {at:[2,1],icon:"💧",label:"poça de água"},
+        {at:[1,1],icon:"🌳",label:"árvore bloqueando o caminho"},
+        {at:[1,4],icon:"⚽",label:"bola no caminho"}
+      ],
+      goals:[{at:[3,2],name:"Maya",character:"maya"},{at:[0,5],name:"Lia",character:"lia"}],
+      speaker:"maya",story:"Primeiro eu, depois a Lia. Vamos juntos!",
+      rewardSpeaker:"ritinha",reward:"A turma está reunida!",rewardDetail:"Cada um participou do seu jeito.",
+      focus:"Sequenciar destinos e ajustar estratégias"
+    }
   ];
-  const dirs = {
-    up:{dr:-1,dc:0,word:"cima",sign:"↑"},
-    right:{dr:0,dc:1,word:"direita",sign:"→"},
-    down:{dr:1,dc:0,word:"baixo",sign:"↓"},
-    left:{dr:0,dc:-1,word:"esquerda",sign:"←"}
+
+  const directions = {
+    up:{r:-1,c:0,label:"cima",arrow:"↑"},right:{r:0,c:1,label:"direita",arrow:"→"},
+    down:{r:1,c:0,label:"baixo",arrow:"↓"},left:{r:0,c:-1,label:"esquerda",arrow:"←"}
   };
   const $ = id => document.getElementById(id);
-  const dom = {
-    board:$("rota-board"),levelName:$("level-name"),levelIntro:$("level-intro"),
-    goal:$("goal-label"),position:$("position-label"),count:$("move-count"),
-    mode:$("control-mode"),feedback:$("game-feedback"),plan:$("plan-tools"),
-    sequence:$("plan-sequence"),preview:$("plan-preview"),execute:$("execute-plan"),
-    undo:$("undo-plan"),clear:$("clear-plan"),hint:$("hint-route"),restart:$("restart-level"),
-    finish:$("finish-panel"),finishTitle:$("finish-title"),finishText:$("finish-text"),
-    next:$("next-level"),focus:$("stage-focus"),calm:$("quiet-toggle"),
-    questCount:$("quest-count"),missionTitle:$("mission-title"),missionStory:$("mission-story"),
-    reflection:$("reflection-prompt")
+  const ui={
+    intro:$("intro-screen"),game:$("game-screen"),startSound:$("start-sound"),startQuiet:$("start-quiet"),
+    board:$("adventure-board"),stageCount:$("stage-count"),stageTitle:$("stage-title"),
+    speaker:$("speaker-name"),portrait:$("speaker-avatar"),line:$("story-line"),
+    progress:$("story-progress"),target:$("target-label"),feedback:$("game-feedback"),
+    controls:$("move-controls"),planArea:$("plan-area"),chips:$("plan-chips"),
+    execute:$("execute-plan"),undo:$("undo-plan"),clear:$("clear-plan"),restart:$("restart-stage"),
+    hint:$("hint-step"),sound:$("sound-toggle"),calm:$("calm-toggle"),
+    finish:$("finish-overlay"),finishAvatar:$("finish-avatar"),finishTitle:$("finish-title"),
+    finishQuote:$("finish-quote"),finishDetail:$("finish-detail"),next:$("continue-button"),
+    hold:$("hold-next"),startOver:$("start-over"),print:$("print-guide")
   };
-  if (Object.values(dom).some(node => !node)) return;
-  const key = (r,c) => r+","+c;
-  const same = (a,b) => a[0]===b[0] && a[1]===b[1];
-  const inside = (cfg,r,c) => r>=0&&c>=0&&r<cfg.size&&c<cfg.size;
-  const wallSet = cfg => new Set(cfg.walls.map(cell=>key(...cell)));
-  const blocked = (cfg,r,c) => !inside(cfg,r,c)||wallSet(cfg).has(key(r,c));
-  const neighbors = (cfg,pos) => Object.entries(dirs)
-    .map(([name,d])=>({name,at:[pos[0]+d.dr,pos[1]+d.dc]}))
-    .filter(item=>!blocked(cfg,...item.at));
-  const shortest = (cfg,from,to) => {
-    const startKey=key(...from), targetKey=key(...to);
-    if(startKey===targetKey)return [];
-    const queue=[{at:from,path:[]}],seen=new Set([startKey]);
+  if(Object.values(ui).some(node=>!node))return;
+
+  const coord = p => p[0]+","+p[1];
+  const equal = (a,b) => a[0]===b[0]&&a[1]===b[1];
+  const obstacleAt = (stage,r,c) => stage.walls.find(w=>equal(w.at,[r,c]));
+  const inside = (stage,r,c) => r>=0&&c>=0&&r<stage.size&&c<stage.size;
+  function shortestDirection(stage,start,goal){
+    const queue=[{p:start,first:null}],seen=new Set([coord(start)]);
     for(let i=0;i<queue.length;i++){
-      const cur=queue[i];
-      for(const nxt of neighbors(cfg,cur.at)){
-        const k=key(...nxt.at);
-        if(seen.has(k))continue;
-        const path=[...cur.path,nxt.name];
-        if(k===targetKey)return path;
-        seen.add(k);queue.push({at:nxt.at,path});
+      const here=queue[i];
+      if(equal(here.p,goal))return here.first;
+      for(const [name,d] of Object.entries(directions)){
+        const next=[here.p[0]+d.r,here.p[1]+d.c],key=coord(next);
+        if(!inside(stage,...next)||obstacleAt(stage,...next)||seen.has(key))continue;
+        seen.add(key);
+        queue.push({p:next,first:here.first||name});
       }
     }
     return null;
+  }
+
+  let state=null;
+  let activeStage=0;
+  let soundOn=false;
+  let audioContext=null;
+  let introVoice=null;
+  let quietMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches??false;
+  let transitionHold=false;
+  let winningTimer=null;
+  let timers=new Set();
+  let runId=0;
+  const playTime=310;
+
+  const display = (name,text) => {
+    ui.speaker.textContent=name;
+    ui.line.textContent=text;
+    const id=name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+    ui.portrait.className="character-avatar speaker-avatar char-"+id;
   };
-  let state;
-  let runToken=0;
-  const reduceMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches??false;
-  const journeySteps=[...document.querySelectorAll("[data-journey]")];
-  function announce(msg){dom.feedback.textContent=msg;}
-  function current(){return levels[state.level];}
-  function target(){return current().goals[state.targetIndex];}
-  function newLevel(index){
-    const cfg=levels[index];
-    runToken++;
-    state={level:index,pos:[...cfg.start],targetIndex:0,steps:0,checks:0,hints:0,done:false,running:false,lastMove:false,plan:[],visited:new Set([key(...cfg.start)])};
-    dom.questCount.textContent="MISSÃO "+String(index+1).padStart(2,"0")+" DE 03";
-    dom.missionTitle.textContent=cfg.mission;
-    dom.missionStory.textContent=cfg.story;
-    dom.reflection.textContent=cfg.reflection;
-    journeySteps.forEach((element,i)=>{
-      element.classList.toggle("is-current",i===index);
-      element.classList.toggle("is-complete",i<index);
-    });
-    document.querySelectorAll("[data-level]").forEach(btn=>{
-      const active=Number(btn.dataset.level)===index;
-      btn.setAttribute("aria-pressed",String(active));
-    });
-    dom.levelName.textContent=(index+1)+" · "+cfg.name;
-    dom.levelIntro.textContent=cfg.instruction;
-    dom.focus.textContent=cfg.focus;
-    dom.mode.textContent=cfg.mode==="move"
-      ?"Cada seta move o marcador imediatamente. Você também pode usar as setas do teclado."
-      :"Monte o percurso com as setas. Depois toque em Executar plano. Você pode fazer quantas etapas precisar.";
-    dom.plan.hidden=cfg.mode!=="plan";
-    dom.finish.hidden=true;
-    announce("Nível "+(index+1)+" iniciado. "+cfg.instruction);
-    render();
+  const inform = text => {ui.feedback.textContent=text;};
+  const current = () => stages[activeStage];
+
+  function stopTimers(){
+    for(const id of timers)clearTimeout(id);
+    timers.clear();
+    if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;}
+    runId++;
   }
-  function visit(dirName){
-    const d=dirs[dirName],cfg=current();
-    if(!d||state.done)return {stopped:true};
-    const next=[state.pos[0]+d.dr,state.pos[1]+d.dc];
-    if(blocked(cfg,...next)){state.checks++;state.lastMove=false;return {blocked:true};}
-    state.pos=next;
-    state.lastMove=true;
-    state.steps++;
-    state.visited.add(key(...next));
-    if(same(next,target().at)){
-      state.targetIndex++;
-      if(state.targetIndex>=cfg.goals.length){
-        state.done=true;
-        return {done:true};
-      }
-      return {checkpoint:true};
+  function later(ms,fn){
+    const id=setTimeout(()=>{timers.delete(id);fn();},ms);
+    timers.add(id);
+    return id;
+  }
+  function stopVoice(){
+    if(!introVoice)return;
+    introVoice.pause();
+    introVoice.currentTime=0;
+  }
+  function playApprovedIntro(){
+    if(!soundOn||typeof Audio==="undefined")return;
+    try{
+      stopVoice();
+      if(!introVoice){introVoice=new Audio("/audios/ritinha-jardim-trilha-2.mp3");introVoice.preload="none";}
+      introVoice.currentTime=0;
+      const promise=introVoice.play();
+      promise?.catch?.(()=>{});
+    }catch(_){}
+  }
+  function audioReady(){
+    const API=window.AudioContext||window.webkitAudioContext;
+    if(!API)return false;
+    try{if(!audioContext)audioContext=new API();audioContext.resume?.().catch?.(()=>{});return true;}catch(_){return false;}
+  }
+  function tone(frequency,at,duration,volume=0.028,type="sine"){
+    if(!soundOn||!audioContext)return;
+    try{
+      const osc=audioContext.createOscillator(),gain=audioContext.createGain();
+      osc.type=type;osc.frequency.setValueAtTime(frequency,at);
+      gain.gain.setValueAtTime(0.0001,at);
+      gain.gain.exponentialRampToValueAtTime(volume,at+0.018);
+      gain.gain.exponentialRampToValueAtTime(0.0001,at+duration);
+      osc.connect(gain);gain.connect(audioContext.destination);
+      osc.start(at);osc.stop(at+duration+0.025);
+    }catch(_){}
+  }
+  function effect(kind){
+    if(!soundOn||!audioReady())return;
+    const t=audioContext.currentTime;
+    if(kind==="step")tone(350,t,.075,.012);
+    else if(kind==="select")tone(510,t,.08,.018);
+    else if(kind==="error"){tone(320,t,.14,.022,"triangle");tone(240,t+.11,.17,.019,"triangle");}
+    else if(kind==="checkpoint"){tone(520,t,.13,.024);tone(650,t+.10,.17,.024);}
+    else if(kind==="win"){tone(523,t,.14,.03);tone(659,t+.13,.14,.03);tone(784,t+.26,.22,.03);}
+  }
+  function setSound(value){
+    soundOn=Boolean(value);
+    ui.sound.setAttribute("aria-pressed",String(soundOn));
+    ui.sound.textContent=soundOn?"🔊 Som ligado":"🔇 Som desligado";
+    if(soundOn){audioReady();effect("select");}else stopVoice();
+  }
+
+  function progress(){
+    ui.progress.replaceChildren();
+    for(let i=0;i<stages.length;i++){
+      const step=document.createElement("span");
+      step.className="progress-dot"+(i<activeStage?" is-complete":i===activeStage?" is-current":"");
+      step.textContent=String(i+1);
+      step.setAttribute("aria-label","Fase "+(i+1)+(i===activeStage?" atual":i<activeStage?" concluída":""));
+      ui.progress.appendChild(step);
     }
-    return {moved:true};
   }
-  function predicted(){
-    const cfg=current();
-    const path=[],pos=[...state.pos];
-    let collision=null;
-    for(let i=0;i<state.plan.length;i++){
-      const d=dirs[state.plan[i]];
-      const next=[pos[0]+d.dr,pos[1]+d.dc];
-      if(blocked(cfg,...next)){collision=i+1;break;}
-      pos.splice(0,2,...next);
-      path.push(key(...pos));
-    }
-    return {cells:new Set(path),last:pos,collision};
-  }
-  function renderBoard(){
-    const cfg=current(),walls=wallSet(cfg),planned=predicted();
-    dom.board.style.setProperty("--cells",String(cfg.size));
-    dom.board.setAttribute("aria-label","Tabuleiro de "+cfg.size+" por "+cfg.size+". "+dom.position.textContent);
-    const fragment=document.createDocumentFragment();
-    for(let r=0;r<cfg.size;r++){
-      for(let c=0;c<cfg.size;c++){
-        const cell=document.createElement("div"),k=key(r,c);
-        cell.className="tile";
-        const isWall=walls.has(k),isPlayer=same(state.pos,[r,c]);
-        const goalIndex=cfg.goals.findIndex(g=>same(g.at,[r,c]));
-        const isCurrent=goalIndex===state.targetIndex;
-        if(isWall)cell.classList.add("is-wall");
-        else if(state.visited.has(k))cell.classList.add("is-visited");
-        if(planned.cells.has(k)&&cfg.mode==="plan")cell.classList.add("is-planned");
-        if(goalIndex>=0&&goalIndex>=state.targetIndex)cell.classList.add("is-goal");
-        if(goalIndex>=0&&goalIndex<state.targetIndex)cell.classList.add("is-passed");
-        if(isPlayer){
-          cell.classList.add("is-player");
-          if(state.lastMove)cell.classList.add("is-stepping");
-          const ritinha=document.createElement("span");
-          ritinha.className="ritinha-player";
-          ritinha.setAttribute("aria-hidden","true");
-          cell.appendChild(ritinha);
-        } else if(goalIndex>=0&&!isWall){
-          const marker=document.createElement("span");
-          marker.className="goal-marker";
-          const number=document.createElement("span");
-          number.textContent=String(goalIndex+1);
-          marker.appendChild(number);
-          cell.appendChild(marker);
-          cell.classList.add("goal-number");
-        }else if(isWall){
-          const bush=document.createElement("span");
-          bush.className="wall-mark";bush.setAttribute("aria-hidden","true");cell.appendChild(bush);
+  function draw(){
+    if(!state)return;
+    const stage=current();
+    ui.board.style.setProperty("--cells",String(stage.size));
+    ui.board.setAttribute("aria-label","Mapa "+stage.size+" por "+stage.size+". Ritinha na linha "+(state.pos[0]+1)+", coluna "+(state.pos[1]+1)+". "+ui.target.textContent);
+    const frag=document.createDocumentFragment();
+    for(let r=0;r<stage.size;r++){
+      for(let c=0;c<stage.size;c++){
+        const cell=document.createElement("div");
+        const pos=[r,c],obs=obstacleAt(stage,r,c),goalIdx=stage.goals.findIndex(g=>equal(g.at,pos));
+        const person=equal(state.pos,pos);
+        cell.className="board-tile";
+        if(obs){
+          cell.classList.add("obstacle");
+          const icon=document.createElement("span");
+          icon.className="obstacle-icon";icon.textContent=obs.icon;icon.setAttribute("aria-hidden","true");
+          cell.appendChild(icon);
+        }else if(person){
+          cell.classList.add("player");
+          const avatar=document.createElement("span");
+          avatar.className="ritinha-token";avatar.setAttribute("aria-hidden","true");
+          cell.appendChild(avatar);
+        }else if(goalIdx>=0 && goalIdx>=state.goalIndex){
+          cell.classList.add("goal");
+          const avatar=document.createElement("span");
+          avatar.className="character-avatar goal-avatar char-"+stage.goals[goalIdx].character;
+          avatar.setAttribute("aria-hidden","true");
+          cell.appendChild(avatar);
+          if(stage.goals.length>1){
+            const num=document.createElement("span");
+            num.className="goal-index";num.textContent=String(goalIdx+1);
+            cell.appendChild(num);
+          }
+        }else if(state.visited.has(coord(pos))){
+          cell.classList.add("visited");
+        }else if((r+c)%3===0){
+          cell.classList.add("decorated");
         }
-        let label="Linha "+(r+1)+", coluna "+(c+1);
-        if(isWall)label+=": obstáculo";
-        if(goalIndex>=0)label+=": "+cfg.goals[goalIndex].label;
-        if(isPlayer)label+=": marcador atual";
-        if(isCurrent&&goalIndex>=0)label+=": próximo objetivo";
-        cell.setAttribute("aria-label",label);
-        cell.setAttribute("role","img");
-        fragment.appendChild(cell);
+        const label="Linha "+(r+1)+", coluna "+(c+1)
+          +(obs?", obstáculo: "+obs.label:"")
+          +(person?", Ritinha":"")
+          +(goalIdx>=0?", "+stage.goals[goalIdx].name:"");
+        cell.setAttribute("role","img");cell.setAttribute("aria-label",label);
+        frag.appendChild(cell);
       }
     }
-    dom.board.replaceChildren(fragment);
+    ui.board.replaceChildren(frag);
   }
-  function renderPlan(){
-    dom.sequence.replaceChildren();
-    for(const move of state.plan){
+  function planDisplay(){
+    ui.chips.replaceChildren();
+    for(const name of state?.plan||[]){
       const chip=document.createElement("span");
-      chip.className="plan-chip";chip.textContent=dirs[move].sign;
-      chip.setAttribute("aria-label","Para "+dirs[move].word);
-      dom.sequence.appendChild(chip);
+      chip.className="command-chip";chip.textContent=directions[name].arrow;
+      chip.setAttribute("aria-label",directions[name].label);
+      ui.chips.appendChild(chip);
     }
-    if(!state.plan.length){
-      dom.preview.textContent="Nenhum comando adicionado. Escolha uma seta.";
-    }else{
-      const pred=predicted();
-      dom.preview.textContent=pred.collision
-        ?"Atenção: o comando "+pred.collision+" encontra um limite ou obstáculo. Retire ou ajuste a sequência."
-        :state.plan.length+" comando(s) preparados. A rota aparece marcada no tabuleiro.";
+    ui.execute.disabled=!state||state.locked||state.plan.length===0;
+    ui.undo.disabled=!state||state.locked||state.plan.length===0;
+    ui.clear.disabled=!state||state.locked||state.plan.length===0;
+    for(const button of document.querySelectorAll("[data-dir]"))button.disabled=!state||state.locked;
+  }
+  function update(){
+    if(!state)return;
+    const stage=current(),goal=stage.goals[state.goalIndex];
+    ui.target.textContent=goal?"🎯 "+goal.name:"✔ Amigos encontrados";
+    planDisplay();draw();
+  }
+  function startStage(index,retry=false){
+    stopTimers();
+    if(index>=stages.length)index=0;
+    activeStage=index;transitionHold=false;
+    const stage=current();
+    state={pos:[...stage.start],goalIndex:0,plan:[],locked:false,visited:new Set([coord(stage.start)])};
+    ui.game.hidden=false;ui.intro.hidden=true;ui.finish.hidden=true;
+    ui.stageCount.textContent="FASE "+(index+1)+" / "+stages.length;
+    ui.stageTitle.textContent=stage.name;
+    ui.planArea.hidden=stage.mode!=="plan";
+    display(stage.speaker==="ritinha"?"Ritinha":stage.speaker==="maya"?"Maya":stage.speaker,stage.story);
+    progress();update();
+    inform(retry?"Ops! Voltamos ao começo. Tente outro caminho.":"Vamos lá! Escolha uma seta.");
+    if(!retry)effect("select");
+  }
+  function fail(obstacle){
+    if(!state||state.locked)return;
+    state.locked=true;state.plan=[];stopVoice();effect("error");
+    const where=obstacle?obstacle.label:"limite do caminho";
+    display("Ritinha","Ops! "+where+". Vamos de novo?");
+    inform("O caminho não deu certo. A fase vai recomeçar.");
+    ui.board.classList.add("has-error");
+    planDisplay();
+    const index=activeStage;
+    later(1050,()=>{
+      ui.board.classList.remove("has-error");
+      startStage(index,true);
+    });
+  }
+  function win(){
+    if(!state||state.locked)return;
+    state.locked=true;state.plan=[];effect("win");planDisplay();
+    const stage=current();
+    ui.finish.hidden=false;
+    ui.finishAvatar.className="character-avatar finish-avatar char-"+stage.rewardSpeaker;
+    ui.finishTitle.textContent=activeStage===2?"A turma está junta!":"Amigo encontrado!";
+    ui.finishQuote.textContent=stage.reward;
+    ui.finishDetail.textContent=stage.rewardDetail;
+    ui.next.textContent=activeStage<stages.length-1?"Continuar agora →":"Jogar outra vez ↻";
+    ui.hold.hidden=activeStage===stages.length-1;
+    ui.hold.setAttribute("aria-pressed","false");
+    ui.hold.textContent="⏸ Pausar avanço";
+    inform("Fase concluída! "+stage.rewardDetail);
+    if(activeStage<stages.length-1)scheduleWinNext();
+  }
+  function scheduleWinNext(){
+    if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;}
+    if(transitionHold||!state?.locked||activeStage>=stages.length-1)return;
+    winningTimer=setTimeout(()=>{winningTimer=null;nextStage();},quietMotion?2100:2500);
+  }
+  function nextStage(){
+    if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;}
+    if(activeStage===stages.length-1){ui.intro.hidden=false;ui.game.hidden=true;ui.finish.hidden=true;stopTimers();stopVoice();return;}
+    startStage(activeStage+1);
+  }
+  function move(name){
+    const d=directions[name],stage=current();
+    if(!d||!state||state.locked)return {ignored:true};
+    const next=[state.pos[0]+d.r,state.pos[1]+d.c],obs=obstacleAt(stage,...next);
+    if(!inside(stage,...next)||obs){fail(obs);return {error:true};}
+    state.pos=next;state.visited.add(coord(next));effect("step");
+    const goal=stage.goals[state.goalIndex];
+    if(equal(next,goal.at)){
+      state.goalIndex++;
+      if(state.goalIndex>=stage.goals.length){
+        update();win();return {done:true};
+      }
+      display("Maya","Chegamos! Agora vamos achar a Lia.");
+      effect("checkpoint");inform("Maya encontrada! Agora encontre a Lia.");
+      update();return {checkpoint:true};
     }
-    dom.execute.disabled=state.running||state.plan.length===0;
-    dom.undo.disabled=state.running||state.plan.length===0;
-    dom.clear.disabled=state.running||state.plan.length===0;
+    update();inform("Ritinha avançou para "+d.label+".");return {moved:true};
   }
-  function render(){
-    const cfg=current();
-    dom.position.textContent="Posição: linha "+(state.pos[0]+1)+", coluna "+(state.pos[1]+1);
-    dom.goal.textContent=state.done?"Concluído":"Destino: "+target().label;
-    dom.count.textContent=state.steps+" movimento"+(state.steps===1?"":"s");
-    renderBoard();
-    state.lastMove=false;
-    renderPlan();
-    if(state.done)finish();
-  }
-  function finish(){
-    const cfg=current();
-    let optimum=0,pos=cfg.start;
-    for(const g of cfg.goals){
-      const route=shortest(cfg,pos,g.at);
-      if(!route)break;
-      optimum+=route.length;pos=g.at;
-    }
-    dom.finish.hidden=false;
-    dom.finishTitle.textContent="Caminho concluído!";
-    dom.finishText.textContent="Ritinha percorreu "+state.steps+" casa(s). Uma das rotas possíveis tem "+optimum+" movimento(s). "+(state.hints?"Você pediu "+state.hints+" pista(s). ":"")+"O objetivo é explorar e explicar escolhas, não ser mais rápido.";
-    dom.next.textContent=state.level<levels.length-1?"Explorar o próximo nível →":"Recomeçar a trilha ↺";
-    announce("Caminho concluído! Se quiser, conte a alguém como escolheu seu trajeto.");
-  }
-  function direction(name){
-    if(!dirs[name]||state.done||state.running)return;
+  function pressDirection(name){
+    if(!state||state.locked||!directions[name])return;
     if(current().mode==="plan"){
-      if(state.plan.length>=20){announce("O plano tem até 20 comandos. Execute uma parte e depois continue.");return;}
-      state.plan.push(name);
-      render();
-      announce("Adicionado: "+dirs[name].word+". "+dom.preview.textContent);
-      return;
-    }
-    const result=visit(name);
-    render();
-    if(result.blocked)announce("Há um limite ou obstáculo para "+dirs[name].word+". Tente outra direção.");
-    else if(result.done)announce("Caminho concluído! Você chegou ao destino.");
-    else announce("Movimento para "+dirs[name].word+". "+dom.position.textContent+".");
+      if(state.plan.length>=18){inform("O caminho já tem muitas setas. Toque em IR para testar.");return;}
+      state.plan.push(name);effect("select");planDisplay();
+    }else move(name);
   }
-  async function runPlan(){
-    if(!state.plan.length||state.done||state.running)return;
-    const commands=[...state.plan];
-    state.running=true;
-    const token=++runToken;
-    const instant=reduceMotion||document.body.classList.contains("calm");
-    render();
-    announce("A Ritinha está caminhando pelo plano. Acompanhe cada movimento no mapa.");
-    let result,checkpoint=false;
-    for(let i=0;i<commands.length;i++){
-      if(token!==runToken)return;
-      const command=state.plan.shift();
-      result=visit(command);
-      if(result.blocked)break;
-      if(result.checkpoint)checkpoint=true;
-      render();
-      if(result.done)break;
-      // Passos sucessivos: a criança vê o caminho, em vez de saltar direto à chegada.
-      await new Promise(resolve=>setTimeout(resolve,instant?0:300));
-    }
-    if(token!==runToken)return;
-    state.plan=[];
-    state.running=false;
-    render();
-    if(result?.blocked)announce("Um arbusto ou limite interrompeu o caminho. Você pode mudar a próxima sequência.");
-    else if(result?.done)announce("Muito bem! Ritinha encontrou os destinos na ordem. Converse sobre o caminho percorrido.");
-    else if(checkpoint)announce("Ponto 1 encontrado! Agora podemos pensar no caminho até a chegada 2.");
-    else announce("Ritinha seguiu o plano. "+dom.position.textContent+". Escolha o próximo trecho.");
+  function executePlan(){
+    if(!state||state.locked||!state.plan.length)return;
+    const commands=[...state.plan];state.plan=[];
+    state.locked=true;planDisplay();
+    const token=++runId;
+    let i=0;
+    const walk=()=>{
+      if(token!==runId||!state)return;
+      if(i>=commands.length){
+        state.locked=false;planDisplay();inform("Agora escolha o próximo caminho.");return;
+      }
+      state.locked=false;
+      const result=move(commands[i++]);
+      if(result.error||result.done)return;
+      state.locked=true;planDisplay();
+      later(quietMotion||document.body.classList.contains("calm")?50:playTime,walk);
+    };
+    walk();
   }
-  document.querySelectorAll("[data-level]").forEach(btn=>btn.addEventListener("click",()=>newLevel(Number(btn.dataset.level))));
-  document.querySelectorAll("[data-dir]").forEach(btn=>btn.addEventListener("click",()=>direction(btn.dataset.dir)));
-  const keyboard={ArrowUp:"up",ArrowRight:"right",ArrowDown:"down",ArrowLeft:"left",w:"up",d:"right",s:"down",a:"left",W:"up",D:"right",S:"down",A:"left"};
-  document.addEventListener("keydown",event=>{
-    if(event.altKey||event.ctrlKey||event.metaKey||event.target?.closest?.("input,textarea,select,[contenteditable='true']"))return;
-    // Fora do jogo, as setas continuam disponíveis para rolar a página.
-    if(!event.target?.closest?.("#atividade"))return;
-    const dir=keyboard[event.key];
-    if(dir){event.preventDefault();direction(dir);}
-  });
-  dom.execute.addEventListener("click",runPlan);
-  dom.undo.addEventListener("click",()=>{
-    if(!state.plan.length)return;
-    state.plan.pop();render();announce("Último comando retirado do plano.");
-  });
-  dom.clear.addEventListener("click",()=>{
-    state.plan=[];render();announce("Plano apagado. Escolha novas direções.");
-  });
-  dom.hint.addEventListener("click",()=>{
-    if(state.done)return;
-    const route=shortest(current(),state.pos,target().at);
-    state.hints++;
-    if(!route){announce("Não foi possível encontrar uma rota.");return;}
-    if(!route.length){announce("Você já está no destino.");return;}
-    announce("Uma possibilidade é seguir para "+dirs[route[0]].word+". Você pode escolher outro caminho.");
-  });
-  dom.restart.addEventListener("click",()=>newLevel(state.level));
-  dom.next.addEventListener("click",()=>newLevel((state.level+1)%levels.length));
-  $("print-guide")?.addEventListener("click",()=>window.print());
-  dom.calm.addEventListener("click",()=>{
+  function start(activateSound){
+    setSound(activateSound);
+    startStage(0);
+    if(activateSound)playApprovedIntro();
+  }
+  ui.startSound.addEventListener("click",()=>start(true));
+  ui.startQuiet.addEventListener("click",()=>start(false));
+  ui.sound.addEventListener("click",()=>setSound(!soundOn));
+  ui.calm.addEventListener("click",()=>{
     const on=document.body.classList.toggle("calm");
-    dom.calm.setAttribute("aria-pressed",String(on));
-    dom.calm.textContent=on?"✓ Modo tranquilo ativado":"Modo tranquilo";
+    ui.calm.setAttribute("aria-pressed",String(on));
+    ui.calm.textContent=on?"✓ Visual tranquilo":"🌿 Modo tranquilo";
   });
-  if(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches){
-    document.body.classList.add("calm");
-    dom.calm.setAttribute("aria-pressed","true");
-    dom.calm.textContent="✓ Modo tranquilo ativado";
+  if(quietMotion){
+    document.body.classList.add("calm");ui.calm.setAttribute("aria-pressed","true");
+    ui.calm.textContent="✓ Visual tranquilo";
   }
-  newLevel(0);
+  document.querySelectorAll("[data-dir]").forEach(button=>{
+    button.addEventListener("click",()=>pressDirection(button.dataset.dir));
+  });
+  ui.execute.addEventListener("click",executePlan);
+  ui.undo.addEventListener("click",()=>{if(!state||state.locked)return;state.plan.pop();planDisplay();});
+  ui.clear.addEventListener("click",()=>{if(!state||state.locked)return;state.plan=[];planDisplay();});
+  ui.restart.addEventListener("click",()=>startStage(activeStage,true));
+  ui.hint.addEventListener("click",()=>{
+    if(!state||state.locked)return;
+    const direction=shortestDirection(current(),state.pos,current().goals[state.goalIndex].at);
+    if(direction){inform("Uma pista: tente ir para "+directions[direction].label+".");}
+  });
+  ui.next.addEventListener("click",nextStage);
+  ui.hold.addEventListener("click",()=>{
+    transitionHold=!transitionHold;
+    ui.hold.setAttribute("aria-pressed",String(transitionHold));
+    ui.hold.textContent=transitionHold?"▶ Retomar avanço":"⏸ Pausar avanço";
+    scheduleWinNext();
+  });
+  ui.startOver.addEventListener("click",()=>{stopTimers();stopVoice();ui.game.hidden=true;ui.finish.hidden=true;ui.intro.hidden=false;});
+  ui.print.addEventListener("click",()=>window.print());
+  const keyNames={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"};
+  document.addEventListener("keydown",e=>{
+    if(e.altKey||e.ctrlKey||e.metaKey||e.target?.closest?.("input,textarea,select,[contenteditable='true']"))return;
+    if(!e.target?.closest?.("#game-screen"))return;
+    const d=keyNames[e.key];if(d){e.preventDefault();pressDirection(d);}
+  });
+  document.addEventListener("visibilitychange",()=>{
+    if(document.hidden){
+      stopVoice();
+      if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;transitionHold=true;ui.hold.textContent="▶ Retomar avanço";ui.hold.setAttribute("aria-pressed","true");}
+    }
+  });
+  window.addEventListener("pagehide",()=>{stopTimers();stopVoice();});
 })();
