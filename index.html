@@ -170,6 +170,31 @@
         text-underline-offset: 3px;
         color: var(--blue);
       }
+      .gibi-feature { padding: 68px 0; background: linear-gradient(118deg, #071f44, #0b3975 70%, #075b69); color: #fff; overflow: hidden; }
+      .gibi-feature-layout { display: grid; grid-template-columns: minmax(230px, .65fr) minmax(0, 1.3fr); gap: clamp(26px, 6vw, 76px); align-items: center; }
+      .gibi-cover { display: block; justify-self: center; width: min(100%, 360px); position: relative; transform: rotate(-2.5deg); transition: transform .2s ease; }
+      .gibi-cover:hover { transform: rotate(0); }
+      .gibi-cover img { display: block; width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 10px; box-shadow: 0 26px 65px rgba(0,0,0,.36); border: 5px solid white; }
+      .gibi-kicker { display: inline-flex; align-items: center; background: #ffe77a; color: #092c61; font-size: .76rem; padding: 7px 13px; border-radius: 100px; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; }
+      .gibi-feature h2 { margin: 20px 0 17px; color: #fff; font-size: clamp(2.35rem, 4.6vw, 4.8rem); line-height: 1; letter-spacing: -.055em; }
+      .gibi-feature h2 span { color: #ffcd68; }
+      .gibi-feature p { max-width: 620px; color: #e5effb; font-size: 1.09rem; line-height: 1.75; }
+      .gibi-benefits { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 26px; }
+      .gibi-benefits span { color: #fff; padding: 8px 12px; border: 1px solid rgba(255,255,255,.27); border-radius: 999px; font-size: .82rem; font-weight: 700; }
+      .gibi-feature .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .gibi-feature .btn-primary { background: #ffb951; color: #092c61; }
+      .gibi-feature .btn-secondary { background: #fff; color: #092c61; }
+      .gibi-feature .gibi-note { font-size: .82rem; color: #d7e6f8; margin: 16px 0 0; }
+
+      .gibi-cover { width: min(100%, 440px); transform: none; }
+      .gibi-cover:hover { transform: translateY(-3px); }
+      .gibi-cover img { aspect-ratio: auto; object-fit: contain; border: 0; border-radius: 16px; }
+      @media (max-width: 880px) {
+        .gibi-feature-layout { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+        .gibi-cover { max-width: 340px; }
+        .gibi-benefits, .gibi-feature .actions { justify-content: center; }
+        .gibi-feature p { margin-left: auto; margin-right: auto; }
+      }
       .hero {
         position: relative;
         overflow: hidden;
@@ -927,6 +952,7 @@
         </a>
         <button class="menu-toggle" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Abrir menu de navegação"><span aria-hidden="true">☰</span> Menu</button>
         <div class="nav-links" id="site-menu">
+          <a href="#gibi1">Gibi 1</a>
           <a href="#terapias">Terapias</a
           ><a href="#metodo">Como funciona</a
           ><a href="#turma">Turma da Ritinha</a><a href="#sobre">Sobre</a
@@ -975,6 +1001,25 @@
           </div>
         </div>
       </aside>
+
+      <section class="gibi-feature" id="gibi1" aria-labelledby="gibi-title">
+        <div class="wrap gibi-feature-layout">
+          <a class="gibi-cover" href="/gibi1.html" aria-label="Ler o Gibi 1 da Turma da Ritinha">
+            <img src="/turma-da-ritinha.webp"  alt="Ilustração promocional da Turma da Ritinha com seus personagens" loading="eager" fetchpriority="high" />
+          </a>
+          <div class="gibi-copy">
+            <span class="gibi-kicker">Lançamento · Gibi 1 · Leitura gratuita</span>
+            <h2 id="gibi-title">Turma da Ritinha: <span>O começo de uma turma</span></h2>
+            <p>Ritinha chega a um lugar novo e descobre, ao lado de Tonico, Maya, Luca, Lia e Ravi, que cada criança tem seu próprio jeito de participar. Uma aventura sobre movimento, amizade, inclusão e a Árvore das Emoções.</p>
+            <div class="gibi-benefits"><span>48 páginas</span><span>História ilustrada</span><span>Para ler em família</span></div>
+            <div class="actions">
+              <a class="btn btn-primary" href="/gibi1.html">Ler o Gibi 1 →</a>
+              <a class="btn btn-secondary" href="/Turma_da_Ritinha_Gibi_1_O_Comeco_de_uma_Turma.pdf" download="Turma_da_Ritinha_Gibi_1_O_Comeco_de_uma_Turma.pdf">Baixar PDF ↓</a>
+            </div>
+            <p class="gibi-note">Material digital gratuito SoulKids.</p>
+          </div>
+        </div>
+      </section>
 
       <section class="turma" id="turma" aria-label="Turma da Ritinha">
         <div class="wrap">
