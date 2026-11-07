@@ -41,12 +41,13 @@ class MockElement {
   replaceChildren(...items){this.children=items}
   click(){let result;for(const fn of this.events.click||[])result=fn({target:this});return result}
 }
-function boot(){
+function boot({holdTimers=false}={}){
   const elements = Object.fromEntries(ids.map(id=>[id,new MockElement()]));
   const tabs = levels.map(value=>{const n=new MockElement();n.dataset.level=value;return n});
   const arrows = directions.map(value=>{const n=new MockElement();n.dataset.dir=value;return n});
   const trail=journeys.map(value=>{const n=new MockElement();n.dataset.journey=value;return n});
   const listeners = {};
+  const pendingTimers=[];
   const document = {
     body:new MockElement(),
     getElementById:id=>elements[id]||null,
@@ -57,9 +58,11 @@ function boot(){
   };
   let printed=0;
   const window={matchMedia:()=>({matches:false}),print:()=>{printed++}};
-  vm.runInNewContext(script,{document,window,setTimeout:callback=>callback()},{filename:"jogo-rota-ritinha.js",timeout:1500});
+  vm.runInNewContext(script,{document,window,setTimeout:callback=>{if(holdTimers)pendingTimers.push(callback);else callback();}},{filename:"jogo-rota-ritinha.js",timeout:1500});
   return {
     elements,document,trail,
+    flushNext:()=>pendingTimers.shift()?.(),
+    pending:()=>pendingTimers.length,
     click:id=>elements[id].click(),
     tab:index=>tabs[index].click(),
     arrow:name=>arrows.find(n=>n.dataset.dir===name).click(),
@@ -136,6 +139,17 @@ assert.equal(e["move-count"].textContent,"0 movimentos");
 assert.match(html,/id="observation-title"/);
 assert.match(html,/class="activity-ladder"/);
 assert.match(html,/ritinha-passos\.webp/);
+const canceled=boot({holdTimers:true});
+canceled.tab(1);
+for(const d of ["up","up","right","right"])canceled.arrow(d);
+const interrupted=canceled.click("execute-plan");
+assert.equal(canceled.pending(),1,"A execução deveria estar aguardando o próximo passo");
+canceled.tab(0);
+canceled.flushNext();
+await interrupted;
+assert.equal(canceled.elements["level-name"].textContent,"1 · Explorar","Trocar nível cancela o plano anterior");
+assert.equal(canceled.elements["move-count"].textContent,"0 movimentos","O plano cancelado não pode afetar outro nível");
+
 console.log("PASSOU — Rota da Ritinha 2.0: "+(script.includes('async function runPlan')?"reprodução passo a passo; ":"")+"três níveis, personagem oficial, missões, acessibilidade e orientações.");
 }
 runTests().catch(err=>{console.error(err);process.exitCode=1});
