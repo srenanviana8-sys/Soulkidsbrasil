@@ -271,10 +271,12 @@ html { scroll-padding-top:100px; }
 .calm-toggle{border:1px solid #bdd6d3;background:#eaf6f3;color:#1c5a57;border-radius:12px;padding:10px 12px;font-size:.83rem;font-weight:850;min-height:44px}
 .calm-toggle[aria-pressed="true"]{background:#164f56;color:#fff}
 .world-calm .guia-avatar img,.world-calm .guia-hand,.world-calm .guia-star,.world-calm .hero-book img{animation:none!important;transition:none!important}
+.world-calm .guia-avatar.has-video .guia-intro-video{display:none!important}
+.world-calm .guia-avatar.has-video #guia-still{display:block!important}
 .world-calm .destination,.world-calm .zone,.world-calm .hero-book{transition:none!important}
 .world-calm .story-sun,.world-calm .story-cloud,.world-calm .story-flowers{opacity:.5}
 @media(max-width:1050px){.destination-map{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:760px){.destination-map{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-grid{grid-template-columns:1fr}.hero-art{display:none}}
+@media(max-width:760px){.destination-map{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-grid{grid-template-columns:1fr}.hero-art{max-width:190px;margin:0 auto;min-height:0}.hero-book img{max-height:210px}}
 @media(max-width:650px){
   nav.wrap{flex-wrap:wrap;gap:8px;padding-block:9px}
   .world-nav-toggle{display:inline-flex;margin-left:auto;align-items:center}
