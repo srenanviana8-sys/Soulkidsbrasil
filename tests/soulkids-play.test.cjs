@@ -344,7 +344,7 @@ assert.equal(teamwork.elements["card-done"].disabled,false);
 teamwork.click("card-done");teamwork.advance(2000);
 assert.equal(teamwork.elements["position-total"].textContent,"6/30","Desafio resolvido garante avanço");
 
-const withSupport=createGame([.66,.99]);
+const withSupport=createGame([0,0]);
 withSupport.click("arcade-quiet-start");withSupport.click("play-silent");
 withSupport.click("dice-button");withSupport.advance(2400);
 assert.equal(withSupport.elements["card-mini"].hidden,false,"Carta Corpo avançada exige sequência");
