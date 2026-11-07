@@ -500,9 +500,19 @@
   function afterCard(){
     if(state.position>=30){finishGame();return;}
     state.ready=true;state.moving=false;
-    drawDice();
-    announce(state.extraRoll?"🎲 Rodada extra! Toque no dado novamente.":"Sua vez! Toque no dado para descobrir o próximo caminho.");
+    const extra=state.extraRoll;
     state.extraRoll=false;
+    if(!extra&&state.players.length>1){
+      saveActive();
+      state.activeIndex=(state.activeIndex+1)%state.players.length;
+      loadActive();
+      renderRewards();renderPiece();
+      ui.rewardNotice.textContent="🎲 Agora é a vez de "+characterInfo[state.selected]+"!";
+      if(state.soundOn)sfx("select");
+    }
+    drawDice();
+    announce(extra?"🎲 Rodada extra de "+characterInfo[state.selected]+"!":
+      "Jogador "+(state.activeIndex+1)+": vez de "+characterInfo[state.selected]+". Toque no dado!");
     ui.die.focus?.({preventScroll:true});
   }
   function roll(){
@@ -517,38 +527,64 @@
     });
   }
   function finishGame(){
-    state.won=true;state.ready=false;stopMusic();
+    saveActive();
+    state.won=true;state.ready=false;state.moving=false;stopMusic();
     ui.end.hidden=false;
+    ui.finishTitle.textContent=state.players.length>1?
+      characterInfo[state.selected]+" chegou ao Espaço da Conquista!":
+      "Você chegou ao Espaço da Conquista!";
     ui.endBadges.textContent="Adesivos: "+state.badges.size+" de 6";
     ui.endStars.textContent=state.stars+" estrelas de descoberta";
-    ui.rewardNotice.textContent="🎉 Você chegou ao Espaço da Conquista!";
+    ui.finishPlayers.replaceChildren();
+    const frag=document.createDocumentFragment();
+    state.players.forEach((player,i)=>{
+      const row=document.createElement("div");
+      row.className="finish-player"+(i===state.activeIndex?" is-finisher":"");
+      row.textContent=(i===state.activeIndex?"🏆 ":"⭐ ")+"J"+(i+1)+" · "+characterInfo[player.character]+
+        " · Casa "+player.position+" · "+player.stars+" estrelas";
+      frag.appendChild(row);
+    });
+    ui.finishPlayers.appendChild(frag);
+    ui.rewardNotice.textContent="🎉 A aventura da turma foi concluída!";
     sfx("finish");
     ui.replay.focus?.({preventScroll:true});
   }
   function startGame(withSound){
-    state.position=0;state.stars=0;state.shields=0;state.badges.clear();
+    if(state.selectedSlots.length!==state.playerCount||state.selectedSlots.some(x=>!x))return;
+    state.players=state.selectedSlots.map(character=>({
+      character,position:0,stars:0,shields:0,badges:new Set(),extraRoll:false
+    }));
+    state.activeIndex=0;
     state.used={};state.ready=true;state.won=false;state.moving=false;
     state.cardOpen=false;state.turns=0;state.activeCard=null;
-    state.extraRoll=false;state.movementToken++;
+    state.movementToken++;
     ui.setup.hidden=true;ui.game.hidden=false;ui.card.hidden=true;ui.end.hidden=true;
-    ui.rewardNotice.textContent="Complete cartas e descubra adesivos da turma!";
-    ui.characterName.textContent=characterInfo[state.selected];
-    state.musicOn=Boolean(withSound);
-    setSound(withSound);
+    loadActive();
+    ui.rewardNotice.textContent="Cada jogador conquista seu próprio álbum de adesivos!";
+    state.musicOn=Boolean(withSound);setSound(withSound);
     renderRewards();renderPiece();drawDice();
-    announce("O dado está girando. Toque nele para parar e começar a aventura.");
+    announce("Jogador 1: vez de "+characterInfo[state.selected]+". Toque no dado!");
     ui.game.scrollIntoView?.({block:"start",behavior:state.reduced?"auto":"smooth"});
     ui.die.focus?.({preventScroll:true});
   }
   function reset(){
-    stopMusic();state.ready=false;state.movementToken++;
+    stopMusic();state.ready=false;state.moving=false;state.movementToken++;
     ui.card.hidden=true;ui.end.hidden=true;ui.game.hidden=true;ui.setup.hidden=false;
     ui.opening.hidden=true;ui.selection.hidden=false;
+    state.players=[];state.activeIndex=0;state.activeSlot=0;
+    state.selected=state.selectedSlots[0]||"ritinha";state.position=0;
+    state.stars=0;state.shields=0;state.badges=new Set();
+    ui.characterName.textContent=characterInfo[state.selected];
+    ui.chosenIcon.className="portrait char-"+state.selected;
+    updateLobby();renderPiece();
     state.musicOn=state.soundOn;setSound(state.soundOn);
     ui.setup.scrollIntoView?.({block:"start",behavior:state.reduced?"auto":"smooth"});
   }
 
   decorateBoard();
+  document.querySelectorAll("[data-player-count]").forEach(button=>{
+    button.addEventListener("click",()=>changePlayerCount(Number(button.dataset.playerCount)));
+  });
   ui.openingStart.addEventListener("click",()=>openSelection(true));
   ui.openingQuiet.addEventListener("click",()=>openSelection(false));
   ui.setupSound.addEventListener("click",toggleSelectionMusic);
@@ -584,4 +620,5 @@
     ui.quiet.textContent="✓ Modo tranquilo";
   }
   selectCharacter("ritinha");
+  updateLobby();
 })();
