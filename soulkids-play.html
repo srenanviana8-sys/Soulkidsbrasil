@@ -222,6 +222,51 @@ body:before{content:"SoulKids Play — Orientações para famílias";font-size:1
 .map-card{order:0;width:100%}
 .rewards-card{order:1;width:100%}
 }
+
+/* SoulKids Play — seleção estilo fliperama, trilha autoral e contraste acessível */
+.setup-panel{overflow:hidden}
+.arcade-intro{text-align:center;padding:clamp(22px,4vw,40px);background:
+radial-gradient(circle at 17% 19%,#1f5f9d8a,transparent 33%),
+radial-gradient(circle at 88% 75%,#9d418777,transparent 37%),
+linear-gradient(135deg,#091b43,#182b67 62%,#39225e);color:#fff;border-radius:24px;position:relative;isolation:isolate;overflow:hidden;box-shadow:inset 0 0 0 3px #ffffff2b}
+.arcade-intro:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.15;background:repeating-linear-gradient(0deg,transparent 0 7px,#a2c6f3 8px 9px);z-index:-1}
+.arcade-top{display:flex;justify-content:space-between;align-items:center;gap:15px;color:#fff5bb;font-weight:950;font-size:.78rem;letter-spacing:.14em}
+.arcade-level{border:1px solid #fff6b86b;border-radius:8px;padding:6px 9px}
+.arcade-emblem{display:grid;place-items:center;margin:18px auto 4px;width:98px;height:98px;background:linear-gradient(145deg,#ffe3a0,#ffb04e);border-radius:26px;box-shadow:0 5px 0 #c17d28,0 15px 35px #03112e66;font-size:3.6rem;transform:rotate(-6deg)}
+.arcade-pretitle{display:block;color:#fff4b1;font-size:.76rem;font-weight:950;letter-spacing:.16em;margin-top:22px}
+.arcade-intro h2{color:white;font-size:clamp(2rem,5.5vw,3.8rem);line-height:1.04;margin:9px auto 12px;max-width:760px;text-shadow:0 3px 0 #091b44}
+.arcade-intro h2 span{color:#ffdf78}
+.arcade-intro p{color:#e6f0ff;font-size:.95rem;margin:0 auto 18px;max-width:450px}
+.arcade-actions{display:grid;justify-items:stretch;gap:10px;width:min(100%,370px);margin:22px auto 7px}
+.arcade-actions .action{font-size:.92rem}
+.arcade-start{background:#ffe17b;color:#342750;box-shadow:0 5px 0 #bf8b37,0 9px 20px #07143d99;animation:arcade-button-pulse 2s ease-in-out infinite}
+.arcade-start:hover{background:#ffebae}
+.arcade-intro .arcade-actions .action-secondary{background:#ffffff1b;color:#fff;border-color:#bbc6ee7a}
+.arcade-intro .arcade-tip{font-size:.71rem;color:#cddbf2;margin:18px auto 0}
+@keyframes arcade-button-pulse{0%,100%{box-shadow:0 5px 0 #bf8b37,0 0 0 0 #ffe27b50}50%{box-shadow:0 5px 0 #bf8b37,0 0 0 8px #ffe27b0d}}
+.selection-inner{animation:selection-enter .35s ease-out both}
+@keyframes selection-enter{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.selection-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:9px}
+.setup-music-btn{background:#eef9f3;border:1px solid #a7cfc1;border-radius:12px;color:#175e56;min-height:44px;padding:9px 13px;font-weight:900;font-size:.8rem}
+.setup-music-btn[aria-pressed=true]{background:#fff2ce;border-color:#ddbd68;color:#745016}
+.character-choice{transition:transform .16s ease,box-shadow .16s ease,border .16s ease}
+.character-choice:hover{transform:translateY(-2px)}
+.character-choice.is-selected{transform:translateY(-4px);box-shadow:0 4px 0 #65ad91,0 10px 20px #145f5122}
+.character-choice.is-selected:after{content:"✓ SELECIONADO";font-size:.61rem;color:#155e4c;letter-spacing:.05em;font-weight:950}
+.selection-announcement{max-width:380px;margin:0 auto 15px;text-align:center;border:1px solid #b5d8c8;background:#eaf8ed;color:#1f6251;padding:10px 14px;border-radius:99px;font-weight:900;font-size:.88rem}
+@media(max-width:700px){
+.arcade-intro{padding:23px 16px;border-radius:18px}
+.arcade-emblem{width:75px;height:75px;font-size:2.6rem;border-radius:18px;margin-top:23px}
+.arcade-top{font-size:.64rem}
+.arcade-intro h2{font-size:clamp(2rem,9vw,3rem)}
+.selection-heading{align-items:stretch}
+.selection-heading .kicker{flex:1}
+.setup-music-btn{font-size:.7rem}
+.character-choice.is-selected:after{font-size:.53rem}
+}
+@media(prefers-reduced-motion:reduce){.arcade-start,.selection-inner{animation:none}.character-choice{transition:none}}
+body.quiet .arcade-start,body.quiet .selection-inner{animation:none}
+
 </style>
 </head>
 <body>
@@ -239,9 +284,22 @@ body:before{content:"SoulKids Play — Orientações para famílias";font-size:1
 </div></section>
 <section id="setup-screen" class="setup-section" aria-labelledby="choose-title"><div class="wrap">
 <div class="setup-panel">
-<span class="kicker">PASSO 1 · ESCOLHA UM AMIGO</span>
-<h2 id="choose-title">Quem vai jogar?</h2>
-<p>Cinco personagens oficiais da Turma da Ritinha.</p>
+<div id="opening-screen" class="arcade-intro" aria-labelledby="arcade-title">
+ <div class="arcade-top"><span>★ SOULKIDS ARCADE ★</span><span class="arcade-level">LEVEL 01</span></div>
+ <div class="arcade-emblem" aria-hidden="true">🎮</div>
+ <span class="arcade-pretitle">PRONTO PARA A AVENTURA?</span>
+ <h2 id="arcade-title">Escolha seu <span>personagem!</span></h2>
+ <p>Uma trilha retrô original vai animar a seleção da turma.</p>
+ <div class="arcade-actions">
+  <button type="button" id="arcade-music-start" class="action action-primary arcade-start">▶ ENTRAR COM MÚSICA</button>
+  <button type="button" id="arcade-quiet-start" class="action action-secondary">🔇 Entrar sem som</button>
+ </div>
+ <p class="arcade-tip">O som começa somente depois de tocar. Você pode desligá-lo a qualquer momento.</p>
+</div>
+<div id="character-selection" class="selection-inner" hidden>
+<div class="selection-heading"><span class="kicker">PLAYER 1 · ESCOLHA SEU PERSONAGEM</span><button id="setup-sound-toggle" class="setup-music-btn" type="button" aria-pressed="false">🎵 Música desligada</button></div>
+<h2 id="choose-title">Selecione seu personagem!</h2>
+<p>Cinco personagens oficiais da Turma da Ritinha. Toque em um deles para ouvir o efeito de seleção.</p>
 <div class="character-picker" role="group" aria-label="Selecionar personagem">
 <button class="character-choice is-selected" data-character="ritinha" type="button" aria-pressed="true"><span class="portrait char-ritinha" aria-hidden="true"></span>Ritinha</button>
 <button class="character-choice" data-character="tonico" type="button" aria-pressed="false"><span class="portrait char-tonico" aria-hidden="true"></span>Tonico</button>
@@ -249,11 +307,13 @@ body:before{content:"SoulKids Play — Orientações para famílias";font-size:1
 <button class="character-choice" data-character="lia" type="button" aria-pressed="false"><span class="portrait char-lia" aria-hidden="true"></span>Lia</button>
 <button class="character-choice" data-character="maya" type="button" aria-pressed="false"><span class="portrait char-maya" aria-hidden="true"></span>Maya</button>
 </div>
+<div id="selection-announcement" class="selection-announcement" role="status" aria-live="polite">⭐ Ritinha selecionada!</div>
 <div class="setup-actions">
-<button id="play-sound" class="action action-primary" type="button">🎲 Começar com som</button>
-<button id="play-silent" class="action action-secondary" type="button">🔇 Jogar sem som</button>
+<button id="play-sound" class="action action-primary" type="button">🎲 Começar a partida</button>
+<button id="play-silent" class="action action-secondary" type="button">🔇 Começar sem som</button>
 </div>
-<p class="setup-note">Nenhum cadastro ou dado pessoal. O dado é sorteado quando você toca. Sem publicidade e sem cobrança.</p>
+<p class="setup-note">Trilha sonora original · Cinco personagens · Sem cadastro · Música opcional</p>
+</div>
 </div></div></section>
 <section class="board-section" id="board-game" aria-labelledby="board-title" hidden><div class="wrap">
 <div class="board-topline">
