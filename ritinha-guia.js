@@ -180,11 +180,17 @@
       video.removeAttribute("src");
     }, {once: true});
 
-    video.src = "/ritinha-boas-vindas.mp4";
-    video.load();
-    // Uma interação direta também permite iniciar o vídeo em navegadores restritivos.
+    // A animação não baixa nem começa sozinha: somente após interação explícita.
+    let requestedVideo = false;
     avatar.addEventListener("click", () => {
-      if (!paused) manageVideo();
+      if (document.body.classList.contains("world-calm")) return;
+      if (!requestedVideo) {
+        requestedVideo = true;
+        video.src = "/ritinha-boas-vindas.mp4";
+        video.load();
+      } else if (!paused) {
+        manageVideo();
+      }
     });
     document.addEventListener("visibilitychange", manageVideo);
     window.addEventListener("pagehide", () => video.pause());
