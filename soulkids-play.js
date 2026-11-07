@@ -77,7 +77,10 @@
     badgeGrid:$("badge-grid"),rewardNotice:$("reward-notice"),end:$("finish-modal"),
     endBadges:$("finish-badges"),endStars:$("finish-stars"),replay:$("replay"),
     sound:$("sound-toggle"),quiet:$("quiet-toggle"),guide:$("guide-print"),
-    legend:$("legend-list"),chosenIcon:$("chosen-avatar")
+    legend:$("legend-list"),chosenIcon:$("chosen-avatar"),
+    opening:$("opening-screen"),selection:$("character-selection"),openingStart:$("arcade-music-start"),
+    openingQuiet:$("arcade-quiet-start"),setupSound:$("setup-sound-toggle"),
+    selectionAnnouncement:$("selection-announcement")
   };
   if(Object.values(ui).some(item=>!item))return;
 
@@ -165,6 +168,8 @@
     });
     ui.characterName.textContent=characterInfo[name];
     ui.chosenIcon.className="portrait char-"+name;
+    ui.selectionAnnouncement.textContent="⭐ "+characterInfo[name]+" selecionad"+(name==="tonico"||name==="luca"?"o":"a")+"!";
+    if(state.soundOn&&!ui.selection.hidden&&!ui.setup.hidden)sfx("select");
     renderPiece();
   }
 
@@ -198,30 +203,80 @@
     if(type==="star"){playTone(72,.13,.019);playTone(79,.19,.019,.12);}
     if(type==="oops"){playTone(55,.14,.015,0,"triangle");playTone(52,.18,.014,.12,"triangle");}
     if(type==="finish"){[60,64,67,72].forEach((n,i)=>playTone(n,.22,.019,i*.13));}
+    if(type==="select"){playTone(77,.085,.012,0,"square");playTone(84,.12,.012,.083,"triangle");}
+    if(type==="intro"){[64,69,72,76].forEach((n,i)=>playTone(n,.13,.013,i*.08,"triangle"));}
   }
   const tune=[67,72,74,72,69,67,64,67,69,74,76,74,72,69,67,64];
+  // Melodia autoral criada especificamente para a seleção SoulKids Play:
+  // timbres retrô de fliperama, linhas de baixo e chimbal sintetizado.
+  // Não reproduz nenhuma composição de jogos comerciais.
+  const selectTune=[
+    76,79,83,79,74,79,81,79,
+    76,83,86,83,79,76,74,71,
+    72,76,79,76,71,76,78,76,
+    74,78,81,78,76,74,71,74
+  ];
+  const selectBass=[48,53,55,50];
   function stopMusic(){
     if(state.musicTimer!==null){clearTimeout(state.musicTimer);state.musicTimer=null;}
   }
   function musicBeat(){
     stopMusic();
-    if(!state.soundOn||!state.musicOn||ui.game.hidden||state.won||document.hidden)return;
-    const index=state.musicNote++%tune.length;
-    playTone(tune[index],.20,.006,0,"triangle");
-    if(index%4===0)playTone(48,.33,.0035,0,"sine");
-    state.musicTimer=setTimeout(musicBeat,345);
+    const inSelection=!ui.setup.hidden&&!ui.selection.hidden;
+    const inGame=!ui.game.hidden&&!state.won;
+    if(!state.soundOn||!state.musicOn||(!inSelection&&!inGame)||document.hidden)return;
+    if(inSelection){
+      const idx=state.musicNote++%selectTune.length;
+      const midi=selectTune[idx];
+      playTone(midi,.155,.006,0,"square");
+      if(idx%2===0)playTone(midi-12,.20,.0035,0,"triangle");
+      if(idx%8===0)playTone(selectBass[(idx/8)%selectBass.length],.36,.007,0,"sine");
+      // Contratempo percussivo leve, sem sample ou áudio de terceiros.
+      if(idx%2===1)playTone(90,.026,.0017,0,"triangle");
+      state.musicTimer=setTimeout(musicBeat,205);
+    }else{
+      const idx=state.musicNote++%tune.length;
+      playTone(tune[idx],.20,.006,0,"triangle");
+      if(idx%4===0)playTone(48,.33,.0035,0,"sine");
+      state.musicTimer=setTimeout(musicBeat,345);
+    }
+  }
+  function updateSoundButtons(){
+    ui.sound.setAttribute("aria-pressed",String(state.soundOn));
+    ui.sound.textContent=state.soundOn?"🔊 Som ligado":"🔇 Som desligado";
+    const playing=state.soundOn&&state.musicOn;
+    ui.setupSound.setAttribute("aria-pressed",String(playing));
+    ui.setupSound.textContent=playing?"🎵 Música ligada":"🎵 Música desligada";
   }
   function setSound(value){
     state.soundOn=Boolean(value);
-    ui.sound.setAttribute("aria-pressed",String(state.soundOn));
-    ui.sound.textContent=state.soundOn?"🔊 Som ligado":"🔇 Som desligado";
+    updateSoundButtons();
     if(!state.soundOn){stopMusic();}
-    else {musicBeat();}
+    else {state.musicNote=0;musicBeat();}
   }
   function setMusic(value){
     state.musicOn=Boolean(value);
     ui.sound.dataset.music=String(state.musicOn);
-    if(state.soundOn){stopMusic();if(state.musicOn)musicBeat();}
+    updateSoundButtons();
+    stopMusic();
+    if(state.soundOn&&state.musicOn){state.musicNote=0;musicBeat();}
+  }
+  function openSelection(withMusic){
+    if(ui.opening.hidden)return;
+    ui.opening.hidden=true;
+    ui.selection.hidden=false;
+    state.musicOn=Boolean(withMusic);
+    setSound(withMusic);
+    if(withMusic)sfx("intro");
+    // A primeira ativação de áudio vem deste toque, nunca do carregamento da página.
+    const first=document.querySelector('[data-character="'+state.selected+'"]');
+    first?.focus?.({preventScroll:true});
+  }
+  function toggleSelectionMusic(){
+    const on=!(state.soundOn&&state.musicOn);
+    state.musicOn=on;
+    setSound(on);
+    if(on)sfx("intro");
   }
 
   function drawDice(){
@@ -373,14 +428,19 @@
   function reset(){
     stopMusic();state.ready=false;state.movementToken++;
     ui.card.hidden=true;ui.end.hidden=true;ui.game.hidden=true;ui.setup.hidden=false;
+    ui.opening.hidden=true;ui.selection.hidden=false;
+    state.musicOn=state.soundOn;setSound(state.soundOn);
     ui.setup.scrollIntoView?.({block:"start",behavior:state.reduced?"auto":"smooth"});
   }
 
   decorateBoard();
+  ui.openingStart.addEventListener("click",()=>openSelection(true));
+  ui.openingQuiet.addEventListener("click",()=>openSelection(false));
+  ui.setupSound.addEventListener("click",toggleSelectionMusic);
   document.querySelectorAll("[data-character]").forEach(btn=>{
     btn.addEventListener("click",()=>selectCharacter(btn.dataset.character));
   });
-  $("play-sound")?.addEventListener("click",()=>startGame(true));
+  $("play-sound")?.addEventListener("click",()=>{if(!ui.selection.hidden)startGame(state.soundOn);});
   $("play-silent")?.addEventListener("click",()=>startGame(false));
   ui.die.addEventListener("click",roll);
   ui.cardDone.addEventListener("click",()=>resolveCard(false));
@@ -400,7 +460,7 @@
   ui.guide.addEventListener("click",()=>window.print());
   document.addEventListener("visibilitychange",()=>{
     if(document.hidden){stopMusic();}
-    else if(state.soundOn&&state.musicOn&&state.ready&&!ui.game.hidden)musicBeat();
+    else if(state.soundOn&&state.musicOn)musicBeat();
   });
   window.addEventListener("pagehide",stopMusic);
   if(state.reduced){
