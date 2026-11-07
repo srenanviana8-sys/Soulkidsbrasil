@@ -56,13 +56,35 @@
     finishQuote:$("finish-quote"),finishDetail:$("finish-detail"),next:$("continue-button"),
     hold:$("hold-next"),startOver:$("start-over"),print:$("print-guide"),
     music:$("music-toggle"),dialogue:$("meeting-dialogue"),meetingNote:$("meeting-note"),
-    starBadge:$("star-badge"),starCount:$("star-count")
+    starBadge:$("star-badge"),starCount:$("star-count"),
+    obstaclePanel:$("obstacle-panel"),obstacleTitle:$("obstacle-title"),obstacleEmoji:$("obstacle-emoji"),
+    obstacleStory:$("obstacle-story"),obstacleQuestion:$("obstacle-question"),
+    choiceA:$("obstacle-choice-a"),choiceB:$("obstacle-choice-b"),obstacleClose:$("obstacle-close"),
+    rewardCount:$("reward-count"),rewardBadge:$("reward-badge")
   };
   if(Object.values(ui).some(node=>!node))return;
 
+  const obstacleChallenges={
+    "poça de água":{line:"Ploc! A poça cobre a trilha.",question:"Como atravessar sem escorregar?",options:["🪨 Colocar pedras firmes","💦 Correr sem olhar"],correct:0,solved:"A passagem de pedras está pronta!"},
+    "brinquedo no caminho":{line:"O ursinho quer voltar ao lugar dele!",question:"O que podemos fazer?",options:["🧸 Guardar com carinho","🦶 Chutar para longe"],correct:0,solved:"Ursinho guardado! Caminho livre!"},
+    "tronco":{line:"Um tronco atravessou a trilha.",question:"Como passar com segurança?",options:["🏃 Correr sem olhar","↪️ Contornar o tronco"],correct:1,solved:"Encontramos a passagem lateral!"},
+    "tronco caído":{line:"O tronco caiu bem no caminho!",question:"O que ajuda a turma?",options:["🪵 Criar uma passagem firme","💨 Correr sem olhar"],correct:0,solved:"Passagem firme criada!"},
+    "ovo de dinossauro":{line:"Pssiu... o ovo do Luca está aqui!",question:"Onde ele ficará seguro?",options:["💥 Quebrar o ovo","🥚 Levar ao ninho"],correct:1,solved:"O ovo voltou ao ninho!"},
+    "cones no caminho":{line:"Os cones estão espalhados.",question:"Como organizar a passagem?",options:["🚧 Organizar os cones","💥 Derrubar tudo"],correct:0,solved:"Os cones agora marcam a trilha!"},
+    "lama":{line:"A lama está escorregadia!",question:"Como passar com cuidado?",options:["🏃 Correr pela lama","🪵 Colocar tábuas firmes"],correct:1,solved:"As tábuas ajudaram!"},
+    "chuva no caminho":{line:"Plic, ploc... começou a chover!",question:"O que podemos usar?",options:["☂️ Abrir o guarda-chuva","⚡ Seguir sem olhar"],correct:0,solved:"A turma se protegeu da chuva!"},
+    "árvore bloqueando o caminho":{line:"A árvore é a casa de muitos bichinhos.",question:"Como passar sem machucá-la?",options:["🪓 Cortar a árvore","↪️ Contornar com cuidado"],correct:1,solved:"A passagem preservou a árvore!"},
+    "bola no caminho":{line:"Uma bola ficou na passagem!",question:"Como liberar o caminho?",options:["⚽ Guardar a bola ao lado","💥 Chutar sem olhar"],correct:0,solved:"Bola guardada! Podemos seguir!"}
+  };
+  const rewardsEarned=new Set();
   const coord = p => p[0]+","+p[1];
   const equal = (a,b) => a[0]===b[0]&&a[1]===b[1];
   const obstacleAt = (stage,r,c) => stage.walls.find(w=>equal(w.at,[r,c]));
+  const isCleared = (r,c) => Boolean(state?.cleared?.has(coord([r,c])));
+  const isAdjacent=(a,b)=>Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1])===1;
+  const directionTo=(a,b)=>Object.keys(directions).find(name=>{
+    const d=directions[name];return a[0]+d.r===b[0]&&a[1]+d.c===b[1];
+  });
   const inside = (stage,r,c) => r>=0&&c>=0&&r<stage.size&&c<stage.size;
   function shortestDirection(stage,start,goal){
     const queue=[{p:start,first:null}],seen=new Set([coord(start)]);
@@ -71,7 +93,7 @@
       if(equal(here.p,goal))return here.first;
       for(const [name,d] of Object.entries(directions)){
         const next=[here.p[0]+d.r,here.p[1]+d.c],key=coord(next);
-        if(!inside(stage,...next)||obstacleAt(stage,...next)||seen.has(key))continue;
+        if(!inside(stage,...next)||(obstacleAt(stage,...next)&&!isCleared(...next))||seen.has(key))continue;
         seen.add(key);
         queue.push({p:next,first:here.first||name});
       }
@@ -81,6 +103,17 @@
 
   let state=null;
   let activeStage=0;
+  function updateRewards(){
+    const total=rewardsEarned.size;
+    ui.rewardCount.textContent="🎒 "+total+" descoberta"+(total===1?"":"s");
+    ui.rewardBadge.textContent=total>=8?"🏆 Grande Exploradora":total>=4?"🥇 Amiga dos Caminhos":total>=2?"🎖️ Pequena Exploradora":"Sua coleção começa aqui";
+  }
+  function grantReward(kind,position){
+    const id=activeStage+":"+kind+":"+coord(position);
+    if(rewardsEarned.has(id))return false;
+    rewardsEarned.add(id);updateRewards();effect("star");
+    return true;
+  }
   let soundOn=false;
   let musicOn=false;
   let musicTimer=null;
@@ -254,20 +287,27 @@
     const frag=document.createDocumentFragment();
     for(let r=0;r<stage.size;r++){
       for(let c=0;c<stage.size;c++){
-        const cell=document.createElement("div");
+        const cell=document.createElement("button");
         const pos=[r,c],obs=obstacleAt(stage,r,c),goalIdx=stage.goals.findIndex(g=>equal(g.at,pos));
         const person=equal(state.pos,pos);
-        cell.className="board-tile";
-        if(obs){
-          cell.classList.add("obstacle");
-          const icon=document.createElement("span");
-          icon.className="obstacle-icon";icon.textContent=obs.icon;icon.setAttribute("aria-hidden","true");
-          cell.appendChild(icon);
-        }else if(person){
+        cell.type="button";cell.className="board-tile";
+        cell.dataset.tile=coord(pos);
+        cell.disabled=Boolean(state.locked);
+        cell.addEventListener("click",()=>tapTile(r,c));
+        if(isAdjacent(state.pos,pos))cell.classList.add("is-near");
+        if(person){
           cell.classList.add("player");
           const avatar=document.createElement("span");
           avatar.className="ritinha-token";avatar.setAttribute("aria-hidden","true");
           cell.appendChild(avatar);
+        }else if(obs){
+          cell.classList.add("obstacle");
+          if(isCleared(r,c))cell.classList.add("obstacle-cleared");
+          const icon=document.createElement("span");
+          icon.className="obstacle-icon";
+          icon.textContent=isCleared(r,c)?"🌉":obs.icon;
+          icon.setAttribute("aria-hidden","true");
+          cell.appendChild(icon);
         }else if(goalIdx>=0 && goalIdx>=state.goalIndex){
           cell.classList.add("goal");
           const avatar=document.createElement("span");
@@ -293,11 +333,12 @@
           cell.classList.add("decorated");
         }
         const label="Linha "+(r+1)+", coluna "+(c+1)
-          +(obs?", obstáculo: "+obs.label:"")
-          +(person?", Ritinha":"")
+          +(obs?(isCleared(r,c)?", passagem liberada":", desafio: "+obs.label):"")
+          +(person?", Ritinha está aqui":"")
           +(equal(stage.star,pos)&&!state.collected?", estrela para descobrir":"")
-          +(goalIdx>=0?", "+stage.goals[goalIdx].name:"");
-        cell.setAttribute("role","img");cell.setAttribute("aria-label",label);
+          +(goalIdx>=0?", "+stage.goals[goalIdx].name:"")
+          +(isAdjacent(state.pos,pos)?", casa vizinha":"");
+        cell.setAttribute("aria-label",label);
         frag.appendChild(cell);
       }
     }
@@ -328,7 +369,8 @@
     if(index>=stages.length)index=0;
     activeStage=index;document.body.dataset.stage=String(index+1);transitionHold=false;
     const stage=current();
-    state={pos:[...stage.start],goalIndex:0,plan:[],locked:false,collected:false,visited:new Set([coord(stage.start)])};
+    state={pos:[...stage.start],goalIndex:0,plan:[],locked:false,collected:false,cleared:new Set(),activeObstacle:null,visited:new Set([coord(stage.start)])};
+    ui.obstaclePanel.hidden=true;
     ui.meetingNote.hidden=true;
     musicStep=0;
     ui.game.hidden=false;ui.intro.hidden=true;ui.finish.hidden=true;
@@ -337,12 +379,12 @@
     ui.planArea.hidden=stage.mode!=="plan";
     display(stage.speaker==="ritinha"?"Ritinha":stage.speaker==="maya"?"Maya":stage.speaker,stage.story);
     progress();update();
-    inform(retry?"Ops! Voltamos ao começo. Tente outro caminho.":"Vamos lá! Escolha uma seta.");
+    inform(retry?"Ritinha voltou ao início da fase. Vamos tentar outro jeito!":"Toque numa casa vizinha. Investigue os obstáculos!");
     if(!retry){effect("select");ui.board.focus?.({preventScroll:true});}
   }
   function fail(obstacle){
     if(!state||state.locked)return;
-    state.locked=true;state.plan=[];stopVoice();effect("error");
+    state.locked=true;state.plan=[];state.activeObstacle=null;ui.obstaclePanel.hidden=true;stopVoice();effect("error");
     const where=obstacle?obstacle.label:"limite do caminho";
     display("Ritinha","Ops! "+where+". Vamos de novo?");
     inform("O caminho não deu certo. A fase vai recomeçar.");
@@ -402,11 +444,12 @@
     const d=directions[name],stage=current();
     if(!d||!state||state.locked)return {ignored:true};
     const next=[state.pos[0]+d.r,state.pos[1]+d.c],obs=obstacleAt(stage,...next);
-    if(!inside(stage,...next)||obs){fail(obs);return {error:true};}
+    if(!inside(stage,...next)||(obs&&!isCleared(...next))){fail(obs);return {error:true};}
     state.pos=next;state.visited.add(coord(next));effect("step",name);
     if(!state.collected&&equal(next,stage.star)){
-      state.collected=true;effect("star");
-      inform("⭐ Você encontrou uma estrela!");
+      state.collected=true;grantReward("estrela",next);
+      inform("⭐ Uma estrela entrou para a sua coleção!");
+      display("Ritinha","Olha! Uma estrela na aventura!");
     }
     const goal=stage.goals[state.goalIndex];
     if(equal(next,goal.at)){
@@ -424,6 +467,68 @@
     if(!state.collected)inform("Ritinha avançou para "+d.label+".");
     return {moved:true};
   }
+  // Toque nas casas: a criança escolhe cada passo sem precisar usar as setas.
+  function tapTile(r,c){
+    if(!state||state.locked||ui.game.hidden)return;
+    const pos=[r,c],obs=obstacleAt(current(),r,c);
+    if(equal(pos,state.pos)){
+      display("Ritinha","Estamos aqui! Qual casa vamos explorar?");
+      inform("Toque numa casa vizinha ou investigue um obstáculo.");
+      return;
+    }
+    if(obs&&!isCleared(r,c)){openObstacle(r,c,obs);return;}
+    if(!isAdjacent(state.pos,pos)){
+      inform("Essa casa está longe. Toque numa casa vizinha primeiro!");
+      display("Ritinha","Um passo de cada vez. Escolha a casa ao lado!");
+      effect("select");return;
+    }
+    ui.obstaclePanel.hidden=true;state.activeObstacle=null;state.plan=[];
+    const dir=directionTo(state.pos,pos);
+    if(dir){
+      const result=move(dir);
+      if(result.moved||result.checkpoint){
+        const selector='[data-tile="'+coord(state.pos)+'"]';
+        ui.board.querySelector?.(selector)?.focus?.({preventScroll:true});
+      }
+    }
+  }
+  function openObstacle(r,c,obs){
+    if(!state||state.locked)return;
+    const challenge=obstacleChallenges[obs.label];
+    if(!challenge){inform("Esse obstáculo ainda não tem um desafio.");return;}
+    const near=isAdjacent(state.pos,[r,c]);
+    state.activeObstacle={at:[r,c],obs,challenge,near};
+    ui.obstaclePanel.hidden=false;
+    ui.obstacleEmoji.textContent=obs.icon;
+    ui.obstacleTitle.textContent=obs.label.charAt(0).toUpperCase()+obs.label.slice(1);
+    ui.obstacleStory.textContent=challenge.line;
+    ui.obstacleQuestion.textContent=near?challenge.question:"Chegue a uma casa vizinha para ajudar!";
+    ui.choiceA.textContent=challenge.options[0];ui.choiceB.textContent=challenge.options[1];
+    ui.choiceA.disabled=!near;ui.choiceB.disabled=!near;
+    display("Ritinha",near?"Esse obstáculo tem um desafio!":"Olha! "+obs.label+"! Vamos chegar mais perto?");
+    inform(near?"Escolha como resolver o obstáculo.":"Você descobriu o obstáculo. Para interagir, chegue mais perto.");
+    effect("select");
+    ui.obstaclePanel.scrollIntoView?.({block:"nearest",behavior:document.body.classList.contains("calm")?"auto":"smooth"});
+    if(near)ui.choiceA.focus?.({preventScroll:true});
+  }
+  function chooseObstacle(index){
+    if(!state||state.locked||!state.activeObstacle?.near)return;
+    const {at,obs,challenge}=state.activeObstacle;
+    if(!isAdjacent(state.pos,at)){ui.obstaclePanel.hidden=true;state.activeObstacle=null;return;}
+    ui.obstaclePanel.hidden=true;state.activeObstacle=null;
+    if(index!==challenge.correct){
+      display("Ritinha","Ops! Esse jeito não funcionou. Vamos tentar outra vez!");
+      fail(obs);return;
+    }
+    state.cleared.add(coord(at));
+    grantReward("obstaculo",at);
+    display("Ritinha",challenge.solved);
+    inform("🎁 Caminho liberado! Você ganhou uma descoberta para a coleção.");
+    const dir=directionTo(state.pos,at);
+    if(dir)move(dir);
+    update();
+  }
+
   function pressDirection(name){
     if(!state||state.locked||!directions[name])return;
     if(current().mode==="plan"){
@@ -457,6 +562,7 @@
     walk();
   }
   function start(activateSound){
+    rewardsEarned.clear();updateRewards();
     setInitialSound(activateSound);
     startStage(0);
     if(activateSound&&musicOn)musicBeat();
@@ -478,6 +584,12 @@
     document.body.classList.add("calm");ui.calm.setAttribute("aria-pressed","true");
     ui.calm.textContent="✓ Visual tranquilo";
   }
+  ui.choiceA.addEventListener("click",()=>chooseObstacle(0));
+  ui.choiceB.addEventListener("click",()=>chooseObstacle(1));
+  ui.obstacleClose.addEventListener("click",()=>{
+    ui.obstaclePanel.hidden=true;if(state)state.activeObstacle=null;
+    ui.board.focus?.({preventScroll:true});
+  });
   document.querySelectorAll("[data-dir]").forEach(button=>{
     button.addEventListener("click",()=>pressDirection(button.dataset.dir));
   });

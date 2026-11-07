@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#092c61">
 <meta name="description" content="Rota da Ritinha: uma aventura interativa para encontrar os amigos da SoulKids. Três fases, personagens oficiais e desafios de orientação espacial.">
-<title>Rota da Ritinha 4.0 | A aventura musical da turma · SoulKids</title>
+<title>Rota da Ritinha 5.0 | Toque, explore e descubra · SoulKids</title>
 <link rel="canonical" href="https://soulkidsbrasil.com.br/jogo-rota-ritinha.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
@@ -230,6 +230,43 @@ body.calm *{scroll-behavior:auto}
   .celebration h2{font-size:1.7rem}
 }
 
+
+/* Rota 5.0: tabuleiro verdadeiramente tocável, encontros com obstáculos e coleção. */
+.explore-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 16px}
+.explore-lead{display:inline-flex;align-items:center;background:#fff3ca;border:1px solid #e9d393;border-radius:12px;padding:11px 14px;color:#644b1a;font-weight:950;font-size:.92rem}
+.reward-bar{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+.reward-bar span{border:1px solid #c9ddd1;background:#fff;border-radius:99px;padding:8px 12px;font-size:.78rem;font-weight:850;color:#24644e}
+.reward-bar #reward-count{background:#e2f6e7;color:#135c45;border-color:#a6d2b9}
+.board-tile{font-family:inherit;cursor:pointer;appearance:none;text-align:center;transition:transform .13s ease,background .13s ease}
+.board-tile:not(:disabled):hover{transform:translateY(-2px);outline:2px solid #3e9687;outline-offset:-2px}
+.board-tile:disabled{cursor:default;opacity:.7}
+.board-tile.is-near:not(.player){box-shadow:0 0 0 2px #69c7a3 inset,0 3px 0 #8bb98d55}
+.board-tile.is-near:not(.player):after{content:"";position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:6px;height:6px;background:#2d937c;border-radius:50%}
+.board-tile.obstacle{cursor:pointer}
+.board-tile.obstacle-cleared{background:#ddf4e6;border:2px dashed #67b88e}
+.board-tile.obstacle-cleared .obstacle-icon{filter:saturate(.75)}
+.board-tile.obstacle-cleared:before{content:"✓";position:absolute;right:2px;top:1px;font-size:.68rem;color:#197252;font-weight:950}
+.obstacle-panel{border:2px solid #e3c58c;background:linear-gradient(120deg,#fffaf0,#f2faee);border-radius:21px;padding:20px;margin-top:15px;box-shadow:0 8px 20px #486f4115}
+.obstacle-top{display:flex;align-items:center;gap:13px}
+.obstacle-top h3{margin:3px 0 0;color:var(--navy);font-size:1.25rem}
+.obstacle-emoji{display:grid;place-items:center;width:57px;height:57px;border-radius:15px;background:#ffebbd;font-size:2rem}
+.challenge-eyebrow{color:#9b5e13;font-weight:950;letter-spacing:.1em;font-size:.7rem}
+.obstacle-story{color:#345c68;font-size:.98rem;margin:12px 0 7px}
+.obstacle-question{color:var(--navy);font-weight:950;font-size:1.08rem;margin:0 0 13px}
+.obstacle-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.obstacle-choice{border:2px solid #a6d3bc;border-radius:16px;padding:13px 12px;min-height:55px;background:white;color:#174f48;font-size:.9rem;font-weight:950}
+.obstacle-choice:hover:not(:disabled){background:#e1f8e9}
+.obstacle-choice:disabled{opacity:.6}
+.obstacle-close{border:none;background:transparent;font-weight:850;font-size:.83rem;color:#476b70;text-decoration:underline;padding:10px 0;margin-top:7px;min-height:44px}
+.tap-instruction{margin:0 0 16px;border:1px solid #d2e5df;background:#f2faf6;border-radius:14px;padding:12px;color:#2b6259;font-size:.91rem;font-weight:850}
+.alternative-controls{border:1px solid #dee9e6;border-radius:15px;background:#fafdfb;overflow:hidden}
+.alternative-controls summary{padding:14px;color:#376568;font-weight:850;font-size:.84rem;cursor:pointer}
+.alternative-controls[open] summary{border-bottom:1px solid #dee9e6}
+.alternative-controls .pad{margin:14px auto}
+.alternative-controls .plan-area{margin:0 14px 14px}
+@media(max-width:650px){.explore-head{gap:7px}.explore-lead{width:100%;font-size:.85rem}.reward-bar{width:100%;justify-content:space-between}.obstacle-choices{grid-template-columns:1fr}.obstacle-panel{padding:15px}.board-tile{min-height:0}.map-hint{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){.board-tile{transition:none}}
+
 </style>
 </head>
 <body>
@@ -244,7 +281,7 @@ body.calm *{scroll-behavior:auto}
     <div class="hero-copy">
       <span class="kicker">UMA AVENTURA DA TURMA DA RITINHA</span>
       <h1 id="hero-title">Cadê a <span>turma?</span></h1>
-      <p class="hero-text">Uma aventura com música, passos e encontros. Ajude a Ritinha a encontrar a turma!</p>
+      <p class="hero-text">Toque no caminho, converse com os obstáculos e ajude a Ritinha a encontrar os amigos!</p>
       <div class="hero-avatars" aria-label="Amigos da Ritinha">
         <div class="avatar-named"><span class="character-avatar char-tonico" role="img" aria-label="Tonico"></span><small>Tonico</small></div>
         <div class="avatar-named"><span class="character-avatar char-luca" role="img" aria-label="Luca"></span><small>Luca</small></div>
@@ -256,7 +293,7 @@ body.calm *{scroll-behavior:auto}
         <button id="start-sound" class="btn btn-main" type="button">▶ Começar com som</button>
         <button id="start-quiet" class="btn btn-alt" type="button">🔇 Jogar sem som</button>
       </div>
-      <p class="hero-note">3 fases · Trilha sonora original · Sons opcionais · Sem cadastro</p>
+      <p class="hero-note">Toque nas casas · Descubra recompensas · Trilha sonora opcional</p>
     </div>
     <div class="hero-book"><img src="/gibi1-capa.webp" width="768" height="1152" loading="eager" decoding="async" alt="Capa oficial da Turma da Ritinha com todos os amigos reunidos"><span>Personagens oficiais SoulKids</span></div>
   </div>
@@ -273,6 +310,7 @@ body.calm *{scroll-behavior:auto}
       </div>
     </div>
     <div class="progress-row" id="story-progress" aria-label="Progresso das três fases"></div>
+    <div class="explore-head"><span class="explore-lead">👆 Toque numa casa ao lado da Ritinha para caminhar!</span><div class="reward-bar"><span id="reward-count" aria-live="polite">🎒 0 descobertas</span><span id="reward-badge">Sua coleção começa aqui</span></div></div>
     <div class="game-layout">
       <article class="map-card" aria-label="Mapa da aventura">
         <div class="story-bubble">
@@ -282,13 +320,26 @@ body.calm *{scroll-behavior:auto}
         <div id="meeting-note" class="meeting-note" role="status" aria-live="polite" hidden></div>
         <div class="map-scene">
           <div class="map-hint"><span>✦ MAPA DA TURMA</span><span class="map-stats"><span id="star-count" class="star-count">☆ Encontre a estrela</span><span id="target-label" class="target-pill">🎯 Tonico</span></span></div>
-          <div class="board" id="adventure-board" role="group" tabindex="0" aria-label="Mapa de exploração. Use as setas para mover a Ritinha."></div>
+          <div class="board" id="adventure-board" role="group" tabindex="0" aria-label="Mapa interativo. Toque nas casas vizinhas para andar e nos obstáculos para descobrir desafios."></div>
           <div class="scene-footer" aria-hidden="true"><span></span><span></span><span></span></div>
         </div>
+        <section id="obstacle-panel" class="obstacle-panel" aria-labelledby="obstacle-title" hidden>
+          <div class="obstacle-top"><span id="obstacle-emoji" class="obstacle-emoji" aria-hidden="true">💧</span><div><span class="challenge-eyebrow">DESAFIO DO CAMINHO</span><h3 id="obstacle-title">Poça de água</h3></div></div>
+          <p id="obstacle-story" class="obstacle-story">O obstáculo quer falar com você!</p>
+          <p id="obstacle-question" class="obstacle-question">Como vamos passar?</p>
+          <div class="obstacle-choices">
+            <button id="obstacle-choice-a" class="obstacle-choice" type="button">Opção A</button>
+            <button id="obstacle-choice-b" class="obstacle-choice" type="button">Opção B</button>
+          </div>
+          <button id="obstacle-close" class="obstacle-close" type="button">↩ Voltar ao mapa</button>
+        </section>
       </article>
       <aside class="controls-card" aria-labelledby="controls-title">
-        <h3 id="controls-title">Por onde vamos?</h3>
-        <div id="move-controls" class="pad" role="group" aria-label="Direções da Ritinha">
+        <h3 id="controls-title">Vamos explorar!</h3>
+        <p class="tap-instruction">👆 Toque nas casas do mapa. Os obstáculos guardam surpresas!</p>
+        <details class="alternative-controls" id="alternative-controls">
+          <summary>Outras formas de jogar: setas e teclado</summary>
+          <div id="move-controls" class="pad" role="group" aria-label="Direções da Ritinha">
           <button class="dir-btn up" data-dir="up" type="button" aria-label="Mover para cima">↑</button>
           <button class="dir-btn left" data-dir="left" type="button" aria-label="Mover para esquerda">←</button>
           <span class="pad-middle" aria-hidden="true">RITINHA</span>
@@ -304,12 +355,13 @@ body.calm *{scroll-behavior:auto}
             <button id="clear-plan" class="small-btn" type="button">✕ Limpar</button>
           </div>
         </div>
+        </details>
         <div class="aside-tools">
           <button id="hint-step" class="small-btn" type="button">💡 Pista</button>
           <button id="restart-stage" class="small-btn" type="button">↻ Recomeçar</button>
         </div>
-        <div id="game-feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">Escolha uma seta para começar.</div>
-        <p class="game-help">👣 Passos a cada movimento · ⭐ Uma estrela escondida · Obstáculo = tentar outra vez</p>
+        <div id="game-feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">Toque numa casa para caminhar.</div>
+        <p class="game-help">🔍 Toque nos obstáculos para investigar. Resolva os desafios para abrir novas passagens.</p>
       </aside>
     </div>
   </div>
@@ -319,7 +371,7 @@ body.calm *{scroll-behavior:auto}
     <details class="parent-details" id="adult-info">
       <summary>Para responsáveis e profissionais — como aproveitar a atividade</summary>
       <div class="parent-content">
-        <p><strong>Objetivo educativo:</strong> favorecer orientação espacial, antecipação, sequência e tolerância à frustração. As estrelas são opcionais; o percurso não gera escore clínico. A música, os passos e a celebração podem ser desligados pelo botão de som.</p>
+        <p><strong>Objetivo educativo:</strong> explorar escolhas de percurso, antecipação, atenção e estratégias frente a obstáculos. A criança toca uma casa adjacente para se mover e pode explorar obstáculos, escolher soluções e ganhar descobertas simbólicas sem qualquer compra. Uma opção inadequada reinicia a fase atual, com possibilidade de pausa ou ajuda do adulto. Setas e teclado permanecem disponíveis como alternativa acessível.</p>
         <div class="parent-grid">
           <article><h3>Fase 1 · Explorar</h3><p>Ofereça uma direção por vez. A criança pode apontar, falar, olhar ou acionar o botão. Se encontrar um obstáculo, a fase recomeça; valorize a tentativa e ofereça ajuda quando necessário.</p></article>
           <article><h3>Fase 2 · Planejar</h3><p>Escolha duas ou três setas antes de tocar em IR. Aos poucos, amplie o percurso. O erro reinicia a fase, sem perda de vidas, classificação ou punições.</p></article>
