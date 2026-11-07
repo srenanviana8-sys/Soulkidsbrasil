@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#092c61">
+<meta name="description" content="Rota da Ritinha: jogo de orientação espacial com três níveis, planejamento de trajetos e propostas de brincadeiras para famílias. Gratuito e sem cadastro.">
+<title>Rota da Ritinha — Jogo de orientação espacial | SoulKids</title>
+<link rel="canonical" href="https://soulkidsbrasil.com.br/jogo-rota-ritinha.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="SoulKids">
+<meta property="og:title" content="Rota da Ritinha — SoulKids Play">
+<meta property="og:description" content="Explore caminhos e pratique planejamento espacial com três níveis e atividades para brincar junto.">
+<meta property="og:url" content="https://soulkidsbrasil.com.br/jogo-rota-ritinha.html">
+<meta property="og:image" content="https://soulkidsbrasil.com.br/gibi1-capa.webp">
+<link rel="icon" type="image/png" href="/soulkids-symbol.png">
+<style>
+:root{--navy:#092c61;--ink:#243d54;--muted:#52697a;--teal:#166c66;--line:#dbe7e7;--cream:#fbfaf6;--orange:#a94b0c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{margin:0;color:var(--ink);background:var(--cream);font:500 16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,a{font:inherit;touch-action:manipulation}
+button{cursor:pointer}
+a{color:var(--navy)}
+button:focus-visible,a:focus-visible{outline:3px solid #ed991c;outline-offset:3px}
+[hidden]{display:none!important}
+.wrap{max-width:1140px;width:calc(100% - 34px);margin:0 auto}
+.skip{position:absolute;left:12px;top:-100px;padding:10px 16px;background:#fff;z-index:50}.skip:focus{top:10px}
+header{background:#fff;border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:76px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:950;font-size:1.2rem;color:var(--navy)}
+.brand img{width:44px;height:44px;object-fit:contain}
+.top-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.top-links a{text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:10px 13px;color:var(--navy);font-weight:800;font-size:.9rem}
+.top-links a:hover{background:#edf6f3}
+.intro{padding:52px 0 37px;background:linear-gradient(130deg,#fffdf8,#edf7f3)}
+.intro-layout{display:grid;grid-template-columns:1fr auto;align-items:center;gap:30px}
+.kicker{color:#14645d;font-size:.78rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+h1,h2,h3{letter-spacing:-.035em;line-height:1.15}
+h1{color:var(--navy);font-size:clamp(2.35rem,5.3vw,4.5rem);max-width:800px;margin:11px 0 14px}
+h1 span{color:#a7490d}
+.intro p{max-width:725px;color:var(--muted);font-size:1.06rem;margin:0 0 18px}
+.intro .intro-chips{display:flex;gap:8px;flex-wrap:wrap}
+.intro-chips span{font-size:.8rem;font-weight:850;color:#205b56;background:#ecf5f2;border:1px solid #cce1dc;padding:7px 11px;border-radius:99px}
+.intro-buddy{display:flex;flex-direction:column;align-items:center;justify-content:center;width:170px;min-height:170px;padding:12px;border:1px solid #d9e9e3;background:#fff;border-radius:25px;box-shadow:0 8px 26px #183e5514}
+.intro-buddy img{width:110px;height:110px;object-fit:contain}
+.intro-buddy span{color:var(--navy);font-size:.76rem;font-weight:900;text-align:center}
+.game-section{padding:40px 0 65px}
+.game-top{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.game-top h2{margin:6px 0 0;color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem)}
+.quiet-button{border:1px solid #a8c9c2;color:#1f5a56;background:#fff;padding:11px 15px;border-radius:12px;min-height:46px;font-weight:850}
+.quiet-button[aria-pressed=true]{background:#154f4d;color:white}
+.level-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 0 17px}
+.level-tab{display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;border:1px solid #d6e3e5;border-radius:13px;background:#fff;color:var(--navy);font-weight:900;padding:12px}
+.level-tab[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.level-tab .no{font-size:.75rem;opacity:.8;letter-spacing:.05em}
+.play-layout{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(300px,.87fr);gap:19px;align-items:start}
+.game-card,.controls-card{border:1px solid #dae5e5;background:white;border-radius:24px;box-shadow:0 14px 38px #163d5610}
+.game-card{padding:clamp(19px,3vw,32px)}
+.controls-card{padding:clamp(18px,2.8vw,30px)}
+.play-head{display:flex;align-items:start;justify-content:space-between;gap:14px}
+.play-head h3{color:var(--navy);font-size:1.5rem;margin:0 0 9px}
+.goal-pill{font-size:.79rem;font-weight:850;border:1px solid #bcd8d0;background:#f0f9f5;border-radius:99px;color:#246b58;padding:8px 12px;max-width:165px;text-align:center}
+.level-intro{color:var(--muted);margin:8px 0 10px;max-width:570px}.focus-line{color:#285f5a;background:#f1f9f6;border-radius:10px;padding:10px 12px;font-size:.84rem;margin:0 0 19px}
+.board-shell{padding:clamp(11px,2.4vw,23px);border-radius:20px;background:#edf3f4;border:1px solid #d5e3e5;display:flex;justify-content:center}
+.board{--cells:4;display:grid;grid-template-columns:repeat(var(--cells),minmax(0,1fr));gap:clamp(5px,1.3vw,9px);width:100%;max-width:420px;aspect-ratio:1}
+.tile{position:relative;min-width:0;aspect-ratio:1;border:1px solid #d0e0e4;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;color:#36586d;font-weight:900;font-size:clamp(1rem,3.3vw,1.8rem)}
+.tile.is-visited{background:#e6f5f0;border-color:#b9dacc}
+.tile.is-planned{outline:3px dashed #df9351;outline-offset:-6px}
+.tile.is-wall{background:#607888;border-color:#607888}
+.wall-mark{width:36%;height:5px;border-radius:9px;background:#e9f0f2;transform:rotate(-40deg)}
+.tile.is-goal{background:#fdf0db;border:2px solid #d39e54;color:#865111}
+.tile.is-passed{background:#d9eee7;color:#276a57}
+.tile.is-player{z-index:1;border:4px solid #a1d8ca;background:var(--navy);color:#fff;border-radius:50%;font-size:clamp(1.2rem,4vw,2rem);box-shadow:0 4px 9px #092c6138}
+.board-caption{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:17px 0 13px;color:#426073;font-size:.9rem;font-weight:800}
+.legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid #e3ebed;padding-top:15px;font-size:.78rem;color:#576e7a}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:15px;height:15px;border-radius:5px;background:#fff;display:inline-block;border:2px solid #d3e2e2}
+.legend .person{background:var(--navy);border-color:#9bd3c4;border-radius:100%}
+.legend .dest{background:#fdf0db;border-color:#d39e54}
+.legend .wall{background:#607888;border-color:#607888}
+.legend .trail{background:#e6f5f0;border-color:#b9dacc}
+.controls-card h3{color:var(--navy);font-size:1.4rem;margin:0 0 8px}
+.control-copy{color:var(--muted);margin:0 0 19px;font-size:.94rem}
+.direction-pad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,65px);gap:7px;max-width:320px;margin:0 auto}
+.direction-pad button{border:1px solid #b9d4d3;border-radius:13px;background:#edf8f5;color:var(--navy);font-size:1.6rem;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.08;user-select:none}
+.direction-pad button:hover{background:#dcefe9}
+.direction-pad button:active{background:#c9e7df}
+.direction-pad small{font-size:.68rem;font-weight:800;letter-spacing:.02em;margin-top:2px}
+.direction-pad .up{grid-column:2;grid-row:1}
+.direction-pad .left{grid-column:1;grid-row:2}
+.direction-pad .right{grid-column:3;grid-row:2}
+.direction-pad .down{grid-column:2;grid-row:3}
+.direction-pad .center{grid-column:2;grid-row:2;display:grid;place-items:center;color:#577f84;font-weight:900;font-size:.72rem}
+.plan-tools{border:1px solid #d7e4e2;background:#f8fbfa;border-radius:17px;padding:15px;margin-top:19px}
+.plan-tools h4{margin:0 0 10px;color:var(--navy);font-size:1rem}
+.plan-sequence{display:flex;align-items:center;flex-wrap:wrap;gap:5px;min-height:48px}
+.plan-chip{width:35px;height:35px;border:1px solid #b1cfc9;border-radius:9px;background:#fff;display:grid;place-items:center;color:var(--navy);font-size:1.3rem;font-weight:850}
+.plan-preview{color:#536b76;font-size:.85rem;line-height:1.5;margin:9px 0 12px}
+.plan-buttons,.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:7px;min-height:46px;border-radius:11px;border:1px solid transparent;padding:11px 15px;font-size:.89rem;font-weight:850;text-decoration:none}
+.btn.primary{background:var(--navy);color:white}
+.btn.secondary{background:white;border-color:#cbdcdf;color:var(--navy)}
+.btn:hover{filter:brightness(.96)}
+.btn:disabled{opacity:.48;cursor:not-allowed}
+.tools{border-top:1px solid #e3eaeb;margin-top:18px;padding-top:18px}
+.game-feedback{margin-top:19px;min-height:70px;background:#eff8f6;border-left:4px solid #358d83;border-radius:10px;padding:14px 16px;color:#244e51;font-weight:750;font-size:.9rem}
+.finish{border:2px solid #7dbda7;border-radius:16px;margin-top:19px;padding:19px;background:#f3fbf7}
+.finish h3{color:#226650;margin:0 0 8px}
+.finish p{color:#426365;margin:0 0 15px}
+.practice{padding:60px 0;background:#fff;border-top:1px solid #e4e9e8}
+.practice-heading{max-width:740px;margin-bottom:27px}
+.practice h2{font-size:clamp(1.8rem,3vw,2.9rem);color:var(--navy);margin:6px 0 12px}
+.practice-heading p{color:var(--muted);margin:0}
+.practice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.practice-card{border:1px solid #dbe6e3;border-radius:18px;background:#f9fbfa;padding:24px}
+.practice-card .index{display:inline-flex;align-items:center;justify-content:center;color:#176f61;background:#e7f5ee;border-radius:10px;width:40px;height:40px;font-size:.85rem;font-weight:950}
+.practice-card h3{font-size:1.13rem;color:var(--navy);margin:14px 0 10px}
+.practice-card p,.practice-card li{font-size:.92rem;color:#456173}
+.practice-card ul{padding-left:18px;margin-bottom:0}
+.practice-note{border-left:4px solid #176f61;padding:10px 16px;background:#eff8f4;color:#234d4b;border-radius:8px;margin-top:22px;font-size:.92rem}
+.print-action{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+footer{background:#092c61;color:#e6eff7;padding:25px 0}
+.footer-inner{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+footer a{color:#e6eff7;font-weight:800}
+body.calm .intro{background:#fbfaf6}
+body.calm .direction-pad button{background:#f3f6f5}
+body.calm .tile.is-planned{outline-style:solid}
+body.calm .tile,body.calm .btn,body.calm .direction-pad button{transition:none!important;animation:none!important}
+@media(max-width:960px){.play-layout{grid-template-columns:1fr}.game-card,.controls-card{max-width:none}.direction-pad{margin:0 auto}.practice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){
+  .wrap{width:calc(100% - 24px)}
+  .top{min-height:66px}
+  .brand{font-size:1rem}.brand img{width:38px;height:38px}
+  .top-links{gap:4px}
+  .top-links a{font-size:.78rem;padding:9px 10px}
+  .intro{padding:34px 0 25px}
+  .intro-layout{grid-template-columns:1fr}
+  .intro-buddy{display:none}
+  .intro h1{font-size:clamp(2.3rem,10vw,3.5rem)}
+  .game-section{padding:28px 0 43px}
+  .level-tabs{grid-template-columns:1fr;gap:7px}
+  .level-tab{min-height:48px;justify-content:flex-start}
+  .game-card,.controls-card{padding:17px;border-radius:17px}
+  .play-head{flex-wrap:wrap}
+  .goal-pill{max-width:100%}
+  .board-shell{padding:9px}
+  .board{gap:5px}
+  .tile{border-radius:8px}
+  .direction-pad{grid-template-rows:repeat(3,61px)}
+  .plan-buttons .btn{flex:1 1 130px}
+  .practice{padding:42px 0}
+  .practice-grid{grid-template-columns:1fr}
+  .practice-card{padding:20px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+@media print{
+  @page{size:A4;margin:14mm}
+  header,.intro,.game-section,.print-action,footer{display:none!important}
+  body,.practice{background:white!important}
+  .practice{padding:0!important;border:0!important}
+  .wrap{width:100%;max-width:none}
+  .practice-grid{display:block}
+  .practice-card{break-inside:avoid;margin:0 0 8mm;border:1px solid #aaa;background:white}
+  .practice-note{border:1px solid #888}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#atividade">Ir direto para o jogo</a>
+<header><div class="wrap top">
+<a class="brand" href="/index.html"><img src="/soulkids-symbol.png" alt="" width="44" height="44"> SoulKids Play</a>
+<nav class="top-links" aria-label="Navegação principal">
+<a href="/mundo-da-ritinha.html">Mundo da Ritinha</a>
+<a href="#orientacoes">Para responsáveis</a>
+</nav>
+</div></header>
+<main id="conteudo">
+<section class="intro" aria-labelledby="page-title"><div class="wrap intro-layout">
+<div><span class="kicker">Jogo de movimento e planejamento · Piloto</span>
+<h1 id="page-title">Rota da <span>Ritinha</span></h1>
+<p>Descubra caminhos, pense antes de agir e experimente outras direções. Três níveis de exploração espacial com orientações para brincar também fora da tela.</p>
+<div class="intro-chips"><span>3 níveis</span><span>Sem competição</span><span>Teclado e toque</span><span>Sem cadastro</span></div></div>
+<div class="intro-buddy"><img src="/ritinha-feliz.webp" width="110" height="110" alt="Ritinha sorrindo" loading="eager"><span>Vamos descobrir?</span></div>
+</div></section>
+<section class="game-section" id="atividade" aria-labelledby="activity-title"><div class="wrap">
+<div class="game-top"><div><span class="kicker">Escolha por onde começar</span><h2 id="activity-title">Explore o tabuleiro</h2></div>
+<button type="button" class="quiet-button" id="quiet-toggle" aria-pressed="false">Modo tranquilo</button></div>
+<div class="level-tabs" role="group" aria-label="Selecionar nível">
+<button type="button" class="level-tab" data-level="0" aria-pressed="true"><span class="no">01</span> Explorar</button>
+<button type="button" class="level-tab" data-level="1" aria-pressed="false"><span class="no">02</span> Planejar</button>
+<button type="button" class="level-tab" data-level="2" aria-pressed="false"><span class="no">03</span> Sequenciar</button>
+</div>
+<div class="play-layout">
+<article class="game-card" aria-labelledby="level-name">
+<div class="play-head"><h3 id="level-name">1 · Explorar</h3><span class="goal-pill" id="goal-label">Destino: Chegada</span></div>
+<p class="level-intro" id="level-intro">Encontre a chegada usando as setas.</p>
+<p class="focus-line"><strong>Habilidade em foco:</strong> <span id="stage-focus">Orientação espacial.</span></p>
+<div class="board-shell"><div class="board" id="rota-board" role="group" aria-label="Tabuleiro do jogo"></div></div>
+<div class="board-caption"><span id="position-label">Posição inicial</span><span id="move-count">0 movimentos</span></div>
+<div class="legend" aria-label="Legenda do tabuleiro">
+<span><i class="person" aria-hidden="true"></i> R = marcador</span>
+<span><i class="dest" aria-hidden="true"></i> Números = destinos</span>
+<span><i class="wall" aria-hidden="true"></i> Obstáculo</span>
+<span><i class="trail" aria-hidden="true"></i> Caminho percorrido</span>
+</div>
+</article>
+<aside class="controls-card" aria-labelledby="controls-heading">
+<h3 id="controls-heading">Escolha as direções</h3>
+<p class="control-copy" id="control-mode">Use as setas para explorar o tabuleiro.</p>
+<div class="direction-pad" role="group" aria-label="Direções do marcador">
+<button type="button" class="up" data-dir="up" aria-label="Para cima">↑<small>Cima</small></button>
+<button type="button" class="left" data-dir="left" aria-label="Para a esquerda">←<small>Esquerda</small></button>
+<span class="center" aria-hidden="true">ROTA</span>
+<button type="button" class="right" data-dir="right" aria-label="Para a direita">→<small>Direita</small></button>
+<button type="button" class="down" data-dir="down" aria-label="Para baixo">↓<small>Baixo</small></button>
+</div>
+<div class="plan-tools" id="plan-tools" hidden>
+<h4>Seu plano de caminho</h4>
+<div class="plan-sequence" id="plan-sequence" role="group" aria-label="Sequência preparada"></div>
+<p class="plan-preview" id="plan-preview">Escolha uma direção para iniciar o plano.</p>
+<div class="plan-buttons">
+<button type="button" class="btn primary" id="execute-plan">Executar plano →</button>
+<button type="button" class="btn secondary" id="undo-plan">Retirar último</button>
+<button type="button" class="btn secondary" id="clear-plan">Limpar plano</button>
+</div></div>
+<div class="tools">
+<button type="button" class="btn secondary" id="hint-route">Uma pista</button>
+<button type="button" class="btn secondary" id="restart-level">Recomeçar nível</button>
+</div>
+<div class="game-feedback" role="status" aria-live="polite" aria-atomic="true" id="game-feedback">Vamos começar! Escolha uma direção.</div>
+<div class="finish" id="finish-panel" hidden>
+<h3 id="finish-title">Caminho concluído!</h3>
+<p id="finish-text">Você encontrou o destino.</p>
+<button type="button" class="btn primary" id="next-level">Próximo nível →</button>
+</div>
+</aside>
+</div></div></section>
+<section class="practice" id="orientacoes" aria-labelledby="practice-title"><div class="wrap">
+<div class="practice-heading"><span class="kicker">Para adultos e profissionais</span>
+<h2 id="practice-title">Do jogo para a experiência corporal</h2>
+<p>O objetivo não é vencer rapidamente. É oferecer oportunidades de perceber direções, organizar uma sequência de ações, testar alternativas e conversar sobre o percurso. Adapte o desafio ao perfil da criança.</p></div>
+<div class="practice-grid">
+<article class="practice-card"><span class="index">01</span><h3>O que observar</h3>
+<ul><li>Como identifica cima, baixo, esquerda e direita.</li><li>Se antecipa etapas antes de agir.</li><li>Como reage quando encontra um obstáculo.</li><li>Se solicita ajuda, explica ou modifica a estratégia.</li></ul></article>
+<article class="practice-card"><span class="index">02</span><h3>Transformar em brincadeira real</h3>
+<p>Monte um caminho seguro com folhas grandes ou marcas no chão. Convide a criança a escolher o destino e indicar duas ou três direções antes de percorrer o trajeto. Um adulto acompanha e ajusta o desafio.</p></article>
+<article class="practice-card"><span class="index">03</span><h3>Adaptação inclusiva</h3>
+<p>O trajeto pode ser planejado com cartões de setas, apontamentos, olhar ou comunicação alternativa. Não é necessário caminhar: uma pessoa pode mover o marcador enquanto a criança escolhe os comandos.</p></article>
+</div>
+<p class="practice-note"><strong>Segurança e limites:</strong> atividades físicas exigem supervisão e ambiente adequado, sem obstáculos perigosos. Esta experiência é educativa, não gera diagnóstico, classificação ou medida clínica padronizada. O número de movimentos não representa um escore psicomotor.</p>
+<div class="print-action"><button type="button" class="btn primary" id="print-guide">Imprimir orientações para responsáveis</button><a href="/mundo-da-ritinha.html" class="btn secondary">Voltar ao Mundo da Ritinha</a></div>
+</div></section>
+</main>
+<footer><div class="wrap footer-inner"><span>© 2026 SoulKids · Brincar, pertencer e descobrir.</span><span>Sem conta, anúncios ou coleta de dados pessoais nesta atividade. <a href="/index.html">Site principal</a></span></div></footer>
+<script src="/jogo-rota-ritinha.js" defer></script>
+</body></html>
