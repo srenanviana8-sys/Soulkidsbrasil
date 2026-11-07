@@ -309,6 +309,17 @@ body.quiet .arcade-start,body.quiet .selection-inner{animation:none}
 @media(prefers-reduced-motion:reduce){.player-token.is-walking{animation:none!important}}
 body.quiet .player-token.is-walking{animation:none!important}
 
+
+/* Mini-interações em algumas cartas — com alternativa de participação assistida. */
+.card-mini{background:#f7fbf6;border:2px solid #c2ddcf;border-radius:17px;padding:14px;margin:0 0 14px}
+.mini-prompt{color:#174f4b;font-size:.95rem;font-weight:950;margin:0 0 12px;line-height:1.4}
+.mini-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mini-option{min-height:57px;padding:10px 6px;font-size:.86rem;font-weight:900;line-height:1.25;border:2px solid #b5d0c1;border-radius:13px;background:#fff;color:#1d5761}
+.mini-option:hover,.mini-option:focus-visible{border-color:#0f786a;background:#e9f7f0}
+.mini-feedback{min-height:23px;color:#24645b;font-weight:850;font-size:.81rem;margin:10px 0 0}
+#card-done:disabled{opacity:.5;cursor:wait;box-shadow:none}
+@media(max-width:390px){.mini-option{font-size:.73rem;padding:8px 3px;min-height:55px}}
+
 </style>
 </head>
 <body>
@@ -421,10 +432,15 @@ body.quiet .player-token.is-walking{animation:none!important}
 <div class="card-panel" data-category="corpo"><div class="card-content">
 <p id="card-category" class="card-category">💪 Corpo</p><div id="card-icon" class="card-icon" aria-hidden="true">👏</div>
 <h2 id="card-title">Cartinha da Turma</h2><p id="card-text" class="card-text">A brincadeira chegou!</p>
+<div id="card-mini" class="card-mini" hidden>
+  <p id="mini-prompt" class="mini-prompt">Toque nas figuras!</p>
+  <div id="mini-options" class="mini-options" role="group" aria-label="Escolhas do desafio"></div>
+  <p id="mini-feedback" class="mini-feedback" role="status" aria-live="polite"></p>
+</div>
 <div id="card-effect" class="card-effect">Você participou! Ganhe uma estrela.</div>
 <div class="card-actions">
 <button id="card-done" class="action action-primary" type="button">✓ Concluí / Continuar</button>
-<button id="card-help" class="action action-secondary" type="button">🤝 Fiz com ajuda</button>
+<button id="card-help" class="action action-secondary" type="button">🤝 Fazer com ajuda / Pular desafio</button>
 <button id="card-shield" class="action shield-button" type="button" hidden>🛡️ Usar passe e evitar voltar</button>
 </div>
 <p class="card-note">Não precisa acertar sozinho. Vale mostrar, apontar ou participar com ajuda.</p>
