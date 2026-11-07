@@ -1,0 +1,306 @@
+{
+  "schema_version": "1.0",
+  "document": "docs/BIBLIA_PERSONAGENS_SOULKIDS.md",
+  "updated_at": "2026-11-07",
+  "policy": {
+    "source_priority": [
+      "aprovacao_explicita_recente",
+      "gibi_1_publicado_48_paginas",
+      "modelo_individual_aprovado",
+      "roteiro_historico"
+    ],
+    "no_unapproved_visual_changes": true,
+    "no_diagnostic_labels_in_stories": true,
+    "voice_no_autoplay": true,
+    "no_auto_catchphrase_inference": true,
+    "note": "Registro editorial para orientar futuras produções. Não significa que todos os sprites individuais estejam validados."
+  },
+  "reference_assets": {
+    "published_comic": "Turma_da_Ritinha_Gibi_1_O_Comeco_de_uma_Turma.pdf",
+    "cover": "gibi1-capa.webp",
+    "approved_ritinha_walk": "ritinha-passos.webp",
+    "approved_ritinha_voice_spec": "VOZ_RITINHA.md",
+    "character_sheet_status": "incompleto"
+  },
+  "characters": [
+    {
+      "id": "ritinha",
+      "display_name": "Ritinha",
+      "narrative_role": "protagonista",
+      "visual_reference": "Gibi 1 capa e páginas 12, 28, 37; ritinha-passos.webp",
+      "visual_core": [
+        "cabelo longo predominantemente liso, tom dourado/acobreado do modelo oficial",
+        "oculos azuis",
+        "blusa listrada vertical multicolorida",
+        "short em tom amarelo/alaranjado conforme imagem-modelo",
+        "tenis rosa"
+      ],
+      "personality": [
+        "observadora",
+        "curiosa",
+        "pode sentir timidez inicial",
+        "autonomia progressiva"
+      ],
+      "catchphrase": {
+        "status": "aprovado",
+        "text": "Tá goxxxtando ou tá amando?!",
+        "usage": "esporádico em cenas significativas"
+      },
+      "voice": {
+        "status": "aprovada_para_a_ritinha",
+        "ref": "VOZ_RITINHA.md"
+      },
+      "dont": [
+        "remover oculos",
+        "trocar orientacao das listras",
+        "aumentar cachos em relacao ao modelo",
+        "repetir bordao em cada clique"
+      ]
+    },
+    {
+      "id": "ravi",
+      "display_name": "Ravi",
+      "narrative_role": "psicomotricista e mediador",
+      "visual_reference": "Gibi 1 capa e páginas 12, 37, 46",
+      "visual_core": [
+        "adulto jovem",
+        "cabelo escuro ondulado/cacheado",
+        "sem barba, sem oculos, sem apito",
+        "uniforme azul-marinho com simbolo SoulKids"
+      ],
+      "personality": [
+        "acolhedor",
+        "respeita a escolha da crianca",
+        "age na altura da crianca"
+      ],
+      "catchphrase": {
+        "status": "aprovado",
+        "text": "Boa, jovem!",
+        "usage": "conquista relevante; jovem moderado"
+      },
+      "voice": {
+        "status": "nao_aprovada"
+      },
+      "retired_phrases": [
+        "Aí eu gostei!"
+      ],
+      "dont": [
+        "barba",
+        "bordao a cada clique",
+        "resolver todas tarefas pelas criancas"
+      ]
+    },
+    {
+      "id": "tonico",
+      "display_name": "Tonico",
+      "narrative_role": "integrante da turma",
+      "visual_reference": "Gibi 1 capa e página 12",
+      "visual_core": [
+        "menino pequeno",
+        "cabelo azul",
+        "camiseta azul-clara com SK",
+        "short azul-escuro",
+        "tenis claro"
+      ],
+      "personality": [
+        "participa por acao, trocas e ritmo",
+        "fala pouco",
+        "ecolalia tardia pode aparecer sem estereotipo"
+      ],
+      "catchphrase": {
+        "status": "marca_expressiva",
+        "text": "Toc, toc!",
+        "usage": "elemento de toque ou ritmo, sem repeticao automatica"
+      },
+      "voice": {
+        "status": "nao_aprovada"
+      },
+      "asset_warnings": [
+        "movimento-tonico.webp mostra outro figurino/personagem em relacao ao gibi"
+      ],
+      "dont": [
+        "camiseta verde com dinossauro",
+        "falas longas obrigatorias",
+        "rotulos clinicos"
+      ]
+    },
+    {
+      "id": "luca",
+      "display_name": "Luca",
+      "narrative_role": "integrante da turma",
+      "visual_reference": "Gibi 1 capa e página 28",
+      "visual_core": [
+        "menino mais arredondado",
+        "cabelo castanho cacheado",
+        "camiseta verde com dinossauro",
+        "short escuro"
+      ],
+      "personality": [
+        "imaginativo",
+        "gosta do tema dinossauros",
+        "pode pedir ajuda"
+      ],
+      "catchphrase": {
+        "status": "padrao_de_fala",
+        "text": "boritinha",
+        "usage": "substituicao fonetica pontual, nao bordao literal"
+      },
+      "voice": {
+        "status": "nao_aprovada"
+      },
+      "asset_warnings": [
+        "movimento-luca.webp mostra outro figurino/personagem em relacao ao gibi"
+      ],
+      "dont": [
+        "camiseta azul com foguete",
+        "erro fonetico em todas palavras",
+        "humor baseado no corpo"
+      ]
+    },
+    {
+      "id": "maya",
+      "display_name": "Maya",
+      "narrative_role": "integrante da turma",
+      "visual_reference": "Gibi 1 capa e página 22",
+      "visual_core": [
+        "menina negra",
+        "cabelo escuro em trancas/dreads estilizados com detalhes rosa",
+        "blusa rosa com coracao",
+        "calca roxa",
+        "andador azul funcional"
+      ],
+      "personality": [
+        "participativa",
+        "tem iniciativa",
+        "identifica possibilidades de caminho"
+      ],
+      "catchphrase": {
+        "status": "nao_definido",
+        "text": null,
+        "usage": "sem frase fixa oficial"
+      },
+      "voice": {
+        "status": "nao_aprovada"
+      },
+      "dont": [
+        "omitir andador entre cenas",
+        "inverter apoios",
+        "inventar bordao"
+      ]
+    },
+    {
+      "id": "lia",
+      "display_name": "Lia",
+      "narrative_role": "integrante da turma",
+      "visual_reference": "Gibi 1 capa e página 37",
+      "visual_core": [
+        "menina de porte esguio",
+        "cabelo castanho escuro em duas marias-chiquinhas",
+        "casaco escuro com detalhe rosa",
+        "short roxo",
+        "tenis escuros com rosa"
+      ],
+      "personality": [
+        "pode reagir com intensidade",
+        "frustracao seguida de pausa e retomada por escolha"
+      ],
+      "catchphrase": {
+        "status": "reacao_caracteristica",
+        "text": "NÃO!",
+        "usage": "quando ha resistencia, sem caricaturar"
+      },
+      "voice": {
+        "status": "nao_aprovada"
+      },
+      "dont": [
+        "retratar como vilã",
+        "forcar volta imediata",
+        "trocar roupas escuras por roupas brilhantes"
+      ]
+    },
+    {
+      "id": "ray",
+      "display_name": "Ray",
+      "narrative_role": "psicologa; gancho da segunda historia",
+      "visual_reference": "Gibi 1 página 46",
+      "visual_core": [
+        "mulher adulta",
+        "cabelo castanho longo ondulado/cacheado",
+        "uniforme clinico rosa com marca SoulKids"
+      ],
+      "personality": [
+        "acolhedora",
+        "escuta",
+        "orienta sem moralizar"
+      ],
+      "catchphrase": {
+        "status": "nao_definido",
+        "text": null,
+        "usage": "sem bordao oficial"
+      },
+      "voice": {
+        "status": "nao_aprovada"
+      },
+      "narrative_constraints": [
+        "so aparece no final do Gibi 1",
+        "jogos independentes nao alteram cronologia do gibi"
+      ],
+      "dont": [
+        "uniforme azul-marinho",
+        "discursos clinicos extensos",
+        "inventar bordao"
+      ]
+    }
+  ],
+  "visual_audit": [
+    {
+      "id": "troca_luca_tonico",
+      "severity": "alto",
+      "files": [
+        "movimento-luca.webp",
+        "movimento-tonico.webp"
+      ],
+      "status": "bloquear_como_modelo_visual",
+      "finding": "O primeiro traz menino azul/foguete; o segundo traz verde/dinossauro; no gibi os nomes correspondem aos visuais inversos."
+    },
+    {
+      "id": "ritinha_cabelo",
+      "severity": "alto",
+      "status": "conflito_documental",
+      "finding": "Documentos antigos descrevem loiro/ruivo e liso/cacheado; manter modelo visual final do Gibi 1 e correcoes expressas."
+    },
+    {
+      "id": "ritinha_short",
+      "severity": "medio",
+      "status": "padronizacao_nominal_pendente",
+      "finding": "Textos variam amarelo/laranja; travar cor a partir de modelo grafico aprovado."
+    },
+    {
+      "id": "maya_visual",
+      "severity": "alto",
+      "status": "fixar_por_referencia",
+      "finding": "Preservar tranças/dreads estilizados, acessórios e andador funcional do Gibi 1."
+    },
+    {
+      "id": "ray_folha_frontal",
+      "severity": "medio",
+      "status": "pendente",
+      "finding": "Aparição na página 46 não constitui prancha de multiplos angulos aprovada."
+    }
+  ],
+  "fiction_constraints": {
+    "gibi1_clues": 5,
+    "clues_in_ritinha_backpack": true,
+    "tree": "area externa visivel na descoberta final",
+    "ray_appears_only_at_end": true,
+    "balloons_never_cover": [
+      "rostos",
+      "maos",
+      "pistas",
+      "andador",
+      "acoes centrais"
+    ],
+    "no_clinical_labels": true
+  },
+  "new_dialogue_approval": "Toda fala de jogo que nao conste do gibi ou de aprovacao explicita e rascunho, nao bordao."
+}
