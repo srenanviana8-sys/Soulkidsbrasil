@@ -9,6 +9,7 @@
       goals:[{at:[0,3],name:"Tonico",character:"tonico"}],
       speaker:"ritinha",story:"Cadê o Tonico? Vamos procurar!",
       rewardSpeaker:"ravi",reward:"Boa, jovem!",rewardDetail:"Tonico encontrou a Ritinha: toc, toc!",
+      star:[1,0],dialogue:[{who:"Ritinha",say:"Tonico! Te achei!"},{who:"Tonico",say:"Toc, toc!"},{who:"Ravi",say:"Boa, jovem!"}],
       focus:"Explorar direções e reconhecer obstáculos"
     },
     {
@@ -17,6 +18,7 @@
       goals:[{at:[0,4],name:"Luca",character:"luca"}],
       speaker:"ritinha",story:"Vamos achar o Luca! Pense no caminho.",
       rewardSpeaker:"luca",reward:"Meu ovo de dinossauro!",rewardDetail:"A Ritinha chegou até o Luca!",
+      star:[2,0],dialogue:[{who:"Ritinha",say:"Luca! Vamos juntos?"},{who:"Luca",say:"Meu ovo de dinossauro!"}],
       focus:"Planejar uma sequência de movimentos"
     },
     {
@@ -32,6 +34,7 @@
       goals:[{at:[3,2],name:"Maya",character:"maya"},{at:[0,5],name:"Lia",character:"lia"}],
       speaker:"maya",story:"Primeiro eu, depois a Lia. Vamos juntos!",
       rewardSpeaker:"ritinha",reward:"A turma está reunida!",rewardDetail:"Cada um participou do seu jeito.",
+      star:[4,0],dialogue:[{who:"Lia",say:"NÃO! Quero olhar primeiro."},{who:"Ritinha",say:"Tudo bem. A gente espera."},{who:"Lia",say:"Agora eu quero tentar."}],
       focus:"Sequenciar destinos e ajustar estratégias"
     }
   ];
@@ -51,7 +54,9 @@
     hint:$("hint-step"),sound:$("sound-toggle"),calm:$("calm-toggle"),
     finish:$("finish-overlay"),finishAvatar:$("finish-avatar"),finishTitle:$("finish-title"),
     finishQuote:$("finish-quote"),finishDetail:$("finish-detail"),next:$("continue-button"),
-    hold:$("hold-next"),startOver:$("start-over"),print:$("print-guide")
+    hold:$("hold-next"),startOver:$("start-over"),print:$("print-guide"),
+    music:$("music-toggle"),dialogue:$("meeting-dialogue"),meetingNote:$("meeting-note"),
+    starBadge:$("star-badge"),starCount:$("star-count")
   };
   if(Object.values(ui).some(node=>!node))return;
 
@@ -77,7 +82,11 @@
   let state=null;
   let activeStage=0;
   let soundOn=false;
+  let musicOn=false;
+  let musicTimer=null;
+  let musicStep=0;
   let audioContext=null;
+  let footstepBuffer=null;
   let introVoice=null;
   let quietMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches??false;
   let transitionHold=false;
@@ -85,6 +94,13 @@
   let timers=new Set();
   let runId=0;
   const playTime=310;
+  // Trilha original da SoulKids, sintetizada no navegador. Não usa músicas de terceiros.
+  const melodies=[
+    [67,71,74,71,69,67,64,67,71,74,79,74,72,71,69,67],
+    [62,66,69,74,73,69,66,64,62,69,74,78,76,73,69,66],
+    [65,69,72,76,74,72,69,67,69,72,77,76,74,72,69,65]
+  ];
+  const bass=[48,50,53];
 
   const display = (name,text) => {
     ui.speaker.textContent=name;
@@ -124,7 +140,11 @@
   function audioReady(){
     const API=window.AudioContext||window.webkitAudioContext;
     if(!API)return false;
-    try{if(!audioContext)audioContext=new API();audioContext.resume?.().catch?.(()=>{});return true;}catch(_){return false;}
+    try{
+      if(!audioContext)audioContext=new API();
+      audioContext.resume?.().catch?.(()=>{});
+      return true;
+    }catch(_){return false;}
   }
   function tone(frequency,at,duration,volume=0.028,type="sine"){
     if(!soundOn||!audioContext)return;
@@ -132,26 +152,89 @@
       const osc=audioContext.createOscillator(),gain=audioContext.createGain();
       osc.type=type;osc.frequency.setValueAtTime(frequency,at);
       gain.gain.setValueAtTime(0.0001,at);
-      gain.gain.exponentialRampToValueAtTime(volume,at+0.018);
+      gain.gain.exponentialRampToValueAtTime(volume,at+0.021);
       gain.gain.exponentialRampToValueAtTime(0.0001,at+duration);
       osc.connect(gain);gain.connect(audioContext.destination);
       osc.start(at);osc.stop(at+duration+0.025);
     }catch(_){}
   }
-  function effect(kind){
+  function noteFrequency(midi){return 440*Math.pow(2,(midi-69)/12);}
+  function stopMusic(){
+    if(musicTimer!==null){clearTimeout(musicTimer);musicTimer=null;}
+  }
+  function musicBeat(){
+    musicTimer=null;
+    if(!soundOn||!musicOn||ui.game.hidden||document.hidden)return;
+    if(!audioReady())return;
+    const at=audioContext.currentTime;
+    const sequence=melodies[activeStage]||melodies[0];
+    const n=musicStep%sequence.length;
+    // Timbre leve de xilofone e notas graves esparsas, sem música comercial.
+    tone(noteFrequency(sequence[n]),at,.235,.009,"triangle");
+    if(n%4===0)tone(noteFrequency(bass[activeStage]),at,.38,.006,"sine");
+    if(n%8===4)tone(noteFrequency(sequence[n]-12),at,.16,.004,"sine");
+    musicStep++;
+    musicTimer=setTimeout(musicBeat,325);
+  }
+  function setMusic(value){
+    musicOn=Boolean(value);
+    ui.music.setAttribute("aria-pressed",String(musicOn));
+    ui.music.textContent=musicOn?"🎵 Música ligada":"🎵 Música desligada";
+    stopMusic();
+    if(musicOn&&soundOn&&!ui.game.hidden){musicStep=0;musicBeat();}
+  }
+  function shoeStep(direction){
+    if(!soundOn||!audioReady())return;
+    const at=audioContext.currentTime;
+    try{
+      if(!footstepBuffer && audioContext.createBuffer){
+        const sampleRate=audioContext.sampleRate||44100;
+        footstepBuffer=audioContext.createBuffer(1,Math.floor(sampleRate*.095),sampleRate);
+        const samples=footstepBuffer.getChannelData(0);
+        for(let i=0;i<samples.length;i++)samples[i]=(Math.random()*2-1)*(1-i/samples.length);
+      }
+      if(footstepBuffer&&audioContext.createBufferSource){
+        const src=audioContext.createBufferSource(),gain=audioContext.createGain();
+        src.buffer=footstepBuffer;
+        const filter=audioContext.createBiquadFilter?.();
+        if(filter){filter.type="lowpass";filter.frequency.value=direction==="up"?730:direction==="down"?390:530;src.connect(filter);filter.connect(gain);}
+        else src.connect(gain);
+        gain.gain.setValueAtTime(0.0001,at);
+        gain.gain.exponentialRampToValueAtTime(.032,at+.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001,at+.088);
+        gain.connect(audioContext.destination);src.start(at);src.stop(at+.095);
+      }
+    }catch(_){}
+    // O som do calçado tem um toque grave que acompanha cada casa,
+    // incluindo cada passo de um percurso planejado.
+    tone(direction==="up"?205:direction==="down"?132:165,at,.10,.014,"triangle");
+  }
+  function effect(kind,direction){
     if(!soundOn||!audioReady())return;
     const t=audioContext.currentTime;
-    if(kind==="step")tone(350,t,.075,.012);
-    else if(kind==="select")tone(510,t,.08,.018);
-    else if(kind==="error"){tone(320,t,.14,.022,"triangle");tone(240,t+.11,.17,.019,"triangle");}
-    else if(kind==="checkpoint"){tone(520,t,.13,.024);tone(650,t+.10,.17,.024);}
+    if(kind==="step")shoeStep(direction);
+    else if(kind==="select")tone(510,t,.08,.016);
+    else if(kind==="error"){tone(320,t,.14,.025,"triangle");tone(240,t+.11,.17,.021,"triangle");}
+    else if(kind==="checkpoint"){tone(520,t,.13,.025);tone(650,t+.10,.17,.026);}
+    else if(kind==="star"){tone(620,t,.12,.022);tone(830,t+.1,.22,.022);}
     else if(kind==="win"){tone(523,t,.14,.03);tone(659,t+.13,.14,.03);tone(784,t+.26,.22,.03);}
   }
   function setSound(value){
     soundOn=Boolean(value);
     ui.sound.setAttribute("aria-pressed",String(soundOn));
     ui.sound.textContent=soundOn?"🔊 Som ligado":"🔇 Som desligado";
-    if(soundOn){audioReady();effect("select");}else stopVoice();
+    if(soundOn){
+      audioReady();effect("select");
+      setMusic(musicOn);
+    }else{
+      stopMusic();stopVoice();
+    }
+  }
+  function setInitialSound(enabled){
+    // Entrar com som habilita trilha + efeitos. Entrar sem som não carrega áudio.
+    musicOn=Boolean(enabled);
+    setSound(enabled);
+    setMusic(enabled);
   }
 
   function progress(){
@@ -197,14 +280,23 @@
             num.className="goal-index";num.textContent=String(goalIdx+1);
             cell.appendChild(num);
           }
+        }else if(equal(stage.star,pos)&&!state.collected){
+          cell.classList.add("star-tile");
+          const shine=document.createElement("span");
+          shine.className="star-token";shine.textContent="⭐";shine.setAttribute("aria-hidden","true");
+          cell.appendChild(shine);
         }else if(state.visited.has(coord(pos))){
           cell.classList.add("visited");
+          const steps=document.createElement("span");
+          steps.className="footprints";steps.textContent="••";
+          steps.setAttribute("aria-hidden","true");cell.appendChild(steps);
         }else if((r+c)%3===0){
           cell.classList.add("decorated");
         }
         const label="Linha "+(r+1)+", coluna "+(c+1)
           +(obs?", obstáculo: "+obs.label:"")
           +(person?", Ritinha":"")
+          +(equal(stage.star,pos)&&!state.collected?", estrela para descobrir":"")
           +(goalIdx>=0?", "+stage.goals[goalIdx].name:"");
         cell.setAttribute("role","img");cell.setAttribute("aria-label",label);
         frag.appendChild(cell);
@@ -229,6 +321,7 @@
     if(!state)return;
     const stage=current(),goal=stage.goals[state.goalIndex];
     ui.target.textContent=goal?"🎯 "+goal.name:"✔ Amigos encontrados";
+    ui.starCount.textContent=state.collected?"⭐ Achou!":"☆ Encontre a estrela";
     planDisplay();draw();
   }
   function startStage(index,retry=false){
@@ -236,7 +329,9 @@
     if(index>=stages.length)index=0;
     activeStage=index;document.body.dataset.stage=String(index+1);transitionHold=false;
     const stage=current();
-    state={pos:[...stage.start],goalIndex:0,plan:[],locked:false,visited:new Set([coord(stage.start)])};
+    state={pos:[...stage.start],goalIndex:0,plan:[],locked:false,collected:false,visited:new Set([coord(stage.start)])};
+    ui.meetingNote.hidden=true;
+    musicStep=0;
     ui.game.hidden=false;ui.intro.hidden=true;ui.finish.hidden=true;
     ui.stageCount.textContent="FASE "+(index+1)+" / "+stages.length;
     ui.stageTitle.textContent=stage.name;
@@ -265,6 +360,23 @@
     state.locked=true;state.plan=[];effect("win");planDisplay();
     const stage=current();
     ui.finish.hidden=false;
+    ui.dialogue.replaceChildren();
+    for(const item of stage.dialogue){
+      const row=document.createElement("div");
+      row.className="meeting-line";
+      const avatar=document.createElement("span");
+      avatar.className="character-avatar meeting-avatar char-"+item.who.toLowerCase();
+      avatar.setAttribute("aria-hidden","true");
+      const sentence=document.createElement("p");
+      const who=document.createElement("strong");
+      who.textContent=item.who+": ";
+      sentence.appendChild(who);
+      const words=document.createElement("span");words.textContent=item.say;
+      sentence.appendChild(words);
+      row.appendChild(avatar);row.appendChild(sentence);
+      ui.dialogue.appendChild(row);
+    }
+    ui.starBadge.textContent=state.collected?"⭐ Estrela encontrada!":"✨ Você encontrou um amigo!";
     ui.finishAvatar.className="character-avatar finish-avatar char-"+stage.rewardSpeaker;
     ui.finishTitle.textContent=activeStage===2?"A turma está junta!":"Amigo encontrado!";
     ui.finishQuote.textContent=stage.reward;
@@ -280,7 +392,7 @@
   function scheduleWinNext(){
     if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;}
     if(transitionHold||!state?.locked||activeStage>=stages.length-1)return;
-    winningTimer=setTimeout(()=>{winningTimer=null;nextStage();},quietMotion?2100:2500);
+    winningTimer=setTimeout(()=>{winningTimer=null;nextStage();},quietMotion?4800:5500);
   }
   function nextStage(){
     if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;}
@@ -292,18 +404,26 @@
     if(!d||!state||state.locked)return {ignored:true};
     const next=[state.pos[0]+d.r,state.pos[1]+d.c],obs=obstacleAt(stage,...next);
     if(!inside(stage,...next)||obs){fail(obs);return {error:true};}
-    state.pos=next;state.visited.add(coord(next));effect("step");
+    state.pos=next;state.visited.add(coord(next));effect("step",name);
+    if(!state.collected&&equal(next,stage.star)){
+      state.collected=true;effect("star");
+      inform("⭐ Você encontrou uma estrela!");
+    }
     const goal=stage.goals[state.goalIndex];
     if(equal(next,goal.at)){
       state.goalIndex++;
       if(state.goalIndex>=stage.goals.length){
         update();win();return {done:true};
       }
-      display("Maya","Chegamos! Agora vamos achar a Lia.");
+      display("Maya","Encontrei um caminho para todos!");
+      ui.meetingNote.hidden=false;
+      ui.meetingNote.textContent="Ritinha: Obrigada, Maya! Agora vamos procurar a Lia.";
       effect("checkpoint");inform("Maya encontrada! Agora encontre a Lia.");
       update();return {checkpoint:true};
     }
-    update();inform("Ritinha avançou para "+d.label+".");return {moved:true};
+    update();
+    if(!state.collected)inform("Ritinha avançou para "+d.label+".");
+    return {moved:true};
   }
   function pressDirection(name){
     if(!state||state.locked||!directions[name])return;
@@ -338,13 +458,18 @@
     walk();
   }
   function start(activateSound){
-    setSound(activateSound);
+    setInitialSound(activateSound);
     startStage(0);
+    if(activateSound&&musicOn)musicBeat();
     if(activateSound)playApprovedIntro();
   }
   ui.startSound.addEventListener("click",()=>start(true));
   ui.startQuiet.addEventListener("click",()=>start(false));
   ui.sound.addEventListener("click",()=>setSound(!soundOn));
+  ui.music.addEventListener("click",()=>{
+    if(!soundOn)setSound(true);
+    setMusic(!musicOn);
+  });
   ui.calm.addEventListener("click",()=>{
     const on=document.body.classList.toggle("calm");
     ui.calm.setAttribute("aria-pressed",String(on));
@@ -373,7 +498,7 @@
     ui.hold.textContent=transitionHold?"▶ Retomar avanço":"⏸ Pausar avanço";
     scheduleWinNext();
   });
-  ui.startOver.addEventListener("click",()=>{stopTimers();stopVoice();ui.game.hidden=true;ui.finish.hidden=true;ui.intro.hidden=false;ui.startSound.focus?.({preventScroll:true});});
+  ui.startOver.addEventListener("click",()=>{stopTimers();stopVoice();stopMusic();ui.game.hidden=true;ui.finish.hidden=true;ui.intro.hidden=false;ui.startSound.focus?.({preventScroll:true});});
   ui.print.addEventListener("click",()=>window.print());
   const keyNames={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"};
   document.addEventListener("keydown",e=>{
@@ -383,9 +508,9 @@
   });
   document.addEventListener("visibilitychange",()=>{
     if(document.hidden){
-      stopVoice();
+      stopVoice();stopMusic();
       if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;transitionHold=true;ui.hold.textContent="▶ Retomar avanço";ui.hold.setAttribute("aria-pressed","true");}
     }
   });
-  window.addEventListener("pagehide",()=>{stopTimers();stopVoice();});
+  window.addEventListener("pagehide",()=>{stopTimers();stopVoice();stopMusic();});
 })();
