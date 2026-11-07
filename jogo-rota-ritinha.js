@@ -56,13 +56,35 @@
     finishQuote:$("finish-quote"),finishDetail:$("finish-detail"),next:$("continue-button"),
     hold:$("hold-next"),startOver:$("start-over"),print:$("print-guide"),
     music:$("music-toggle"),dialogue:$("meeting-dialogue"),meetingNote:$("meeting-note"),
-    starBadge:$("star-badge"),starCount:$("star-count")
+    starBadge:$("star-badge"),starCount:$("star-count"),
+    obstaclePanel:$("obstacle-panel"),obstacleTitle:$("obstacle-title"),obstacleEmoji:$("obstacle-emoji"),
+    obstacleStory:$("obstacle-story"),obstacleQuestion:$("obstacle-question"),
+    choiceA:$("obstacle-choice-a"),choiceB:$("obstacle-choice-b"),obstacleClose:$("obstacle-close"),
+    rewardCount:$("reward-count"),rewardBadge:$("reward-badge")
   };
   if(Object.values(ui).some(node=>!node))return;
 
+  const obstacleChallenges={
+    "poça de água":{line:"Ploc! A poça cobre a trilha.",question:"Como atravessar sem escorregar?",options:["🪨 Colocar pedras firmes","💦 Correr sem olhar"],correct:0,solved:"A passagem de pedras está pronta!"},
+    "brinquedo no caminho":{line:"O ursinho quer voltar ao lugar dele!",question:"O que podemos fazer?",options:["🧸 Guardar com carinho","🦶 Chutar para longe"],correct:0,solved:"Ursinho guardado! Caminho livre!"},
+    "tronco":{line:"Um tronco atravessou a trilha.",question:"Como passar com segurança?",options:["🏃 Correr sem olhar","↪️ Contornar o tronco"],correct:1,solved:"Encontramos a passagem lateral!"},
+    "tronco caído":{line:"O tronco caiu bem no caminho!",question:"O que ajuda a turma?",options:["🪵 Criar uma passagem firme","💨 Correr sem olhar"],correct:0,solved:"Passagem firme criada!"},
+    "ovo de dinossauro":{line:"Pssiu... o ovo do Luca está aqui!",question:"Onde ele ficará seguro?",options:["💥 Quebrar o ovo","🥚 Levar ao ninho"],correct:1,solved:"O ovo voltou ao ninho!"},
+    "cones no caminho":{line:"Os cones estão espalhados.",question:"Como organizar a passagem?",options:["🚧 Organizar os cones","💥 Derrubar tudo"],correct:0,solved:"Os cones agora marcam a trilha!"},
+    "lama":{line:"A lama está escorregadia!",question:"Como passar com cuidado?",options:["🏃 Correr pela lama","🪵 Colocar tábuas firmes"],correct:1,solved:"As tábuas ajudaram!"},
+    "chuva no caminho":{line:"Plic, ploc... começou a chover!",question:"O que podemos usar?",options:["☂️ Abrir o guarda-chuva","⚡ Seguir sem olhar"],correct:0,solved:"A turma se protegeu da chuva!"},
+    "árvore bloqueando o caminho":{line:"A árvore é a casa de muitos bichinhos.",question:"Como passar sem machucá-la?",options:["🪓 Cortar a árvore","↪️ Contornar com cuidado"],correct:1,solved:"A passagem preservou a árvore!"},
+    "bola no caminho":{line:"Uma bola ficou na passagem!",question:"Como liberar o caminho?",options:["⚽ Guardar a bola ao lado","💥 Chutar sem olhar"],correct:0,solved:"Bola guardada! Podemos seguir!"}
+  };
+  const rewardsEarned=new Set();
   const coord = p => p[0]+","+p[1];
   const equal = (a,b) => a[0]===b[0]&&a[1]===b[1];
   const obstacleAt = (stage,r,c) => stage.walls.find(w=>equal(w.at,[r,c]));
+  const isCleared = (r,c) => Boolean(state?.cleared?.has(coord([r,c])));
+  const isAdjacent=(a,b)=>Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1])===1;
+  const directionTo=(a,b)=>Object.keys(directions).find(name=>{
+    const d=directions[name];return a[0]+d.r===b[0]&&a[1]+d.c===b[1];
+  });
   const inside = (stage,r,c) => r>=0&&c>=0&&r<stage.size&&c<stage.size;
   function shortestDirection(stage,start,goal){
     const queue=[{p:start,first:null}],seen=new Set([coord(start)]);
@@ -71,7 +93,7 @@
       if(equal(here.p,goal))return here.first;
       for(const [name,d] of Object.entries(directions)){
         const next=[here.p[0]+d.r,here.p[1]+d.c],key=coord(next);
-        if(!inside(stage,...next)||obstacleAt(stage,...next)||seen.has(key))continue;
+        if(!inside(stage,...next)||(obstacleAt(stage,...next)&&!isCleared(...next))||seen.has(key))continue;
         seen.add(key);
         queue.push({p:next,first:here.first||name});
       }
@@ -81,6 +103,17 @@
 
   let state=null;
   let activeStage=0;
+  function updateRewards(){
+    const total=rewardsEarned.size;
+    ui.rewardCount.textContent="🎒 "+total+" descoberta"+(total===1?"":"s");
+    ui.rewardBadge.textContent=total>=8?"🏆 Grande Exploradora":total>=4?"🥇 Amiga dos Caminhos":total>=2?"🎖️ Pequena Exploradora":"Sua coleção começa aqui";
+  }
+  function grantReward(kind,position){
+    const id=activeStage+":"+kind+":"+coord(position);
+    if(rewardsEarned.has(id))return false;
+    rewardsEarned.add(id);updateRewards();effect("star");
+    return true;
+  }
   let soundOn=false;
   let musicOn=false;
   let musicTimer=null;
@@ -254,20 +287,27 @@
     const frag=document.createDocumentFragment();
     for(let r=0;r<stage.size;r++){
       for(let c=0;c<stage.size;c++){
-        const cell=document.createElement("div");
+        const cell=document.createElement("button");
         const pos=[r,c],obs=obstacleAt(stage,r,c),goalIdx=stage.goals.findIndex(g=>equal(g.at,pos));
         const person=equal(state.pos,pos);
-        cell.className="board-tile";
-        if(obs){
-          cell.classList.add("obstacle");
-          const icon=document.createElement("span");
-          icon.className="obstacle-icon";icon.textContent=obs.icon;icon.setAttribute("aria-hidden","true");
-          cell.appendChild(icon);
-        }else if(person){
+        cell.type="button";cell.className="board-tile";
+        cell.dataset.tile=coord(pos);
+        cell.disabled=Boolean(state.locked);
+        cell.addEventListener("click",()=>tapTile(r,c));
+        if(isAdjacent(state.pos,pos))cell.classList.add("is-near");
+        if(person){
           cell.classList.add("player");
           const avatar=document.createElement("span");
           avatar.className="ritinha-token";avatar.setAttribute("aria-hidden","true");
           cell.appendChild(avatar);
+        }else if(obs){
+          cell.classList.add("obstacle");
+          if(isCleared(r,c))cell.classList.add("obstacle-cleared");
+          const icon=document.createElement("span");
+          icon.className="obstacle-icon";
+          icon.textContent=isCleared(r,c)?"🌉":obs.icon;
+          icon.setAttribute("aria-hidden","true");
+          cell.appendChild(icon);
         }else if(goalIdx>=0 && goalIdx>=state.goalIndex){
           cell.classList.add("goal");
           const avatar=document.createElement("span");
@@ -293,11 +333,12 @@
           cell.classList.add("decorated");
         }
         const label="Linha "+(r+1)+", coluna "+(c+1)
-          +(obs?", obstáculo: "+obs.label:"")
-          +(person?", Ritinha":"")
+          +(obs?(isCleared(r,c)?", passagem liberada":", desafio: "+obs.label):"")
+          +(person?", Ritinha está aqui":"")
           +(equal(stage.star,pos)&&!state.collected?", estrela para descobrir":"")
-          +(goalIdx>=0?", "+stage.goals[goalIdx].name:"");
-        cell.setAttribute("role","img");cell.setAttribute("aria-label",label);
+          +(goalIdx>=0?", "+stage.goals[goalIdx].name:"")
+          +(isAdjacent(state.pos,pos)?", casa vizinha":"");
+        cell.setAttribute("aria-label",label);
         frag.appendChild(cell);
       }
     }
