@@ -283,6 +283,8 @@ body.calm .ritinha-player,body.calm .tile.is-player.is-stepping .ritinha-player{
 @media(prefers-reduced-motion:reduce){.tile.is-player.is-stepping .ritinha-player{animation:none!important}}
 @media print{.activity-ladder,.observation-sheet{break-inside:avoid}.observation-choices label{background:#fff}}
 
+.keyboard-hint{color:#627980;background:#f5f9f7;border-radius:9px;padding:8px 11px;font-size:.78rem;margin:-9px 0 18px}
+.board:focus-visible{outline:4px solid #a45f1b;outline-offset:6px}
 </style>
 </head>
 <body>
@@ -332,7 +334,7 @@ body.calm .ritinha-player,body.calm .tile.is-player.is-stepping .ritinha-player{
 <p class="focus-line"><strong>Habilidade em foco:</strong> <span id="stage-focus">Orientação espacial.</span></p>
 <div class="board-shell">
  <div class="board-scene-head" aria-hidden="true"><span>TRILHA SOULKIDS</span><span>UM PASSO DE CADA VEZ</span></div>
- <div class="board" id="rota-board" role="group" aria-label="Trilha do jogo: quadro de posições"></div>
+ <div class="board" id="rota-board" role="group" tabindex="0" aria-label="Trilha do jogo. Coloque o foco aqui para usar as setas do teclado."></div>
  <div class="board-scene-foot" aria-hidden="true"><span>✦</span><span>EXPLORAR · TENTAR · DESCOBRIR</span><span>✦</span></div>
  </div>
 <div class="board-caption"><span id="position-label">Posição inicial</span><span id="move-count">0 movimentos</span></div>
@@ -345,7 +347,7 @@ body.calm .ritinha-player,body.calm .tile.is-player.is-stepping .ritinha-player{
 </article>
 <aside class="controls-card" aria-labelledby="controls-heading">
 <h3 id="controls-heading">Ajude a Ritinha a caminhar</h3>
-<p class="control-copy" id="control-mode">Use as setas para explorar o tabuleiro.</p>
+<p class="control-copy" id="control-mode">Use as setas para explorar o tabuleiro.</p><p class="keyboard-hint">No computador: selecione a trilha ou um botão e use as setas do teclado.</p>
 <div class="direction-pad" role="group" aria-label="Direções do marcador">
 <button type="button" class="up" data-dir="up" aria-label="Para cima">↑<small>Cima</small></button>
 <button type="button" class="left" data-dir="left" aria-label="Para a esquerda">←<small>Esquerda</small></button>
