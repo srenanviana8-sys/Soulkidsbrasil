@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#092c61">
 <meta name="description" content="Rota da Ritinha: uma aventura interativa para encontrar os amigos da SoulKids. Três fases, personagens oficiais e desafios de orientação espacial.">
-<title>Rota da Ritinha 3.0 | A aventura da turma · SoulKids</title>
+<title>Rota da Ritinha 4.0 | A aventura musical da turma · SoulKids</title>
 <link rel="canonical" href="https://soulkidsbrasil.com.br/jogo-rota-ritinha.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
@@ -198,6 +198,36 @@ body.calm *{scroll-behavior:auto}
 @media(max-width:360px){.avatar-named .character-avatar{width:48px;height:48px}.hero-avatars{gap:4px}.game-title{font-size:1.5rem}.board{gap:4px}.story-bubble p{font-size:1rem}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.hero-book img{transform:none}}
 @media print{@page{size:A4;margin:15mm}.site-nav,.hero,.game,.celebration,.footer,.parent-details summary,.parent-content button{display:none!important}.parent-section{border:0;padding:0}.parent-details,.parent-content{border:0;padding:0}.parent-details .parent-content{display:block!important}.parent-grid{display:block}.parent-grid article{break-inside:avoid;margin-bottom:8mm}.safety{border:1px solid #aaa}}
+
+/* Rota 4.0: progressão sonora, pistas visuais e diálogos curtos de encontro. */
+.map-stats{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:7px}
+.star-count{display:inline-flex;align-items:center;border:1px solid #dabc5e;background:#fff9e5;color:#81580a;border-radius:99px;padding:6px 11px;font-weight:900;font-size:.75rem}
+.board-tile.star-tile{background:#fff6c6;border-color:#e7c86c}
+.star-token{font-size:clamp(1.2rem,3.5vw,2.2rem);line-height:1;filter:drop-shadow(0 3px 1px #a57e3055)}
+.footprints{font-size:clamp(.8rem,2vw,1.1rem);letter-spacing:3px;color:#b49b56;transform:rotate(-35deg)}
+.meeting-note{background:#e5f5ff;border:2px solid #abcce8;border-radius:13px;color:#214e72;padding:10px 14px;font-weight:850;font-size:.87rem;margin:-4px 0 13px}
+.meeting-dialogue{display:grid;gap:7px;margin:15px 0 12px;text-align:left}
+.meeting-line{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #e6e4c9;border-radius:15px;padding:8px 11px}
+.meeting-avatar{width:43px;height:43px;flex-shrink:0;border-width:2px}
+.meeting-line p{font-size:.9rem;line-height:1.28;margin:0;color:#344c59}
+.meeting-line strong{color:#155f5c}
+.star-badge{display:inline-flex;align-items:center;justify-content:center;border:1px solid #e2d18d;background:#fff7d7;border-radius:99px;color:#93610b;font-size:.78rem;font-weight:900;padding:8px 13px;margin:3px 0 9px}
+.celebration{overflow-y:auto;align-items:safe center}
+.celebration-card{margin:auto;padding:25px 22px 22px}
+.celebration h2{margin-top:14px}
+.celebration-detail{margin-bottom:8px}
+.tool-toggle[aria-pressed=true]#music-toggle{background:#fff0cc;border-color:#e7bf62;color:#785016}
+@media(max-width:600px){
+  .map-stats{max-width:76%;gap:5px}
+  .star-count{font-size:.68rem;padding:5px 7px}
+  .target-pill{font-size:.7rem;padding:5px 7px}
+  .meeting-line{padding:7px 9px;gap:7px}
+  .meeting-avatar{width:35px;height:35px}
+  .meeting-line p{font-size:.79rem}
+  .celebration-card{padding:17px 15px;border-width:3px}
+  .celebration h2{font-size:1.7rem}
+}
+
 </style>
 </head>
 <body>
@@ -212,7 +242,7 @@ body.calm *{scroll-behavior:auto}
     <div class="hero-copy">
       <span class="kicker">UMA AVENTURA DA TURMA DA RITINHA</span>
       <h1 id="hero-title">Cadê a <span>turma?</span></h1>
-      <p class="hero-text">Ritinha precisa encontrar os amigos. Ajude a descobrir os caminhos!</p>
+      <p class="hero-text">Uma aventura com música, passos e encontros. Ajude a Ritinha a encontrar a turma!</p>
       <div class="hero-avatars" aria-label="Amigos da Ritinha">
         <div class="avatar-named"><span class="character-avatar char-tonico" role="img" aria-label="Tonico"></span><small>Tonico</small></div>
         <div class="avatar-named"><span class="character-avatar char-luca" role="img" aria-label="Luca"></span><small>Luca</small></div>
@@ -224,7 +254,7 @@ body.calm *{scroll-behavior:auto}
         <button id="start-sound" class="btn btn-main" type="button">▶ Começar com som</button>
         <button id="start-quiet" class="btn btn-alt" type="button">🔇 Jogar sem som</button>
       </div>
-      <p class="hero-note">3 fases · Sem cadastro · Sons opcionais · Sem pontos ou vidas</p>
+      <p class="hero-note">3 fases · Trilha sonora original · Sons opcionais · Sem cadastro</p>
     </div>
     <div class="hero-book"><img src="/gibi1-capa.webp" width="768" height="1152" loading="eager" decoding="async" alt="Capa oficial da Turma da Ritinha com todos os amigos reunidos"><span>Personagens oficiais SoulKids</span></div>
   </div>
@@ -235,6 +265,7 @@ body.calm *{scroll-behavior:auto}
       <div><div class="stage-kicker" id="stage-count">FASE 1 / 3</div><h2 class="game-title" id="stage-title">Cadê o Tonico?</h2></div>
       <div class="settings">
         <button id="sound-toggle" class="tool-toggle" type="button" aria-pressed="false">🔇 Som desligado</button>
+        <button id="music-toggle" class="tool-toggle" type="button" aria-pressed="false">🎵 Música desligada</button>
         <button id="calm-toggle" class="tool-toggle" type="button" aria-pressed="false">🌿 Modo tranquilo</button>
         <button id="start-over" class="tool-toggle" type="button">⌂ Início</button>
       </div>
@@ -246,8 +277,9 @@ body.calm *{scroll-behavior:auto}
           <span id="speaker-avatar" class="character-avatar speaker-avatar char-ritinha" aria-hidden="true"></span>
           <div><strong id="speaker-name">Ritinha</strong><p id="story-line">Cadê o Tonico? Vamos procurar!</p></div>
         </div>
+        <div id="meeting-note" class="meeting-note" role="status" aria-live="polite" hidden></div>
         <div class="map-scene">
-          <div class="map-hint"><span>✦ MAPA DA TURMA</span><span id="target-label" class="target-pill">🎯 Tonico</span></div>
+          <div class="map-hint"><span>✦ MAPA DA TURMA</span><span class="map-stats"><span id="star-count" class="star-count">☆ Encontre a estrela</span><span id="target-label" class="target-pill">🎯 Tonico</span></span></div>
           <div class="board" id="adventure-board" role="group" tabindex="0" aria-label="Mapa de exploração. Use as setas para mover a Ritinha."></div>
           <div class="scene-footer" aria-hidden="true"><span></span><span></span><span></span></div>
         </div>
@@ -275,7 +307,7 @@ body.calm *{scroll-behavior:auto}
           <button id="restart-stage" class="small-btn" type="button">↻ Recomeçar</button>
         </div>
         <div id="game-feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">Escolha uma seta para começar.</div>
-        <p class="game-help">Encontrou um obstáculo? A fase recomeça. Tente um caminho diferente!</p>
+        <p class="game-help">👣 Passos a cada movimento · ⭐ Uma estrela escondida · Obstáculo = tentar outra vez</p>
       </aside>
     </div>
   </div>
@@ -285,7 +317,7 @@ body.calm *{scroll-behavior:auto}
     <details class="parent-details" id="adult-info">
       <summary>Para responsáveis e profissionais — como aproveitar a atividade</summary>
       <div class="parent-content">
-        <p><strong>Objetivo educativo:</strong> oferecer situações de orientação espacial, antecipação de ações, sequenciamento, tolerância a dificuldades e busca de outras estratégias. Os níveis progridem de movimentos isolados para planos com um ou dois destinos.</p>
+        <p><strong>Objetivo educativo:</strong> favorecer orientação espacial, antecipação, sequência e tolerância à frustração. As estrelas são opcionais; o percurso não gera escore clínico. A música, os passos e a celebração podem ser desligados pelo botão de som.</p>
         <div class="parent-grid">
           <article><h3>Fase 1 · Explorar</h3><p>Ofereça uma direção por vez. A criança pode apontar, falar, olhar ou acionar o botão. Se encontrar um obstáculo, a fase recomeça; valorize a tentativa e ofereça ajuda quando necessário.</p></article>
           <article><h3>Fase 2 · Planejar</h3><p>Escolha duas ou três setas antes de tocar em IR. Aos poucos, amplie o percurso. O erro reinicia a fase, sem perda de vidas, classificação ou punições.</p></article>
@@ -311,6 +343,8 @@ body.calm *{scroll-behavior:auto}
     <h2 id="finish-title">Amigo encontrado!</h2>
     <p id="finish-quote" class="celebration-quote">Boa, jovem!</p>
     <p id="finish-detail" class="celebration-detail">Tonico encontrou a Ritinha!</p>
+    <div id="meeting-dialogue" class="meeting-dialogue" aria-label="Conversa entre os personagens"></div>
+    <p id="star-badge" class="star-badge">✨ Aventura concluída!</p>
     <button id="continue-button" class="btn btn-main" type="button">Continuar agora →</button>
     <button id="hold-next" class="hold-btn" type="button" aria-pressed="false">⏸ Pausar avanço</button>
   </div>
