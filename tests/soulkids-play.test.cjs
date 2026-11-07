@@ -302,4 +302,58 @@ race.click("replay");
 assert.equal(race.elements["character-selection"].hidden,false,"Após a partida a seleção retorna");
 assert.equal(race.elements["slot-picker"].children.length,2,"Recomeçar preserva a quantidade de jogadores");
 
-console.log("PASSOU — SoulKids Play: seleção arcade, multiplayer 1–4, turnos, recompensas individuais, cartas, sprite da Ritinha e chegada.");
+
+// Minijogos de toque: sequências, alternativas, erros recuperáveis e ajuda.
+const rhythm=createGame([0,0]);
+rhythm.click("arcade-quiet-start");rhythm.click("play-silent");
+rhythm.click("dice-button");rhythm.advance(2400);
+assert.equal(rhythm.elements["card-mini"].hidden,false,"Carta Corpo interativa aparece");
+assert.equal(rhythm.elements["card-done"].disabled,true,"Concluir depende de interagir ou pedir ajuda");
+assert.equal(rhythm.elements["mini-options"].children.length,3);
+rhythm.elements["mini-options"].children[1].click();
+assert.match(rhythm.elements["mini-feedback"].textContent,/não era/);
+for(let i=0;i<3;i++)rhythm.elements["mini-options"].children[0].click();
+assert.equal(rhythm.elements["card-done"].disabled,false,"Sequência correta desbloqueia a carta");
+rhythm.click("card-done");
+assert.equal(rhythm.elements["stars-total"].textContent,"1");
+
+const imagination=createGame([.2,.25]);
+imagination.click("arcade-quiet-start");imagination.click("play-silent");
+imagination.click("dice-button");imagination.advance(2400);
+assert.match(imagination.elements["card-title"].textContent,/Objeto mágico/);
+assert.equal(imagination.elements["card-done"].disabled,true);
+imagination.elements["mini-options"].children[2].click();
+assert.equal(imagination.elements["card-done"].disabled,false,"Imaginação aceita diferentes soluções criativas");
+imagination.click("card-done");
+
+const emotions=createGame([.4,.99]);
+emotions.click("arcade-quiet-start");emotions.click("play-silent");
+emotions.click("dice-button");emotions.advance(2400);
+assert.match(emotions.elements["card-title"].textContent,/Amigo do lado/);
+emotions.elements["mini-options"].children[1].click();
+assert.equal(emotions.elements["card-done"].disabled,true);
+emotions.elements["mini-options"].children[0].click();
+assert.equal(emotions.elements["card-done"].disabled,false);
+
+const teamwork=createGame([.52,.62]);
+teamwork.click("arcade-quiet-start");teamwork.click("play-silent");
+teamwork.click("dice-button");teamwork.advance(2400);
+assert.match(teamwork.elements["card-title"].textContent,/Trabalho em equipe/);
+for(const index of [1,0,2])teamwork.elements["mini-options"].children[index].click();
+assert.equal(teamwork.elements["card-done"].disabled,false);
+teamwork.click("card-done");teamwork.advance(2000);
+assert.equal(teamwork.elements["position-total"].textContent,"6/30","Desafio resolvido garante avanço");
+
+const withSupport=createGame([.66,.99]);
+withSupport.click("arcade-quiet-start");withSupport.click("play-silent");
+withSupport.click("dice-button");withSupport.advance(2400);
+assert.equal(withSupport.elements["card-mini"].hidden,false,"Carta Corpo avançada exige sequência");
+withSupport.click("card-help");
+assert.equal(withSupport.elements["card-modal"].hidden,true,"Participação assistida continua possível");
+assert.equal(withSupport.elements["stars-total"].textContent,"1");
+
+assert.ok(html.includes('id="card-mini"'));
+assert.ok(script.includes('function chooseMini(index)'));
+assert.equal((script.match(/mini:\{type:/g)||[]).length,8,"Oito cartas interativas na versão");
+
+console.log("PASSOU — SoulKids Play: seleção arcade, multiplayer 1–4, caminhada da Ritinha e 8 cartas interativas.");
