@@ -227,14 +227,13 @@
       audioReady();effect("select");
       setMusic(musicOn);
     }else{
-      stopMusic();stopVoice();
+      setMusic(false);stopVoice();
     }
   }
   function setInitialSound(enabled){
-    // Entrar com som habilita trilha + efeitos. Entrar sem som não carrega áudio.
+    // Entrar com som ativa trilha e efeitos; entrar sem som não carrega áudio.
     musicOn=Boolean(enabled);
     setSound(enabled);
-    setMusic(enabled);
   }
 
   function progress(){
@@ -510,6 +509,8 @@
     if(document.hidden){
       stopVoice();stopMusic();
       if(winningTimer!==null){clearTimeout(winningTimer);winningTimer=null;transitionHold=true;ui.hold.textContent="▶ Retomar avanço";ui.hold.setAttribute("aria-pressed","true");}
+    }else if(soundOn&&musicOn&&!ui.game.hidden){
+      musicBeat();
     }
   });
   window.addEventListener("pagehide",()=>{stopTimers();stopVoice();stopMusic();});
