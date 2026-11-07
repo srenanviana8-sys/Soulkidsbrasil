@@ -130,7 +130,7 @@
 
   function manageVideo() {
     if (!video || !videoReady) return;
-    if (paused || document.hidden) {
+    if (paused || document.hidden || document.body.classList.contains("world-calm")) {
       video.pause();
       return;
     }
@@ -148,6 +148,11 @@
     motion.textContent = paused ? "▶️ Ativar animação" : "⏸️ Pausar animação";
     manageVideo();
   }
+
+  window.addEventListener("soulkids-calm-change", () => {
+    panel.classList.toggle("motion-paused", paused || document.body.classList.contains("world-calm"));
+    manageVideo();
+  });
 
   if (systemReduced) {
     motion.disabled = true;
